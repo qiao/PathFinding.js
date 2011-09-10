@@ -1,0 +1,1 @@
+var PATH_FINDING = PATH_FINDING || {};
