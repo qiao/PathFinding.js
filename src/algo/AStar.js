@@ -1,12 +1,11 @@
-PATH_FINDING.AStarFinder = (function() {
+PF.AStarFinder = (function() {
 
-    function AStarFinder(startX, startY, endX, endY, graph) {
-        PATH_FINDING.BaseFinder.call(this, startX, startY, endX, endY, graph);
+    function AStarFinder(startX, startY, endX, endY, grid) {
+        PF.BaseFinder.call(this, startX, startY, endX, endY, grid);
     }
 
-    AStarFinder.prototype = new PATH_FINDING.BaseFinder();
-
-    AstarFinder.prototype.
+    AStarFinder.prototype = new PF.BaseFinder();
+    AstarFinder.prototype.constructor = PF.AstarFinder;
 
     return AStarFinder;
 
