@@ -12,6 +12,8 @@ except ImportError:
 
 FILES = [
     'src/PathFinding.js',
+    'src/core/Node.js',
+    'src/core/Grid.js',
     'src/core/BaseFinder.js',
     ]
 
