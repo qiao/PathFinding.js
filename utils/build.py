@@ -29,21 +29,22 @@ def merge_files(file_paths):
     return buffer
 
 
-def write_file(file_obj, output_path):
+def dump_file_obj(file_obj, output_path):
     dir_name = os.path.dirname(output_path)
     if not os.path.exists(dir_name):
-        print 'created folder:', dir_name
         os.makedirs(dir_name)
 
-    print file_obj.getvalue();
+        print 'created folder:', dir_name
 
     fout = open(output_path, 'w')
     shutil.copyfileobj(file_obj, fout)
     fout.close()
 
+    print 'created file:', output_path
+
 
 def build_all(file_paths, output_path):
-    write_file(merge_files(file_paths), output_path)
+    dump_file_obj(merge_files(file_paths), output_path)
 
 
 def get_project_path():
