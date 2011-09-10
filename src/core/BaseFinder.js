@@ -16,8 +16,12 @@ PF.BaseFinder.prototype = {
         this.gridWidth = grid[0].length;
     },
 
-    isValidPos = function(x, y) {
+    isValidPos: function(x, y) {
         return x >= 0 && x < this.gridWidth &&
-               y >= 0 && y < whis.gridHeight;
+               y >= 0 && y < this.gridHeight;
+    },
+
+    setWalkable: function(x, y, walkable) {
+        this.grid[y][x].walkable = walkable;
     },
 };
