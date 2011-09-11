@@ -2,8 +2,6 @@ PF.Grid = function(numCols, numRows, matrix) {
     this.numCols = numCols;
     this.numRows = numRows;
     
-    this.nodes = null; // avoid being garbage collected
-
     this._buildGrid(matrix);
 };
 
@@ -23,7 +21,7 @@ PF.Grid.prototype._buildGrid = function(matrix) {
         }            
     }
 
-    console.log(nodes);
+    this.nodes = nodes;
 
     if (matrix === undefined) {
         return;
@@ -42,8 +40,6 @@ PF.Grid.prototype._buildGrid = function(matrix) {
             }
         }
     }
-
-    this.nodes = nodes;
 };
 
 
