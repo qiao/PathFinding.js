@@ -1,3 +1,8 @@
+/**
+ * The Grid class, which serves as the encapsulation of the nodes on the map.
+ * @constructor
+ * @param 
+ */
 PF.Grid = function(numCols, numRows, matrix) {
     this.numCols = numCols;
     this.numRows = numRows;
