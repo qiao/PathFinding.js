@@ -2,26 +2,23 @@ PF.BaseFinder = function() {
     
 };
 
-PF.BaseFinder.prototype = {
-    constructor: PF.BaseFinder,
+PF.BaseFinder.prototype.init = function(startX, startY, endX, endY, grid) {
+    this.startX = startX;
+    this.startY = startY;
+    this.endX = endX;
+    this.endY = endY;
+    this.grid = grid;
 
-    init: function(startX, startY, endX, endY, grid) {
-        this.startX = startX;
-        this.startY = startY;
-        this.endX = endX;
-        this.endY = endY;
-        this.grid = grid;
-
-        this.gridHeight = grid.length;
-        this.gridWidth = grid[0].length;
-    },
-
-    isValidPos: function(x, y) {
-        return x >= 0 && x < this.gridWidth &&
-               y >= 0 && y < this.gridHeight;
-    },
-
-    setWalkable: function(x, y, walkable) {
-        this.grid[y][x].walkable = walkable;
-    },
+    this.gridHeight = grid.numCols;
+    this.gridWidth = grid.numRows;
 };
+
+PF.BaseFinder.prototype.isValidPos = function(x, y) {
+    return this.grid.isValidPos(x, y);
+};
+
+PF.BaseFinder.prototype.setWalkable = function(x, y, walkable) {
+    this.grid.setWalkable(x, y, walkable);
+};
+
+PF.BaseFinder.constructor = PF.BaseFinder;
