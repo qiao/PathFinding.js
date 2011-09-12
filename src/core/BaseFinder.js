@@ -74,6 +74,30 @@ PF.BaseFinder.prototype.isWalkableAt = function(x, y) {
 };
 
 /**
+ * Generic setter of the attribute at the given position.
+ * @param {integer} x The x coordinate of the position.
+ * @param {integer} y The y coordinate of the position.
+ * @param {string} attr The name of attribute to set.
+ * @param {object} value The value of attribute.
+ */
+PF.BaseFinder.prototype.setAttributeAt = function(x, y, attr, value) {
+    // delegates to grid.
+    this.grid.setAttributeAt(x, y, attr, value);
+};
+
+/**
+ * Generic getter of the attribute at the given position.
+ * @param {integer} x The x coordinate of the position.
+ * @param {integer} y The y coordinate of the position.
+ * @param {string} attr The name of attribute to get.
+ * @return {object} The value of the attribute.
+ */
+PF.BaseFinder.prototype.getAttributeAt = function(x, y, attr) {
+    // delegates to grid.
+    return this.nodes[y][x][attr];
+};
+
+/**
  * The constructor of each BaseFinder instance.
  */
 PF.BaseFinder.prototype.constructor = PF.BaseFinder;
