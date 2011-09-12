@@ -1,23 +1,23 @@
 /**
  * The Grid class, which serves as the encapsulation of the nodes on the map.
  * @constructor
- * @param {integer} numCols Number of columns of the grid.
- * @param {integer} numRows Number of rows of the grid.
+ * @param {integer} width Number of columns of the grid.
+ * @param {integer} height Number of rows of the grid.
  * @param {Array.<Array.<integer|boolean>>} [matrix] A 0-1 matrix representing
  *     the walkable status of the nodes(0 or false for walkable). If the
  *     matrix is not supplied, all the nodes will be walkable.
  */
-PF.Grid = function(numCols, numRows, matrix) {
+PF.Grid = function(width, height, matrix) {
     /**
      * The number of columns of the grid.
      * @type integer
      */
-    this.numCols = numCols;
+    this.width = width;
     /**
      * The number of rows of the grid.
      * @type integer
      */
-    this.numRows = numRows;
+    this.height = height;
 
     this.nodes = []; // avoids to be garbage collected
     
@@ -33,15 +33,15 @@ PF.Grid = function(numCols, numRows, matrix) {
  */
 PF.Grid.prototype._buildGrid = function(matrix) {
     var i, j, 
-        numCols = this.numCols,
-        numRows = this.numRows,
+        width = this.width,
+        height = this.height,
         nodes = [], 
         row;
 
-    for (i = 0; i < numRows; ++i) {
+    for (i = 0; i < height; ++i) {
         nodes.push([]); // push is faster than assignment via indexing
         row = nodes[i]; 
-        for (j = 0; j < numCols; ++j) {
+        for (j = 0; j < width; ++j) {
             row.push(new PF.Node(j, i));
         }            
     }
@@ -52,12 +52,12 @@ PF.Grid.prototype._buildGrid = function(matrix) {
         return;
     }
 
-    if (matrix.length != numRows || matrix[0].length != numCols) {
+    if (matrix.length != height || matrix[0].length != width) {
         throw new Error('Matrix size does not fit');
     }
 
-    for (i = 0; i < numRows; ++i) {
-        for (j = 0; j < numCols; ++j) {
+    for (i = 0; i < height; ++i) {
+        for (j = 0; j < width; ++j) {
             if (matrix[i][j]) { 
                 // 0, false, null will be walkable
                 // while others will be un-walkable
@@ -96,6 +96,10 @@ PF.Grid.prototype.setWalkable = function(x, y, walkable) {
  * @return {boolean} Whether the position is inside.
  */
 PF.Grid.prototype.isInside = function(x, y) {
-    return x >= 0 && x < this.numCols &&
-           y >= 0 && y < this.numRows;
+    return x >= 0 && x < this.width &&
+           y >= 0 && y < this.height;
+};
+
+PF.Grid.prototype.setAttributeAt = function(x, y) {
+    
 };

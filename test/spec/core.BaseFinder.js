@@ -40,8 +40,8 @@ describe('core/BaseFinder.js', function() {
         expect(baseFinder.gridHeight).toBe(height);
 
         var grid = baseFinder.grid;
-        expect(grid.numCols).toBe(width);
-        expect(grid.numRows).toBe(height);
+        expect(grid.width).toBe(width);
+        expect(grid.height).toBe(height);
     });
 
     it('should correctly set and query walkable status', function() {

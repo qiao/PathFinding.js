@@ -37,8 +37,8 @@ PF.BaseFinder.prototype.init = function(startX, startY, endX, endY, grid) {
     this.endY = endY;
     this.grid = grid;
 
-    this.gridWidth = grid.numCols;
-    this.gridHeight = grid.numRows;
+    this.gridWidth = grid.width;
+    this.gridHeight = grid.height;
 };
 
 /**
