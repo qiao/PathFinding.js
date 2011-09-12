@@ -8,7 +8,7 @@
  *     All the parameters should be passed in in the {@code init} method.
  *     Therefore, you only need to instantiate this class once, and call
  *     the {@code init} method each time you changed the coordinates or grid
- *     status for a new path-finding scenario. 
+ *     status for a new path-finding request.
  *
  * @constructor
  */
@@ -60,6 +60,17 @@ PF.BaseFinder.prototype.isInsideGrid = function(x, y) {
 PF.BaseFinder.prototype.setWalkable = function(x, y, walkable) {
     // delegates to grid.
     this.grid.setWalkable(x, y, walkable);
+};
+
+/**
+ * Determine whether the given position on the grid is walkable.
+ * @param {integer} x The x coordinate of the position.
+ * @param {integer} y The y coordinate of the position.
+ * @return {boolean} Whether it is walkable.
+ */
+PF.BaseFinder.prototype.isWalkable = function(x, y) {
+    // delegates to grid.
+    return this.grid.isWalkable(x, y);
 };
 
 /**

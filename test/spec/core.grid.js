@@ -8,8 +8,8 @@ describe('core/Grid.js', function() {
             grid = new PF.Grid(nCols, nRows);
         });
 
-        it('should be defined', function() {
-            expect(grid).toBeDefined();
+        it('should be generated', function() {
+            expect(typeof grid).toBe('object');
         });
 
         it('should have correct size', function() {
@@ -55,8 +55,8 @@ describe('core/Grid.js', function() {
             grid = new PF.Grid(nCols, nRows, matrix);
         });
 
-        it('should be defined', function() {
-            expect(grid).toBeDefined(); 
+        it('should be generated', function() {
+            expect(typeof grid).toBe('object');
         });
 
         it('should have correct size', function() {
@@ -95,10 +95,6 @@ describe('core/Grid.js', function() {
         });
 
         it('should return correct answer for position validity query', function() {
-            var posTest = function(x, y, isValid) {
-                expect(grid.isInside(x, y)).toBe(isValid);
-            };
-
             var asserts = [
                 [0, 0, true],
                 [0, nRows - 1, true],
@@ -113,7 +109,7 @@ describe('core/Grid.js', function() {
             ];
             
             asserts.forEach(function(v, i, a) {
-                posTest(v[0], v[1], v[2]);
+                expect(grid.isInside(v[0], v[1])).toBe(v[2]);
             });
         });
     });
