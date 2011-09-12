@@ -2,10 +2,10 @@ describe('core/BaseFinder.js', function() {
     var baseFinder, startX, startY, endX, endY, grid, 
         width, height, matrix,
 
-        finderForEach = function(f) {
+        enumPos = function(f) {
             for (var i = 0; i < height; ++i) {
                 for (var j = 0; j < width; ++j) {
-                    f.call(baseFinder, j, i);
+                    f(j, i);
                 }
             }
         };
@@ -45,17 +45,17 @@ describe('core/BaseFinder.js', function() {
     });
 
     it('should correctly set and query walkable status', function() {
-        finderForEach(function(x, y) {
-            this.setWalkableAt(x, y, false);
+        enumPos(function(x, y) {
+            baseFinder.setWalkableAt(x, y, false);
         });
-        finderForEach(function(x, y) {
-            expect(this.isWalkableAt(x, y)).toBeFalsy();
+        enumPos(function(x, y) {
+            expect(baseFinder.isWalkableAt(x, y)).toBeFalsy();
         });
-        finderForEach(function(x, y) {
-            this.setWalkableAt(x, y, true);
+        enumPos(function(x, y) {
+            baseFinder.setWalkableAt(x, y, true);
         });
-        finderForEach(function(x, y) {
-            expect(this.isWalkableAt(x, y)).toBeTruthy();
+        enumPos(function(x, y) {
+            expect(baseFinder.isWalkableAt(x, y)).toBeTruthy();
         });
     });
 

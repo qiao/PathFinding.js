@@ -34,10 +34,14 @@ describe('core/Grid.js', function() {
     describe('generate with matrix', function() {
         var matrix, grid, width, height;
 
-        var gridForEach = function(f) {
+        var enumPos = function(f, o) {
             for (var y = 0; y < height; ++y) {
                 for (var x = 0; x < width; ++x) {
-                    f.call(grid, x, y)
+                    if (o) {
+                        f.call(o, x, y, grid);
+                    } else {
+                        f(x, y, grid);
+                    }
                 }
             }
         };
@@ -70,27 +74,27 @@ describe('core/Grid.js', function() {
         });
 
         it('should initiate all nodes\' walkable attribute', function() {
-            gridForEach(function(x, y) {
+            enumPos(function(x, y, g) {
                 if (matrix[y][x]) {
-                    expect(this.isWalkableAt(x, y)).toBeFalsy();
+                    expect(g.isWalkableAt(x, y)).toBeFalsy();
                 } else {
-                    expect(this.isWalkableAt(x, y)).toBeTruthy();
+                    expect(g.isWalkableAt(x, y)).toBeTruthy();
                 }
             });
         });
 
         it('should be able to set nodes\' walkable attribute', function() {
-            gridForEach(function(x, y) {
-                this.setWalkableAt(x, y, false); 
+            enumPos(function(x, y) {
+                grid.setWalkableAt(x, y, false); 
             });
-            gridForEach(function(x, y) {
-                expect(this.isWalkableAt(x, y)).toBeFalsy();
+            enumPos(function(x, y) {
+                expect(grid.isWalkableAt(x, y)).toBeFalsy();
             })
-            gridForEach(function(x, y) {
-                this.setWalkableAt(x, y, true); 
+            enumPos(function(x, y) {
+                grid.setWalkableAt(x, y, true); 
             });
-            gridForEach(function(x, y) {
-                expect(this.isWalkableAt(x, y)).toBeTruthy();
+            enumPos(function(x, y) {
+                expect(grid.isWalkableAt(x, y)).toBeTruthy();
             })
         });
 
@@ -110,6 +114,28 @@ describe('core/Grid.js', function() {
             
             asserts.forEach(function(v, i, a) {
                 expect(grid.isInside(v[0], v[1])).toBe(v[2]);
+            });
+        });
+
+        it('should be able to set and get arbitray attributes', function() {
+            var attrs = {
+                'a': 1,
+                'b': 2,
+                'c': 3,
+                'd': 4,
+                'e': 5,
+            };
+
+            enumPos(function(x, y) {
+                for (var key in attrs) {
+                    grid.setAttributeAt(x, y, key, attrs[key]);
+                }
+            });
+
+            enumPos(function(x, y) {
+                for (var key in attrs) {
+                    expect(grid.getAttributeAt(x, y, key)).toBe(attrs[key]);
+                }
             });
         });
     });

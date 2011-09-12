@@ -13,7 +13,7 @@ function testFinder(finderName) {
             finderForEach = function(f) {
                 for (var i = 0; i < height; ++i) {
                     for (var j = 0; j < width; ++j) {
-                        f.call(baseFinder, j, i);
+                        f(j, i, baseFinder);
                     }
                 }
             };
@@ -55,17 +55,17 @@ function testFinder(finderName) {
         });
 
         it('should correctly set and query walkable status', function() {
-            finderForEach(function(x, y) {
-                this.setWalkableAt(x, y, false);
+            finderForEach(function(x, y, finder) {
+                finder.setWalkableAt(x, y, false);
             });
-            finderForEach(function(x, y) {
-                expect(this.isWalkableAt(x, y)).toBeFalsy();
+            finderForEach(function(x, y, finder) {
+                expect(finder.isWalkableAt(x, y)).toBeFalsy();
             });
-            finderForEach(function(x, y) {
-                this.setWalkableAt(x, y, true);
+            finderForEach(function(x, y, finder) {
+                finder.setWalkableAt(x, y, true);
             });
-            finderForEach(function(x, y) {
-                expect(this.isWalkableAt(x, y)).toBeTruthy();
+            finderForEach(function(x, y, finder) {
+                expect(finder.isWalkableAt(x, y)).toBeTruthy();
             });
         });
 
