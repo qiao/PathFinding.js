@@ -79,7 +79,7 @@ PF.BaseFinder.prototype.isWalkable = function(x, y) {
 PF.BaseFinder.prototype.constructor = PF.BaseFinder;
 
 /**
- * Starts the search for the path.
+ * Find and return the the path.
  * *NOTE*: This method is intended to be overriden by sub-classes.
  * @return {Array.<[integer, integer]>} The path, including both start and 
  *     end positions.

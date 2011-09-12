@@ -1,9 +1,28 @@
-PF.AStarFinder = function AStarFinder(startX, startY, endX, endY, grid) {
-    PF.BaseFinder.call(this, startX, startY, endX, endY, grid);
+/**
+ * A* path-finder.
+ * @constructor
+ * @extends PF.BaseFinder
+ */
+PF.AStarFinder = function() {
+    PF.BaseFinder.call(this);
 };
 
-AStarFinder.prototype = new PF.BaseFinder();
-AstarFinder.prototype.constructor = AstarFinder;
+/**
+ * Extends the BaseFinder
+ */
+PF.AStarFinder.prototype = new PF.BaseFinder();
 
-return AStarFinder;
+/**
+ * Sets the constructor of the instances.
+ */
+PF.AStarFinder.prototype.constructor = PF.AStarFinder;
 
+/**
+ * Find and return the path.
+ * @override
+ * @return {Array.<[integer, integer]>} The path, including both start and 
+ *     end positions.
+ */
+PF.AStarFinder.prototype.findPath = function() {
+        
+};
