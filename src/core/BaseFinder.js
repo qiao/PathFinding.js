@@ -77,3 +77,14 @@ PF.BaseFinder.prototype.isWalkable = function(x, y) {
  * The constructor of each BaseFinder instance.
  */
 PF.BaseFinder.prototype.constructor = PF.BaseFinder;
+
+/**
+ * Starts the search for the path.
+ * *NOTE*: This method is intended to be overriden by sub-classes.
+ * @return {Array.<[integer, integer]>} The path, including both start and 
+ *     end positions.
+ */
+PF.BaseFinder.prototype.findPath = function() {
+    throw new Error('Not Implemented Error: ' + 
+        'Sub-classes must implement this method');
+};
