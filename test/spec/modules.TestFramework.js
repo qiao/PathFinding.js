@@ -1,6 +1,9 @@
 /**
  * A test framework for the path-finders.
- * @param {String} finderName The class name of the finder to test.
+ * @param {String} finderName The name of the finder to test(the name should
+ *     be without the `Finder` suffix).
+ *     example: testFinder('AStar') will test modules/AStar.js and the class
+ *     name will be AStarFinder.
  */
 function testFinder(finderName) {
     describe('modules/' + finderName + '.js', function() {
@@ -15,7 +18,7 @@ function testFinder(finderName) {
                 }
             };
 
-        finderClass = PF[finderName];
+        finderClass = PF[finderName + 'Finder'];
         
         beforeEach(function() {
             startX = 2;

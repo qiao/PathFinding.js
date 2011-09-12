@@ -1,1 +1,1 @@
-testFinder('AStarFinder');
+testFinder('AStar');
