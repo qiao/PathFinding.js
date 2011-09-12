@@ -57,9 +57,9 @@ PF.BaseFinder.prototype.isInsideGrid = function(x, y) {
  * @param {integer} x The x coordinate of the position.
  * @param {integer} y The y coordinate of the position.
  */
-PF.BaseFinder.prototype.setWalkable = function(x, y, walkable) {
+PF.BaseFinder.prototype.setWalkableAt = function(x, y, walkable) {
     // delegates to grid.
-    this.grid.setWalkable(x, y, walkable);
+    this.grid.setWalkableAt(x, y, walkable);
 };
 
 /**
@@ -68,9 +68,9 @@ PF.BaseFinder.prototype.setWalkable = function(x, y, walkable) {
  * @param {integer} y The y coordinate of the position.
  * @return {boolean} Whether it is walkable.
  */
-PF.BaseFinder.prototype.isWalkable = function(x, y) {
+PF.BaseFinder.prototype.isWalkableAt = function(x, y) {
     // delegates to grid.
-    return this.grid.isWalkable(x, y);
+    return this.grid.isWalkableAt(x, y);
 };
 
 /**

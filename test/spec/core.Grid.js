@@ -25,7 +25,7 @@ describe('core/Grid.js', function() {
         it('should set all nodes\' walkable attribute', function() {
             for (var i = 0; i < height; ++i) {
                 for (var j = 0; j < width; ++j) {
-                    expect(grid.isWalkable(j, i)).toBeTruthy();
+                    expect(grid.isWalkableAt(j, i)).toBeTruthy();
                 }
             }
         });
@@ -72,25 +72,25 @@ describe('core/Grid.js', function() {
         it('should initiate all nodes\' walkable attribute', function() {
             gridForEach(function(x, y) {
                 if (matrix[y][x]) {
-                    expect(this.isWalkable(x, y)).toBeFalsy();
+                    expect(this.isWalkableAt(x, y)).toBeFalsy();
                 } else {
-                    expect(this.isWalkable(x, y)).toBeTruthy();
+                    expect(this.isWalkableAt(x, y)).toBeTruthy();
                 }
             });
         });
 
         it('should be able to set nodes\' walkable attribute', function() {
             gridForEach(function(x, y) {
-                this.setWalkable(x, y, false); 
+                this.setWalkableAt(x, y, false); 
             });
             gridForEach(function(x, y) {
-                expect(this.isWalkable(x, y)).toBeFalsy();
+                expect(this.isWalkableAt(x, y)).toBeFalsy();
             })
             gridForEach(function(x, y) {
-                this.setWalkable(x, y, true); 
+                this.setWalkableAt(x, y, true); 
             });
             gridForEach(function(x, y) {
-                expect(this.isWalkable(x, y)).toBeTruthy();
+                expect(this.isWalkableAt(x, y)).toBeTruthy();
             })
         });
 

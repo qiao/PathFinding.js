@@ -56,16 +56,16 @@ function testFinder(finderName) {
 
         it('should correctly set and query walkable status', function() {
             finderForEach(function(x, y) {
-                this.setWalkable(x, y, false);
+                this.setWalkableAt(x, y, false);
             });
             finderForEach(function(x, y) {
-                expect(this.isWalkable(x, y)).toBeFalsy();
+                expect(this.isWalkableAt(x, y)).toBeFalsy();
             });
             finderForEach(function(x, y) {
-                this.setWalkable(x, y, true);
+                this.setWalkableAt(x, y, true);
             });
             finderForEach(function(x, y) {
-                expect(this.isWalkable(x, y)).toBeTruthy();
+                expect(this.isWalkableAt(x, y)).toBeTruthy();
             });
         });
 

@@ -74,7 +74,7 @@ PF.Grid.prototype._buildGrid = function(matrix) {
  * @param {integer} x The y coordinate of the node.
  * @return {boolean} The walkability of the node.
  */
-PF.Grid.prototype.isWalkable = function(x, y) {
+PF.Grid.prototype.isWalkableAt = function(x, y) {
     return this.nodes[y][x].walkable;
 };
 
@@ -84,7 +84,7 @@ PF.Grid.prototype.isWalkable = function(x, y) {
  * @param {integer} x The x coordinate of the node.
  * @param {integer} x The y coordinate of the node.
  */
-PF.Grid.prototype.setWalkable = function(x, y, walkable) {
+PF.Grid.prototype.setWalkableAt = function(x, y, walkable) {
     this.nodes[y][x].walkable = walkable;
 };
 
@@ -100,6 +100,6 @@ PF.Grid.prototype.isInside = function(x, y) {
            y >= 0 && y < this.height;
 };
 
-PF.Grid.prototype.setAttributeAt = function(x, y) {
+PF.Grid.prototype.setAttributeAt = function(x, y, attr, value) {
     
 };
