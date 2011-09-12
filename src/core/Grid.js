@@ -71,7 +71,7 @@ PF.Grid.prototype._buildGrid = function(matrix) {
 /**
  * Determine whether the node on the given position is walkable.
  * @param {integer} x The x coordinate of the node.
- * @param {integer} x The y coordinate of the node.
+ * @param {integer} y The y coordinate of the node.
  * @return {boolean} The walkability of the node.
  */
 PF.Grid.prototype.isWalkableAt = function(x, y) {
@@ -82,7 +82,7 @@ PF.Grid.prototype.isWalkableAt = function(x, y) {
 /**
  * Set the walkability of the node on the given position.
  * @param {integer} x The x coordinate of the node.
- * @param {integer} x The y coordinate of the node.
+ * @param {integer} y The y coordinate of the node.
  */
 PF.Grid.prototype.setWalkableAt = function(x, y, walkable) {
     this.nodes[y][x].walkable = walkable;
@@ -92,7 +92,7 @@ PF.Grid.prototype.setWalkableAt = function(x, y, walkable) {
 /**
  * Determine whether the given position is inside the grid.
  * @param {integer} x The x coordinate of the position.
- * @param {integer} x The y coordinate of the position.
+ * @param {integer} y The y coordinate of the position.
  * @return {boolean} Whether the position is inside.
  */
 PF.Grid.prototype.isInside = function(x, y) {
@@ -100,6 +100,24 @@ PF.Grid.prototype.isInside = function(x, y) {
            y >= 0 && y < this.height;
 };
 
+/**
+ * Generic setter of the attribute at the given position.
+ * @param {integer} x The x coordinate of the position.
+ * @param {integer} y The y coordinate of the position.
+ * @param {string} attr The name of attribute to set.
+ * @param {object} value The value of attribute.
+ */
 PF.Grid.prototype.setAttributeAt = function(x, y, attr, value) {
-    
+    this.nodes[y][x][attr] = value;
+};
+
+/**
+ * Generic getter of the attribute at the given position.
+ * @param {integer} x The x coordinate of the position.
+ * @param {integer} y The y coordinate of the position.
+ * @param {string} attr The name of attribute to get.
+ * @return {object} The value of the attribute.
+ */
+PF.Grid.prototype.getAttributeAt = function(x, y, attr) {
+    return this.nodes[y][x][attr];
 };
