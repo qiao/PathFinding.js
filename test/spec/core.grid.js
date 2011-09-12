@@ -96,7 +96,7 @@ describe('core/Grid.js', function() {
 
         it('should return correct answer for position validity query', function() {
             var posTest = function(x, y, isValid) {
-                expect(grid.isValidPos(x, y)).toBe(isValid);
+                expect(grid.isInside(x, y)).toBe(isValid);
             };
 
             var asserts = [

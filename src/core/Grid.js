@@ -8,8 +8,18 @@
  *     matrix is not supplied, all the nodes will be walkable.
  */
 PF.Grid = function(numCols, numRows, matrix) {
+    /**
+     * The number of columns of the grid.
+     * @type integer
+     */
     this.numCols = numCols;
+    /**
+     * The number of rows of the grid.
+     * @type integer
+     */
     this.numRows = numRows;
+
+    this.nodes = []; // avoids to be garbage collected
     
     this._buildGrid(matrix);
 };
