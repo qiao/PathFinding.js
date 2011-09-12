@@ -81,4 +81,26 @@ describe('core/BaseFinder.js', function() {
     it('should have correct constructor', function() {
         expect(baseFinder.constructor).toBe(PF.BaseFinder);
     });
+
+    it('should be able to set and get arbitray attributes', function() {
+        var attrs = {
+            'a': 1,
+            'b': 2,
+            'c': 3,
+            'd': 4,
+            'e': 5,
+        };
+
+        enumPos(function(x, y) {
+            for (var key in attrs) {
+                grid.setAttributeAt(x, y, key, attrs[key]);
+            }
+        });
+
+        enumPos(function(x, y) {
+            for (var key in attrs) {
+                expect(grid.getAttributeAt(x, y, key)).toBe(attrs[key]);
+            }
+        });
+    });
 });

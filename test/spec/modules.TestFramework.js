@@ -7,13 +7,13 @@
  */
 function testFinder(finderName) {
     describe('modules/' + finderName + '.js', function() {
-        var finderClass, baseFinder, startX, startY, endX, endY, grid, 
+        var finderClass, finder, startX, startY, endX, endY, grid, 
             width, height, matrix,
 
-            finderForEach = function(f) {
+            enumPos = function(f) {
                 for (var i = 0; i < height; ++i) {
                     for (var j = 0; j < width; ++j) {
-                        f(j, i, baseFinder);
+                        f(j, i, finder);
                     }
                 }
             };
@@ -37,34 +37,34 @@ function testFinder(finderName) {
             height = matrix.length;
             width = matrix[0].length;
             grid = new PF.Grid(width, height, matrix);
-            baseFinder = new finderClass;
-            baseFinder.init(startX, startY, endX, endY, grid);
+            finder = new finderClass;
+            finder.init(startX, startY, endX, endY, grid);
         });
 
         it('should be generated', function() {
-            expect(typeof baseFinder).toBe('object');
+            expect(typeof finder).toBe('object');
         });
 
         it('should have correct size', function() {
-            expect(baseFinder.gridWidth).toBe(width);
-            expect(baseFinder.gridHeight).toBe(height);
+            expect(finder.gridWidth).toBe(width);
+            expect(finder.gridHeight).toBe(height);
 
-            var grid = baseFinder.grid;
+            var grid = finder.grid;
             expect(grid.width).toBe(width);
             expect(grid.height).toBe(height);
         });
 
         it('should correctly set and query walkable status', function() {
-            finderForEach(function(x, y, finder) {
+            enumPos(function(x, y) {
                 finder.setWalkableAt(x, y, false);
             });
-            finderForEach(function(x, y, finder) {
+            enumPos(function(x, y) {
                 expect(finder.isWalkableAt(x, y)).toBeFalsy();
             });
-            finderForEach(function(x, y, finder) {
+            enumPos(function(x, y) {
                 finder.setWalkableAt(x, y, true);
             });
-            finderForEach(function(x, y, finder) {
+            enumPos(function(x, y) {
                 expect(finder.isWalkableAt(x, y)).toBeTruthy();
             });
         });
@@ -84,12 +84,34 @@ function testFinder(finderName) {
             ];
             
             asserts.forEach(function(v, i, a) {
-                expect(baseFinder.isInsideGrid(v[0], v[1])).toBe(v[2]);
+                expect(finder.isInsideGrid(v[0], v[1])).toBe(v[2]);
             });
         });
 
         it('should have correct constructor', function() {
-            expect(baseFinder.constructor).toBe(finderClass);
+            expect(finder.constructor).toBe(finderClass);
+        });
+
+        it('should be able to set and get arbitray attributes', function() {
+            var attrs = {
+                'a': 1,
+                'b': 2,
+                'c': 3,
+                'd': 4,
+                'e': 5,
+            };
+
+            enumPos(function(x, y) {
+                for (var key in attrs) {
+                    grid.setAttributeAt(x, y, key, attrs[key]);
+                }
+            });
+
+            enumPos(function(x, y) {
+                for (var key in attrs) {
+                    expect(grid.getAttributeAt(x, y, key)).toBe(attrs[key]);
+                }
+            });
         });
     });
 }
