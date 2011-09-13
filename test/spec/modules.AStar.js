@@ -1,1 +1,2 @@
-testFinder('AStar');
+basicTest('AStar');
+pathTest('AStar');
