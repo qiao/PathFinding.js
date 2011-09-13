@@ -7,9 +7,7 @@
  * *Note*: The constructor does *NOT* receive any arguments for instantiation.
  *     All the parameters should be passed in in the {@code init} method.
  *     Therefore, you only need to instantiate this class once, and call
- *     the {@code init} method each time you changed the coordinates or grid
- *     status for a new path-finding request.
- *
+ *     the {@code init} method each time you start a new path-finding.
  * @constructor
  */
 PF.BaseFinder = function() {
