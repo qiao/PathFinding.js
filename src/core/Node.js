@@ -24,7 +24,7 @@ PF.Node = function(x, y) {
     this.walkable = true;
     /**
      * This node's parent node. 
-     * @type PF.Node
+     * @type Array.<integer, integer>
      * This variable will be used to construct the path after the search is done.
      */
     this.parent = null;
