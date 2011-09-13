@@ -1,5 +1,6 @@
 /**
- * The Grid class, which serves as the encapsulation of the nodes on the map.
+ * The Grid class, which serves as the encapsulation of the layout of the 
+ * nodes on the map.
  * @constructor
  * @param {integer} width Number of columns of the grid.
  * @param {integer} height Number of rows of the grid.
@@ -69,13 +70,24 @@ PF.Grid.prototype._buildGrid = function(matrix) {
 
 
 /**
+ * Get the node at the given position.
+ * @param {integer} x The x coordinate of the node.
+ * @param {integer} y The y coordinate of the node.
+ * @return {PF.Node}
+ */
+PF.Grid.prototype.getNodeAt = function(x, y) {
+    return this.nodes[y][x];
+};
+
+
+/**
  * Determine whether the node on the given position is walkable.
  * @param {integer} x The x coordinate of the node.
  * @param {integer} y The y coordinate of the node.
  * @return {boolean} The walkability of the node.
  */
 PF.Grid.prototype.isWalkableAt = function(x, y) {
-    return this.nodes[y][x].walkable;
+    return this.getNodeAt(x, y).walkable;
 };
 
 
@@ -85,7 +97,7 @@ PF.Grid.prototype.isWalkableAt = function(x, y) {
  * @param {integer} y The y coordinate of the node.
  */
 PF.Grid.prototype.setWalkableAt = function(x, y, walkable) {
-    this.nodes[y][x].walkable = walkable;
+    this.getNodeAt(x, y).walkable = walkable;
 };
 
 
@@ -102,22 +114,28 @@ PF.Grid.prototype.isInside = function(x, y) {
 
 /**
  * Generic setter of the attribute at the given position.
+ * *Note*: This method gets the same result as:
+ *     {@code node = grid.getNodeAt(x, y);
+ *            node[attr] = value;}
  * @param {integer} x The x coordinate of the position.
  * @param {integer} y The y coordinate of the position.
  * @param {string} attr The name of attribute to set.
  * @param {object} value The value of attribute.
  */
 PF.Grid.prototype.setAttributeAt = function(x, y, attr, value) {
-    this.nodes[y][x][attr] = value;
+    this.getNodeAt(x, y)[attr] = value;
 };
 
 /**
  * Generic getter of the attribute at the given position.
+ * *Note*: This method gets the same result as:
+ *     {@code node = grid.getNodeAt(x, y);
+ *            return node[attr];}
  * @param {integer} x The x coordinate of the position.
  * @param {integer} y The y coordinate of the position.
  * @param {string} attr The name of attribute to get.
  * @return {object} The value of the attribute.
  */
 PF.Grid.prototype.getAttributeAt = function(x, y, attr) {
-    return this.nodes[y][x][attr];
+    return this.getNodeAt(x, y)[attr];
 };
