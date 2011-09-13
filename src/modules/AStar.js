@@ -15,6 +15,19 @@ PF.AStarFinder = function(heuristic) {
     this.heuristic = heuristic || PF.AStarFinder.manhattan;
 };
 
+
+/**
+ * Extends the BaseFinder
+ */
+PF.AStarFinder.prototype = new PF.BaseFinder();
+
+
+/**
+ * Sets the constructor of the instances.
+ */
+PF.AStarFinder.prototype.constructor = PF.AStarFinder;
+
+
 /**
  * @inheritDoc
  */
@@ -24,17 +37,6 @@ PF.AStarFinder.prototype.init = function(startX, startY, endX, endY, grid) {
     this.openList = [];
     this.closeList = [];
 };
-
-
-/**
- * Extends the BaseFinder
- */
-PF.AStarFinder.prototype = new PF.BaseFinder();
-
-/**
- * Sets the constructor of the instances.
- */
-PF.AStarFinder.prototype.constructor = PF.AStarFinder;
 
 
 /**
@@ -167,7 +169,7 @@ PF.AStarFinder.prototype._tryUpdate = function(x, y, px, py) {
         ng = pNode.g + 1; // next `g` value
         node = grid.getNodeAt(x, y);
 
-    if (g === undefined || ng < g) {
+    if (node.g === undefined || ng < node.g) {
         node.parent = [px, py];
         node.g = ng;
         node.h = this._calculateH(x, y);
@@ -208,7 +210,7 @@ PF.AStarFinder.prototype._popMinNodePos = function() {
     for (var i = 0, pos; pos = openList[i]; ++i) {
         tmpX = pos[0];
         tmpY = pos[1];
-        if ((tmpV = grid.getAttributeAt(x, y, 'f')) < v) {
+        if ((tmpV = grid.getAttributeAt(tmpX, tmpY, 'f')) < v) {
             v = tmpV;
             retX = tmpX;
             retY = tmpY;
