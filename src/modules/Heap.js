@@ -4,21 +4,22 @@
  */
 
 /**
- * Binary heap container
+ * Binary heap container.
  * @constructor
  * @param {Function(a, b)->boolean} [compareFunc] A comparison function which 
  *     returns whether it's first argument is less than the second argument.
+ *     If this argument is not provided, then the `<` operator will be used.
  */
 PF.Heap = function(compareFunc) {
     /**
-     * Comparison function
+     * Comparison function.
      * @type Function(a, b)->boolean
      * @private
      */
     this._cmp = compareFunc || function(a, b) {return a < b;};
 
     /**
-     * An Array as the heap.
+     * An array as a heap.
      * @type Array
      * @private
      */
@@ -27,19 +28,46 @@ PF.Heap = function(compareFunc) {
 
 
 /**
+ * Get the top(smallest) item from the heap.
+ */
+PF.Heap.prototype.top = function() {
+    return this._heap[0];
+};
+
+
+/**
+ * Get the size of the heap.
+ * @return {integer} The number of items in the heap.
+ */
+PF.Heap.prototype.size = function() {
+    return this._heap.length;
+};
+
+
+/**
+ * Determine whether the heap is empty.
+ * @return {boolean}
+ */
+PF.Heap.prototype.isEmpty = function() {
+    return !this.size();
+};
+
+
+/**
  * Push an item onto the heap.
  */
-Heap.prototype.push = function(item) {
+PF.Heap.prototype.push = function(item) {
     var heap = this._heap;
         
     heap.push(item);
     this._siftDown(heap, 0, heap.length - 1);
 };
 
+
 /**
  * Pop the smallest item off the heap.
  */
-Heap.prototype.pop = function() {
+PF.Heap.prototype.pop = function() {
     var heap, lastItem, returnItem;
     
     heap= this._heap;
@@ -55,19 +83,43 @@ Heap.prototype.pop = function() {
     return returnItem;
 };
 
+
+/**
+ * Pop and return the current smallest value, and add the new item.
+ *
+ * This is more efficient than `pop()` followed by `push()`, and can be
+ * more appropriate when using a fixed-size heap. Note that the value 
+ * returned may be larger than the pushed item! That constrains reasonable
+ * uses of this routine unless written as part of a conditional replacement.
+ *
+ *     {@code 
+ *     if (item > heap.top()) {
+ *         item = heap.replace(item);
+ *     }
+ */
+PF.Heap.prototype.replace = function(item) {
+    var returnItem = this._heap[0];
+    this._heap[0] = item;
+    this._siftUp(0);
+    return returnItem;
+};
+
+
 /**
  * Sift down the possibly out-of-order value.
  * @param {integer} startPos Start index of the array as a heap.
  * @param {integer} pos Index of the leaf with possiblly out-of-order value.
  * @private
  */
-Heap.prototype._siftDown = function(startPos, pos) {
+PF.Heap.prototype._siftDown = function(startPos, pos) {
     var heap, cmp, newItem, parentPos, parent;
 
     heap = this._heap;
     cmp = this._cmp;
     newItem = heap[pos];
 
+    // Follow the path to the root, moving parents down until finding a place
+    // newItem fits.
     while (pos > startPos) {
         parentPos = (pos - 1) >> 1;
         parent = heap[parentPos];
@@ -84,10 +136,12 @@ Heap.prototype._siftDown = function(startPos, pos) {
 /**
  * Sift up the possibly out-of-order value.
  * @param {integer} pos Index of leaf with possibly out-of-order value.
+ * @private
  */
-Heap.prototype._siftUp = function(pos) {
-    var heap, endPos, startPos, newItem, childPos, rightPos;
+PF.Heap.prototype._siftUp = function(pos) {
+    var heap, cmp, endPos, startPos, newItem, childPos, rightPos;
     
+    cmp = this._cmp;
     heap = this._heap;
     endPos = heap.length;
     startPos = pos;
@@ -109,4 +163,4 @@ Heap.prototype._siftUp = function(pos) {
     // to its final resting place (by sifting its parent down).
     heap[pos] = newItem;
     this._siftDown(startPos, pos);
-}
+};
