@@ -45,10 +45,8 @@ PF.AStarFinder.prototype.init = function(startX, startY, endX, endY, grid) {
 PF.AStarFinder.prototype.findPath = function() {
     // TODO: use binary heap to maintain the open list.
 
-    // local references for performance
-    var tx, ty, // temporay x and y
+    var x, y,
         nx, ny, 
-        x, y,
         sx = this.startX,
         sy = this.startY,
         ex = this.endX,
@@ -79,7 +77,7 @@ PF.AStarFinder.prototype.findPath = function() {
         grid.setAttributeAt(x, y, 'closed', true);
 
         // if reached the end position, construct the path and return it
-        if (tx == ex && ty == ey) {
+        if (x == ex && y == ey) {
             return this._constructPath();
         }
 
@@ -89,36 +87,37 @@ PF.AStarFinder.prototype.findPath = function() {
             nx = x + xOffsets[i];
             ny = y + yOffsets[i];
 
-            if (grid.isWalkableAt(nx, ny)) {
+            if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
                 this._inspectNodeAt(nx, ny, x, y);
             }
         }
     }
+
+    return [];
 };
 
 
 /**
  * Construct the path according to the nodes' parents.
- * @return {Array.<Array.<integer, integer>>} the path,
- *     if an empty array is returned, then there's no such a path
- *     from the start position to the end position.
+ * @return {Array.<Array.<integer, integer>>} The path, including
+ *     both start and end positions.
  */
 PF.AStarFinder.prototype._constructPath = function() {
     var sx = this.startX, sy = this.startY,
         x, y,
         grid = this.grid,
-        path = [this.endX, this.endY];
+        path = [[this.endX, this.endY]];
 
     for (;;) {
         x = path[0][0];
         y = path[0][1];
-        path.unshift(grid.getAttributeAt(x, y, 'parent'));
-
         if (x == sx && y == sy) {
             return path;
         }
+        path.unshift(grid.getAttributeAt(x, y, 'parent'));
     }
 
+    // it should never reach here.
     return [];
 };
 
@@ -200,25 +199,13 @@ PF.AStarFinder.prototype._calculateH = function(x, y) {
  */
 PF.AStarFinder.prototype._popMinNodePos = function() {
     // TODO: add comparison for `h`.
-    var tmpX, tmpY, tmpV,  // temporary values
-        retX, retY, // return values
+    var openList = this.openList;
 
-        v = Number.MAX_VALUE, 
-        grid = this.grid,
-        openList = this.openList;
+    openList.sort(function(a, b) {
+        return a.f - b.f; 
+    });
 
-    for (var i = 0, pos; pos = openList[i]; ++i) {
-        tmpX = pos[0];
-        tmpY = pos[1];
-        if ((tmpV = grid.getAttributeAt(tmpX, tmpY, 'f')) < v) {
-            v = tmpV;
-            retX = tmpX;
-            retY = tmpY;
-        }
-    }
-    openList.shift();
-
-    return [retX, retY];
+    return openList.shift();
 };
 
 /**

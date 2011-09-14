@@ -21,7 +21,6 @@ function pathTest(finderName) {
                     it('should solve it', function() {
                         finder = new finderClass;
                         finder.init(startX, startY, endX, endY, grid);
-                        console.log(finder);
                         expect(finder.findPath().length).toBe(expectedLength)
                     });
                 });
@@ -29,10 +28,10 @@ function pathTest(finderName) {
         })();
 
         // test 1
-        startX = 1,
-        startY = 1,
-        endX = 4,
-        endY = 4,
+        startX = 1;
+        startY = 1;
+        endX = 4;
+        endY = 4;
         matrix = [
             [0, 0, 0, 0, 0],
             [1, 0, 1, 1, 0],
@@ -40,10 +39,10 @@ function pathTest(finderName) {
             [0, 1, 0, 0, 0],
             [1, 0, 1, 1, 0],
             [0, 0, 1, 0, 0],
-        ],
-        expectedLength = 9,
-        height = matrix.length,
-        width = matrix[0].length,
+        ];
+        expectedLength = 9;
+        height = matrix.length;
+        width = matrix[0].length;
         grid = new PF.Grid(width, height, matrix);
 
         test(startX, startY, endX, endY, grid, expectedLength);
