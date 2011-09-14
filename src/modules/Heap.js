@@ -1,6 +1,6 @@
 /**
  * @fileoverview A binary heap container.
- * Ported from the `heapq` module in Python's standard library.
+ * Based on the `heapq` module in Python's standard library.
  */
 
 /**
@@ -40,9 +40,10 @@ Heap.prototype.push = function(item) {
  * Pop the smallest item off the heap.
  */
 Heap.prototype.pop = function() {
-    var heap = this._heap,
-        lastItem = heap.pop(),
-        returnItem;
+    var heap, lastItem, returnItem;
+    
+    heap= this._heap;
+    lastItem = heap.pop();
 
     if (heap.length) {
         returnItem = heap[0];
@@ -55,16 +56,17 @@ Heap.prototype.pop = function() {
 };
 
 /**
- * Sift down the heap
+ * Sift down the possibly out-of-order value.
  * @param {integer} startPos Start index of the array as a heap.
  * @param {integer} pos Index of the leaf with possiblly out-of-order value.
+ * @private
  */
 Heap.prototype._siftDown = function(startPos, pos) {
-    var heap = this._heap,
-        cmp = this._cmp;
-        newItem = heap[pos],
-        parentPos,
-        parent;
+    var heap, cmp, newItem, parentPos, parent;
+
+    heap = this._heap;
+    cmp = this._cmp;
+    newItem = heap[pos];
 
     while (pos > startPos) {
         parentPos = (pos - 1) >> 1;
@@ -78,3 +80,33 @@ Heap.prototype._siftDown = function(startPos, pos) {
     }
     heap[pos] = newItem;
 };
+
+/**
+ * Sift up the possibly out-of-order value.
+ * @param {integer} pos Index of leaf with possibly out-of-order value.
+ */
+Heap.prototype._siftUp = function(pos) {
+    var heap, endPos, startPos, newItem, childPos, rightPos;
+    
+    heap = this._heap;
+    endPos = heap.length;
+    startPos = pos;
+    newItem = heap[pos];
+
+    // Bubble up the smaller child until hitting a leaf.
+    childPos = 2 * pos + 1; // leftmost child position
+    while (childPos < endPos) {
+        // Set childPos to index of smaller child. 
+        rightPos = childPos + 1;
+        if (rightPos < endPos && !cmp(heap[childPos], heap[rightPos])) {
+            childPos = rightPos;
+        }
+        heap[pos] = heap[childPos];
+        pos = childPos;
+        childPos = 2 * pos + 1;
+    }
+    // The leaf at pos is empty now. Put newItem here, and bubble it up
+    // to its final resting place (by sifting its parent down).
+    heap[pos] = newItem;
+    this._siftDown(startPos, pos);
+}
