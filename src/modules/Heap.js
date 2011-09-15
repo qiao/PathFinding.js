@@ -6,17 +6,17 @@
 /**
  * Binary heap container.
  * @constructor
- * @param {Function(a, b)->boolean} [compareFunc] A comparison function which 
+ * @param {Function(a, b)->boolean} [cmpFunc] A comparison function which 
  *     returns whether it's first argument is less than the second argument.
  *     If this argument is not provided, then the `<` operator will be used.
  */
-PF.Heap = function(compareFunc) {
+PF.Heap = function(cmpFunc) {
     /**
      * Comparison function.
      * @type Function(a, b)->boolean
      * @private
      */
-    this._cmp = compareFunc || function(a, b) {return a < b;};
+    this._cmp = cmpFunc || function(a, b) {return a < b;};
 
     /**
      * An array as a heap.
@@ -60,7 +60,7 @@ PF.Heap.prototype.push = function(item) {
     var heap = this._heap;
         
     heap.push(item);
-    this._siftDown(heap, 0, heap.length - 1);
+    this._siftDown(0, heap.length - 1);
 };
 
 
@@ -92,10 +92,11 @@ PF.Heap.prototype.pop = function() {
  * returned may be larger than the pushed item! That constrains reasonable
  * uses of this routine unless written as part of a conditional replacement.
  *
- *     {@code 
+ * {@code 
  *     if (item > heap.top()) {
  *         item = heap.replace(item);
  *     }
+ * }
  */
 PF.Heap.prototype.replace = function(item) {
     var returnItem = this._heap[0];
@@ -133,6 +134,7 @@ PF.Heap.prototype._siftDown = function(startPos, pos) {
     heap[pos] = newItem;
 };
 
+
 /**
  * Sift up the possibly out-of-order value.
  * @param {integer} pos Index of leaf with possibly out-of-order value.
@@ -155,6 +157,7 @@ PF.Heap.prototype._siftUp = function(pos) {
         if (rightPos < endPos && !cmp(heap[childPos], heap[rightPos])) {
             childPos = rightPos;
         }
+        // Move the smaller child up.
         heap[pos] = heap[childPos];
         pos = childPos;
         childPos = 2 * pos + 1;
