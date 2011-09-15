@@ -34,7 +34,13 @@ PF.AStarFinder.prototype.constructor = PF.AStarFinder;
 PF.AStarFinder.prototype.init = function(startX, startY, endX, endY, grid) {
     PF.BaseFinder.prototype.init.call(this, startX, startY, endX, endY, grid);
 
-    this.openList = [];
+    var grid = this.grid;
+
+    this.openList = new PF.Heap(function(a, b) {
+        return grid.getAttributeAt(a[0], a[1], 'f') < 
+               grid.getAttributeAt(b[0], b[1], 'f');
+    });
+
     this.closeList = [];
 };
 
@@ -43,8 +49,6 @@ PF.AStarFinder.prototype.init = function(startX, startY, endX, endY, grid) {
  * @inheritDoc
  */
 PF.AStarFinder.prototype.findPath = function() {
-    // TODO: use binary heap to maintain the open list.
-
     var x, y,
         nx, ny, 
         sx = this.startX,
@@ -69,9 +73,9 @@ PF.AStarFinder.prototype.findPath = function() {
     node.opened = true;
 
     // while the open list is not empty
-    while (openList.length) {
+    while (!openList.isEmpty()) {
         // pop the position of node which has the minimum `f` value.
-        pos = this._popMinNodePos();
+        pos = openList.pop();
         x = pos[0];
         y = pos[1];
         grid.setAttributeAt(x, y, 'closed', true);
@@ -191,22 +195,6 @@ PF.AStarFinder.prototype._calculateH = function(x, y) {
     return this.heuristic(dx, dy);
 };
 
-
-
-/**
- * Pop the position with the minimum `f` value from the open list.
- * @private
- */
-PF.AStarFinder.prototype._popMinNodePos = function() {
-    // TODO: add comparison for `h`.
-    var openList = this.openList;
-
-    openList.sort(function(a, b) {
-        return a.f - b.f; 
-    });
-
-    return openList.shift();
-};
 
 /**
  * Manhattan distance.
