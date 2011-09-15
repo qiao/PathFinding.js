@@ -107,6 +107,22 @@ PF.Heap.prototype.replace = function(item) {
 
 
 /**
+ * Fast version of a push followed by a pop.
+ */
+PF.Heap.prototype.pushpop = function(item) {
+    var heap = this._heap, t;
+    
+    if (heap.length && this._cmp(heap[0], item)) {
+        t = heap[0];
+        heap[0] = item;
+        item = t;
+        this._siftUp(0);
+    }
+    return item;
+};
+
+
+/**
  * Sift down the possibly out-of-order value.
  * @param {integer} startPos Start index of the array as a heap.
  * @param {integer} pos Index of the leaf with possiblly out-of-order value.
