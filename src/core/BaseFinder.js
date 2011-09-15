@@ -92,7 +92,7 @@ PF.BaseFinder.prototype.setAttributeAt = function(x, y, attr, value) {
  */
 PF.BaseFinder.prototype.getAttributeAt = function(x, y, attr) {
     // delegates to grid.
-    return this.nodes[y][x][attr];
+    return this.grid.getAttributeAt(x, y, attr);
 };
 
 /**
