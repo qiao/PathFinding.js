@@ -1,23 +1,42 @@
 describe('modules/Heap.js', function() {
-    var genRandomArray = function(size) {
+    /**
+     * Generate a random array of integers.
+     * @param {integer} size The length of the array.
+     * @return {Array.<integer>}
+     */
+    var randomArray = function(size) {
         var a = [];
-        for (var i = 0; j < size; ++i) {
-            t = Math.random();
+        for (var i = 0; i < size; ++i) {
+            t = parseInt(Math.random() * 100);
             a.push(t);
         }
+        return a;
     };
 
+
+    /**
+     * Get a copy of an array
+     * @param {Array} array The array to copy.
+     * @return {Array}
+     */
     var copyArray = function(array) {
-        var ret;
+        var ret = [];
         array.forEach(function(v, i, a) {
             ret.push(v);
         });
         return ret;
     };
 
+    
+    /**
+     * Return the sorted array using heap
+     * Note: This method does not modify the original array.
+     * @param {Array} array The array to sort.
+     * @return {Array} The sorted array.
+     */
     var heapSort = function(array) {
         var heap = new PF.Heap(),
-            ret;
+            ret = [];
         array.forEach(function(v, i, a) {
             heap.push(v); 
         });
@@ -27,7 +46,14 @@ describe('modules/Heap.js', function() {
         return ret;
     };
 
-    var sameSequence = function(a, b) {
+
+    /**
+     * Compare whether two arrray are the same.
+     * @param {Array} a Array a
+     * @param {Array} b Array b
+     * @return {boolean} 
+     */
+    var sameArray = function(a, b) {
         for (var i = 0, x, y; x = a[i], y = b[i]; i++) {
             if (x !== y) {
                 return false;
@@ -38,21 +64,27 @@ describe('modules/Heap.js', function() {
 
     var test = function(size) {
         var a, b;
-        for (var i = 0; i < times; ++i) {
-            a = genRandomArray(size);
-            b = copyArray(a);
+        a = randomArray(size);
+        b = copyArray(a);
 
-            b.sort();
-            a = heapSort(a);
+        b.sort(function(x, y) {
+            return x - y;
+        });
+        a = heapSort(a);
 
-            expect(sameSequence(a, b)).toBeTruthy();
+        if (!sameArray(a, b)) {
+            console.log(a);
+            console.log(b);
         }
+
+        expect(sameArray(a, b)).toBeTruthy();
     };
 
-    for (var i = 0; i < 5; ++i) {
+    var numTests = 10, size = 100;
+    for (var i = 1; i <= numTests; ++i) {
         describe('test ' + i, function() {
             it('should sort out the array', function() {
-                test(10);
+                test(size);
             });
         }); 
     }

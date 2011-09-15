@@ -57,10 +57,8 @@ PF.Heap.prototype.isEmpty = function() {
  * Push an item onto the heap.
  */
 PF.Heap.prototype.push = function(item) {
-    var heap = this._heap;
-        
-    heap.push(item);
-    this._siftDown(0, heap.length - 1);
+    this._heap.push(item);
+    this._siftDown(0, this._heap.length - 1);
 };
 
 
@@ -90,7 +88,7 @@ PF.Heap.prototype.pop = function() {
  * This is more efficient than `pop()` followed by `push()`, and can be
  * more appropriate when using a fixed-size heap. Note that the value 
  * returned may be larger than the pushed item! That constrains reasonable
- * uses of this routine unless written as part of a conditional replacement.
+ * uses of this routine unless written as part of a conditional replacement:
  *
  * {@code 
  *     if (item > heap.top()) {
@@ -133,6 +131,7 @@ PF.Heap.prototype._siftDown = function(startPos, pos) {
 
     heap = this._heap;
     cmp = this._cmp;
+
     newItem = heap[pos];
 
     // Follow the path to the root, moving parents down until finding a place
@@ -161,6 +160,7 @@ PF.Heap.prototype._siftUp = function(pos) {
     
     cmp = this._cmp;
     heap = this._heap;
+
     endPos = heap.length;
     startPos = pos;
     newItem = heap[pos];
