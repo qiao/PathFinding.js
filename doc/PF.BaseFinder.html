@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>JSDoc: Class: BaseFinder</title>
+	
+	<script src="http://shjs.sourceforge.net/sh_main.min.js"> </script>
+    <script src="http://shjs.sourceforge.net/lang/sh_javascript.min.js"> </script>
+    
+    <link type="text/css" rel="stylesheet" href="styles/node-dark.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Class: BaseFinder</h1>
+    
+    
+    
+    <section>
+     
+    <header>
+        <h2><span class="ancestors"><a href="PF.html">PF</a> &rang; </span>BaseFinder</h2>
+        
+    </header>  
+    
+    <article>    
+        <dt id="PF.BaseFinder">
+    <h4 class="name" id="BaseFinder"><span class="type-signature"></span>new BaseFinder()<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        A base class for path-finders.
+This class *SHOULD NOT* be directly instantiated, as it does not provide 
+any path-finding algorithms or methods and is intended to be extended 
+by all the other path-finder classes.
+Note*: The constructor does *NOT* receive any arguments for instantiation.
+    All the parameters should be passed in in the {@code init} method.
+    Therefore, you only need to instantiate this class once, and call
+    the {@code init} method each time you start a new path-finding.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 13</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+</dd>
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+            
+            <h3 class="subsection-title">Properties</h3>
+            
+            <dl>
+<dt id="property:PF.BaseFinder#constructor">
+    <h4 class="name"><span class="type-signature"></span>constructor<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <p class="description">
+        The constructor of each BaseFinder instance.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 101</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+</dd>
+</dl>
+            
+        
+        
+        
+            
+            <h3 class="subsection-title">Methods</h3>
+            
+            <dl><dt id="PF.BaseFinder#findPath">
+    <h4 class="name" id="findPath"><span class="type-signature"></span>findPath()<span class="type-signature"> &rarr; {Array.&lt;[integer, integer]>}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Find and return the the path.
+NOTE*: This method is intended to be overriden by sub-classes.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 109</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+<div class="param-desc">
+    The path, including both start and 
+    end positions.
+</div>
+
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">Array.&lt;[integer, integer]></span> 
+		
+	</dd>
+</dl>
+
+    
+    
+
+</dd>
+<dt id="PF.BaseFinder#getAttributeAt">
+    <h4 class="name" id="getAttributeAt"><span class="type-signature"></span>getAttributeAt(x, y, attr)<span class="type-signature"> &rarr; {object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Generic getter of the attribute at the given position.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 93</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            integer
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            integer
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>attr</code></td>
+            
+            
+            <td class="type">
+            string
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The name of attribute to get.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+<div class="param-desc">
+    The value of the attribute.
+</div>
+
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">object</span> 
+		
+	</dd>
+</dl>
+
+    
+    
+
+</dd>
+<dt id="PF.BaseFinder#init">
+    <h4 class="name" id="init"><span class="type-signature"></span>init(startX, startY, endX, endY)<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Initiate the path-finder by providing the coordinates and the grid.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 31</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>startX</code></td>
+            
+            
+            <td class="type">
+            integer
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the start position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>startY</code></td>
+            
+            
+            <td class="type">
+            integer
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the start position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>endX</code></td>
+            
+            
+            <td class="type">
+            integer
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the end position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>endY</code></td>
+            
+            
+            <td class="type">
+            integer
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the end position.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    
+    
+
+</dd>
+<dt id="PF.BaseFinder#isInsideGrid">
+    <h4 class="name" id="isInsideGrid"><span class="type-signature"></span>isInsideGrid(x, y)<span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Determine whether the given postition is inside the grid.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 48</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            integer
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            integer
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the position.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+<div class="param-desc">
+    Whether it is inside.
+</div>
+
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">boolean</span> 
+		
+	</dd>
+</dl>
+
+    
+    
+
+</dd>
+<dt id="PF.BaseFinder#isWalkableAt">
+    <h4 class="name" id="isWalkableAt"><span class="type-signature"></span>isWalkableAt(x, y)<span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Determine whether the given position on the grid is walkable.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 69</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            integer
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            integer
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the position.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+<div class="param-desc">
+    Whether it is walkable.
+</div>
+
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">boolean</span> 
+		
+	</dd>
+</dl>
+
+    
+    
+
+</dd>
+<dt id="PF.BaseFinder#setAttributeAt">
+    <h4 class="name" id="setAttributeAt"><span class="type-signature"></span>setAttributeAt(x, y, attr, value)<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Generic setter of the attribute at the given position.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 81</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            integer
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            integer
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>attr</code></td>
+            
+            
+            <td class="type">
+            string
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The name of attribute to set.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+            
+            <td class="type">
+            object
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The value of attribute.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    
+    
+
+</dd>
+<dt id="PF.BaseFinder#setWalkableAt">
+    <h4 class="name" id="setWalkableAt"><span class="type-signature"></span>setWalkableAt(x, y)<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Set the walkable attribute of the given position on the grid.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 58</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            integer
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            integer
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the position.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    
+    
+
+</dd>
+</dl>
+            
+        
+        
+        
+    </article>
+    
+    </section>  
+    
+</div>
+
+<nav>
+    <h3>Classes</h3><ul><li><a href="PF.AStarFinder.html">AStarFinder</a></li><li><a href="PF.BaseFinder.html">BaseFinder</a></li><li><a href="PF.Grid.html">Grid</a></li><li><a href="PF.Heap.html">Heap</a></li><li><a href="PF.Node.html">Node</a></li></ul><h3>Namespaces</h3><ul><li><a href="PF.html">PF</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Mon Sep 19 2011 21:03:08 GMT+0800 (HKT)
+</footer>
+
+<script> sh_highlightDocument(); </script>
+</body>
+</html>

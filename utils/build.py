@@ -82,7 +82,7 @@ def main():
     uglify_path = os.path.join(project_path, 'utils', 'node_modules', 
             '.bin', 'uglifyjs')
 
-    MINIFY = True
+    MINIFY = False
 
     try:
         dump_file_obj(
