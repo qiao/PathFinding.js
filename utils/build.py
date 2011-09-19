@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
 import os
-import sys
+import string
 import shutil
+import subprocess
 
 try:
     import cStringIO as StringIO
@@ -11,10 +12,12 @@ except ImportError:
 
 
 FILES = [
-    'src/PathFinding.js',
-    'src/core/Node.js',
-    'src/core/Grid.js',
-    'src/core/BaseFinder.js',
+    'PathFinding.js',
+    'core/Node.js',
+    'core/Grid.js',
+    'core/BaseFinder.js',
+    'modules/Heap.js',
+    'modules/AStar.js'
     ]
 
 
@@ -27,6 +30,14 @@ def merge_files(file_paths):
      
     buffer.seek(0)
     return buffer
+
+
+def uglify(uglify_path, input_path, output_path):
+    minified = subprocess.check_output([uglify_path, input_path])
+    f = open(output_path, 'w')
+    f.write(minified)
+    f.close()
+    print 'created minified file:', output_path
 
 
 def dump_file_obj(file_obj, output_path):
@@ -43,10 +54,6 @@ def dump_file_obj(file_obj, output_path):
     print 'created file:', output_path
 
 
-def build_all(file_paths, output_path):
-    dump_file_obj(merge_files(file_paths), output_path)
-
-
 def get_project_path():
     return os.path.abspath(
               os.path.join(
@@ -54,21 +61,41 @@ def get_project_path():
                   os.path.pardir))
 
 
+def add_min_to_filename(filename):
+    segs = list(os.path.splitext(filename))
+    segs.insert(-1, '.min')
+    return ''.join(segs)
+
+
 def main():
     project_path = get_project_path()
+    source_path = os.path.join(project_path, 'src')
 
     output_path = os.path.join(
                       project_path,
                       'build',
                       'PathFinding.js')
 
-    file_paths = [os.path.join(project_path, filename)
+    file_paths = [os.path.join(source_path, filename)
                       for filename in FILES]
 
+    uglify_path = os.path.join(project_path, 'utils', 'node_modules', 
+            '.bin', 'uglifyjs')
+
+    MINIFY = True
+
     try:
-        build_all(file_paths, output_path)
+        dump_file_obj(
+            merge_files(file_paths), output_path)
+        if MINIFY:
+            uglify(uglify_path, 
+                   output_path, 
+                   add_min_to_filename(output_path))
+            os.unlink(output_path)
+            print 'removed file:', output_path
     except IOError, e:
         print e
+
 
 if __name__ == '__main__':
     main()
