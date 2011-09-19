@@ -27,26 +27,15 @@ function pathTest(finderName) {
             };
         })();
 
-        // test 1
-        startX = 1;
-        startY = 1;
-        endX = 4;
-        endY = 4;
-        matrix = [
-            [0, 0, 0, 0, 0],
-            [1, 0, 1, 1, 0],
-            [1, 0, 1, 0, 0],
-            [0, 1, 0, 0, 0],
-            [1, 0, 1, 1, 0],
-            [0, 0, 1, 0, 0],
-        ];
-        expectedLength = 9;
-        height = matrix.length;
-        width = matrix[0].length;
-        grid = new PF.Grid(width, height, matrix);
+        // Load all the test cases and test against the finder.
+        for (var i = 0, tc; tc = testCases[i]; ++i) {
+            var matrix = tc.matrix,
+                height = matrix.length,
+                width = matrix[0].length,
 
-        test(startX, startY, endX, endY, grid, expectedLength);
+                grid = new PF.Grid(width, height, matrix);
 
-        // test 2
+            test(tc.startX, tc.startY, tc.endX, tc.endY, grid, tc.expectedLength);
+        }
     });
 }

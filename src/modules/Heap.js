@@ -6,21 +6,21 @@
 /**
  * Binary heap container.
  * @constructor
- * @param {Function(a, b)->boolean} [cmpFunc] A comparison function which 
+ * @param {function(*, *): boolean} [cmpFunc] A comparison function which 
  *     returns whether it's first argument is less than the second argument.
  *     If this argument is not provided, then the `<` operator will be used.
  */
 PF.Heap = function(cmpFunc) {
     /**
      * Comparison function.
-     * @type Function(a, b)->boolean
+     * @type {function(*, *): boolean}
      * @private
      */
     this._cmp = cmpFunc || function(a, b) {return a < b;};
 
     /**
      * An array as a heap.
-     * @type Array
+     * @type {Array.<*>}
      * @private
      */
     this._heap = [];
@@ -37,7 +37,7 @@ PF.Heap.prototype.top = function() {
 
 /**
  * Get the size of the heap.
- * @return {integer} The number of items in the heap.
+ * @return {number} The number of items in the heap.
  */
 PF.Heap.prototype.size = function() {
     return this._heap.length;
@@ -122,8 +122,8 @@ PF.Heap.prototype.pushpop = function(item) {
 
 /**
  * Sift down the possibly out-of-order value.
- * @param {integer} startPos Start index of the array as a heap.
- * @param {integer} pos Index of the leaf with possiblly out-of-order value.
+ * @param {number} startPos Start index of the array as a heap.
+ * @param {number} pos Index of the leaf with possiblly out-of-order value.
  * @private
  */
 PF.Heap.prototype._siftDown = function(startPos, pos) {
@@ -152,7 +152,7 @@ PF.Heap.prototype._siftDown = function(startPos, pos) {
 
 /**
  * Sift up the possibly out-of-order value.
- * @param {integer} pos Index of leaf with possibly out-of-order value.
+ * @param {number} pos Index of leaf with possibly out-of-order value.
  * @private
  */
 PF.Heap.prototype._siftUp = function(pos) {
