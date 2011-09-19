@@ -4,7 +4,7 @@
  * attributes may be added, depending on the algorithms' needs.
  * @constructor
  * @param {integer} x The x coordinate of the node on the grid.
- * @param {integer} x The y coordinate of the node on the grid.
+ * @param {integer} y The y coordinate of the node on the grid.
  */
 PF.Node = function(x, y) {
     /**
@@ -24,8 +24,8 @@ PF.Node = function(x, y) {
     this.walkable = true;
     /**
      * This node's parent node. 
-     * @type Array.<integer, integer>
      * This variable will be used to construct the path after the search is done.
+     * @type Array.<integer, integer>
      */
     this.parent = null;
 };

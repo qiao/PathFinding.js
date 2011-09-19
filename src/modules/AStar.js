@@ -1,13 +1,26 @@
 /**
+ * @requires PF.Heap
+ */
+
+/**
  * A* path-finder.
  * @constructor
  * @extends PF.BaseFinder
- * @param {function(number, number): number} [heuristic] Heuristic function
+ * @param {function(number, number): number} [heuristic] - Heuristic function
  *     being used to estimate the distance(defaults to manhattan).
- *     Available heuristics:
- *         * PF.AStarFinder.manhattan
- *         * PF.AStarFinder.euclidean
- *         * PF.AStarFinder.chebyshev
+ *
+ * @example
+ * 
+ * // Available heuristics:
+ * //     PF.AStarFinder.manhattan
+ * //     PF.AStarFinder.euclidean
+ * //     PF.AStarFinder.chebyshev 
+ * //
+ * // Sample Custom heuristic:
+ * function(dx, dy) {
+ *     return Math.min(dx, dy);
+ * }
+ *
  */
 PF.AStarFinder = function(heuristic) {
     PF.BaseFinder.call(this);
@@ -23,13 +36,13 @@ PF.AStarFinder.prototype = new PF.BaseFinder();
 
 
 /**
- * Sets the constructor of the instances.
+ * The constructor of the instance.
  */
 PF.AStarFinder.prototype.constructor = PF.AStarFinder;
 
 
 /**
- * @inheritDoc
+ * @public
  */
 PF.AStarFinder.prototype.init = function(startX, startY, endX, endY, grid) {
     PF.BaseFinder.prototype.init.call(this, startX, startY, endX, endY, grid);
@@ -44,7 +57,7 @@ PF.AStarFinder.prototype.init = function(startX, startY, endX, endY, grid) {
 
 
 /**
- * @inheritDoc
+ * @public
  */
 PF.AStarFinder.prototype.findPath = function() {
     var x, y,
@@ -100,6 +113,7 @@ PF.AStarFinder.prototype.findPath = function() {
 
 /**
  * Construct the path according to the nodes' parents.
+ * @private
  * @return {Array.<Array.<number>>} The path, including
  *     both start and end positions.
  */
@@ -128,10 +142,10 @@ PF.AStarFinder.prototype._constructPath = function() {
  * Otherwise, if the position can be accessed with a lower cost from the given
  * parent position, then update its parent and cost
  * @private
- * @param {number} x The x coordinate of the position.
- * @param {number} y The y coordinate of the position.
- * @param {number} x The x coordinate of the parent position.
- * @param {number} y The y coordinate of the parent position.
+ * @param {number} x - The x coordinate of the position.
+ * @param {number} y - The y coordinate of the position.
+ * @param {number} px - The x coordinate of the parent position.
+ * @param {number} py - The y coordinate of the parent position.
  */
 PF.AStarFinder.prototype._inspectNodeAt = function(x, y, px, py) {
     var grid = this.grid,
@@ -157,10 +171,10 @@ PF.AStarFinder.prototype._inspectNodeAt = function(x, y, px, py) {
  * If this position can be accessed from the given parent with lower 
  * `g` cost, then this position's parent, `g` and `f` values will be updated.
  * @private
- * @param {number} x The x coordinate of the position.
- * @param {number} y The y coordinate of the position.
- * @param {number} x The x coordinate of the parent position.
- * @param {number} y The y coordinate of the parent position.
+ * @param {number} x - The x coordinate of the position.
+ * @param {number} y - The y coordinate of the position.
+ * @param {number} px - The x coordinate of the parent position.
+ * @param {number} py - The y coordinate of the parent position.
  * @return {boolean} Whether this position's info has been updated.
  */
 PF.AStarFinder.prototype._tryUpdate = function(x, y, px, py) {
@@ -182,8 +196,9 @@ PF.AStarFinder.prototype._tryUpdate = function(x, y, px, py) {
 
 /**
  * Calculate the `h` value of a given position.
- * @param {number} x The x coordinate of the position.
- * @param {number} y The y coordinate of the position.
+ * @private
+ * @param {number} x - The x coordinate of the position.
+ * @param {number} y - The y coordinate of the position.
  * @return {number}
  */
 PF.AStarFinder.prototype._calculateH = function(x, y) {
@@ -195,8 +210,7 @@ PF.AStarFinder.prototype._calculateH = function(x, y) {
 
 /**
  * Manhattan distance.
- * {@code dx + dy}
- * Static method of PF.AStarFinder
+ * @description dx + dy
  */
 PF.AStarFinder.manhattan = function(dx, dy) {
     return dx + dy;
@@ -204,8 +218,7 @@ PF.AStarFinder.manhattan = function(dx, dy) {
 
 /**
  * Euclidean distance.
- * {@code sqrt(dx * dx, dy * dy)}
- * Static method of PF.AStarFinder
+ * @description sqrt(dx * dx, dy * dy)
  */
 PF.AStarFinder.euclidean = function(dx, dy) {
     return Math.sqrt(dx * dx + dy * dy);
@@ -213,8 +226,7 @@ PF.AStarFinder.euclidean = function(dx, dy) {
 
 /**
  * Chebyshev distance.
- * {@code max(dx, dy)}
- * Static method of PF.AStarFinder
+ * @description max(dx, dy)
  */
 PF.AStarFinder.chebyshev = function(dx, dy) {
     return Math.max(dx, dy);

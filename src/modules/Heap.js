@@ -87,14 +87,7 @@ PF.Heap.prototype.pop = function() {
  *
  * This is more efficient than `pop()` followed by `push()`, and can be
  * more appropriate when using a fixed-size heap. Note that the value 
- * returned may be larger than the pushed item! That constrains reasonable
- * uses of this routine unless written as part of a conditional replacement:
- *
- * {@code 
- *     if (item > heap.top()) {
- *         item = heap.replace(item);
- *     }
- * }
+ * returned may be larger than the pushed item!
  */
 PF.Heap.prototype.replace = function(item) {
     var returnItem = this._heap[0];

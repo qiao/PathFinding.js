@@ -57,7 +57,7 @@
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 12</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 25</dd>
 	
 	
 	
@@ -110,11 +110,7 @@
             
             
             <td class="description last">Heuristic function
-    being used to estimate the distance(defaults to manhattan).
-    Available heuristics:
-PF.AStarFinder.manhattan
-PF.AStarFinder.euclidean
-PF.AStarFinder.chebyshev</td>
+    being used to estimate the distance(defaults to manhattan).</td>
         </tr>
 	
 	
@@ -127,7 +123,17 @@ PF.AStarFinder.chebyshev</td>
     
     
     
-    
+    <h5>Example</h5>
+    <pre class="sh_javascript"><code>// Available heuristics:
+//     PF.AStarFinder.manhattan
+//     PF.AStarFinder.euclidean
+//     PF.AStarFinder.chebyshev 
+//
+// Sample Custom heuristic:
+function(dx, dy) {
+    return Math.min(dx, dy);
+}</code></pre>
+
 
 </dd>
 
@@ -161,7 +167,7 @@ PF.AStarFinder.chebyshev</td>
 <dd>
     
     <p class="description">
-        Sets the constructor of the instances.
+        The constructor of the instance.
     </p>
     
     
@@ -182,7 +188,7 @@ PF.AStarFinder.chebyshev</td>
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 28</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 41</dd>
 	
 	
 	
@@ -202,7 +208,7 @@ PF.AStarFinder.chebyshev</td>
             <h3 class="subsection-title">Methods</h3>
             
             <dl><dt id="PF.AStarFinder#_calculateH">
-    <h4 class="name" id="_calculateH"><span class="type-signature"></span>_calculateH(x, y)<span class="type-signature"> &rarr; {number}</span></h4>
+    <h4 class="name" id="_calculateH"><span class="type-signature">&lt;private> </span>_calculateH(x, y)<span class="type-signature"> &rarr; {number}</span></h4>
     
     
 </dt>
@@ -231,7 +237,7 @@ PF.AStarFinder.chebyshev</td>
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 189</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 204</dd>
 	
 	
 	
@@ -328,7 +334,7 @@ PF.AStarFinder.chebyshev</td>
 
 </dd>
 <dt id="PF.AStarFinder#_constructPath">
-    <h4 class="name" id="_constructPath"><span class="type-signature"></span>_constructPath()<span class="type-signature"> &rarr; {Array.&lt;Array.&lt;number>>}</span></h4>
+    <h4 class="name" id="_constructPath"><span class="type-signature">&lt;private> </span>_constructPath()<span class="type-signature"> &rarr; {Array.&lt;Array.&lt;number>>}</span></h4>
     
     
 </dt>
@@ -357,7 +363,7 @@ PF.AStarFinder.chebyshev</td>
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 106</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 120</dd>
 	
 	
 	
@@ -401,7 +407,7 @@ PF.AStarFinder.chebyshev</td>
 
 </dd>
 <dt id="PF.AStarFinder#_inspectNodeAt">
-    <h4 class="name" id="_inspectNodeAt"><span class="type-signature">&lt;private> </span>_inspectNodeAt(x, y, x, y)<span class="type-signature"></span></h4>
+    <h4 class="name" id="_inspectNodeAt"><span class="type-signature">&lt;private> </span>_inspectNodeAt(x, y, px, py)<span class="type-signature"></span></h4>
     
     
 </dt>
@@ -432,7 +438,7 @@ parent position, then update its parent and cost
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 136</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 150</dd>
 	
 	
 	
@@ -503,7 +509,7 @@ parent position, then update its parent and cost
 	
         <tr>
             
-                <td class="name"><code>x</code></td>
+                <td class="name"><code>px</code></td>
             
             
             <td class="type">
@@ -521,7 +527,7 @@ parent position, then update its parent and cost
 	
         <tr>
             
-                <td class="name"><code>y</code></td>
+                <td class="name"><code>py</code></td>
             
             
             <td class="type">
@@ -549,7 +555,7 @@ parent position, then update its parent and cost
 
 </dd>
 <dt id="PF.AStarFinder#_tryUpdate">
-    <h4 class="name" id="_tryUpdate"><span class="type-signature">&lt;private> </span>_tryUpdate(x, y, x, y)<span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="_tryUpdate"><span class="type-signature">&lt;private> </span>_tryUpdate(x, y, px, py)<span class="type-signature"> &rarr; {boolean}</span></h4>
     
     
 </dt>
@@ -580,7 +586,7 @@ If this position can be accessed from the given parent with lower
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 166</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 180</dd>
 	
 	
 	
@@ -651,7 +657,7 @@ If this position can be accessed from the given parent with lower
 	
         <tr>
             
-                <td class="name"><code>x</code></td>
+                <td class="name"><code>px</code></td>
             
             
             <td class="type">
@@ -669,7 +675,7 @@ If this position can be accessed from the given parent with lower
 	
         <tr>
             
-                <td class="name"><code>y</code></td>
+                <td class="name"><code>py</code></td>
             
             
             <td class="type">
@@ -742,7 +748,7 @@ If this position can be accessed from the given parent with lower
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 49</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 62</dd>
 	
 	
 	
@@ -790,7 +796,7 @@ If this position can be accessed from the given parent with lower
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 34</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 47</dd>
 	
 	
 	
@@ -821,9 +827,7 @@ If this position can be accessed from the given parent with lower
     
     
     <p class="description">
-        Chebyshev distance.
-{@code max(dx, dy)}
-Static method of PF.AStarFinder
+        max(dx, dy)
     </p>
     
     
@@ -844,7 +848,7 @@ Static method of PF.AStarFinder
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 219</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 231</dd>
 	
 	
 	
@@ -875,9 +879,7 @@ Static method of PF.AStarFinder
     
     
     <p class="description">
-        Euclidean distance.
-{@code sqrt(dx * dx, dy * dy)}
-Static method of PF.AStarFinder
+        sqrt(dx * dx, dy * dy)
     </p>
     
     
@@ -898,7 +900,7 @@ Static method of PF.AStarFinder
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 210</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 223</dd>
 	
 	
 	
@@ -929,9 +931,7 @@ Static method of PF.AStarFinder
     
     
     <p class="description">
-        Manhattan distance.
-{@code dx + dy}
-Static method of PF.AStarFinder
+        dx + dy
     </p>
     
     
@@ -952,7 +952,7 @@ Static method of PF.AStarFinder
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 201</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 215</dd>
 	
 	
 	
@@ -992,7 +992,7 @@ Static method of PF.AStarFinder
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Mon Sep 19 2011 21:03:08 GMT+0800 (HKT)
+    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Mon Sep 19 2011 21:47:28 GMT+0800 (HKT)
 </footer>
 
 <script> sh_highlightDocument(); </script>

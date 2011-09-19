@@ -4,7 +4,7 @@
  * @constructor
  * @param {integer} width Number of columns of the grid.
  * @param {integer} height Number of rows of the grid.
- * @param {Array.<Array.<integer|boolean>>} [matrix] A 0-1 matrix representing
+ * @param {Array.<Array.<(integer|boolean)>>} [matrix] A 0-1 matrix representing
  *     the walkable status of the nodes(0 or false for walkable). If the
  *     matrix is not supplied, all the nodes will be walkable.
  */
@@ -95,6 +95,7 @@ PF.Grid.prototype.isWalkableAt = function(x, y) {
  * Set the walkability of the node on the given position.
  * @param {integer} x The x coordinate of the node.
  * @param {integer} y The y coordinate of the node.
+ * @param {boolean} walkable - Whether the position is walkable.
  */
 PF.Grid.prototype.setWalkableAt = function(x, y, walkable) {
     this.getNodeAt(x, y).walkable = walkable;
@@ -120,7 +121,7 @@ PF.Grid.prototype.isInside = function(x, y) {
  * @param {integer} x The x coordinate of the position.
  * @param {integer} y The y coordinate of the position.
  * @param {string} attr The name of attribute to set.
- * @param {object} value The value of attribute.
+ * @param {*} value The value of attribute.
  */
 PF.Grid.prototype.setAttributeAt = function(x, y, attr, value) {
     this.getNodeAt(x, y)[attr] = value;
@@ -134,7 +135,7 @@ PF.Grid.prototype.setAttributeAt = function(x, y, attr, value) {
  * @param {integer} x The x coordinate of the position.
  * @param {integer} y The y coordinate of the position.
  * @param {string} attr The name of attribute to get.
- * @return {object} The value of the attribute.
+ * @return The value of the attribute.
  */
 PF.Grid.prototype.getAttributeAt = function(x, y, attr) {
     return this.getNodeAt(x, y)[attr];
