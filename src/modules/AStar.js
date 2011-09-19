@@ -40,8 +40,6 @@ PF.AStarFinder.prototype.init = function(startX, startY, endX, endY, grid) {
         return grid.getAttributeAt(a[0], a[1], 'f') < 
                grid.getAttributeAt(b[0], b[1], 'f');
     });
-
-    this.closeList = [];
 };
 
 
@@ -56,7 +54,6 @@ PF.AStarFinder.prototype.findPath = function() {
         ex = this.endX,
         ey = this.endY,
         openList = this.openList,
-        closeList = this.closeList,
         grid = this.grid,
         node;
 
