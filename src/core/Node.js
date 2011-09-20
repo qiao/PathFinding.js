@@ -3,18 +3,18 @@
  * This class holds some basic information about a node and custom 
  * attributes may be added, depending on the algorithms' needs.
  * @constructor
- * @param {integer} x The x coordinate of the node on the grid.
- * @param {integer} y The y coordinate of the node on the grid.
+ * @param {number} x - The x coordinate of the node on the grid.
+ * @param {number} y - The y coordinate of the node on the grid.
  */
 PF.Node = function(x, y) {
     /**
      * The x coordinate of the node on the grid.
-     * @type integer
+     * @type number
      */
     this.x = x;
     /**
      * The y coordinate of the node on the grid.
-     * @type integer
+     * @type number
      */
     this.y = y;
     /**
@@ -25,7 +25,7 @@ PF.Node = function(x, y) {
     /**
      * This node's parent node. 
      * This variable will be used to construct the path after the search is done.
-     * @type Array.<integer, integer>
+     * @type Array.<number, number>
      */
     this.parent = null;
 };
