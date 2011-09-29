@@ -2,6 +2,10 @@
  * A node in grid. 
  * This class holds some basic information about a node and custom 
  * attributes may be added, depending on the algorithms' needs.
+ *
+ * Note: if you want to monitor how your algorithm works, it's better
+ * to use the `set' and `get' methods when accessing the nodes' attriubtes
+ * since it will be easier to add hooks.
  * @constructor
  * @param {number} x - The x coordinate of the node on the grid.
  * @param {number} y - The y coordinate of the node on the grid.

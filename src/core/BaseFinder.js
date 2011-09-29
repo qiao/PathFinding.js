@@ -96,7 +96,7 @@ PF.BaseFinder.prototype.getAttributeAt = function(x, y, attr) {
 };
 
 /**
- * The constructor of each BaseFinder instance.
+ * Constructor of each BaseFinder instance.
  */
 PF.BaseFinder.prototype.constructor = PF.BaseFinder;
 
