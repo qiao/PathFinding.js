@@ -87,7 +87,7 @@ PF.Grid.prototype.getNodeAt = function(x, y) {
  * @return {boolean} - The walkability of the node.
  */
 PF.Grid.prototype.isWalkableAt = function(x, y) {
-    return this.getNodeAt(x, y).walkable;
+    return this.getNodeAt(x, y).get('walkable');
 };
 
 
@@ -98,7 +98,7 @@ PF.Grid.prototype.isWalkableAt = function(x, y) {
  * @param {boolean} walkable - Whether the position is walkable.
  */
 PF.Grid.prototype.setWalkableAt = function(x, y, walkable) {
-    this.getNodeAt(x, y).walkable = walkable;
+    this.getNodeAt(x, y).set('walkable', walkable);
 };
 
 
@@ -124,7 +124,7 @@ PF.Grid.prototype.isInside = function(x, y) {
  * @param {*} value - The value of attribute.
  */
 PF.Grid.prototype.setAttributeAt = function(x, y, attr, value) {
-    this.getNodeAt(x, y)[attr] = value;
+    this.getNodeAt(x, y).set(attr, value);
 };
 
 /**
@@ -138,5 +138,5 @@ PF.Grid.prototype.setAttributeAt = function(x, y, attr, value) {
  * @return The value of the attribute.
  */
 PF.Grid.prototype.getAttributeAt = function(x, y, attr) {
-    return this.getNodeAt(x, y)[attr];
+    return this.getNodeAt(x, y).get(attr);
 };

@@ -89,12 +89,12 @@ PF.AStarFinder.prototype.findPath = function() {
     
     // set the `g` and `f` value of the start node to be 0
     node = grid.getNodeAt(sx, sy);
-    node.g = 0;
-    node.f = 0;
+    node.set('g', 0);
+    node.set('f', 0);
 
     // push the start node into the open list
     openList.push([sx, sy]);
-    node.opened = true;
+    node.set('opened', true);
 
     // while the open list is not empty
     while (!openList.isEmpty()) {
@@ -166,14 +166,14 @@ PF.AStarFinder.prototype._inspectNodeAt = function(x, y, px, py) {
         openList = this.openList,
         node = grid.getNodeAt(x, y);
 
-    if (node.closed) {
+    if (node.get('closed')) {
         return;
     }
 
-    if (node.opened) {
+    if (node.get('opened')) {
         //
     } else {
-        node.opened = true;
+        node.set('opened', true);
         openList.push([x, y]);
     }
     this._tryUpdate(x, y, px, py);
@@ -197,11 +197,11 @@ PF.AStarFinder.prototype._tryUpdate = function(x, y, px, py) {
         ng = pNode.g + 1; // next `g` value
         node = grid.getNodeAt(x, y);
 
-    if (node.g === undefined || ng < node.g) {
-        node.parent = [px, py];
-        node.g = ng;
-        node.h = this._calculateH(x, y);
-        node.f = node.g + node.h;
+    if (node.get('g') === undefined || ng < node.get('g')) {
+        node.set('parent', [px, py]);
+        node.set('g', ng);
+        node.set('h', this._calculateH(x, y));
+        node.set('f', node.g + node.h);
         return true;
     }
     return false;
