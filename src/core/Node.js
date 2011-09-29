@@ -9,23 +9,50 @@
 PF.Node = function(x, y) {
     /**
      * The x coordinate of the node on the grid.
+     * @private
      * @type number
      */
     this.x = x;
     /**
      * The y coordinate of the node on the grid.
+     * @private
      * @type number
      */
     this.y = y;
     /**
      * Whether this node can be walked through.
+     * @private
      * @type boolean
      */
     this.walkable = true;
     /**
      * This node's parent node. 
      * This variable will be used to construct the path after the search is done.
+     * @private
      * @type Array.<number, number>
      */
     this.parent = null;
+};
+
+
+PF.Node.prototype.constructor = PF.Node;
+
+
+/**
+ * Generic setter of the attribute of the node.
+ * @param {string} attr - Attribute name.
+ * @param {*} value - Attribute value.
+ */
+PF.Node.prototype.set = function(attr, value) {
+    this[attr] = value;
+};
+
+
+/**
+ * Generic getter of the attribute of the node.
+ * @param {string} attr - Attribute name
+ * @return {*} The value of the attribute.
+ */
+PF.Node.prototype.get = function(attr) {
+    return this[attr];
 };
