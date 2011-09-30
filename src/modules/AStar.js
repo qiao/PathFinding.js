@@ -45,6 +45,7 @@ PF.AStarFinder.prototype.constructor = PF.AStarFinder;
  * @param {number} startY - The y coordinate of the start position.
  * @param {number} endX - The x coordinate of the end position.
  * @param {number} endY - The y coordinate of the end position.
+ * @param {PF.Grid} grid - The grid holding the nodes' status.
  * @private
  */
 PF.AStarFinder.prototype.init = function(startX, startY, endX, endY, grid) {
@@ -66,6 +67,7 @@ PF.AStarFinder.prototype.init = function(startX, startY, endX, endY, grid) {
  * @param {number} startY - The y coordinate of the start position.
  * @param {number} endX - The x coordinate of the end position.
  * @param {number} endY - The y coordinate of the end position.
+ * @param {PF.Grid} grid - The grid holding the nodes' status.
  * @return {Array.<[number, number]>} The path, including both start and 
  *     end positions.
  */

@@ -22,6 +22,7 @@ PF.BaseFinder = function() {
  * @param {number} startY - The y coordinate of the start position.
  * @param {number} endX - The x coordinate of the end position.
  * @param {number} endY - The y coordinate of the end position.
+ * @param {PF.Grid} grid - The grid holding the nodes' status.
  * @protected
  */
 PF.BaseFinder.prototype.init = function(startX, startY, endX, endY, grid) {
@@ -103,6 +104,7 @@ PF.BaseFinder.prototype.constructor = PF.BaseFinder;
  * @param {number} startY - The y coordinate of the start position.
  * @param {number} endX - The x coordinate of the end position.
  * @param {number} endY - The y coordinate of the end position.
+ * @param {PF.Grid} grid - The grid holding the nodes' status.
  * @return {Array.<[number, number]>} The path, including both start and 
  *     end positions.
  */
