@@ -4,10 +4,6 @@
 
 /**
  * A* path-finder.
- * Note: The constructor does NOT receive any arguments for instantiation.
- *     All the parameters should be passed in in the `init` method.
- *     Therefore, you only need to instantiate this class once, and call
- *     the `init` method each time you start a new path-finding.
  * @constructor
  * @extends PF.BaseFinder
  * @param {function(number, number): number} [heuristic] - Heuristic function
@@ -15,8 +11,7 @@
  * @example
  * var finder, path;
  * finder = PF.AStarFinder();
- * finder.init(...);
- * path = finder.findPath();
+ * path = finder.findPath(...);
  *
  * // Available heuristics:
  * //     PF.AStarFinder.manhattan
@@ -54,6 +49,7 @@ PF.AStarFinder.prototype.constructor = PF.AStarFinder;
  * @param {number} startY - The y coordinate of the start position.
  * @param {number} endX - The x coordinate of the end position.
  * @param {number} endY - The y coordinate of the end position.
+ * @private
  */
 PF.AStarFinder.prototype.init = function(startX, startY, endX, endY, grid) {
     PF.BaseFinder.prototype.init.call(this, startX, startY, endX, endY, grid);
@@ -70,10 +66,16 @@ PF.AStarFinder.prototype.init = function(startX, startY, endX, endY, grid) {
 /**
  * Find and return the the path.
  * NOTE: This method is intended to be overriden by sub-classes.
+ * @param {number} startX - The x coordinate of the start position.
+ * @param {number} startY - The y coordinate of the start position.
+ * @param {number} endX - The x coordinate of the end position.
+ * @param {number} endY - The y coordinate of the end position.
  * @return {Array.<[number, number]>} The path, including both start and 
  *     end positions.
  */
-PF.AStarFinder.prototype.findPath = function() {
+PF.AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
+    this.init(startX, startY, endX, endY, grid);
+
     var x, y,
         nx, ny, 
         sx = this.startX,
