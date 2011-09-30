@@ -1,11 +1,8 @@
 /**
- * @requires PF.Heap
- */
-
-/**
  * A* path-finder.
  * @constructor
  * @extends PF.BaseFinder
+ * @requires PF.Heap
  * @param {function(number, number): number} [heuristic] - Heuristic function
  *     being used to estimate the distance(defaults to manhattan).
  * @example
@@ -22,7 +19,6 @@
  * function(dx, dy) {
  *     return Math.min(dx, dy);
  * }
- *
  */
 PF.AStarFinder = function(heuristic) {
     PF.BaseFinder.call(this);
