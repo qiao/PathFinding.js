@@ -20,8 +20,8 @@ function pathTest(finderName) {
                 describe('test ' + ++testId, function() {
                     it('should solve it', function() {
                         finder = new finderClass;
-                        finder.init(startX, startY, endX, endY, grid);
-                        expect(finder.findPath().length).toBe(expectedLength)
+                        expect(finder.findPath(startX, startY, endX, endY, grid).length)
+                            .toBe(expectedLength)
                     });
                 });
             };

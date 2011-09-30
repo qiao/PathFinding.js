@@ -3,11 +3,6 @@
  * This class SHOULD NOT be directly instantiated, as it does not provide 
  * any path-finding algorithms or methods and is intended to be extended 
  * by all the other path-finder classes.
- *
- * Note: The constructor does NOT receive any arguments for instantiation.
- *     All the parameters should be passed in in the `init` method.
- *     Therefore, you only need to instantiate this class once, and call
- *     the `init` method each time you start a new path-finding.
  * @constructor
  */
 PF.BaseFinder = function() {
@@ -27,6 +22,7 @@ PF.BaseFinder = function() {
  * @param {number} startY - The y coordinate of the start position.
  * @param {number} endX - The x coordinate of the end position.
  * @param {number} endY - The y coordinate of the end position.
+ * @protected
  */
 PF.BaseFinder.prototype.init = function(startX, startY, endX, endY, grid) {
     this.startX = startX;
@@ -103,10 +99,14 @@ PF.BaseFinder.prototype.constructor = PF.BaseFinder;
 /**
  * Find and return the the path.
  * NOTE: This method is intended to be overriden by sub-classes.
+ * @param {number} startX - The x coordinate of the start position.
+ * @param {number} startY - The y coordinate of the start position.
+ * @param {number} endX - The x coordinate of the end position.
+ * @param {number} endY - The y coordinate of the end position.
  * @return {Array.<[number, number]>} The path, including both start and 
  *     end positions.
  */
-PF.BaseFinder.prototype.findPath = function() {
+PF.BaseFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     throw new Error('Not Implemented Error: ' + 
         'Sub-classes must implement this method');
 };
