@@ -34,12 +34,26 @@ describe('modules/Heap.js', function() {
      * @param {Array} array The array to sort.
      * @return {Array} The sorted array.
      */
-    var heapSort = function(array) {
+    var heapSort1 = function(array) {
         var heap = new PF.Heap(),
             ret = [];
         array.forEach(function(v, i, a) {
             heap.push(v); 
         });
+        while (!heap.isEmpty()) {
+            ret.push(heap.pop());
+        }
+        return ret;
+    };
+
+
+    var heapSort2 = function(array) {
+        var heap = new PF.Heap(),
+            ret = [];
+
+        heap.heap = array;
+        heap.heapify();
+
         while (!heap.isEmpty()) {
             ret.push(heap.pop());
         }
@@ -63,14 +77,17 @@ describe('modules/Heap.js', function() {
     };
 
     var test = function(size) {
-        var a, b;
+        var a, b, c;
         a = randomArray(size);
         b = copyArray(a);
+        c = copyArray(a);
 
-        b.sort(function(x, y) {
+        a.sort(function(x, y) {
             return x - y;
         });
-        a = heapSort(a);
+        b = heapSort1(b);
+        c = heapSort2(c);
+
 
         if (!sameArray(a, b)) {
             console.log(a);
@@ -78,6 +95,7 @@ describe('modules/Heap.js', function() {
         }
 
         expect(sameArray(a, b)).toBeTruthy();
+        expect(sameArray(a, c)).toBeTruthy();
     };
 
     var numTests = 10, size = 100;
