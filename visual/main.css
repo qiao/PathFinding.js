@@ -1,0 +1,25 @@
+body {
+    background-color: #333;
+    color: #dadada;
+}
+
+h1 {
+    margin: 5px;
+}
+
+#wrapper {
+    width: 95%;
+    margin: 5px auto;
+}
+
+#draw_area {
+    float: left;
+    height: 600px;
+}
+
+#control_panel {
+    float: right;
+    height: 600px;
+    width: 350px;
+    border: solid 1px #aaa;
+}
