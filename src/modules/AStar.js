@@ -46,8 +46,8 @@ PF.AStarFinder.prototype.constructor = PF.AStarFinder;
  *     end positions.
  */
 PF.AStarFinder.prototype.find = function() {
-    var x, y,
-        nx, ny, 
+    var x, y,    // current x, y
+        nx, ny,  // next x, y
         sx = this.startX,
         sy = this.startY,
         ex = this.endX,
@@ -57,9 +57,15 @@ PF.AStarFinder.prototype.find = function() {
         xOffsets = [-1, 0, 0, 1],
         yOffsets = [0, -1, 1, 0],
 
-        openList = new PF.Heap(function(a, b) {
-            return grid.getAttributeAt(a[0], a[1], 'f') < 
-                   grid.getAttributeAt(b[0], b[1], 'f');
+        openList = new PF.Heap(function(pos_a, pos_b) {
+            var fa = grid.getAttributeAt(pos_a[0], pos_a[1], 'f'),
+                fb = grid.getAttributeAt(pos_b[0], pos_b[1], 'f');
+            if (fa != fb) {
+                return fa < fb;
+            } else {
+                return grid.getAttributeAt(pos_a[0], pos_a[1], 'h') <
+                       grid.getAttributeAt(pos_b[0], pos_b[1], 'h');
+            }
         }),
         node;
 
@@ -82,6 +88,9 @@ PF.AStarFinder.prototype.find = function() {
         y = pos[1];
         grid.setAttributeAt(x, y, 'closed', true);
 
+        //XXX: debugline
+        //console.log(grid.getAttributeAt(x, y, 'f'));
+
         // if reached the end position, construct the path and return it
         if (x == ex && y == ey) {
             return this._constructPath();
@@ -99,6 +108,7 @@ PF.AStarFinder.prototype.find = function() {
         }
     }
 
+    // fail to find the path
     return [];
 };
 
@@ -149,12 +159,14 @@ PF.AStarFinder.prototype._inspectNodeAt = function(x, y, px, py) {
     }
 
     if (node.get('opened')) {
-        //
+        if (this._tryUpdate(x, y, px, py)) {
+            openList.heapify();
+        }
     } else {
         node.set('opened', true);
+        this._tryUpdate(x, y, px, py);
         openList.push([x, y]);
     }
-    this._tryUpdate(x, y, px, py);
 };
 
 
@@ -172,14 +184,14 @@ PF.AStarFinder.prototype._inspectNodeAt = function(x, y, px, py) {
 PF.AStarFinder.prototype._tryUpdate = function(x, y, px, py) {
     var grid = this.grid,
         pNode = grid.getNodeAt(px, py), // parent node
-        ng = pNode.g + 1; // next `g` value
+        ng = pNode.get('g') + 1; // next `g` value
         node = grid.getNodeAt(x, y);
 
     if (node.get('g') === undefined || ng < node.get('g')) {
         node.set('parent', [px, py]);
         node.set('g', ng);
         node.set('h', this._calculateH(x, y));
-        node.set('f', node.g + node.h);
+        node.set('f', node.get('g') + node.get('h'));
         return true;
     }
     return false;
