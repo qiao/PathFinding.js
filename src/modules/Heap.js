@@ -114,6 +114,18 @@ PF.Heap.prototype.pushpop = function(item) {
 
 
 /**
+ * Heapify the heap.
+ * This method may be used when the internal data is modified.
+ */
+PF.Heap.prototype.heapify = function() {
+    var i, len = this.heap.length;
+    for (i = Math.floor(len / 2) - 1; i >= 0; --i) {
+        this._siftUp(i);
+    }
+};
+
+
+/**
  * Sift down the possibly out-of-order value.
  * @param {number} startPos Start index of the array as a heap.
  * @param {number} pos Index of the leaf with possiblly out-of-order value.
