@@ -1,2 +1,1 @@
-basicTest('AStar');
 pathTest('AStar');

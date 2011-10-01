@@ -28,7 +28,11 @@ describe('core/BaseFinder.js', function() {
         width = matrix[0].length;
         grid = new PF.Grid(width, height, matrix);
         baseFinder = new PF.BaseFinder();
-        baseFinder.init(startX, startY, endX, endY, grid);
+        try { 
+            baseFinder.findPath(startX, startY, endX, endY, grid);
+        } catch(err) {
+            ; 
+        }    
     });
 
     it('should be generated', function() {

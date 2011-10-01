@@ -40,29 +40,8 @@ PF.AStarFinder.prototype.constructor = PF.AStarFinder;
 
 
 /**
- * Initiate the path-finder by providing the coordinates and the grid.
- * @param {number} startX - The x coordinate of the start position.
- * @param {number} startY - The y coordinate of the start position.
- * @param {number} endX - The x coordinate of the end position.
- * @param {number} endY - The y coordinate of the end position.
- * @param {PF.Grid} grid - The grid holding the nodes' status.
- * @private
- */
-PF.AStarFinder.prototype.init = function(startX, startY, endX, endY, grid) {
-    PF.BaseFinder.prototype.init.call(this, startX, startY, endX, endY, grid);
-
-    var grid = this.grid;
-
-    this.openList = new PF.Heap(function(a, b) {
-        return grid.getAttributeAt(a[0], a[1], 'f') < 
-               grid.getAttributeAt(b[0], b[1], 'f');
-    });
-};
-
-
-/**
  * Find and return the the path.
- * NOTE: This method is intended to be overriden by sub-classes.
+ * @private
  * @param {number} startX - The x coordinate of the start position.
  * @param {number} startY - The y coordinate of the start position.
  * @param {number} endX - The x coordinate of the end position.
@@ -71,21 +50,25 @@ PF.AStarFinder.prototype.init = function(startX, startY, endX, endY, grid) {
  * @return {Array.<[number, number]>} The path, including both start and 
  *     end positions.
  */
-PF.AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
-    this.init(startX, startY, endX, endY, grid);
-
+PF.AStarFinder.prototype.find = function(startX, startY, endX, endY, grid) {
     var x, y,
         nx, ny, 
         sx = this.startX,
         sy = this.startY,
         ex = this.endX,
         ey = this.endY,
-        openList = this.openList,
         grid = this.grid,
-        node;
 
         xOffsets = [-1, 0, 0, 1],
-        yOffsets = [0, -1, 1, 0];
+        yOffsets = [0, -1, 1, 0],
+
+        openList = new PF.Heap(function(a, b) {
+            return grid.getAttributeAt(a[0], a[1], 'f') < 
+                   grid.getAttributeAt(b[0], b[1], 'f');
+        }),
+        node;
+
+    this.openList = openList;
     
     // set the `g` and `f` value of the start node to be 0
     node = grid.getNodeAt(sx, sy);
