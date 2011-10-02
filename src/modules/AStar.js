@@ -89,7 +89,7 @@ PF.AStarFinder.prototype.find = function() {
         grid.setAttributeAt(x, y, 'closed', true);
 
         // XXX: DEBUG
-        console.log(grid.getAttributeAt(x, y, 'f'));
+        //console.log(grid.getAttributeAt(x, y, 'f'));
 
         // if reached the end position, construct the path and return it
         if (x == ex && y == ey) {

@@ -14,14 +14,14 @@ PF.Heap = function(cmpFunc) {
     /**
      * Comparison function.
      * @type {function(*, *): boolean}
-     * @private
+     * @ignore
      */
     this._cmp = cmpFunc || function(a, b) {return a < b;};
 
     /**
      * An array as a heap.
      * @type {Array.<*>}
-     * @private
+     * @ignore
      */
     this._heap = [];
 };
@@ -68,7 +68,7 @@ PF.Heap.prototype.push = function(item) {
 PF.Heap.prototype.pop = function() {
     var heap, lastItem, returnItem;
     
-    heap= this._heap;
+    heap = this._heap;
     lastItem = heap.pop();
 
     if (heap.length) {
@@ -118,7 +118,7 @@ PF.Heap.prototype.pushpop = function(item) {
  * This method may be used when the internal data is modified.
  */
 PF.Heap.prototype.heapify = function() {
-    var i, len = this.heap.length;
+    var i, len = this._heap.length;
     for (i = Math.floor(len / 2) - 1; i >= 0; --i) {
         this._siftUp(i);
     }
