@@ -51,7 +51,7 @@ PF.BreadthFirstFinder.prototype.find = function() {
         x = pos[0]; 
         y = pos[1];
         grid.setAttributeAt(x, y, 'closed', true);
-        
+
         if (x == ex && y == ey) {
             return this._constructPath();
         }
@@ -66,6 +66,9 @@ PF.BreadthFirstFinder.prototype.find = function() {
             }
         }
     }
+    
+    // fail to find the path
+    return [];
 };
 
 
@@ -80,12 +83,14 @@ PF.BreadthFirstFinder.prototype.find = function() {
  * @param {number} py - The y coordinate of the parent position.
  */
 PF.BreadthFirstFinder.prototype._inspectNodeAt = function(x, y, px, py) {
-    var grid = this.grid;
+    var grid = this.grid,
+        node = grid.getNodeAt(x, y);
 
-    if (grid.getAttributeAt(x, y, 'closed')) {
+    if (node.get('closed') || node.get('opened')) {
         return;
     }
     this.openList.push([x, y]);
+    grid.setAttributeAt(x, y, 'opened', true);
     grid.setAttributeAt(x, y, 'parent', [px, py]);
 }
 
