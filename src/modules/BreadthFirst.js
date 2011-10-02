@@ -26,7 +26,7 @@ PF.BreadthFirstFinder.prototype.constructor = PF.BreadthFirstFinder;
  * @return {Array.<[number, number]>} The path, including both start and 
  *     end positions.
  */
-PF.BreadthFirstFinder.prototype.find = function() {
+PF.BreadthFirstFinder.prototype._find = function() {
     var openList = [],
         pos,
         x, y,    // current x, y
@@ -93,29 +93,3 @@ PF.BreadthFirstFinder.prototype._inspectNodeAt = function(x, y, px, py) {
     grid.setAttributeAt(x, y, 'opened', true);
     grid.setAttributeAt(x, y, 'parent', [px, py]);
 }
-
-
-/**
- * Construct the path according to the nodes' parents.
- * @private
- * @return {Array.<Array.<number>>} The path, including
- *     both start and end positions.
- */
-PF.BreadthFirstFinder.prototype._constructPath = function() {
-    var sx = this.startX, sy = this.startY,
-        x, y,
-        grid = this.grid,
-        path = [[this.endX, this.endY]];
-
-    for (;;) {
-        x = path[0][0];
-        y = path[0][1];
-        if (x == sx && y == sy) {
-            return path;
-        }
-        path.unshift(grid.getAttributeAt(x, y, 'parent'));
-    }
-
-    // it should never reach here.
-    return [];
-};

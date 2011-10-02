@@ -45,7 +45,7 @@ PF.AStarFinder.prototype.constructor = PF.AStarFinder;
  * @return {Array.<[number, number]>} The path, including both start and 
  *     end positions.
  */
-PF.AStarFinder.prototype.find = function() {
+PF.AStarFinder.prototype._find = function() {
     var x, y,    // current x, y
         nx, ny,  // next x, y
         sx = this.startX,
@@ -109,32 +109,6 @@ PF.AStarFinder.prototype.find = function() {
     }
 
     // fail to find the path
-    return [];
-};
-
-
-/**
- * Construct the path according to the nodes' parents.
- * @private
- * @return {Array.<Array.<number>>} The path, including
- *     both start and end positions.
- */
-PF.AStarFinder.prototype._constructPath = function() {
-    var sx = this.startX, sy = this.startY,
-        x, y,
-        grid = this.grid,
-        path = [[this.endX, this.endY]];
-
-    for (;;) {
-        x = path[0][0];
-        y = path[0][1];
-        if (x == sx && y == sy) {
-            return path;
-        }
-        path.unshift(grid.getAttributeAt(x, y, 'parent'));
-    }
-
-    // it should never reach here.
     return [];
 };
 

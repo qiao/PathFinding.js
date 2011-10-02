@@ -104,7 +104,33 @@ PF.BaseFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     this.gridWidth = grid.width;
     this.gridHeight = grid.height;
 
-    return this.find();
+    return this._find();
+};
+
+
+/**
+ * Construct the path according to the nodes' parents.
+ * @protected
+ * @return {Array.<Array.<number>>} The path, including
+ *     both start and end positions.
+ */
+PF.BaseFinder.prototype._constructPath = function() {
+    var sx = this.startX, sy = this.startY,
+        x, y,
+        grid = this.grid,
+        path = [[this.endX, this.endY]];
+
+    for (;;) {
+        x = path[0][0];
+        y = path[0][1];
+        if (x == sx && y == sy) {
+            return path;
+        }
+        path.unshift(grid.getAttributeAt(x, y, 'parent'));
+    }
+
+    // it should never reach here.
+    return [];
 };
 
 
@@ -115,6 +141,6 @@ PF.BaseFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
  * @return {Array.<[number, number]>} The path, including both start and 
  *     end positions.
  */
-PF.BaseFinder.prototype.find = function() {
+PF.BaseFinder.prototype._find = function() {
     throw new Error('Sub-classes must implement this method');
 };
