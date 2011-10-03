@@ -2,8 +2,11 @@ var GridMap = function() {
     this.initHook();
     this.initPaper();
     this.initDispatcher();
+
     this.updateGeometry();
     this.repaint();
+
+    this.registerEventHandlers();
 
     this.startX = 10;
     this.startY = 10;
@@ -28,10 +31,62 @@ GridMap.prototype = {
     },
 
 
+    // register the event handlers.
+    registerEventHandlers: function() {
+        var self = this;
+
+        $('#draw_area').mousedown(function(event) {
+            var coord, x, y;
+            self.isDrawing = true;
+
+            coord = self.toGridCoordinate(event.pageX, event.pageY);
+            x = coord[0]; y = coord[1];
+
+            self.drawStatus = self.grid.isWalkableAt(x, y) ? 'block' : 'clear';
+
+            self.toggleNodeAt(x, y);
+
+        }).mousemove(function(event) {
+            var coord, x, y;
+
+            if (!self.isDrawing) {
+                return;
+            }
+
+            coord = self.toGridCoordinate(event.pageX, event.pageY);
+            x = coord[0]; y = coord[1];
+
+            self.toggleNodeAt(x, y);
+
+        }).mouseup(function(event) {
+            self.isDrawing = false;
+        });
+    },
+
+
     // initialize the drawing area
     initPaper: function() {
         this.paper = Raphael('draw_area', 0, 0);
         this.gridSize = 30;
+    },
+
+
+    // colorize the node at the given position in the given color
+    colorizeNode: function(x, y, color) {
+        this.rects[y][x].animate({
+            fill: color,
+        }, 10);
+    },
+
+
+    toggleNodeAt: function(x, y) {
+        if (this.drawStatus == 'block') {
+            this.grid.setWalkableAt(x, y, false);
+            this.colorizeNode(x, y, 'grey');
+        } else {
+            this.grid.setWalkableAt(x, y, true);
+            this.colorizeNode(x, y, 'white');
+        }
     },
 
 
@@ -40,13 +95,6 @@ GridMap.prototype = {
         var colorizeNode,
             drawParent,
             self = this;
-
-        // colorize the node at the given position in the given color
-        colorizeNode = function(x, y, color) {
-            self.rects[y][x].animate({
-                fill: color,
-            }, 10)
-        };
 
         // draw a line pointing from a node to its parent
         drawParent = function(x, y, parentCoord) {
@@ -59,13 +107,20 @@ GridMap.prototype = {
         // dispatcher for path-finding operations
         this.dispatcher = {
             opened: function(x, y) {
-                colorizeNode(x, y, '#98fb98');
+                self.colorizeNode(x, y, '#98fb98');
             },
             closed: function(x, y) {
-                colorizeNode(x, y, '#afeeee');
+                self.colorizeNode(x, y, '#afeeee');
             },
             parent: drawParent,
         };
+    },
+
+
+    // convert the page coordinate to grid coordinate
+    toGridCoordinate: function(pageX, pageY) {
+        var size = this.gridSize;
+        return [Math.floor(pageX / size), Math.floor(pageY / size)];
     },
 
 
@@ -139,11 +194,13 @@ GridMap.prototype = {
     // start the path-finding procedure.
     start: function() {
         // find the path
+        console.time('path-fiding');
         this.path = this.finder.findPath(
             this.startX, this.startY, 
             this.endX, this.endY, 
             this.grid
         );
+        console.timeEnd('path-finding');
 
         // replay the procedure
         this.replay(); 
@@ -167,6 +224,7 @@ GridMap.prototype = {
     
     // step the replay procedure
     step: function(callback) {
+        console.log('step');
         var queue, front,
             rects,
             dispatcher,
@@ -178,20 +236,21 @@ GridMap.prototype = {
         rects = this.rects;
         queue = this.queue;
 
-        if (!queue.length) {
-            callback();
-            return;
-        }
-        front = queue.shift();
-        x = front[0];
-        y = front[1];
-        attr = front[2][0];
-        value = front[2][1];
+        do {
+            if (!queue.length) {
+                callback();
+                return;
+            }
+            front = queue.shift();
+            x = front[0];
+            y = front[1];
+            attr = front[2][0];
+            value = front[2][1];
 
-        func = dispatcher[attr];
-        if (func) {
-            func(x, y, value);
-        }
+            func = dispatcher[attr];
+        } while (!func);
+
+        func(x, y, value);
     },
 
 
