@@ -5,13 +5,12 @@ var Demo = function() {
     this.updateGeometry();
     this.repaint();
 
-    this.startX = 0;
-    this.startY = 0;
-    this.endX = 0;
-    this.endY = 0;
-    this.finder = new PF.AStarFinder(PF.AStarFinder.euclidean);
+    this.startX = 10;
+    this.startY = 10;
+    this.endX = 20;
+    this.endY = 10;
     this.queue = [];
-    this.interval = 5;
+    this.interval = 2;
 };
 
 
@@ -42,7 +41,7 @@ Demo.prototype = {
         colorizeNode = function(x, y, color) {
             self.rects[y][x].animate({
                 fill: color,
-            }, 20)
+            }, 10)
         };
 
         drawParent = function(x, y, coord) {
@@ -70,29 +69,25 @@ Demo.prototype = {
      * when the window geometry is modified.
      */
     updateGeometry: function() {
-        var availableWidth,
-            availableHeight,
-            paperWidth,
-            paperHeight,
-            numRows,
-            numCols;
-        
-        // calculate paper geometry
-        availableWidth = $('#wrapper').width() - $('#control_panel').width();
-        availableHeight = $(window).height() - $('#title').height();
+        var width, height,
+            paperWidth, paperHeight,
+            numRows, numCols,
+            gridSize = this.gridSize;
 
-        numCols = Math.floor((availableWidth - 20) / this.gridSize);
-        numRows = Math.floor((availableHeight - 20) / this.gridSize);
+        width = $(window).width();
+        height = $(window).height();
 
-        paperWidth = numCols * this.gridSize;
-        paperHeight = numRows * this.gridSize;
+        numCols = Math.ceil(width / gridSize);
+        numRows = Math.ceil(height / gridSize);
+
+        paperWidth = numCols * gridSize;
+        paperHeight = numRows * gridSize;
 
         // update geometry
         this.paper.setSize(paperWidth, paperHeight);
 
         // update grid
         this.grid = new PF.Grid(numCols, numRows);
-        console.log('update');
     },
 
 
@@ -125,8 +120,17 @@ Demo.prototype = {
     },
 
 
+    setFinder: function(finder) {
+        this.finder = finder;
+    },
+
+
     start: function() {
-        this.path = this.finder.findPath(0, 0, 10, 10, this.grid);
+        this.path = this.finder.findPath(
+            this.startX, this.startY, 
+            this.endX, this.endY, 
+            this.grid
+        );
 
         this.replay(); 
     },
@@ -137,7 +141,7 @@ Demo.prototype = {
 
         this.timer = setInterval(function() {
             self.step(function() {
-                clearInterval(this.timer);
+                clearInterval(self.timer);
                 self.drawPath();
             });
         }, this.interval);
@@ -183,6 +187,7 @@ Demo.prototype = {
 
     
     buildSvgPath: function(path) {
+        return;
         var i, strs = [], size = this.gridSize;
 
         strs.push('M' + (path[0][0] * size + size / 2) + ' ' 
@@ -194,13 +199,45 @@ Demo.prototype = {
 
         return strs.join('');
     },
-
 };
+
+
+
+var Control = function(demo) {
+    this.demo = demo;
+
+    this.initFinderDispatcher();
+    this.initUI();
+};
+
+
+Control.prototype = {
+    initFinderDispatcher: function() {
+        this.finderDispatcher = {
+            
+        };
+    },
+
+
+    initUI: function() {
+        var self = this;
+
+        $('#control_panel').draggable();
+
+        $('#start_button').click(function() {
+            self.demo.start();
+        });
+
+        $('.accordion').accordion({
+            collapsible: true
+        });
+    },
+}
 
 
 $(function() {
     var demo = new Demo();
-    demo.start();
+    var control = new Control(demo);
 
     $(window).resize(function() {
         demo.updateGeometry();

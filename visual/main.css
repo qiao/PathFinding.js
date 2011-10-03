@@ -1,25 +1,42 @@
 body {
-    background-color: #333;
-    color: #dadada;
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
 }
 
-h1 {
-    margin: 5px;
+input[type="radio"] {
 }
 
-#wrapper {
-    width: 95%;
-    margin: 5px auto;
-}
-
-#draw_area {
-    float: left;
-    height: 600px;
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 2px;
 }
 
 #control_panel {
-    float: right;
-    height: 600px;
-    width: 350px;
-    border: solid 1px #aaa;
+    position: absolute;
+    width: 250px;
+    right: 20px;
+    top: 20px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border-radius: 15px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+#start_button {
+    display: none;
+    width: 90%;
+    border: none;
+}
+
+.finder_section {
+    border: solid 1px #ddd;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.sub_options {
+    font-size: 90%;
+    margin-left: 30px;
 }
