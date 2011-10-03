@@ -8,8 +8,15 @@ input[type="radio"] {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    margin: 0;
-    padding: 2px;
+    margin: 0px;
+    padding: 0px;
+    font-weight: normal;
+}
+
+.header_title {
+    font-size: 120%;
+    font-weight: bold;
+    padding-bottom: 5px;
 }
 
 #control_panel {
@@ -20,7 +27,7 @@ h1, h2, h3, h4, h5, h6 {
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.6);
     color: #fff;
-    border-radius: 15px;
+    border-radius: 10px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
 
