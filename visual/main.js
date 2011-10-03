@@ -232,7 +232,7 @@ Control.prototype = {
         });
 
         $('.accordion').accordion({
-            collapsible: true
+            collapsible: false,
         });
     },
 
@@ -249,6 +249,12 @@ $(function() {
     var demo = new Demo();
     var control = new Control(demo);
 
+    // suppress select events
+    $(window).bind('selectstart', function(event) {
+        event.preventDefault();
+    });
+
+    // update geometry on window resize
     $(window).resize(function() {
         demo.updateGeometry();
         control.updateGeometry();
