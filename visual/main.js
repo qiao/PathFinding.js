@@ -15,6 +15,7 @@ var GridMap = function() {
 
 
 GridMap.prototype = {
+    // initialize the hook for path-finding algorithms.
     initHook: function() {
         var self = this;
 
@@ -27,30 +28,35 @@ GridMap.prototype = {
     },
 
 
+    // initialize the drawing area
     initPaper: function() {
         this.paper = Raphael('draw_area', 0, 0);
         this.gridSize = 30;
     },
 
 
+    // initialize the dispatcher for path-finding operations
     initDispatcher: function() {
         var colorizeNode,
             drawParent,
             self = this;
 
+        // colorize the node at the given position in the given color
         colorizeNode = function(x, y, color) {
             self.rects[y][x].animate({
                 fill: color,
             }, 10)
         };
 
-        drawParent = function(x, y, coord) {
-            var path = self.buildSvgPath([[x, y], coord]);
+        // draw a line pointing from a node to its parent
+        drawParent = function(x, y, parentCoord) {
+            var path = self.buildSvgPath([[x, y], parentCoord]);
             self.paper.path(path).attr({
                 opacity: 0.4,
             });
         };
 
+        // dispatcher for path-finding operations
         this.dispatcher = {
             opened: function(x, y) {
                 colorizeNode(x, y, '#98fb98');
@@ -91,6 +97,7 @@ GridMap.prototype = {
     },
 
 
+    // repaint the grids according to walkability.
     repaint: function() {
         var i, j,
             x, y,
@@ -98,6 +105,7 @@ GridMap.prototype = {
             paper = this.paper,
             grid = this.grid,
             rect,
+            color,
             rects = [];
 
         for (i = 0; i < grid.height; ++i) {
@@ -107,9 +115,11 @@ GridMap.prototype = {
                 x = j * size;
                 y = i * size;
 
+                color = grid.isWalkableAt(j, i) ? 'white' : 'grey';
+
                 rect = paper.rect(x, y, size, size);
                 rect.attr({
-                    fill: 'white',
+                    fill: color,
                     'stroke-opacity': 0.2,
                 });
                 rects[i][j] = rect;
@@ -120,22 +130,28 @@ GridMap.prototype = {
     },
 
 
+    // set the finder for the algorithm.
     setFinder: function(finder) {
         this.finder = finder;
     },
 
 
+    // start the path-finding procedure.
     start: function() {
+        // find the path
         this.path = this.finder.findPath(
             this.startX, this.startY, 
             this.endX, this.endY, 
             this.grid
         );
 
+        // replay the procedure
         this.replay(); 
     },
 
     
+    // replay the path-finding procedure according to 
+    // the records stored in `this.queue'
     replay: function() {
         var self = this;
 
@@ -149,6 +165,7 @@ GridMap.prototype = {
     },
 
     
+    // step the replay procedure
     step: function(callback) {
         var queue, front,
             rects,
@@ -178,6 +195,7 @@ GridMap.prototype = {
     },
 
 
+    // draw the path.
     drawPath: function() {
         var path = this.buildSvgPath(this.path);
         this.paper.path(path).attr({
@@ -187,6 +205,7 @@ GridMap.prototype = {
     },
 
     
+    // given a path, build its SVG represention.
     buildSvgPath: function(path) {
         var i, strs = [], size = this.gridSize;
 
@@ -225,7 +244,6 @@ Control.prototype = {
 
         $('.control_panel').draggable();
 
-
         $('#start_button').click(function() {
             self.gridMap.finder = new PF.AStarFinder(PF.AStarFinder.euclidean);
             self.gridMap.start();
@@ -237,9 +255,11 @@ Control.prototype = {
     },
 
 
+    // update the widgets' geometries on window resize
     updateGeometry: function() {
+        var BOTTOM_MARGIN = 40;
         (function($ele) {
-            $ele.css('top', $(window).height() - $ele.outerHeight() - 40 + 'px');
+            $ele.css('top', $(window).height() - $ele.outerHeight() - BOTTOM_MARGIN + 'px');
         })($('#play_panel'));
     },
 }
