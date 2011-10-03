@@ -80,6 +80,7 @@ GridMap.prototype = {
     },
 
 
+    // toggle the walkability of node at the given coordinate
     toggleNodeAt: function(x, y) {
         if (this.drawStatus == 'block') {
             this.grid.setWalkableAt(x, y, false);
@@ -93,6 +94,7 @@ GridMap.prototype = {
     },
 
 
+    // zoom the node at the given coordinate
     zoomNodeAt: function(x, y) {
         var gridSize = this.gridSize,
             rect = this.rects[y][x];
@@ -209,14 +211,20 @@ GridMap.prototype = {
 
     // start the path-finding procedure.
     start: function() {
+        var timeStart, timeEnd, msSpent;
+        
+        timeStart = new Date();
         // find the path
-        console.time('path-fiding');
         this.path = this.finder.findPath(
             this.startX, this.startY, 
             this.endX, this.endY, 
             this.grid
         );
-        console.timeEnd('path-finding');
+
+        timeEnd = new Date();
+        msSpent = (timeEnd.getMilliseconds() - timeStart.getMilliseconds());
+
+        console.log(msSpent);
 
         // replay the procedure
         this.replay(); 
@@ -240,7 +248,6 @@ GridMap.prototype = {
     
     // step the replay procedure
     step: function(callback) {
-        console.log('step');
         var queue, front,
             rects,
             dispatcher,
@@ -276,8 +283,15 @@ GridMap.prototype = {
 
     // draw the path.
     drawPath: function() {
-        var path = this.buildSvgPath(this.path);
-        this.paper.path(path).attr({
+        var path, svgPath;
+        
+        path = this.path;
+        if (!path.length) {
+            return;
+        }
+
+        svgPath = this.buildSvgPath(path);
+        this.paper.path(svgPath).attr({
             stroke: 'yellow',
             'stroke-width': 3,
         });
