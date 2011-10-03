@@ -53,10 +53,10 @@ Demo.prototype = {
 
         this.dispatcher = {
             opened: function(x, y) {
-                colorizeNode(x, y, '#abf26d');
+                colorizeNode(x, y, '#98fb98');
             },
             closed: function(x, y) {
-                colorizeNode(x, y, '#61b7cf');
+                colorizeNode(x, y, '#afeeee');
             },
             parent: drawParent,
         };
@@ -181,13 +181,13 @@ Demo.prototype = {
     drawPath: function() {
         var path = this.buildSvgPath(this.path);
         this.paper.path(path).attr({
-            stroke: 'yellow'
+            stroke: 'yellow',
+            'stroke-width': 3,
         });
     },
 
     
     buildSvgPath: function(path) {
-        return;
         var i, strs = [], size = this.gridSize;
 
         strs.push('M' + (path[0][0] * size + size / 2) + ' ' 
@@ -208,6 +208,7 @@ var Control = function(demo) {
 
     this.initFinderDispatcher();
     this.initUI();
+    this.updateGeometry();
 };
 
 
@@ -222,15 +223,24 @@ Control.prototype = {
     initUI: function() {
         var self = this;
 
-        $('#control_panel').draggable();
+        $('.control_panel').draggable();
+
 
         $('#start_button').click(function() {
+            self.demo.finder = new PF.AStarFinder(PF.AStarFinder.euclidean);
             self.demo.start();
         });
 
         $('.accordion').accordion({
             collapsible: true
         });
+    },
+
+
+    updateGeometry: function() {
+        (function($ele) {
+            $ele.css('top', $(window).height() - $ele.outerHeight() - 40 + 'px');
+        })($('#play_panel'));
     },
 }
 
@@ -241,5 +251,6 @@ $(function() {
 
     $(window).resize(function() {
         demo.updateGeometry();
+        control.updateGeometry();
     });
 });

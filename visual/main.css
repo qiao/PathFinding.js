@@ -19,22 +19,39 @@ h1, h2, h3, h4, h5, h6 {
     padding-bottom: 5px;
 }
 
-#control_panel {
+.control_panel {
     position: absolute;
-    width: 250px;
-    right: 20px;
-    top: 20px;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.6);
     color: #fff;
-    border-radius: 10px;
+    border-radius: 8px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
 
-#start_button {
-    display: none;
-    width: 90%;
+#algorithm_panel {
+    width: 250px;
+    right: 40px;
+    top: 40px;
+}
+
+#play_panel {
+    width: 250px;
+    right: 40px;
+}
+
+button {
     border: none;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+    padding: 2px 10px;
+    font-size: 90%;
+}
+
+button:hover {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+#start_button {
 }
 
 .finder_section {
