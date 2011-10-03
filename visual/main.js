@@ -3,8 +3,6 @@ var GridMap = function() {
     this.initPaper();
     this.initDispatcher();
 
-    this.updateGeometry();
-    this.repaint();
 
     this.registerEventHandlers();
 
@@ -68,6 +66,9 @@ GridMap.prototype = {
     initPaper: function() {
         this.paper = Raphael('draw_area', 0, 0);
         this.gridSize = 30;
+
+        this.updateGeometry();
+        this.repaint();
     },
 
 
@@ -75,7 +76,7 @@ GridMap.prototype = {
     colorizeNode: function(x, y, color) {
         this.rects[y][x].animate({
             fill: color,
-        }, 10);
+        }, 50);
     },
 
 
@@ -87,6 +88,21 @@ GridMap.prototype = {
             this.grid.setWalkableAt(x, y, true);
             this.colorizeNode(x, y, 'white');
         }
+
+        this.zoomNodeAt(x, y);
+    },
+
+
+    zoomNodeAt: function(x, y) {
+        var gridSize = this.gridSize,
+            rect = this.rects[y][x];
+        window.rect = rect;
+
+        rect.toFront().attr({
+            transform: 's1.2',
+        }).animate({
+            transform: 's1.0',
+        }, 100)
     },
 
 
@@ -228,7 +244,7 @@ GridMap.prototype = {
         var queue, front,
             rects,
             dispatcher,
-            func,
+            handler,
             x, y,
             attr, value,
 
@@ -236,6 +252,10 @@ GridMap.prototype = {
         rects = this.rects;
         queue = this.queue;
 
+        // take the operation element from the queue.
+        // If the operation is not defined in the dispatcher
+        // then take the next one, until we find a match or the
+        // queue is empty.
         do {
             if (!queue.length) {
                 callback();
@@ -247,10 +267,10 @@ GridMap.prototype = {
             attr = front[2][0];
             value = front[2][1];
 
-            func = dispatcher[attr];
-        } while (!func);
+            handler = dispatcher[attr];
+        } while (!handler);
 
-        func(x, y, value);
+        handler(x, y, value);
     },
 
 
@@ -286,7 +306,6 @@ var Control = function(gridMap) {
 
     this.initFinderDispatcher();
     this.initUI();
-    this.updateGeometry();
 };
 
 
@@ -311,6 +330,8 @@ Control.prototype = {
         $('.accordion').accordion({
             collapsible: false,
         });
+
+        this.updateGeometry();
     },
 
 
