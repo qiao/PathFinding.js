@@ -44,7 +44,9 @@ GridMap.prototype = {
 
             self.toggleNodeAt(x, y);
 
-        }).mousemove(function(event) {
+        });
+        
+        $(window).mousemove(function(event) {
             var coord, x, y;
 
             if (!self.isDrawing) {
