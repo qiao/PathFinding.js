@@ -1,4 +1,4 @@
-var Demo = function() {
+var GridMap = function() {
     this.initHook();
     this.initPaper();
     this.initDispatcher();
@@ -14,7 +14,7 @@ var Demo = function() {
 };
 
 
-Demo.prototype = {
+GridMap.prototype = {
     initHook: function() {
         var self = this;
 
@@ -203,8 +203,8 @@ Demo.prototype = {
 
 
 
-var Control = function(demo) {
-    this.demo = demo;
+var Control = function(gridMap) {
+    this.gridMap = gridMap;
 
     this.initFinderDispatcher();
     this.initUI();
@@ -227,8 +227,8 @@ Control.prototype = {
 
 
         $('#start_button').click(function() {
-            self.demo.finder = new PF.AStarFinder(PF.AStarFinder.euclidean);
-            self.demo.start();
+            self.gridMap.finder = new PF.AStarFinder(PF.AStarFinder.euclidean);
+            self.gridMap.start();
         });
 
         $('.accordion').accordion({
@@ -246,8 +246,8 @@ Control.prototype = {
 
 
 $(function() {
-    var demo = new Demo();
-    var control = new Control(demo);
+    var gridMap = new GridMap();
+    var control = new Control(gridMap);
 
     // suppress select events
     $(window).bind('selectstart', function(event) {
@@ -256,7 +256,7 @@ $(function() {
 
     // update geometry on window resize
     $(window).resize(function() {
-        demo.updateGeometry();
+        gridMap.updateGeometry();
         control.updateGeometry();
     });
 });
