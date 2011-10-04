@@ -1,17 +1,259 @@
+// used by Observer pattern
+var Notification = function(sender) {
+    this._sender = sender;
+    this._listeners = [];
+};
+
+Notification.prototype = {
+    attach: function(listener) {
+        this._listeners.push(listener);
+    },
+
+    notify: function() {
+        this._listeners.forEach(function(listener) {
+            listener();
+        });
+    },
+};
+
+
+window.GridModel = {
+    sizeChange: new Notification(this),
+    attrChange: new Notification(this),
+    startPosChange: new Notification(this),
+    endPosChange: new Notification(this),
+
+
+    getWidth: function() {
+        return this._grid.width;
+    },
+    getHeight: function() {
+        return this._grid.height;
+    },
+    setSize: function(width, height) {
+        this._grid = new PF.Grid(width, height);
+        this.sizeChange.notify();
+    },
+
+    isWalkableAt: function(x, y) {
+        return this._grid.isWalkableAt(x, y);
+    },
+
+
+    getAttributeAt: function(x, y, attr) {
+        return this._grid.getAttributeAt(x, y, attr);
+    },
+    setAttributeAt: function(x, y, attr, value) {
+        this._grid.setAttributeAt(x, y, attr, value);
+        this.attrChange.notify();
+    },
+
+
+    getStartX: function() {
+        return this._startX;
+    },
+    getStartY: function() {
+        return this._startY;
+    },
+    setStartPos: function(x, y) {
+        this._startX = x;
+        this._startY = y;
+        this.startPosChange.notify();
+    },
+
+    getEndX: function() {
+        return this._endX;
+    },
+    getEndY: function() {
+        return this._endY;
+    },
+    setEndPos: function(x, y) {
+        this._endX = x;
+        this._endY = y;
+        this.endPosChange.notify();
+    },
+
+
+};
+
+
+window.GridView = {
+    // option fields
+    nodeSize: 30,
+    normalNodeAttr: {
+        fill: 'white',
+        'stroke-opacity': 0.2,
+    },
+    blockNodeAttr: {
+        fill: 'grey',
+        'stroke-opacity': 0.2,
+    },
+    startNodeAttr: {
+        fill: 'green',
+        'stroke-opacity': 0.2,
+    },
+    endNodeAttr: {
+        fill: 'red',
+        'stroke-opacity': 0.2,
+    },
+
+    // general initialization
+    init: function(width, height) {
+        this.initPaper();
+        this.initListeners();
+    },
+
+    // listeners of model notifications
+    initListeners: function() {
+        var self = this;
+
+        GridModel.sizeChange.attach(function() {
+            console.debug('resize view');
+            self.setSize(GridModel.getWidth(), GridModel.getHeight());
+        });
+        GridModel.startPosChange.attach(function() {
+            console.debug('start pos change')
+            self.setStartPos(GridModel.getStartX(), GridModel.getStartY());
+        });
+        GridModel.endPosChange.attach(function() {
+            console.debug('end pos change')
+            self.setEndPos(GridModel.getEndX(), GridModel.getEndY());
+        });
+    },
+
+    // initialize paper
+    initPaper: function() {
+        this.paper = Raphael('draw_area');
+        this.setSize();
+    },
+
+    // set paper size
+    setSize: function(width, height) {
+        var i, j,
+            x, y,
+            nodeSize = this.nodeSize,
+            paper = this.paper,
+            rect, 
+            rects = [];
+
+        this.paper.setSize(
+            nodeSize * width,
+            nodeSize * height
+        );
+
+        for (i = 0; i < height; ++i) {
+            rects[i] = [];
+
+            for (j = 0; j < width; ++j) {
+                x = j * nodeSize;
+                y = i * nodeSize;
+
+
+                rect = paper.rect(x, y, nodeSize, nodeSize);
+                rect.attr(
+                    GridModel.isWalkableAt(j, i) ? 
+                    this.normalNodeAttr : 
+                    this.blockNodeAttr
+                );
+                rects[i][j] = rect;
+            }
+        }
+
+        this.rects = rects;
+    },
+
+    setStartPos: function(x, y) {
+        this.setStartEndNodePos('start', x, y);
+    },
+    setEndPos: function(x, y) {
+        this.setStartEndNodePos('end', x, y);
+    },
+    // helper function to set start or end position
+    setStartEndNodePos: function(which, x, y) {
+        var pos = this.toPageCoordinate(x, y),
+            pageX = pos.x,
+            pageY = pos.y,
+            nodeSize = this.nodeSize,
+            paper = this.paper,
+            rect = this['_' + which + 'Node'];
+
+        if (typeof rect == 'undefined') {
+            rect = paper.rect(pageX, pageY, nodeSize, nodeSize);
+            rect.attr(this[which + 'NodeAttr']);
+            this['_' + which + 'Node'] = rect;
+        } else {
+            rect.attr({
+                x: pageX,
+                y: pageY,
+            });
+        }
+    },
+
+
+    // helper function to convert the page coordinate to grid coordinate
+    toGridCoordinate: function(pageX, pageY) {
+        var nodeSize = this.nodeSize;
+        return {
+            x: Math.floor(pageX / nodeSize), 
+            y: Math.floor(pageY / nodeSize)
+        };
+    },
+
+
+    // helper function to convert the grid coordinate to page coordinate
+    toPageCoordinate: function(gridX, gridY) {
+        var nodeSize = this.nodeSize;
+        return {
+            x: gridX * nodeSize, 
+            y: gridY * nodeSize
+        };
+    },
+
+};
+
+
+window.GridController = {
+    init: function() {
+        this.initGeometry();
+        this.initStartEndPos();
+    },
+
+    initGeometry: function() {
+        var width, height,
+            nodeSize = GridView.nodeSize;
+
+        width = $(window).width();
+        height = $(window).height();
+
+        numCols = Math.ceil(width / nodeSize);
+        numRows = Math.ceil(height / nodeSize);
+        
+        GridModel.setSize(numCols, numRows);
+    },
+
+    initStartEndPos: function() {
+        GridModel.setStartPos(10, 10);
+        GridModel.setEndPos(20, 10);
+    }
+};
+
+
+/*
+//TODO: switch to MVC
 var GridMap = function() {
-    this.initHook();
-    this.initPaper();
-    this.initDispatcher();
-
-
-    this.registerEventHandlers();
-
     this.startX = 10;
     this.startY = 10;
     this.endX = 20;
     this.endY = 10;
+
     this.queue = [];
-    this.interval = 2;
+    this.interval = 50;
+    this.gridSize = 30;
+
+    this.initHook();
+    this.initPaper();
+    this.initDispatcher();
+    this.registerEventHandlers();
 };
 
 
@@ -28,38 +270,46 @@ GridMap.prototype = {
         };
     },
 
-
+    
     // register the event handlers.
     registerEventHandlers: function() {
         var self = this;
 
         $('#draw_area').mousedown(function(event) {
             var coord, x, y;
-            self.isDrawing = true;
 
             coord = self.toGridCoordinate(event.pageX, event.pageY);
             x = coord[0]; y = coord[1];
 
-            self.drawStatus = self.grid.isWalkableAt(x, y) ? 'block' : 'clear';
+            if (x == self.startX && y == self.startY) {
+                self.isMoving = true;
+                self.moving = 'start';
+            } else if (x == self.endX && y == self.endY) {
+                self.isMoving = true;
+                self.moving = 'end';
+            } else {
+                self.isDrawing = true;
+                self.drawStatus = self.grid.isWalkableAt(x, y) ? 'block' : 'clear';
+                self.toggleNodeAt(x, y);
+            }
 
-            self.toggleNodeAt(x, y);
 
         });
         
         $(window).mousemove(function(event) {
             var coord, x, y;
 
-            if (!self.isDrawing) {
-                return;
-            }
-
             coord = self.toGridCoordinate(event.pageX, event.pageY);
             x = coord[0]; y = coord[1];
 
-            self.toggleNodeAt(x, y);
-
+            if (self.isDrawing) {
+                self.toggleNodeAt(x, y);
+            } else if (self.isMoving) {
+                self.moveStartEndNode(self.moving, x, y);
+            }
         }).mouseup(function(event) {
             self.isDrawing = false;
+            self.isMoving = false;
         });
     },
 
@@ -67,10 +317,56 @@ GridMap.prototype = {
     // initialize the drawing area
     initPaper: function() {
         this.paper = Raphael('draw_area', 0, 0);
-        this.gridSize = 30;
-
         this.updateGeometry();
         this.repaint();
+        this.drawStartNode();
+        this.drawEndNode();
+    },
+
+
+    drawStartNode: function() {
+        this.drawStartEndNode('start');
+    },
+
+
+    drawEndNode: function() {
+        this.drawStartEndNode('end');
+    },
+
+
+    drawStartEndNode: function(which) {
+        var coord, x, y, node, size = this.gridSize;
+
+        coord = this.toPageCoordinate(this[which + 'X'], this[which + 'Y']);
+        x = coord[0]; 
+        y = coord[1];
+
+        node = this[which + 'Node'];
+
+        if (typeof node == 'undefined') {
+            this[which + 'Node'] = this.paper.rect(x, y, size, size).attr({
+                fill: which == 'start' ? 'green' : 'red',
+            });
+        } else {
+            node.attr({
+                x: x,
+                y: y,
+            })
+        }
+    },
+
+    
+    moveStartEndNode: function(which, gridX, gridY) {
+        var pageCoord, pageX, pageY;
+        pageCoord = this.toPageCoordinate(gridX, gridY);
+        pageX = pageCoord[0];
+        pageY = pageCoord[1];
+        this[which + 'X'] = gridX;
+        this[which + 'Y'] = gridY;
+        this[which + 'Node'].attr({
+            x: pageX,
+            y: pageY,
+        }).toFront();
     },
 
 
@@ -102,7 +398,11 @@ GridMap.prototype = {
             rect = this.rects[y][x];
         window.rect = rect;
 
-        rect.toFront().attr({
+        if (!((x == this.startX && y == this.startY) ||
+               x == this.endX && y == this.endY)) {
+            rect.toFront();       
+        }
+        rect.attr({
             transform: 's1.2',
         }).animate({
             transform: 's1.0',
@@ -144,11 +444,16 @@ GridMap.prototype = {
     },
 
 
-    /**
-     * Re-calculate the geometry of the drawing area.
-     * This method will be called at initiation and 
-     * when the window geometry is modified.
-     */
+    // convert the grid coordinate to page coordinate
+    toPageCoordinate: function(gridX, gridY) {
+        var size = this.gridSize;
+        return [gridX * size, gridY * size];
+    },
+
+
+      //Re-calculate the geometry of the drawing area.
+      //This method will be called at initiation and 
+      //when the window geometry is modified.
     updateGeometry: function() {
         var width, height,
             paperWidth, paperHeight,
@@ -375,4 +680,10 @@ $(function() {
         gridMap.updateGeometry();
         control.updateGeometry();
     });
+});
+*/
+
+$(function() {
+    GridView.init();
+    GridController.init();
 });
