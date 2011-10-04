@@ -4,6 +4,23 @@ window.GridModel = {
     startPosChange: new Notification(this),
     endPosChange: new Notification(this),
 
+    init: function() {
+        var self = this;
+
+        this._queue = []
+        // add hook on the `set' method of PF.Node
+        var orig = PF.Node.prototype.set;
+        PF.Node.prototype.set = function() {
+            orig.apply(this, arguments);
+            self._queue.push({
+                x: this.x,
+                y: this.y,
+                attr: arguments[0],
+                value: arguments[1],
+            });
+        };
+    },
+
     getWidth: function() {
         return this._grid.width;
     },
@@ -31,9 +48,9 @@ window.GridModel = {
         this.attrChange.notify({
             x: x,
             y: y,
-            attr: 'walkable',
+            attr: attr,
             value: value,
-        })
+        });
     },
 
 
@@ -61,6 +78,22 @@ window.GridModel = {
         this.endPosChange.notify();
     },
 
+    findPath: function(finder) {
+        var path, operations;
+
+        path = finder.findPath(
+            this._startX, this._startY,
+            this._endX, this._endY,
+            this._grid
+        );
+        operations = this._queue;
+
+        return {
+            path: path,
+            operations: operations,
+        };
+    },
+
 
 };
 
@@ -77,11 +110,19 @@ window.GridView = {
         'stroke-opacity': 0.2,
     },
     startNodeAttr: {
-        fill: 'green',
+        fill: '#0d0',
         'stroke-opacity': 0.2,
     },
     endNodeAttr: {
-        fill: 'red',
+        fill: '#e40',
+        'stroke-opacity': 0.2,
+    },
+    openedNodeAttr: {
+        fill: '#98fb98',
+        'stroke-opacity': 0.2,
+    },
+    closedNodeAttr: {
+        fill: '#afeeee',
         'stroke-opacity': 0.2,
     },
     colorizeDuration: 50,
@@ -109,7 +150,7 @@ window.GridView = {
             self.setEndPos(GridModel.getEndX(), GridModel.getEndY());
         });
         GridModel.attrChange.attach(function(args) {
-            self.setAttrAt(args.x, args.y, args.attr, args.value);
+            self.setAttributeAt(args.x, args.y, args.attr, args.value);
         });
 
 
@@ -120,7 +161,8 @@ window.GridView = {
             x = coord.x; y = coord.y;
 
             GridController.onMouseDown(x, y);
-        }).mousemove(function(event) {
+        });
+        $(window).mousemove(function(event) {
             var coord, x, y;
             coord = self.toGridCoordinate(event.pageX, event.pageY);
             x = coord.x; y = coord.y;
@@ -199,19 +241,25 @@ window.GridView = {
             rect.attr({
                 x: pageX,
                 y: pageY,
-            });
+            }).toFront();
         }
     },
 
-    setAttrAt: function(x, y, attr, value) {
+    setAttributeAt: function(x, y, attr, value) {
         if (attr == 'walkable') {
             if (value == true) {
                 this.colorizeNodeAt(x, y, this.normalNodeAttr.fill);
             } else {
                 this.colorizeNodeAt(x, y, this.blockNodeAttr.fill);
             }
+            this.zoomNodeAt(x, y);
+        } else if (attr == 'opened') {
+            this.colorizeNodeAt(x, y, this.openedNodeAttr.fill);
+        } else if (attr == 'closed') {
+            this.colorizeNodeAt(x, y, this.closedNodeAttr.fill);
+        } else if (attr == 'parent') {
+            //this.drawParent(x, y, px, py)
         }
-        this.zoomNodeAt(x, y);
     },
 
     colorizeNodeAt: function(x, y, color) {
@@ -228,6 +276,24 @@ window.GridView = {
         }, this.zoomDuration);
     },
 
+
+    drawPath: function(path) {
+    
+    },
+
+    // given a path, build its SVG represention.
+    buildSvgPath: function(path) {
+        var i, strs = [], size = this.gridSize;
+
+        strs.push('M' + (path[0].x * size + size / 2) + ' ' 
+                + (path[0].y * size + size / 2));
+        for (i = 1; i < path.length; ++i) {
+            strs.push('L' + (path[i].x * size + size / 2) + ' ' 
+                    + (path[i].y * size + size / 2));
+        }
+
+        return strs.join('');
+    },
 
     // helper function to convert the page coordinate to grid coordinate
     toGridCoordinate: function(pageX, pageY) {
@@ -255,6 +321,12 @@ window.GridController = {
     init: function() {
         this.initGeometry();
         this.initStartEndPos();
+    },
+
+    supportedDispatcher: {
+        'opened': true,
+        'closed': true,
+        'parent': true,
     },
 
     initGeometry: function() {
@@ -292,7 +364,10 @@ window.GridController = {
 
     onMouseMove: function(x, y) {
         if (this.isDrawing) {
-            GridModel.setWalkableAt(x, y, this.drawStatus == 'clear');
+            if (!((x == GridModel.getStartX() && y == GridModel.getStartY()) ||
+                  (x == GridModel.getEndX() && y == GridModel.getEndY()))) {
+                GridModel.setWalkableAt(x, y, this.drawStatus == 'clear');
+            }
         } else if (this.isMoving) {
             if (this.moving == 'start') {
                 GridModel.setStartPos(x, y);
@@ -307,4 +382,35 @@ window.GridController = {
         this.isMoving = false;
     },
 
+    start: function(finder, interval) {
+        var self = this,
+            record = GridModel.findPath(finder);
+        
+        this.operations = record.operations;
+        this.path = record.path;
+        
+        this.timer = setInterval(function() {
+            self.step(function() {
+                clearInterval(self.timer);
+                GridView.drawPath(this.path);
+            });
+        }, interval);
+    },
+
+    step: function(callback) {
+        var operations = this.operations,
+            op, support;
+
+        do {
+            if (!operations.length) {
+                callback();
+                return;
+            }
+            op = operations.shift();
+            console.log(op)
+            support = this.supportedDispatcher[op.attr];
+        } while (!support);
+
+        GridView.setAttributeAt(op.x, op.y, op.attr, op.value);
+    },
 };
