@@ -9,9 +9,9 @@ Notification.prototype = {
         this._listeners.push(listener);
     },
 
-    notify: function() {
+    notify: function(args) {
         this._listeners.forEach(function(listener) {
-            listener();
+            listener(args);
         });
     },
 };
@@ -22,7 +22,6 @@ window.GridModel = {
     attrChange: new Notification(this),
     startPosChange: new Notification(this),
     endPosChange: new Notification(this),
-
 
     getWidth: function() {
         return this._grid.width;
@@ -38,6 +37,9 @@ window.GridModel = {
     isWalkableAt: function(x, y) {
         return this._grid.isWalkableAt(x, y);
     },
+    setWalkableAt: function(x, y, walkable) {
+        this.setAttributeAt(x, y, 'walkable', walkable);
+    },
 
 
     getAttributeAt: function(x, y, attr) {
@@ -45,7 +47,12 @@ window.GridModel = {
     },
     setAttributeAt: function(x, y, attr, value) {
         this._grid.setAttributeAt(x, y, attr, value);
-        this.attrChange.notify();
+        this.attrChange.notify({
+            x: x,
+            y: y,
+            attr: 'walkable',
+            value: value,
+        })
     },
 
 
@@ -96,6 +103,9 @@ window.GridView = {
         fill: 'red',
         'stroke-opacity': 0.2,
     },
+    colorizeDuration: 50,
+    zoomEffect: 's1.2',
+    zoomDuration: 200,
 
     // general initialization
     init: function(width, height) {
@@ -103,21 +113,44 @@ window.GridView = {
         this.initListeners();
     },
 
-    // listeners of model notifications
+    
     initListeners: function() {
         var self = this;
 
+        // listeners of model notifications
         GridModel.sizeChange.attach(function() {
-            console.debug('resize view');
             self.setSize(GridModel.getWidth(), GridModel.getHeight());
         });
         GridModel.startPosChange.attach(function() {
-            console.debug('start pos change')
             self.setStartPos(GridModel.getStartX(), GridModel.getStartY());
         });
         GridModel.endPosChange.attach(function() {
-            console.debug('end pos change')
             self.setEndPos(GridModel.getEndX(), GridModel.getEndY());
+        });
+        GridModel.attrChange.attach(function(args) {
+            self.setAttrAt(args.x, args.y, args.attr, args.value);
+        });
+
+
+        // listeners for browser events
+        $('#draw_area').mousedown(function(event) {
+            var coord, x, y;
+            coord = self.toGridCoordinate(event.pageX, event.pageY);
+            x = coord.x; y = coord.y;
+
+            GridController.onMouseDown(x, y);
+        }).mousemove(function(event) {
+            var coord, x, y;
+            coord = self.toGridCoordinate(event.pageX, event.pageY);
+            x = coord.x; y = coord.y;
+            
+            GridController.onMouseMove(x, y);
+        }).mouseup(function(event) {
+            var coord, x, y;
+            coord = self.toGridCoordinate(event.pageX, event.pageY);
+            x = coord.x; y = coord.y;
+
+            GridController.onMouseUp(x, y);
         });
     },
 
@@ -170,9 +203,9 @@ window.GridView = {
     },
     // helper function to set start or end position
     setStartEndNodePos: function(which, x, y) {
-        var pos = this.toPageCoordinate(x, y),
-            pageX = pos.x,
-            pageY = pos.y,
+        var coord = this.toPageCoordinate(x, y),
+            pageX = coord.x,
+            pageY = coord.y,
             nodeSize = this.nodeSize,
             paper = this.paper,
             rect = this['_' + which + 'Node'];
@@ -187,6 +220,31 @@ window.GridView = {
                 y: pageY,
             });
         }
+    },
+
+    setAttrAt: function(x, y, attr, value) {
+        if (attr == 'walkable') {
+            if (value == true) {
+                this.colorizeNodeAt(x, y, this.normalNodeAttr.fill);
+            } else {
+                this.colorizeNodeAt(x, y, this.blockNodeAttr.fill);
+            }
+        }
+        this.zoomNodeAt(x, y);
+    },
+
+    colorizeNodeAt: function(x, y, color) {
+        this.rects[y][x].animate({
+            fill: color,
+        }, this.colorizeDuration);
+    },
+
+    zoomNodeAt: function(x, y) {
+        this.rects[y][x].toFront().attr({
+            transform: this.zoomEffect,
+        }).animate({
+            transform: 's1.0',
+        }, this.zoomDuration);
     },
 
 
@@ -234,7 +292,40 @@ window.GridController = {
     initStartEndPos: function() {
         GridModel.setStartPos(10, 10);
         GridModel.setEndPos(20, 10);
-    }
+    },
+
+    onMouseDown: function(x, y) {
+        if (x == GridModel.getStartX() && y == GridModel.getStartY()) {
+            this.isMoving = true;
+            this.moving = 'start';
+        } else if (x == GridModel.getEndX() && y == GridModel.getEndY()) {
+            this.isMoving = true;
+            this.moving = 'end';
+        } else {
+            this.isDrawing = true;
+            this.drawStatus = GridModel.isWalkableAt(x, y) ? 'block' : 'clear';
+            GridModel.setWalkableAt(x, y, this.drawStatus == 'clear');
+        }
+    },
+
+
+    onMouseMove: function(x, y) {
+        if (this.isDrawing) {
+            GridModel.setWalkableAt(x, y, this.drawStatus == 'clear');
+        } else if (this.isMoving) {
+            if (this.moving == 'start') {
+                GridModel.setStartPos(x, y);
+            } else {
+                GridModel.setEndPos(x, y);
+            }
+        }
+    },
+
+    onMouseUp: function(x, y) {
+        this.isDrawing = false; 
+        this.isMoving = false;
+    },
+
 };
 
 
@@ -670,10 +761,6 @@ $(function() {
     var gridMap = new GridMap();
     var control = new Control(gridMap);
 
-    // suppress select events
-    $(window).bind('selectstart', function(event) {
-        event.preventDefault();
-    });
 
     // update geometry on window resize
     $(window).resize(function() {
@@ -684,6 +771,11 @@ $(function() {
 */
 
 $(function() {
+    // suppress select events
+    $(window).bind('selectstart', function(event) {
+        event.preventDefault();
+    });
+
     GridView.init();
     GridController.init();
 });
