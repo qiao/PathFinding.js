@@ -16,6 +16,8 @@
     <script type="text/javascript" src="./lib/ui/jquery.ui.accordion.min.js"></script>
 
     <script type="text/javascript" src="../build/PathFinding.min.js"></script>
+    <script type="text/javascript" src="./notification.js"></script>
+    <script type="text/javascript" src="./grid.js"></script>
     <script type="text/javascript" src="./main.js"></script>
 </head>
 <body>
@@ -24,6 +26,7 @@
     <div id="algorithm_panel" class="control_panel">
         <header><h2 class="header_title">Select Algorithm</h2></header>
 
+        <!-- TODO: using jquery-ui's triangle image to replace radio button -->
         <div class="accordion">
             <h3><a href="#">A*</a></h3>
             <section id="astar_section" class="finder_section">
