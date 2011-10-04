@@ -125,6 +125,10 @@ window.GridView = {
         fill: '#afeeee',
         'stroke-opacity': 0.2,
     },
+    pathAttr: {
+        stroke: 'yellow',
+        'stroke-width': 3,
+    },
     colorizeDuration: 50,
     zoomEffect: 's1.2',
     zoomDuration: 200,
@@ -278,18 +282,26 @@ window.GridView = {
 
 
     drawPath: function(path) {
-    
+        var svgPath;
+
+        if (!path.length) {
+            return;
+        }
+
+        svgPath = this.buildSvgPath(path);
+        console.debug(svgPath);
+        this.paper.path(svgPath).attr(this.pathAttr);
     },
 
     // given a path, build its SVG represention.
     buildSvgPath: function(path) {
-        var i, strs = [], size = this.gridSize;
+        var i, strs = [], size = this.nodeSize;
 
-        strs.push('M' + (path[0].x * size + size / 2) + ' ' 
-                + (path[0].y * size + size / 2));
+        strs.push('M' + (path[0][0] * size + size / 2) + ' ' 
+                + (path[0][1] * size + size / 2));
         for (i = 1; i < path.length; ++i) {
-            strs.push('L' + (path[i].x * size + size / 2) + ' ' 
-                    + (path[i].y * size + size / 2));
+            strs.push('L' + (path[i][0] * size + size / 2) + ' ' 
+                    + (path[i][1] * size + size / 2));
         }
 
         return strs.join('');
@@ -392,7 +404,7 @@ window.GridController = {
         this.timer = setInterval(function() {
             self.step(function() {
                 clearInterval(self.timer);
-                GridView.drawPath(this.path);
+                GridView.drawPath(self.path);
             });
         }, interval);
     },
@@ -407,7 +419,6 @@ window.GridController = {
                 return;
             }
             op = operations.shift();
-            console.log(op)
             support = this.supportedDispatcher[op.attr];
         } while (!support);
 
