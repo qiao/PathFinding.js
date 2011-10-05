@@ -3,6 +3,7 @@ window.GridModel = {
     attrChange: new Notification(this),
     startPosChange: new Notification(this),
     endPosChange: new Notification(this),
+    currentReset: new Notification(this), 
 
     init: function() {
         var self = this;
@@ -94,7 +95,18 @@ window.GridModel = {
         };
     },
 
+    resetCurrent: function() {
+        var i, j, matrix = [];
+        for (i = 0; i < this._grid.height; ++i) {
+            matrix.push([]);
+            for (var j = 0; j < this._grid.width; j++) {
+                matrix[i].push(this._grid.isWalkableAt(j, i) ? 0 : 1);
+            };
+        }
+        this._grid = new PF.Grid(this._grid.width, this._grid.height, matrix);
 
+        this.currentReset.notify();
+    },
 };
 
 
@@ -137,6 +149,8 @@ window.GridView = {
     init: function(width, height) {
         this.initPaper();
         this.initListeners();
+
+        this.changedNodes = [];
     },
 
     
@@ -155,6 +169,9 @@ window.GridView = {
         });
         GridModel.attrChange.attach(function(args) {
             self.setAttributeAt(args.x, args.y, args.attr, args.value);
+        });
+        GridModel.currentReset.attach(function() {
+            self.resetCurrent();
         });
 
 
@@ -264,7 +281,22 @@ window.GridView = {
         } else if (attr == 'parent') {
             //this.drawParent(x, y, px, py)
         }
+
+        this.changedNodes.push({x: x, y: y});
     },
+
+    resetCurrent: function() {
+        var i, node;
+
+        for (i = 0; node = this.changedNodes[i]; ++i) {
+            this.colorizeNodeAt(node.x, node.y, this.normalNodeAttr.fill);
+        }
+
+        if (this.path) {
+            this.path.hide();
+        }
+    },
+
 
     colorizeNodeAt: function(x, y, color) {
         this.rects[y][x].animate({
@@ -289,8 +321,7 @@ window.GridView = {
         }
 
         svgPath = this.buildSvgPath(path);
-        console.debug(svgPath);
-        this.paper.path(svgPath).attr(this.pathAttr);
+        this.path = this.paper.path(svgPath).attr(this.pathAttr);
     },
 
     // given a path, build its SVG represention.
@@ -325,6 +356,8 @@ window.GridView = {
             y: gridY * nodeSize
         };
     },
+
+
 
 };
 
@@ -424,4 +457,9 @@ window.GridController = {
 
         GridView.setAttributeAt(op.x, op.y, op.attr, op.value);
     },
+
+    resetCurrent: function() {
+        GridModel.resetCurrent();
+    },
+
 };
