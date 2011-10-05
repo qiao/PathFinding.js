@@ -4,6 +4,9 @@ $(function() {
         event.preventDefault();
     });
 
+    GridModel.init();
     GridView.init();
     GridController.init();
+
+    Panel.init();
 });

@@ -68,3 +68,13 @@ button:hover {
     font-size: 90%;
     margin-left: 30px;
 }
+
+#timer {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: #0a0;
+    font-size: 70%;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 10px;
+}

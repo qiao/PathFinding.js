@@ -433,16 +433,24 @@ window.GridController = {
         this.isMoving = false;
     },
 
-    start: function(finder, interval) {
+    start: function(finder, interval, callback) {
         var self = this,
-            record = GridModel.findPath(finder);
+            record,
+            timeStart, timeEnd;
+        
+        timeStart = new Date();
+        record = GridModel.findPath(finder);
+        timeEnd = new Date();
+        this.msSpent = timeEnd.getMilliseconds() - timeStart.getMilliseconds();
         
         this.operations = record.operations;
+        this.operationCnt = this.operations.length;
         this.path = record.path;
         
         this.timer = setInterval(function() {
             self.step(function() {
                 self.stop();
+                callback();
                 GridView.drawPath(self.path);
             });
         }, interval);
@@ -477,6 +485,14 @@ window.GridController = {
 
     isRunning: function() {
         return this.running;
+    },
+
+    getTimeSpent: function() {
+        return this.msSpent;
+    },
+
+    getOperationCount: function() {
+        return this.operationCnt;
     },
 
 };
