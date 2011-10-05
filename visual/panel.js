@@ -30,6 +30,9 @@ window.Panel = {
                 self.showStat();
             });
         });
+        $('#stop_button').click(function() {
+            GridController.stop();
+        });
     },
 
 
@@ -42,7 +45,7 @@ window.Panel = {
     showStat: function() {
         var text1 = GridController.getTimeSpent() + 'ms',
             text2 = GridController.getOperationCount() + 'ops';
-        $('#timer').text([text1, text2].join(' '));
+        $('#timer').show().text([text1, text2].join(' '));
     },
 
 };

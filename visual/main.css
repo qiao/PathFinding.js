@@ -75,6 +75,5 @@ button:hover {
     left: 20px;
     color: #0a0;
     font-size: 70%;
-    background: rgba(255, 255, 255, 0.5);
-    padding: 10px;
+    display: none;
 }

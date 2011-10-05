@@ -104,6 +104,7 @@ window.GridModel = {
             };
         }
         this._grid = new PF.Grid(this._grid.width, this._grid.height, matrix);
+        this._queue = [];
 
         this.currentReset.notify();
     },
@@ -294,6 +295,7 @@ window.GridView = {
                    this.blockNodeAttr.fill;
             this.colorizeNodeAt(node.x, node.y, fill);
         }
+        this.changedNodes = [];
 
         if (this.path) {
             this.path.hide();
@@ -475,8 +477,8 @@ window.GridController = {
     },
 
     stop: function() {
-        clearInterval(this.timer);
         this.running = false;
+        clearInterval(this.timer);
     },
 
     resetCurrent: function() {
