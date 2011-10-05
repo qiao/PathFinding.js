@@ -25,7 +25,7 @@ window.Panel = {
                 return;
             }
             GridController.resetCurrent();
-            finder = new PF.AStarFinder(PF.AStarFinder.euclidean);
+            finder = self.getFinder();
             GridController.start(finder, 0, function() {
                 self.showStat();
             });
@@ -33,6 +33,29 @@ window.Panel = {
         $('#stop_button').click(function() {
             GridController.stop();
         });
+    },
+
+
+    // XXX: clean up this messy code
+    getFinder: function() {
+        var finder, selected_header, opt1;
+        
+        selected_header = $(
+            '#algorithm_panel ' + 
+            '.ui-accordion-header[aria-selected=true]'
+        ).attr('id');
+        
+        switch (selected_header) {
+        case 'astar_header': 
+            opt1 = $('input[name=astar_option]:checked').val();
+            finder = new PF.AStarFinder(PF.AStarFinder[opt1]);
+            break;
+        case 'breadthfirst_header':
+            finder = new PF.BreadthFirstFinder();
+            break;
+        }
+
+        return finder;
     },
 
 
