@@ -34,7 +34,7 @@ window.GridModel = {
     },
 
     isWalkableAt: function(x, y) {
-        return this._grid.isWalkableAt(x, y);
+        return this.getAttributeAt(x, y, 'walkable');
     },
     setWalkableAt: function(x, y, walkable) {
         this.setAttributeAt(x, y, 'walkable', walkable);
@@ -99,7 +99,7 @@ window.GridModel = {
         var i, j, matrix = [];
         for (i = 0; i < this._grid.height; ++i) {
             matrix.push([]);
-            for (var j = 0; j < this._grid.width; j++) {
+            for (j = 0; j < this._grid.width; j++) {
                 matrix[i].push(this._grid.isWalkableAt(j, i) ? 0 : 1);
             };
         }
@@ -286,10 +286,13 @@ window.GridView = {
     },
 
     resetCurrent: function() {
-        var i, node;
+        var i, node, fill;
 
         for (i = 0; node = this.changedNodes[i]; ++i) {
-            this.colorizeNodeAt(node.x, node.y, this.normalNodeAttr.fill);
+            fill = GridModel.isWalkableAt(node.x, node.y) ?
+                   this.normalNodeAttr.fill : 
+                   this.blockNodeAttr.fill;
+            this.colorizeNodeAt(node.x, node.y, fill);
         }
 
         if (this.path) {
@@ -436,10 +439,12 @@ window.GridController = {
         
         this.timer = setInterval(function() {
             self.step(function() {
-                clearInterval(self.timer);
+                self.stop();
                 GridView.drawPath(self.path);
             });
         }, interval);
+
+        this.running = true;
     },
 
     step: function(callback) {
@@ -458,8 +463,17 @@ window.GridController = {
         GridView.setAttributeAt(op.x, op.y, op.attr, op.value);
     },
 
+    stop: function() {
+        clearInterval(this.timer);
+        this.running = false;
+    },
+
     resetCurrent: function() {
         GridModel.resetCurrent();
+    },
+
+    isRunning: function() {
+        return this.running;
     },
 
 };
