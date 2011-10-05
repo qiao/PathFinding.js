@@ -417,6 +417,9 @@ window.GridController = {
                 GridModel.setWalkableAt(x, y, this.drawStatus == 'clear');
             }
         } else if (this.isMoving) {
+            if (!GridModel.isWalkableAt(x, y)) {
+                return;
+            }
             if (this.moving == 'start') {
                 GridModel.setStartPos(x, y);
             } else {
