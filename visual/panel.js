@@ -38,7 +38,7 @@ window.Panel = {
 
     // XXX: clean up this messy code
     getFinder: function() {
-        var finder, selected_header, opt1;
+        var finder, selected_header, allowDiagonal, heuristic;
         
         selected_header = $(
             '#algorithm_panel ' + 
@@ -47,11 +47,25 @@ window.Panel = {
         
         switch (selected_header) {
         case 'astar_header': 
-            opt1 = $('input[name=astar_option]:checked').val();
-            finder = new PF.AStarFinder(PF.AStarFinder[opt1]);
+            allowDiagonal = typeof $('#astar_section ' +
+                                     '.allow_diagonal:checked').val() != 'undefined';
+            heuristic = $('input[name=astar_heuristic]:checked').val();
+            finder = new PF.AStarFinder(allowDiagonal, PF.AStarFinder[heuristic]);
             break;
         case 'breadthfirst_header':
+            allowDiagonal = typeof $('#breadthfirst_section ' +
+                                     '.allow_diagonal:checked').val() != 'undefined';
             finder = new PF.BreadthFirstFinder();
+            break;
+        case 'bestfirst_header':
+            allowDiagonal = typeof $('#bestfirst_section ' +
+                                     '.allow_diagonal:checked').val() != 'undefined';
+            finder = new PF.BestFirstFinder(allowDiagonal);
+            break;
+        case 'dijkstra_header':
+            allowDiagonal = typeof $('#dijkstra_section ' +
+                                     '.allow_diagonal:checked').val() != 'undefined';
+            finder = new PF.DijkstraFinder(allowDiagonal);
             break;
         }
 

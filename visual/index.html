@@ -32,15 +32,36 @@
         <div class="accordion">
             <h3 id="astar_header"><a href="#">A*</a></h3>
             <section id="astar_section" class="finder_section">
-                <section id="astar_options" class="sub_options">
-                    <input type="radio" name="astar_option" value="manhattan" checked />Manhattan <br>
-                    <input type="radio" name="astar_option" value="euclidean"/>Euclidean <br>
-                    <input type="radio" name="astar_option" value="chebyshev"/>Chebyshev <br>
+                <section id="astar_heuristic" class="sub_options">
+                    <input type="radio" name="astar_heuristic" value="manhattan" checked />Manhattan <br>
+                    <input type="radio" name="astar_heuristic" value="euclidean"/>Euclidean <br>
+                    <input type="radio" name="astar_heuristic" value="chebyshev"/>Chebyshev <br>
+                </section>
+
+                <section class="optional sub_options">
+                    <input type="checkbox" class="allow_diagonal" checked>Allow Diagonal <br>
                 </section>
             </section>
 
             <h3 id="breadthfirst_header"><a href="#">Breadth-First-Search</a></h3>
             <section id="breadthfirst_section" class="finder_section">
+                <section class="optional sub_options">
+                    <input type="checkbox" class="allow_diagonal" checked>Allow Diagonal <br>
+                </section>
+            </section>
+            
+            <h3 id="bestfirst_header"><a href="#">Best-First-Search</a></h3>
+            <section id="bestfirst_section" class="finder_section">
+                <section class="optional sub_options">
+                    <input type="checkbox" class="allow_diagonal" checked>Allow Diagonal <br>
+                </section>
+            </section>
+            
+            <h3 id="dijkstra_header"><a href="#">Dijkstra</a></h3>
+            <section id="dijkstra_section" class="finder_section">
+                <section class="optional sub_options">
+                    <input type="checkbox" class="allow_diagonal" checked>Allow Diagonal <br>
+                </section>
             </section>
         </div>
     </div>

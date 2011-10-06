@@ -4,7 +4,7 @@ body {
     overflow: hidden;
 }
 
-input[type="radio"] {
+input {
     cursor: pointer;
 }
 
@@ -65,8 +65,11 @@ button:hover {
 }
 
 .sub_options {
+    border-bottom: solid 1px #777;
+    border-top: solid 1px #777;
+    padding: 5px;
     font-size: 90%;
-    margin-left: 30px;
+    margin: 2px 30px;
 }
 
 #timer {
