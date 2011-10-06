@@ -1,8 +1,7 @@
 /**
  * Best-First-Search path-finder.
  * @constructor
- * @extends PF.BaseFinder
- * @requires PF.AStarFinder
+ * @extends PF.AStarFinder
  * @param {boolean} allowDiagonal - Whether diagonal movement is allowed.
  */
 PF.BestFirstFinder = function(allowDiagonal) {
