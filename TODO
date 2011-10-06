@@ -1,0 +1,9 @@
+substitute radios and checkboxes by icons
+add info icon and text at the left top corner
+implement IDS
+implement IDA*
+implement Dynamic Weighting
+implement Jump Point Search
+implement Path Smoothing
+customize heuristic functions on demo page
+beautify play panel
