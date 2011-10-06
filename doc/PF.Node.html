@@ -39,6 +39,10 @@
         A node in grid. 
 This class holds some basic information about a node and custom 
 attributes may be added, depending on the algorithms' needs.
+
+Note: if you want to monitor how your algorithm works, it's better
+to use the `set' and `get' methods when accessing the nodes' attriubtes
+since it will be easier to add hooks.
     </p>
     
     
@@ -59,7 +63,7 @@ attributes may be added, depending on the algorithms' needs.
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Node.js, line 9</dd>
+	<dd class="tag-source">./src/core/Node.js, line 13</dd>
 	
 	
 	
@@ -98,7 +102,7 @@ attributes may be added, depending on the algorithms' needs.
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -116,7 +120,7 @@ attributes may be added, depending on the algorithms' needs.
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -157,7 +161,7 @@ attributes may be added, depending on the algorithms' needs.
             
             <dl>
 <dt id="property:PF.Node#parent">
-    <h4 class="name"><span class="type-signature"></span>parent<span class="type-signature"> :Array.&lt;integer, integer></span></h4>
+    <h4 class="name"><span class="type-signature">&lt;private> </span>parent<span class="type-signature"> :Array.&lt;number, number></span></h4>
     
     
 </dt>
@@ -186,7 +190,7 @@ This variable will be used to construct the path after the search is done.
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Node.js, line 30</dd>
+	<dd class="tag-source">./src/core/Node.js, line 38</dd>
 	
 	
 	
@@ -199,7 +203,7 @@ This variable will be used to construct the path after the search is done.
 </dd>
 
 <dt id="property:PF.Node#walkable">
-    <h4 class="name"><span class="type-signature"></span>walkable<span class="type-signature"> :boolean</span></h4>
+    <h4 class="name"><span class="type-signature">&lt;private> </span>walkable<span class="type-signature"> :boolean</span></h4>
     
     
 </dt>
@@ -227,7 +231,7 @@ This variable will be used to construct the path after the search is done.
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Node.js, line 24</dd>
+	<dd class="tag-source">./src/core/Node.js, line 31</dd>
 	
 	
 	
@@ -240,7 +244,7 @@ This variable will be used to construct the path after the search is done.
 </dd>
 
 <dt id="property:PF.Node#x">
-    <h4 class="name"><span class="type-signature"></span>x<span class="type-signature"> :integer</span></h4>
+    <h4 class="name"><span class="type-signature">&lt;private> </span>x<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -248,47 +252,6 @@ This variable will be used to construct the path after the search is done.
     
     <p class="description">
         The x coordinate of the node on the grid.
-    </p>
-    
-    
-    <dl class="details">
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Node.js, line 14</dd>
-	
-	
-	
-	
-	
-</dl>
-
-    
-    
-</dd>
-
-<dt id="property:PF.Node#y">
-    <h4 class="name"><span class="type-signature"></span>y<span class="type-signature"> :integer</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    <p class="description">
-        The y coordinate of the node on the grid.
     </p>
     
     
@@ -320,10 +283,279 @@ This variable will be used to construct the path after the search is done.
     
     
 </dd>
+
+<dt id="property:PF.Node#y">
+    <h4 class="name"><span class="type-signature">&lt;private> </span>y<span class="type-signature"> :number</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <p class="description">
+        The y coordinate of the node on the grid.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/core/Node.js, line 25</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+</dd>
 </dl>
             
         
         
+        
+            
+            <h3 class="subsection-title">Methods</h3>
+            
+            <dl><dt id="PF.Node#get">
+    <h4 class="name" id="get"><span class="type-signature"></span>get(attr)<span class="type-signature"> &rarr; {*}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Generic getter of the attribute of the node.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/core/Node.js, line 60</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>attr</code></td>
+            
+            
+            <td class="type">
+            string
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Attribute name</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+<div class="param-desc">
+    The value of the attribute.
+</div>
+
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">*</span> 
+		
+	</dd>
+</dl>
+
+    
+    
+
+</dd>
+<dt id="PF.Node#set">
+    <h4 class="name" id="set"><span class="type-signature"></span>set(attr, value)<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Generic setter of the attribute of the node.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/core/Node.js, line 50</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>attr</code></td>
+            
+            
+            <td class="type">
+            string
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Attribute name.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+            
+            <td class="type">
+            *
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Attribute value.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    
+    
+
+</dd>
+</dl>
+            
         
         
         
@@ -334,13 +566,13 @@ This variable will be used to construct the path after the search is done.
 </div>
 
 <nav>
-    <h3>Classes</h3><ul><li><a href="PF.AStarFinder.html">AStarFinder</a></li><li><a href="PF.BaseFinder.html">BaseFinder</a></li><li><a href="PF.Grid.html">Grid</a></li><li><a href="PF.Heap.html">Heap</a></li><li><a href="PF.Node.html">Node</a></li></ul><h3>Namespaces</h3><ul><li><a href="PF.html">PF</a></li></ul>
+    <h3>Classes</h3><ul><li><a href="PF.AStarFinder.html">AStarFinder</a></li><li><a href="PF.BaseFinder.html">BaseFinder</a></li><li><a href="PF.BestFirstFinder.html">BestFirstFinder</a></li><li><a href="PF.BreadthFirstFinder.html">BreadthFirstFinder</a></li><li><a href="PF.DijkstraFinder.html">DijkstraFinder</a></li><li><a href="PF.Grid.html">Grid</a></li><li><a href="PF.Heap.html">Heap</a></li><li><a href="PF.Node.html">Node</a></li></ul><h3>Namespaces</h3><ul><li><a href="PF.html">PF</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Mon Sep 19 2011 21:47:29 GMT+0800 (HKT)
+    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Thu Oct 06 2011 19:29:07 GMT+0800 (HKT)
 </footer>
 
 <script> sh_highlightDocument(); </script>

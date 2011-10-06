@@ -28,7 +28,7 @@
     
     <article>    
         <dt id="PF.BaseFinder">
-    <h4 class="name" id="BaseFinder"><span class="type-signature"></span>new BaseFinder()<span class="type-signature"></span></h4>
+    <h4 class="name" id="BaseFinder"><span class="type-signature"></span>new BaseFinder(allowDiagonal)<span class="type-signature"></span></h4>
     
     
 </dt>
@@ -36,15 +36,10 @@
     
     
     <p class="description">
-        A base class for path-finders.
+        Base class for path-finders.
 This class SHOULD NOT be directly instantiated, as it does not provide 
 any path-finding algorithms or methods and is intended to be extended 
 by all the other path-finder classes.
-
-Note: The constructor does NOT receive any arguments for instantiation.
-    All the parameters should be passed in in the `init` method.
-    Therefore, you only need to instantiate this class once, and call
-    the `init` method each time you start a new path-finding.
     </p>
     
     
@@ -65,7 +60,7 @@ Note: The constructor does NOT receive any arguments for instantiation.
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/BaseFinder.js, line 13</dd>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 9</dd>
 	
 	
 	
@@ -76,7 +71,47 @@ Note: The constructor does NOT receive any arguments for instantiation.
     
     
     
-    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>allowDiagonal</code></td>
+            
+            
+            <td class="type">
+            boolean
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Whether diagonal movement is allowed</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
     
     
     
@@ -112,7 +147,7 @@ Note: The constructor does NOT receive any arguments for instantiation.
 <dd>
     
     <p class="description">
-        The constructor of each BaseFinder instance.
+        Constructor of each BaseFinder instance.
     </p>
     
     
@@ -133,7 +168,7 @@ Note: The constructor does NOT receive any arguments for instantiation.
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/BaseFinder.js, line 101</dd>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 86</dd>
 	
 	
 	
@@ -152,8 +187,8 @@ Note: The constructor does NOT receive any arguments for instantiation.
             
             <h3 class="subsection-title">Methods</h3>
             
-            <dl><dt id="PF.BaseFinder#findPath">
-    <h4 class="name" id="findPath"><span class="type-signature"></span>findPath()<span class="type-signature"> &rarr; {Array.&lt;[integer, integer]>}</span></h4>
+            <dl><dt id="PF.BaseFinder#_constructPath">
+    <h4 class="name" id="_constructPath"><span class="type-signature">&lt;protected> </span>_constructPath()<span class="type-signature"> &rarr; {Array.&lt;Array.&lt;number>>}</span></h4>
     
     
 </dt>
@@ -161,8 +196,7 @@ Note: The constructor does NOT receive any arguments for instantiation.
     
     
     <p class="description">
-        Find and return the the path.
-NOTE: This method is intended to be overriden by sub-classes.
+        Construct the path according to the nodes' parents.
     </p>
     
     
@@ -183,7 +217,81 @@ NOTE: This method is intended to be overriden by sub-classes.
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/BaseFinder.js, line 109</dd>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 119</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+<div class="param-desc">
+    The path, including
+    both start and end positions.
+</div>
+
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">Array.&lt;Array.&lt;number>></span> 
+		
+	</dd>
+</dl>
+
+    
+    
+
+</dd>
+<dt id="PF.BaseFinder#_find">
+    <h4 class="name" id="_find"><span class="type-signature">&lt;protected> </span>_find()<span class="type-signature"> &rarr; {Array.&lt;[number, number]>}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Path-finding procedure.
+Note: this method is intended to be overriden by sub-classes.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 146</dd>
 	
 	
 	
@@ -217,7 +325,192 @@ NOTE: This method is intended to be overriden by sub-classes.
 	</dt>
 	<dd>
 		
-		<span class="param-type">Array.&lt;[integer, integer]></span> 
+		<span class="param-type">Array.&lt;[number, number]></span> 
+		
+	</dd>
+</dl>
+
+    
+    
+
+</dd>
+<dt id="PF.BaseFinder#findPath">
+    <h4 class="name" id="findPath"><span class="type-signature"></span>findPath(startX, startY, endX, endY, grid)<span class="type-signature"> &rarr; {Array.&lt;[number, number]>}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Find and return the the path.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 99</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>startX</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the start position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>startY</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the start position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>endX</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the end position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>endY</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the end position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>grid</code></td>
+            
+            
+            <td class="type">
+            <a href="PF.Grid.html">PF.Grid</a>
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The grid holding the nodes' status.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+<div class="param-desc">
+    The path, including both start and 
+    end positions.
+</div>
+
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">Array.&lt;[number, number]></span> 
 		
 	</dd>
 </dl>
@@ -256,7 +549,7 @@ NOTE: This method is intended to be overriden by sub-classes.
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/BaseFinder.js, line 93</dd>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 77</dd>
 	
 	
 	
@@ -295,7 +588,7 @@ NOTE: This method is intended to be overriden by sub-classes.
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -313,7 +606,7 @@ NOTE: This method is intended to be overriden by sub-classes.
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -374,152 +667,6 @@ NOTE: This method is intended to be overriden by sub-classes.
     
 
 </dd>
-<dt id="PF.BaseFinder#init">
-    <h4 class="name" id="init"><span class="type-signature"></span>init(startX, startY, endX, endY)<span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <p class="description">
-        Initiate the path-finder by providing the coordinates and the grid.
-    </p>
-    
-    
-    <dl class="details">
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/BaseFinder.js, line 31</dd>
-	
-	
-	
-	
-	
-</dl>
-
-    
-    
-    
-    <h5>Parameters:</h5>
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>startX</code></td>
-            
-            
-            <td class="type">
-            integer
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The x coordinate of the start position.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>startY</code></td>
-            
-            
-            <td class="type">
-            integer
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The y coordinate of the start position.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>endX</code></td>
-            
-            
-            <td class="type">
-            integer
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The x coordinate of the end position.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>endY</code></td>
-            
-            
-            <td class="type">
-            integer
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The y coordinate of the end position.</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-    
-    
-    
-    
-    
-
-</dd>
 <dt id="PF.BaseFinder#isInsideGrid">
     <h4 class="name" id="isInsideGrid"><span class="type-signature"></span>isInsideGrid(x, y)<span class="type-signature"> &rarr; {boolean}</span></h4>
     
@@ -550,7 +697,7 @@ NOTE: This method is intended to be overriden by sub-classes.
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/BaseFinder.js, line 48</dd>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 28</dd>
 	
 	
 	
@@ -589,7 +736,7 @@ NOTE: This method is intended to be overriden by sub-classes.
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -607,7 +754,7 @@ NOTE: This method is intended to be overriden by sub-classes.
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -680,7 +827,7 @@ NOTE: This method is intended to be overriden by sub-classes.
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/BaseFinder.js, line 69</dd>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 51</dd>
 	
 	
 	
@@ -719,7 +866,7 @@ NOTE: This method is intended to be overriden by sub-classes.
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -737,7 +884,7 @@ NOTE: This method is intended to be overriden by sub-classes.
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -810,7 +957,7 @@ NOTE: This method is intended to be overriden by sub-classes.
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/BaseFinder.js, line 81</dd>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 64</dd>
 	
 	
 	
@@ -849,7 +996,7 @@ NOTE: This method is intended to be overriden by sub-classes.
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -867,7 +1014,7 @@ NOTE: This method is intended to be overriden by sub-classes.
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -956,7 +1103,7 @@ NOTE: This method is intended to be overriden by sub-classes.
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/BaseFinder.js, line 58</dd>
+	<dd class="tag-source">./src/core/BaseFinder.js, line 39</dd>
 	
 	
 	
@@ -995,7 +1142,7 @@ NOTE: This method is intended to be overriden by sub-classes.
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -1013,7 +1160,7 @@ NOTE: This method is intended to be overriden by sub-classes.
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -1048,13 +1195,13 @@ NOTE: This method is intended to be overriden by sub-classes.
 </div>
 
 <nav>
-    <h3>Classes</h3><ul><li><a href="PF.AStarFinder.html">AStarFinder</a></li><li><a href="PF.BaseFinder.html">BaseFinder</a></li><li><a href="PF.Grid.html">Grid</a></li><li><a href="PF.Heap.html">Heap</a></li><li><a href="PF.Node.html">Node</a></li></ul><h3>Namespaces</h3><ul><li><a href="PF.html">PF</a></li></ul>
+    <h3>Classes</h3><ul><li><a href="PF.AStarFinder.html">AStarFinder</a></li><li><a href="PF.BaseFinder.html">BaseFinder</a></li><li><a href="PF.BestFirstFinder.html">BestFirstFinder</a></li><li><a href="PF.BreadthFirstFinder.html">BreadthFirstFinder</a></li><li><a href="PF.DijkstraFinder.html">DijkstraFinder</a></li><li><a href="PF.Grid.html">Grid</a></li><li><a href="PF.Heap.html">Heap</a></li><li><a href="PF.Node.html">Node</a></li></ul><h3>Namespaces</h3><ul><li><a href="PF.html">PF</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Mon Sep 19 2011 21:47:28 GMT+0800 (HKT)
+    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Thu Oct 06 2011 19:29:06 GMT+0800 (HKT)
 </footer>
 
 <script> sh_highlightDocument(); </script>

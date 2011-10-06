@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>JSDoc: Class: BreadthFirstFinder</title>
+	
+	<script src="http://shjs.sourceforge.net/sh_main.min.js"> </script>
+    <script src="http://shjs.sourceforge.net/lang/sh_javascript.min.js"> </script>
+    
+    <link type="text/css" rel="stylesheet" href="styles/node-dark.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Class: BreadthFirstFinder</h1>
+    
+    
+    
+    <section>
+     
+    <header>
+        <h2><span class="ancestors"><a href="PF.html">PF</a> &rang; </span>BreadthFirstFinder</h2>
+        
+    </header>  
+    
+    <article>    
+        <dt id="PF.BreadthFirstFinder">
+    <h4 class="name" id="BreadthFirstFinder"><span class="type-signature"></span>new BreadthFirstFinder()<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Breadth-First-Search path finder.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/modules/BreadthFirst.js, line 6</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+</dd>
+
+        
+        
+            <h3 class="subsection-title">Extends</h3>
+            
+            <ul>
+                <li><a href="PF.BaseFinder.html">PF.BaseFinder</a></li>
+            </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+            
+            <h3 class="subsection-title">Properties</h3>
+            
+            <dl>
+<dt id="property:PF.BreadthFirstFinder#constructor">
+    <h4 class="name"><span class="type-signature"></span>constructor<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <p class="description">
+        The constructor of the instance.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/modules/BreadthFirst.js, line 20</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+</dd>
+</dl>
+            
+        
+        
+        
+            
+            <h3 class="subsection-title">Methods</h3>
+            
+            <dl><dt id="PF.BreadthFirstFinder#_find">
+    <h4 class="name" id="_find"><span class="type-signature">&lt;private> </span>_find()<span class="type-signature"> &rarr; {Array.&lt;[number, number]>}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Find and return the the path.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/modules/BreadthFirst.js, line 29</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+<div class="param-desc">
+    The path, including both start and 
+    end positions.
+</div>
+
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">Array.&lt;[number, number]></span> 
+		
+	</dd>
+</dl>
+
+    
+    
+
+</dd>
+<dt id="PF.BreadthFirstFinder#_inspectNodeAt">
+    <h4 class="name" id="_inspectNodeAt"><span class="type-signature">&lt;private> </span>_inspectNodeAt(x, y, px, py)<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Push the position into the open list if this position is not in the list.
+Otherwise, if the position can be accessed with a lower cost from the given
+parent position, then update its parent and cost
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/modules/BreadthFirst.js, line 85</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>px</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the parent position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>py</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the parent position.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    
+    
+
+</dd>
+</dl>
+            
+        
+        
+        
+    </article>
+    
+    </section>  
+    
+</div>
+
+<nav>
+    <h3>Classes</h3><ul><li><a href="PF.AStarFinder.html">AStarFinder</a></li><li><a href="PF.BaseFinder.html">BaseFinder</a></li><li><a href="PF.BestFirstFinder.html">BestFirstFinder</a></li><li><a href="PF.BreadthFirstFinder.html">BreadthFirstFinder</a></li><li><a href="PF.DijkstraFinder.html">DijkstraFinder</a></li><li><a href="PF.Grid.html">Grid</a></li><li><a href="PF.Heap.html">Heap</a></li><li><a href="PF.Node.html">Node</a></li></ul><h3>Namespaces</h3><ul><li><a href="PF.html">PF</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Thu Oct 06 2011 19:29:07 GMT+0800 (HKT)
+</footer>
+
+<script> sh_highlightDocument(); </script>
+</body>
+</html>

@@ -28,7 +28,7 @@
     
     <article>    
         <dt id="PF.AStarFinder">
-    <h4 class="name" id="AStarFinder"><span class="type-signature"></span>new AStarFinder([heuristic])<span class="type-signature"></span></h4>
+    <h4 class="name" id="AStarFinder"><span class="type-signature"></span>new AStarFinder(allowDiagonal, [heuristic])<span class="type-signature"></span></h4>
     
     
 </dt>
@@ -57,7 +57,7 @@
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 25</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 24</dd>
 	
 	
 	
@@ -94,6 +94,28 @@
 	
         <tr>
             
+                <td class="name"><code>allowDiagonal</code></td>
+            
+            
+            <td class="type">
+            boolean
+            </td>
+            
+            
+                <td class="attributes">
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">Whether diagonal movement is allowed.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
                 <td class="name"><code>heuristic</code></td>
             
             
@@ -124,7 +146,11 @@
     
     
     <h5>Example</h5>
-    <pre class="sh_javascript"><code>// Available heuristics:
+    <pre class="sh_javascript"><code>var finder, path;
+finder = PF.AStarFinder();
+path = finder.findPath(...);
+
+// Available heuristics:
 //     PF.AStarFinder.manhattan
 //     PF.AStarFinder.euclidean
 //     PF.AStarFinder.chebyshev 
@@ -148,6 +174,12 @@ function(dx, dy) {
         
         
         
+        
+            <h3 class="subsection-title">Requires</h3>
+            
+            <ul>
+                <li>module:PF.Heap</li>
+            </ul>
         
         
         
@@ -188,7 +220,7 @@ function(dx, dy) {
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 41</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 43</dd>
 	
 	
 	
@@ -208,7 +240,7 @@ function(dx, dy) {
             <h3 class="subsection-title">Methods</h3>
             
             <dl><dt id="PF.AStarFinder#_calculateH">
-    <h4 class="name" id="_calculateH"><span class="type-signature">&lt;private> </span>_calculateH(x, y)<span class="type-signature"> &rarr; {number}</span></h4>
+    <h4 class="name" id="_calculateH"><span class="type-signature">&lt;protected> </span>_calculateH(x, y)<span class="type-signature"> &rarr; {number}</span></h4>
     
     
 </dt>
@@ -237,7 +269,7 @@ function(dx, dy) {
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 204</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 175</dd>
 	
 	
 	
@@ -333,8 +365,8 @@ function(dx, dy) {
     
 
 </dd>
-<dt id="PF.AStarFinder#_constructPath">
-    <h4 class="name" id="_constructPath"><span class="type-signature">&lt;private> </span>_constructPath()<span class="type-signature"> &rarr; {Array.&lt;Array.&lt;number>>}</span></h4>
+<dt id="PF.AStarFinder#_find">
+    <h4 class="name" id="_find"><span class="type-signature">&lt;protected> </span>_find()<span class="type-signature"> &rarr; {Array.&lt;[number, number]>}</span></h4>
     
     
 </dt>
@@ -342,7 +374,7 @@ function(dx, dy) {
     
     
     <p class="description">
-        Construct the path according to the nodes' parents.
+        Find and return the the path.
     </p>
     
     
@@ -363,7 +395,7 @@ function(dx, dy) {
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 120</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 52</dd>
 	
 	
 	
@@ -384,8 +416,8 @@ function(dx, dy) {
     <h5>Returns:</h5>
     
 <div class="param-desc">
-    The path, including
-    both start and end positions.
+    The path, including both start and 
+    end positions.
 </div>
 
 
@@ -397,7 +429,7 @@ function(dx, dy) {
 	</dt>
 	<dd>
 		
-		<span class="param-type">Array.&lt;Array.&lt;number>></span> 
+		<span class="param-type">Array.&lt;[number, number]></span> 
 		
 	</dd>
 </dl>
@@ -407,7 +439,7 @@ function(dx, dy) {
 
 </dd>
 <dt id="PF.AStarFinder#_inspectNodeAt">
-    <h4 class="name" id="_inspectNodeAt"><span class="type-signature">&lt;private> </span>_inspectNodeAt(x, y, px, py)<span class="type-signature"></span></h4>
+    <h4 class="name" id="_inspectNodeAt"><span class="type-signature">&lt;protected> </span>_inspectNodeAt(x, y, px, py, isDiagonal)<span class="type-signature"></span></h4>
     
     
 </dt>
@@ -438,7 +470,7 @@ parent position, then update its parent and cost
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 150</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 118</dd>
 	
 	
 	
@@ -542,6 +574,245 @@ parent position, then update its parent and cost
         </tr>
 	
 	
+	
+        <tr>
+            
+                <td class="name"><code>isDiagonal</code></td>
+            
+            
+            <td class="type">
+            boolean
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Whether [x, y] and [px, py] is diagonal</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    
+    
+
+</dd>
+<dt id="PF.AStarFinder#_inspectSurround">
+    <h4 class="name" id="_inspectSurround"><span class="type-signature">&lt;protected> </span>_inspectSurround(x, y)<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Inspect the surrounding nodes of the given position
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/modules/AStar.js, line 213</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the position.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    
+    
+
+</dd>
+<dt id="PF.AStarFinder#_inspectSurroundDiagonal">
+    <h4 class="name" id="_inspectSurroundDiagonal"><span class="type-signature">&lt;protected> </span>_inspectSurroundDiagonal(x, y)<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Inspect the surrounding nodes of the given position
+(including the diagonal ones).
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/modules/AStar.js, line 237</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the position.</td>
+        </tr>
+	
+	
 	</tbody>
 </table>
     
@@ -555,7 +826,7 @@ parent position, then update its parent and cost
 
 </dd>
 <dt id="PF.AStarFinder#_tryUpdate">
-    <h4 class="name" id="_tryUpdate"><span class="type-signature">&lt;private> </span>_tryUpdate(x, y, px, py)<span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="_tryUpdate"><span class="type-signature">&lt;protected> </span>_tryUpdate(x, y, px, py, isDiagonal)<span class="type-signature"> &rarr; {boolean}</span></h4>
     
     
 </dt>
@@ -586,7 +857,7 @@ If this position can be accessed from the given parent with lower
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 180</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 151</dd>
 	
 	
 	
@@ -687,6 +958,24 @@ If this position can be accessed from the given parent with lower
             
             
             <td class="description last">The y coordinate of the parent position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>isDiagonal</code></td>
+            
+            
+            <td class="type">
+            boolean
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Whether [x, y] and [px, py] is diagonal</td>
         </tr>
 	
 	
@@ -722,102 +1011,6 @@ If this position can be accessed from the given parent with lower
     
 
 </dd>
-<dt id="PF.AStarFinder#findPath">
-    <h4 class="name" id="findPath"><span class="type-signature"></span>findPath()<span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    
-    <dl class="details">
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 62</dd>
-	
-	
-	
-	
-	
-</dl>
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-</dd>
-<dt id="PF.AStarFinder#init">
-    <h4 class="name" id="init"><span class="type-signature"></span>init()<span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    
-    <dl class="details">
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 47</dd>
-	
-	
-	
-	
-	
-</dl>
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-</dd>
 <dt id="PF.AStarFinder.chebyshev">
     <h4 class="name" id="chebyshev"><span class="type-signature">&lt;static> </span>chebyshev()<span class="type-signature"></span></h4>
     
@@ -848,7 +1041,7 @@ If this position can be accessed from the given parent with lower
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 231</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 202</dd>
 	
 	
 	
@@ -900,7 +1093,7 @@ If this position can be accessed from the given parent with lower
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 223</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 194</dd>
 	
 	
 	
@@ -952,7 +1145,7 @@ If this position can be accessed from the given parent with lower
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 215</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 186</dd>
 	
 	
 	
@@ -986,13 +1179,13 @@ If this position can be accessed from the given parent with lower
 </div>
 
 <nav>
-    <h3>Classes</h3><ul><li><a href="PF.AStarFinder.html">AStarFinder</a></li><li><a href="PF.BaseFinder.html">BaseFinder</a></li><li><a href="PF.Grid.html">Grid</a></li><li><a href="PF.Heap.html">Heap</a></li><li><a href="PF.Node.html">Node</a></li></ul><h3>Namespaces</h3><ul><li><a href="PF.html">PF</a></li></ul>
+    <h3>Classes</h3><ul><li><a href="PF.AStarFinder.html">AStarFinder</a></li><li><a href="PF.BaseFinder.html">BaseFinder</a></li><li><a href="PF.BestFirstFinder.html">BestFirstFinder</a></li><li><a href="PF.BreadthFirstFinder.html">BreadthFirstFinder</a></li><li><a href="PF.DijkstraFinder.html">DijkstraFinder</a></li><li><a href="PF.Grid.html">Grid</a></li><li><a href="PF.Heap.html">Heap</a></li><li><a href="PF.Node.html">Node</a></li></ul><h3>Namespaces</h3><ul><li><a href="PF.html">PF</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Mon Sep 19 2011 21:47:28 GMT+0800 (HKT)
+    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Thu Oct 06 2011 19:29:06 GMT+0800 (HKT)
 </footer>
 
 <script> sh_highlightDocument(); </script>

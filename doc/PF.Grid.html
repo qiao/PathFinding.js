@@ -99,7 +99,7 @@ nodes on the map.
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -121,7 +121,7 @@ nodes on the map.
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -143,7 +143,7 @@ nodes on the map.
             
             
             <td class="type">
-            Array.&lt;Array.&lt;(integer | boolean)>>
+            Array.&lt;Array.&lt;(number | boolean)>>
             </td>
             
             
@@ -154,9 +154,9 @@ nodes on the map.
             
             
             
-            <td class="description last">A 0-1 matrix representing
-    the walkable status of the nodes(0 or false for walkable). If the
-    matrix is not supplied, all the nodes will be walkable.</td>
+            <td class="description last">A 0-1 matrix 
+    representing the walkable status of the nodes(0 or false for walkable). 
+    If the matrix is not supplied, all the nodes will be walkable.</td>
         </tr>
 	
 	
@@ -190,7 +190,7 @@ nodes on the map.
             
             <dl>
 <dt id="property:PF.Grid#height">
-    <h4 class="name"><span class="type-signature"></span>height<span class="type-signature"> :integer</span></h4>
+    <h4 class="name"><span class="type-signature"></span>height<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -231,7 +231,7 @@ nodes on the map.
 </dd>
 
 <dt id="property:PF.Grid#width">
-    <h4 class="name"><span class="type-signature"></span>width<span class="type-signature"> :integer</span></h4>
+    <h4 class="name"><span class="type-signature"></span>width<span class="type-signature"> :number</span></h4>
     
     
 </dt>
@@ -354,7 +354,7 @@ nodes on the map.
             
             
             <td class="type">
-            Array.&lt;Array.&lt;integer | boolean>>
+            Array.&lt;Array.&lt;number | boolean>>
             </td>
             
             
@@ -392,7 +392,7 @@ nodes on the map.
     
     <p class="description">
         Generic getter of the attribute at the given position.
-Note*: This method gets the same result as:
+Note: This method gets the same result as:
     {@code node = grid.getNodeAt(x, y);
            return node[attr];}
     </p>
@@ -415,7 +415,7 @@ Note*: This method gets the same result as:
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Grid.js, line 139</dd>
+	<dd class="tag-source">./src/core/Grid.js, line 140</dd>
 	
 	
 	
@@ -454,7 +454,7 @@ Note*: This method gets the same result as:
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -472,7 +472,7 @@ Note*: This method gets the same result as:
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -590,7 +590,7 @@ Note*: This method gets the same result as:
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -608,7 +608,7 @@ Note*: This method gets the same result as:
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -677,7 +677,7 @@ Note*: This method gets the same result as:
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Grid.js, line 110</dd>
+	<dd class="tag-source">./src/core/Grid.js, line 111</dd>
 	
 	
 	
@@ -716,7 +716,7 @@ Note*: This method gets the same result as:
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -734,7 +734,7 @@ Note*: This method gets the same result as:
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -846,7 +846,7 @@ Note*: This method gets the same result as:
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -864,7 +864,7 @@ Note*: This method gets the same result as:
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -886,7 +886,7 @@ Note*: This method gets the same result as:
     <h5>Returns:</h5>
     
 <div class="param-desc">
-    The walkability of the node.
+    - The walkability of the node.
 </div>
 
 
@@ -917,7 +917,7 @@ Note*: This method gets the same result as:
     
     <p class="description">
         Generic setter of the attribute at the given position.
-Note*: This method gets the same result as:
+Note: This method gets the same result as:
     {@code node = grid.getNodeAt(x, y);
            node[attr] = value;}
     </p>
@@ -940,7 +940,7 @@ Note*: This method gets the same result as:
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Grid.js, line 125</dd>
+	<dd class="tag-source">./src/core/Grid.js, line 126</dd>
 	
 	
 	
@@ -979,7 +979,7 @@ Note*: This method gets the same result as:
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -997,7 +997,7 @@ Note*: This method gets the same result as:
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -1057,7 +1057,7 @@ Note*: This method gets the same result as:
 
 </dd>
 <dt id="PF.Grid#setWalkableAt">
-    <h4 class="name" id="setWalkableAt"><span class="type-signature"></span>setWalkableAt(x, y)<span class="type-signature"></span></h4>
+    <h4 class="name" id="setWalkableAt"><span class="type-signature"></span>setWalkableAt(x, y, walkable)<span class="type-signature"></span></h4>
     
     
 </dt>
@@ -1065,7 +1065,7 @@ Note*: This method gets the same result as:
     
     
     <p class="description">
-        Set the walkability of the node on the given position.
+        Set whether the node on the given position is walkable.
     </p>
     
     
@@ -1086,7 +1086,7 @@ Note*: This method gets the same result as:
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Grid.js, line 99</dd>
+	<dd class="tag-source">./src/core/Grid.js, line 100</dd>
 	
 	
 	
@@ -1125,7 +1125,7 @@ Note*: This method gets the same result as:
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -1143,7 +1143,7 @@ Note*: This method gets the same result as:
             
             
             <td class="type">
-            integer
+            number
             </td>
             
             
@@ -1151,6 +1151,24 @@ Note*: This method gets the same result as:
             
             
             <td class="description last">The y coordinate of the node.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>walkable</code></td>
+            
+            
+            <td class="type">
+            boolean
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Whether the position is walkable.</td>
         </tr>
 	
 	
@@ -1178,13 +1196,13 @@ Note*: This method gets the same result as:
 </div>
 
 <nav>
-    <h3>Classes</h3><ul><li><a href="PF.AStarFinder.html">AStarFinder</a></li><li><a href="PF.BaseFinder.html">BaseFinder</a></li><li><a href="PF.Grid.html">Grid</a></li><li><a href="PF.Heap.html">Heap</a></li><li><a href="PF.Node.html">Node</a></li></ul><h3>Namespaces</h3><ul><li><a href="PF.html">PF</a></li></ul>
+    <h3>Classes</h3><ul><li><a href="PF.AStarFinder.html">AStarFinder</a></li><li><a href="PF.BaseFinder.html">BaseFinder</a></li><li><a href="PF.BestFirstFinder.html">BestFirstFinder</a></li><li><a href="PF.BreadthFirstFinder.html">BreadthFirstFinder</a></li><li><a href="PF.DijkstraFinder.html">DijkstraFinder</a></li><li><a href="PF.Grid.html">Grid</a></li><li><a href="PF.Heap.html">Heap</a></li><li><a href="PF.Node.html">Node</a></li></ul><h3>Namespaces</h3><ul><li><a href="PF.html">PF</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Mon Sep 19 2011 21:47:28 GMT+0800 (HKT)
+    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Thu Oct 06 2011 19:29:07 GMT+0800 (HKT)
 </footer>
 
 <script> sh_highlightDocument(); </script>
