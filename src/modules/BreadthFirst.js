@@ -2,9 +2,15 @@
  * Breadth-First-Search path finder.
  * @constructor
  * @extends PF.BaseFinder
+ * @param {boolean} allowDiagonal - Whether diagonal movement is allowed.
  */
-PF.BreadthFirstFinder = function() {
+PF.BreadthFirstFinder = function(allowDiagonal) {
     PF.BaseFinder.call(this);
+
+    if (allowDiagonal) {
+        console.log(123)
+        this._inspectSurround = this._inspectSurroundDiagonal;
+    }
 };
 
 
@@ -33,10 +39,7 @@ PF.BreadthFirstFinder.prototype._find = function() {
         nx, ny,  // next x, y
         sx = this.startX, sy = this.startY,
         ex = this.endX, ey = this.endY,
-        grid = this.grid,
-
-        xOffsets = [-1, 0, 0, 1],
-        yOffsets = [0, -1, 1, 0];
+        grid = this.grid;
 
     this.openList = openList;
 
@@ -56,15 +59,8 @@ PF.BreadthFirstFinder.prototype._find = function() {
             return this._constructPath();
         }
 
-        // enumerate the adjacent positions
-        for (var i = 0; i < xOffsets.length; ++i) {
-            nx = x + xOffsets[i];
-            ny = y + yOffsets[i];
-
-            if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
-                this._inspectNodeAt(nx, ny, x, y);
-            }
-        }
+        // inspect the adjacent positions
+        this._inspectSurround(x, y);
     }
     
     // fail to find the path
@@ -92,4 +88,64 @@ PF.BreadthFirstFinder.prototype._inspectNodeAt = function(x, y, px, py) {
     this.openList.push([x, y]);
     grid.setAttributeAt(x, y, 'opened', true);
     grid.setAttributeAt(x, y, 'parent', [px, py]);
-}
+};
+
+
+/**
+ * Inspect the surrounding nodes of the given position
+ * @protected
+ * @param {number} x - The x coordinate of the position.
+ * @param {number} y - The y coordinate of the position.
+ */
+PF.BreadthFirstFinder.prototype._inspectSurround = function(x, y) {
+    var xOffsets = PF.BaseFinder.xOffsets,
+        yOffsets = PF.BaseFinder.yOffsets,
+        grid = this.grid,
+        i, nx, ny;
+
+    for (i = 0; i < xOffsets.length; ++i) {
+        nx = x + xOffsets[i];
+        ny = y + yOffsets[i];
+
+        if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
+            this._inspectNodeAt(nx, ny, x, y);
+        }
+    }
+};
+
+
+/**
+ * Inspect the surrounding nodes of the given position
+ * (including the diagonal ones).
+ * @protected
+ * @param {number} x - The x coordinate of the position.
+ * @param {number} y - The y coordinate of the position.
+ */
+PF.BreadthFirstFinder.prototype._inspectSurroundDiagonal = function(x, y) {
+    var xOffsets = PF.BaseFinder.xOffsets,
+        yOffsets = PF.BaseFinder.yOffsets,
+        xDiagonalOffsets = PF.BaseFinder.xDiagonalOffsets,
+        yDiagonalOffsets = PF.BaseFinder.yDiagonalOffsets,
+        grid = this.grid,
+        i, nx, ny, diagonalCan = [];
+
+    for (i = 0; i < xOffsets.length; ++i) {
+        nx = x + xOffsets[i];
+        ny = y + yOffsets[i];
+
+        if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
+            this._inspectNodeAt(nx, ny, x, y);
+
+            diagonalCan.push(i);
+        }
+    }   
+
+    // further inspect diagonal nodes
+    for (i = 0; i < diagonalCan.length; ++i) {
+        nx = x + xDiagonalOffsets[i];
+        ny = y + yDiagonalOffsets[i];
+        if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
+            this._inspectNodeAt(nx, ny, x, y);
+        }
+    }
+};
