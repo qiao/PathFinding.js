@@ -55,7 +55,7 @@ window.Panel = {
         case 'breadthfirst_header':
             allowDiagonal = typeof $('#breadthfirst_section ' +
                                      '.allow_diagonal:checked').val() != 'undefined';
-            finder = new PF.BreadthFirstFinder();
+            finder = new PF.BreadthFirstFinder(allowDiagonal);
             break;
         case 'bestfirst_header':
             allowDiagonal = typeof $('#bestfirst_section ' +
