@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import os
-import string
 import shutil
 import subprocess
 
@@ -17,7 +16,10 @@ FILES = [
     'core/Grid.js',
     'core/BaseFinder.js',
     'modules/Heap.js',
-    'modules/AStar.js'
+    'modules/AStar.js',
+    'modules/BreadthFirst.js',
+    'modules/BestFirst.js',
+    'modules/Dijkstra.js',
     ]
 
 
@@ -33,7 +35,7 @@ def merge_files(file_paths):
 
 
 def uglify(uglify_path, input_path, output_path):
-    minified = subprocess.check_output([uglify_path, input_path])
+    minified = subprocess.check_output([uglify_path, '--no-copyright', input_path])
     f = open(output_path, 'w')
     f.write(minified)
     f.close()
@@ -82,7 +84,7 @@ def main():
     uglify_path = os.path.join(project_path, 'utils', 'node_modules', 
             '.bin', 'uglifyjs')
 
-    MINIFY = False
+    MINIFY = True
 
     try:
         dump_file_obj(
