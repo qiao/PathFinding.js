@@ -1,1 +1,1 @@
-pathTest('AStar');
+pathTest('AStar', new PF.AStarFinder());

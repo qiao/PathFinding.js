@@ -5,13 +5,10 @@
  *     example: testFinder('AStar') will test modules/AStar.js and the class
  *     name will be AStarFinder.
  */
-function pathTest(finderName) {
-    describe('Path-finding of modules/' + finderName + '.js', function() {
-        var finderClass, finder, 
-            startX, startY, endX, endY, grid, expectedLength,
-            width, height, matrix,
-
-        finderClass = PF[finderName + 'Finder'];
+function pathTest(name, finder) {
+    describe('Path-finding of ' + name, function() {
+        var startX, startY, endX, endY, grid, expectedLength,
+            width, height, matrix;
 
         var test = (function() {
             var testId = 0;
@@ -19,7 +16,6 @@ function pathTest(finderName) {
             return function(startX, startY, endX, endY, grid, expectedLength) {
                 describe('test ' + ++testId, function() {
                     it('should solve it', function() {
-                        finder = new finderClass;
                         expect(finder.findPath(startX, startY, endX, endY, grid).length)
                             .toBe(expectedLength)
                     });

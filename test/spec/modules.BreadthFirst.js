@@ -1,1 +1,1 @@
-pathTest('BreadthFirst');
+pathTest('BreadthFirst', new PF.BreadthFirstFinder());
