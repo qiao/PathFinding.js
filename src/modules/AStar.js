@@ -3,6 +3,7 @@
  * @constructor
  * @extends PF.BaseFinder
  * @requires PF.Heap
+ * @param {boolean} allowDiagonal - Whether diagonal movement is allowed.
  * @param {function(number, number): number} [heuristic] - Heuristic function
  *     being used to estimate the distance(defaults to manhattan).
  * @example
@@ -20,9 +21,12 @@
  *     return Math.min(dx, dy);
  * }
  */
-PF.AStarFinder = function(heuristic) {
-    PF.BaseFinder.call(this);
+PF.AStarFinder = function(allowDiagonal, heuristic) {
+    PF.BaseFinder.call(this, allowDiagonal);
 
+    if (allowDiagonal) {
+        this._inspectSurround = this._inspectSurroundDiagonal;
+    }
     this.heuristic = heuristic || PF.AStarFinder.manhattan;
 };
 
@@ -41,7 +45,7 @@ PF.AStarFinder.prototype.constructor = PF.AStarFinder;
 
 /**
  * Find and return the the path.
- * @private
+ * @protected
  * @return {Array.<[number, number]>} The path, including both start and 
  *     end positions.
  */
@@ -54,8 +58,6 @@ PF.AStarFinder.prototype._find = function() {
         ey = this.endY,
         grid = this.grid,
 
-        xOffsets = [-1, 0, 0, 1],
-        yOffsets = [0, -1, 1, 0],
 
         openList = new PF.Heap(function(pos_a, pos_b) {
             var fa = grid.getAttributeAt(pos_a[0], pos_a[1], 'f'),
@@ -88,24 +90,14 @@ PF.AStarFinder.prototype._find = function() {
         y = pos[1];
         grid.setAttributeAt(x, y, 'closed', true);
 
-        // XXX: DEBUG
-        //console.log(grid.getAttributeAt(x, y, 'f'));
-
         // if reached the end position, construct the path and return it
         if (x == ex && y == ey) {
             return this._constructPath();
         }
 
-        // enumerate the ajacent positions
-        // TODO: make this procedure independent and switchable
-        for (var i = 0; i < xOffsets.length; ++i) {
-            nx = x + xOffsets[i];
-            ny = y + yOffsets[i];
+        // inspect the surrounding positions
+        this._inspectSurround(x, y);
 
-            if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
-                this._inspectNodeAt(nx, ny, x, y);
-            }
-        }
     }
 
     // fail to find the path
@@ -117,13 +109,14 @@ PF.AStarFinder.prototype._find = function() {
  * Push the position into the open list if this position is not in the list.
  * Otherwise, if the position can be accessed with a lower cost from the given
  * parent position, then update its parent and cost
- * @private
+ * @protected
  * @param {number} x - The x coordinate of the position.
  * @param {number} y - The y coordinate of the position.
  * @param {number} px - The x coordinate of the parent position.
  * @param {number} py - The y coordinate of the parent position.
+ * @param {boolean} isDiagonal - Whether [x, y] and [px, py] is diagonal 
  */
-PF.AStarFinder.prototype._inspectNodeAt = function(x, y, px, py) {
+PF.AStarFinder.prototype._inspectNodeAt = function(x, y, px, py, isDiagonal) {
     var grid = this.grid,
         openList = this.openList,
         node = grid.getNodeAt(x, y);
@@ -148,17 +141,18 @@ PF.AStarFinder.prototype._inspectNodeAt = function(x, y, px, py) {
  * Try to update the position's info with the given parent.
  * If this position can be accessed from the given parent with lower 
  * `g` cost, then this position's parent, `g` and `f` values will be updated.
- * @private
+ * @protected
  * @param {number} x - The x coordinate of the position.
  * @param {number} y - The y coordinate of the position.
  * @param {number} px - The x coordinate of the parent position.
  * @param {number} py - The y coordinate of the parent position.
+ * @param {boolean} isDiagonal - Whether [x, y] and [px, py] is diagonal 
  * @return {boolean} Whether this position's info has been updated.
  */
-PF.AStarFinder.prototype._tryUpdate = function(x, y, px, py) {
+PF.AStarFinder.prototype._tryUpdate = function(x, y, px, py, isDiagonal) {
     var grid = this.grid,
         pNode = grid.getNodeAt(px, py), // parent node
-        ng = pNode.get('g') + 1; // next `g` value
+        ng = pNode.get('g') + (isDiagonal ? 1.4142 : 1); // next `g` value
         node = grid.getNodeAt(x, y);
 
     if (node.get('g') === undefined || ng < node.get('g')) {
@@ -174,7 +168,7 @@ PF.AStarFinder.prototype._tryUpdate = function(x, y, px, py) {
 
 /**
  * Calculate the `h` value of a given position.
- * @private
+ * @protected
  * @param {number} x - The x coordinate of the position.
  * @param {number} y - The y coordinate of the position.
  * @return {number}
@@ -208,4 +202,65 @@ PF.AStarFinder.euclidean = function(dx, dy) {
  */
 PF.AStarFinder.chebyshev = function(dx, dy) {
     return Math.max(dx, dy);
+};
+
+
+/**
+ * Inspect the surrounding nodes of the given position
+ * @protected
+ * @param {number} x - The x coordinate of the position.
+ * @param {number} y - The y coordinate of the position.
+ */
+PF.AStarFinder.prototype._inspectSurround = function(x, y) {
+    var xOffsets = PF.BaseFinder.xOffsets,
+        yOffsets = PF.BaseFinder.yOffsets,
+        grid = this.grid,
+        i, nx, ny;
+
+    for (i = 0; i < xOffsets.length; ++i) {
+        nx = x + xOffsets[i];
+        ny = y + yOffsets[i];
+
+        if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
+            this._inspectNodeAt(nx, ny, x, y, false);
+        }
+    }
+};
+
+
+/**
+ * Inspect the surrounding nodes of the given position
+ * (including the diagonal ones).
+ * @protected
+ * @param {number} x - The x coordinate of the position.
+ * @param {number} y - The y coordinate of the position.
+ */
+PF.AStarFinder.prototype._inspectSurroundDiagonal = function() {
+    var xOffsets = PF.BaseFinder.xOffsets,
+        yOffsets = PF.BaseFinder.yOffsets,
+        xDiagonalOffsets = PF.BaseFinder.xDiagonalOffsets,
+        yDiagonalOffsets = PF.BaseFinder.yDiagonalOffsets,
+        grid = this.grid,
+        i, nx, ny, diagonalCan = [];
+        
+
+    for (i = 0; i < xOffsets.length; ++i) {
+        nx = x + xOffsets[i];
+        ny = y + yOffsets[i];
+
+        if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
+            this._inspectNodeAt(nx, ny, x, y, false);
+
+            diagonalCan.push(i);
+        }
+    }   
+
+    // further inspect diagonal nodes
+    for (i = 0; i < diagonalCan.length; ++i) {
+        nx = x + xDiagonalOffsets[i];
+        ny = y + yDiagonalOffsets[i];
+        if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
+            this._inspectNodeAt(nx, ny, x, y, true);
+        }
+    }
 };

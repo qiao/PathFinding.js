@@ -4,9 +4,10 @@
  * any path-finding algorithms or methods and is intended to be extended 
  * by all the other path-finder classes.
  * @constructor
+ * @param {boolean} allowDiagonal - Whether diagonal movement is allowed
  */
-PF.BaseFinder = function() {
-    this.startX = null; // avoids to be garbage collected
+PF.BaseFinder = function(allowDiagonal) {
+    this.startX = null;
     this.startY = null;
     this.endX = null;
     this.endY = null;
@@ -14,6 +15,7 @@ PF.BaseFinder = function() {
 
     this.gridHeight = null;
     this.gridWidth = null;
+    this.allowDiagonal = allowDiagonal;
 };
 
 
@@ -144,3 +146,22 @@ PF.BaseFinder.prototype._constructPath = function() {
 PF.BaseFinder.prototype._find = function() {
     throw new Error('Sub-classes must implement this method');
 };
+
+
+
+//     offsets          diagonalOffsets:      
+//  +---+---+---+        +---+---+---+
+//  |   | 3 |   |        | 0 |   | 3 | 
+//  +---+---+---+        +---+---+---+
+//  | 0 |   | 2 |        |   |   |   |
+//  +---+---+---+        +---+---+---+
+//  |   | 1 |   |        | 1 |   | 2 |
+//  +---+---+---+        +---+---+---+
+// 
+// if offsets[i] is invalid, then
+// diagonalOffsets[i] and 
+// diagonalOffsets[(i + 1) % 4] is invalid.
+PF.BaseFinder.xOffsets = [-1, 0, 1, 0];
+PF.BaseFinder.yOffsets = [0, 1, 0, -1];
+PF.BaseFinder.xDiagonalOffsets = [-1, -1, 1, 1]; 
+PF.BaseFinder.yDiagonalOffsets = [-1, 1, 1, -1];
