@@ -158,9 +158,9 @@ PF.BaseFinder.prototype._find = function() {
 //  |   | 1 |   |        | 1 |   | 2 |
 //  +---+---+---+        +---+---+---+
 // 
-// if offsets[i] is invalid, then
+// if offsets[i] is valid, then
 // diagonalOffsets[i] and 
-// diagonalOffsets[(i + 1) % 4] is invalid.
+// diagonalOffsets[(i + 1) % 4] is valid.
 PF.BaseFinder.xOffsets = [-1, 0, 1, 0];
 PF.BaseFinder.yOffsets = [0, 1, 0, -1];
 PF.BaseFinder.xDiagonalOffsets = [-1, -1, 1, 1]; 
