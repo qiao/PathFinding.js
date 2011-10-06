@@ -55,6 +55,7 @@ PF.Heap.prototype.isEmpty = function() {
 
 /**
  * Push an item onto the heap.
+ * @param {*} item - Item to push onto the heap.
  */
 PF.Heap.prototype.push = function(item) {
     this._heap.push(item);
@@ -88,6 +89,7 @@ PF.Heap.prototype.pop = function() {
  * This is more efficient than `pop()` followed by `push()`, and can be
  * more appropriate when using a fixed-size heap. Note that the value 
  * returned may be larger than the pushed item!
+ * @param {*} item - Item to replace the top one of the heap.
  */
 PF.Heap.prototype.replace = function(item) {
     var returnItem = this._heap[0];
@@ -99,6 +101,7 @@ PF.Heap.prototype.replace = function(item) {
 
 /**
  * Fast version of a push followed by a pop.
+ * @param {*} item - Item to be pushed onto the heap.
  */
 PF.Heap.prototype.pushpop = function(item) {
     var heap = this._heap, t;

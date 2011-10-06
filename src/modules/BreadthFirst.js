@@ -8,7 +8,6 @@ PF.BreadthFirstFinder = function(allowDiagonal) {
     PF.BaseFinder.call(this);
 
     if (allowDiagonal) {
-        console.log(123)
         this._inspectSurround = this._inspectSurroundDiagonal;
     }
 };
@@ -28,7 +27,7 @@ PF.BreadthFirstFinder.prototype.constructor = PF.BreadthFirstFinder;
 
 /**
  * Find and return the the path.
- * @private
+ * @protected
  * @return {Array.<[number, number]>} The path, including both start and 
  *     end positions.
  */
@@ -72,7 +71,7 @@ PF.BreadthFirstFinder.prototype._find = function() {
  * Push the position into the open list if this position is not in the list.
  * Otherwise, if the position can be accessed with a lower cost from the given
  * parent position, then update its parent and cost
- * @private
+ * @protected
  * @param {number} x - The x coordinate of the position.
  * @param {number} y - The y coordinate of the position.
  * @param {number} px - The x coordinate of the parent position.

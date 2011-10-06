@@ -3,6 +3,8 @@
  * @constructor
  * @extends PF.AStarFinder
  * @param {boolean} allowDiagonal - Whether diagonal movement is allowed.
+ * @param {function(number, number): number} [heuristic] - Heuristic function
+ *     being used to estimate the distance(defaults to manhattan).
  */
 PF.BestFirstFinder = function(allowDiagonal, heuristic) {
     PF.AStarFinder.call(this, allowDiagonal, heuristic);

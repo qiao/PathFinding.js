@@ -28,7 +28,7 @@
     
     <article>    
         <dt id="PF.BreadthFirstFinder">
-    <h4 class="name" id="BreadthFirstFinder"><span class="type-signature"></span>new BreadthFirstFinder()<span class="type-signature"></span></h4>
+    <h4 class="name" id="BreadthFirstFinder"><span class="type-signature"></span>new BreadthFirstFinder(allowDiagonal)<span class="type-signature"></span></h4>
     
     
 </dt>
@@ -57,7 +57,7 @@
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BreadthFirst.js, line 6</dd>
+	<dd class="tag-source">./src/modules/BreadthFirst.js, line 7</dd>
 	
 	
 	
@@ -68,7 +68,47 @@
     
     
     
-    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>allowDiagonal</code></td>
+            
+            
+            <td class="type">
+            boolean
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Whether diagonal movement is allowed.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
     
     
     
@@ -131,7 +171,7 @@
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BreadthFirst.js, line 20</dd>
+	<dd class="tag-source">./src/modules/BreadthFirst.js, line 25</dd>
 	
 	
 	
@@ -151,7 +191,7 @@
             <h3 class="subsection-title">Methods</h3>
             
             <dl><dt id="PF.BreadthFirstFinder#_find">
-    <h4 class="name" id="_find"><span class="type-signature">&lt;private> </span>_find()<span class="type-signature"> &rarr; {Array.&lt;[number, number]>}</span></h4>
+    <h4 class="name" id="_find"><span class="type-signature">&lt;protected> </span>_find()<span class="type-signature"> &rarr; {Array.&lt;[number, number]>}</span></h4>
     
     
 </dt>
@@ -180,7 +220,7 @@
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BreadthFirst.js, line 29</dd>
+	<dd class="tag-source">./src/modules/BreadthFirst.js, line 34</dd>
 	
 	
 	
@@ -224,7 +264,7 @@
 
 </dd>
 <dt id="PF.BreadthFirstFinder#_inspectNodeAt">
-    <h4 class="name" id="_inspectNodeAt"><span class="type-signature">&lt;private> </span>_inspectNodeAt(x, y, px, py)<span class="type-signature"></span></h4>
+    <h4 class="name" id="_inspectNodeAt"><span class="type-signature">&lt;protected> </span>_inspectNodeAt(x, y, px, py)<span class="type-signature"></span></h4>
     
     
 </dt>
@@ -255,7 +295,7 @@ parent position, then update its parent and cost
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BreadthFirst.js, line 85</dd>
+	<dd class="tag-source">./src/modules/BreadthFirst.js, line 80</dd>
 	
 	
 	
@@ -371,6 +411,227 @@ parent position, then update its parent and cost
     
 
 </dd>
+<dt id="PF.BreadthFirstFinder#_inspectSurround">
+    <h4 class="name" id="_inspectSurround"><span class="type-signature">&lt;protected> </span>_inspectSurround(x, y)<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Inspect the surrounding nodes of the given position
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/modules/BreadthFirst.js, line 99</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the position.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    
+    
+
+</dd>
+<dt id="PF.BreadthFirstFinder#_inspectSurroundDiagonal">
+    <h4 class="name" id="_inspectSurroundDiagonal"><span class="type-signature">&lt;protected> </span>_inspectSurroundDiagonal(x, y)<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Inspect the surrounding nodes of the given position
+(including the diagonal ones).
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/modules/BreadthFirst.js, line 123</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the position.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    
+    
+
+</dd>
 </dl>
             
         
@@ -389,7 +650,7 @@ parent position, then update its parent and cost
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Thu Oct 06 2011 19:29:07 GMT+0800 (HKT)
+    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Fri Oct 07 2011 00:11:03 GMT+0800 (HKT)
 </footer>
 
 <script> sh_highlightDocument(); </script>

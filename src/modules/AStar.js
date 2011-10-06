@@ -8,7 +8,7 @@
  *     being used to estimate the distance(defaults to manhattan).
  * @example
  * var finder, path;
- * finder = PF.AStarFinder();
+ * finder = PF.AStarFinder(true);
  * path = finder.findPath(...);
  *
  * // Available heuristics:
