@@ -31,38 +31,62 @@
         <!-- TODO: using jquery-ui's triangle image to replace radio button -->
         <div class="accordion">
             <h3 id="astar_header"><a href="#">A*</a></h3>
-            <section id="astar_section" class="finder_section">
-                <section id="astar_heuristic" class="sub_options">
+            <div id="astar_section" class="finder_section">
+                <header class="option_header">
+                    <h3>Heuristic</h3>
+                </header>
+                <div id="astar_heuristic" class="sub_options">
                     <input type="radio" name="astar_heuristic" value="manhattan" checked />Manhattan <br>
                     <input type="radio" name="astar_heuristic" value="euclidean"/>Euclidean <br>
                     <input type="radio" name="astar_heuristic" value="chebyshev"/>Chebyshev <br>
-                </section>
+                </div>
 
-                <section class="optional sub_options">
+                <header class="option_header">
+                    <h3>Options</h3>
+                </header>
+                <div class="optional sub_options">
                     <input type="checkbox" class="allow_diagonal" checked>Allow Diagonal <br>
-                </section>
-            </section>
+                </div>
+            </div>
 
             <h3 id="breadthfirst_header"><a href="#">Breadth-First-Search</a></h3>
-            <section id="breadthfirst_section" class="finder_section">
-                <section class="optional sub_options">
+            <div id="breadthfirst_section" class="finder_section">
+                <header class="option_header">
+                    <h3>Options</h3>
+                </header>
+                <div class="optional sub_options">
                     <input type="checkbox" class="allow_diagonal" checked>Allow Diagonal <br>
-                </section>
-            </section>
+                </div>
+            </div>
             
             <h3 id="bestfirst_header"><a href="#">Best-First-Search</a></h3>
-            <section id="bestfirst_section" class="finder_section">
-                <section class="optional sub_options">
+            <div id="bestfirst_section" class="finder_section">
+                <header class="option_header">
+                    <h3>Heuristic</h3>
+                </header>
+                <div id="bestfirst_heuristic" class="sub_options">
+                    <input type="radio" name="bestfirst_heuristic" value="manhattan" checked />Manhattan <br>
+                    <input type="radio" name="bestfirst_heuristic" value="euclidean"/>Euclidean <br>
+                    <input type="radio" name="bestfirst_heuristic" value="chebyshev"/>Chebyshev <br>
+                </div>
+
+                <header class="option_header">
+                    <h3>Options</h3>
+                </header>
+                <div class="optional sub_options">
                     <input type="checkbox" class="allow_diagonal" checked>Allow Diagonal <br>
-                </section>
-            </section>
+                </div>
+            </div>
             
             <h3 id="dijkstra_header"><a href="#">Dijkstra</a></h3>
-            <section id="dijkstra_section" class="finder_section">
-                <section class="optional sub_options">
+            <div id="dijkstra_section" class="finder_section">
+                <header class="option_header">
+                    <h3>Options</h3>
+                </header>
+                <div class="optional sub_options">
                     <input type="checkbox" class="allow_diagonal" checked>Allow Diagonal <br>
-                </section>
-            </section>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -73,5 +97,9 @@
 
     <div id="timer">
     </div>
+
+    <footer>
+        Fork me on <a href="http://github.com/qiao/PathFinding.js">Github</a>
+    </footer>
 </body>
 </html>

@@ -60,7 +60,8 @@ window.Panel = {
         case 'bestfirst_header':
             allowDiagonal = typeof $('#bestfirst_section ' +
                                      '.allow_diagonal:checked').val() != 'undefined';
-            finder = new PF.BestFirstFinder(allowDiagonal);
+            heuristic = $('input[name=bestfirst_heuristic]:checked').val();
+            finder = new PF.BestFirstFinder(allowDiagonal, PF.AStarFinder[heuristic]);
             break;
         case 'dijkstra_header':
             allowDiagonal = typeof $('#dijkstra_section ' +
