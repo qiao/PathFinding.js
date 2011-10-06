@@ -1,10 +1,9 @@
 PathFinding.js
 ==============
-A comprehensive path-finding library for the next generation web game developers.
+A comprehensive path-finding library in javascript.
 
+The aim of this project is to provide a path-finding library which can be easily incorporated in web games. It comes along with an [online demo](http://qiao.github.com/PathFinding.js/visual) to show how the various algorithms executes.
 
-## Build ##
+## Document ##
 
-In order to build from the source, you need to have python2 and node.js installed.
-
-    $ utils/build.py
+An online document is available at http://qiao.github.com/PathFinding.js/doc
