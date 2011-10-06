@@ -51,7 +51,6 @@ PF.AStarFinder.prototype.constructor = PF.AStarFinder;
  */
 PF.AStarFinder.prototype._find = function() {
     var x, y,    // current x, y
-        nx, ny,  // next x, y
         sx = this.startX,
         sy = this.startY,
         ex = this.endX,
@@ -126,12 +125,12 @@ PF.AStarFinder.prototype._inspectNodeAt = function(x, y, px, py, isDiagonal) {
     }
 
     if (node.get('opened')) {
-        if (this._tryUpdate(x, y, px, py)) {
+        if (this._tryUpdate(x, y, px, py, isDiagonal)) {
             openList.heapify();
         }
     } else {
         node.set('opened', true);
-        this._tryUpdate(x, y, px, py);
+        this._tryUpdate(x, y, px, py, isDiagonal);
         openList.push([x, y]);
     }
 };
