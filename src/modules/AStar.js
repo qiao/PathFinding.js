@@ -235,7 +235,7 @@ PF.AStarFinder.prototype._inspectSurround = function(x, y) {
  * @param {number} x - The x coordinate of the position.
  * @param {number} y - The y coordinate of the position.
  */
-PF.AStarFinder.prototype._inspectSurroundDiagonal = function() {
+PF.AStarFinder.prototype._inspectSurroundDiagonal = function(x, y) {
     var xOffsets = PF.BaseFinder.xOffsets,
         yOffsets = PF.BaseFinder.yOffsets,
         xDiagonalOffsets = PF.BaseFinder.xDiagonalOffsets,
