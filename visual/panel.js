@@ -5,7 +5,7 @@ window.Panel = {
     },
 
     initGeometry: function() {
-        $('.control_panel').draggable();
+        $('.control_panel').draggable().show();
         $('.accordion').accordion({
             collapsible: false,
         });
