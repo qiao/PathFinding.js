@@ -141,8 +141,8 @@ PF.BreadthFirstFinder.prototype._inspectSurroundDiagonal = function(x, y) {
 
     // further inspect diagonal nodes
     for (i = 0; i < diagonalCan.length; ++i) {
-        nx = x + xDiagonalOffsets[i];
-        ny = y + yDiagonalOffsets[i];
+        nx = x + xDiagonalOffsets[diagonalCan[i]];
+        ny = y + yDiagonalOffsets[diagonalCan[i]];
         if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
             this._inspectNodeAt(nx, ny, x, y);
         }
