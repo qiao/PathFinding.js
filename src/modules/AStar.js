@@ -58,14 +58,14 @@ PF.AStarFinder.prototype._find = function() {
         grid = this.grid,
 
 
-        openList = new PF.Heap(function(pos_a, pos_b) {
-            var fa = grid.getAttributeAt(pos_a[0], pos_a[1], 'f'),
-                fb = grid.getAttributeAt(pos_b[0], pos_b[1], 'f');
+        openList = new PF.Heap(function(posA, posB) {
+            var fa = grid.getAttributeAt(posA[0], posA[1], 'f'),
+                fb = grid.getAttributeAt(posB[0], posB[1], 'f');
             if (fa != fb) {
                 return fa < fb;
             } else {
-                return grid.getAttributeAt(pos_a[0], pos_a[1], 'h') <
-                       grid.getAttributeAt(pos_b[0], pos_b[1], 'h');
+                return grid.getAttributeAt(posA[0], posA[1], 'h') < 
+                       grid.getAttributeAt(posB[0], posB[1], 'h');
             }
         }),
         node;
