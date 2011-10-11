@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>JSDoc: Class: Grid</title>
+	<title>JSDoc: Class: BiAStarFinder</title>
 	
 	<script src="http://shjs.sourceforge.net/sh_main.min.js"> </script>
     <script src="http://shjs.sourceforge.net/lang/sh_javascript.min.js"> </script>
@@ -15,20 +15,20 @@
 
 <div id="main">
     
-    <h1 class="page-title">Class: Grid</h1>
+    <h1 class="page-title">Class: BiAStarFinder</h1>
     
     
     
     <section>
      
     <header>
-        <h2><span class="ancestors"><a href="PF.html">PF</a> &rang; </span>Grid</h2>
+        <h2><span class="ancestors"><a href="PF.html">PF</a> &rang; </span>BiAStarFinder</h2>
         
     </header>  
     
     <article>    
-        <dt id="PF.Grid">
-    <h4 class="name" id="Grid"><span class="type-signature"></span>new Grid(width, height, [matrix])<span class="type-signature"></span></h4>
+        <dt id="PF.BiAStarFinder">
+    <h4 class="name" id="BiAStarFinder"><span class="type-signature"></span>new BiAStarFinder(allowDiagonal, [heuristic])<span class="type-signature"></span></h4>
     
     
 </dt>
@@ -36,8 +36,7 @@
     
     
     <p class="description">
-        The Grid class, which serves as the encapsulation of the layout of the 
-nodes on the map.
+        Bi-directional A* path-finder.
     </p>
     
     
@@ -58,7 +57,7 @@ nodes on the map.
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Grid.js, line 11</dd>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 10</dd>
 	
 	
 	
@@ -95,11 +94,11 @@ nodes on the map.
 	
         <tr>
             
-                <td class="name"><code>width</code></td>
+                <td class="name"><code>allowDiagonal</code></td>
             
             
             <td class="type">
-            number
+            boolean
             </td>
             
             
@@ -110,40 +109,18 @@ nodes on the map.
             
             
             
-            <td class="description last">Number of columns of the grid.</td>
+            <td class="description last">Whether diagonal movement is allowed.</td>
         </tr>
 	
 	
 	
         <tr>
             
-                <td class="name"><code>height</code></td>
+                <td class="name"><code>heuristic</code></td>
             
             
             <td class="type">
-            number
-            </td>
-            
-            
-                <td class="attributes">
-                
-                </td>
-            
-            
-            
-            
-            <td class="description last">Number of rows of the grid.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>matrix</code></td>
-            
-            
-            <td class="type">
-            Array.&lt;Array.&lt;(number | boolean)>>
+            function(number, number): number
             </td>
             
             
@@ -154,9 +131,8 @@ nodes on the map.
             
             
             
-            <td class="description last">A 0-1 matrix 
-    representing the walkable status of the nodes(0 or false for walkable). 
-    If the matrix is not supplied, all the nodes will be walkable.</td>
+            <td class="description last">Heuristic function
+    being used to estimate the distance(defaults to manhattan).</td>
         </tr>
 	
 	
@@ -175,111 +151,35 @@ nodes on the map.
 
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+            <h3 class="subsection-title">Extends</h3>
             
-            <h3 class="subsection-title">Properties</h3>
+            <ul>
+                <li><a href="PF.AStarFinder.html">PF.AStarFinder</a></li>
+            </ul>
+        
+        
+        
+        
+        
+            <h3 class="subsection-title">Requires</h3>
             
-            <dl>
-<dt id="property:PF.Grid#height">
-    <h4 class="name"><span class="type-signature"></span>height<span class="type-signature"> :number</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    <p class="description">
-        The number of rows of the grid.
-    </p>
-    
-    
-    <dl class="details">
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Grid.js, line 21</dd>
-	
-	
-	
-	
-	
-</dl>
-
-    
-    
-</dd>
-
-<dt id="property:PF.Grid#width">
-    <h4 class="name"><span class="type-signature"></span>width<span class="type-signature"> :number</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    <p class="description">
-        The number of columns of the grid.
-    </p>
-    
-    
-    <dl class="details">
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Grid.js, line 16</dd>
-	
-	
-	
-	
-	
-</dl>
-
-    
-    
-</dd>
-</dl>
-            
+            <ul>
+                <li>module:PF.Heap</li>
+            </ul>
+        
+        
+        
+        
+        
+        
         
         
         
             
             <h3 class="subsection-title">Methods</h3>
             
-            <dl><dt id="PF.Grid#_buildGrid">
-    <h4 class="name" id="_buildGrid"><span class="type-signature">&lt;private> </span>_buildGrid([matrix])<span class="type-signature"></span></h4>
+            <dl><dt id="PF.BiAStarFinder#_calculateH">
+    <h4 class="name" id="_calculateH"><span class="type-signature">&lt;protected> </span>_calculateH(x, y, which)<span class="type-signature"> &rarr; {number}</span></h4>
     
     
 </dt>
@@ -287,7 +187,7 @@ nodes on the map.
     
     
     <p class="description">
-        Build the grids.
+        Calculate the `h` value of a given position.
     </p>
     
     
@@ -308,114 +208,7 @@ nodes on the map.
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Grid.js, line 35</dd>
-	
-	
-	
-	<dt class="tag-see">See:</dt>
-	<dd class="tag-see">
-        <ul><li><a href="PF.Grid.html">PF.Grid</a></li></ul>
-	</dd>
-	
-	
-	
-</dl>
-
-    
-    
-    
-    <h5>Parameters:</h5>
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		<th>Argument</th>
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>matrix</code></td>
-            
-            
-            <td class="type">
-            Array.&lt;Array.&lt;number | boolean>>
-            </td>
-            
-            
-                <td class="attributes">
-                &lt;optional><br>
-                </td>
-            
-            
-            
-            
-            <td class="description last">A 0-1 matrix representing
-    the walkable status of the nodes.</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-    
-    
-    
-    
-    
-
-</dd>
-<dt id="PF.Grid#getAttributeAt">
-    <h4 class="name" id="getAttributeAt"><span class="type-signature"></span>getAttributeAt(x, y, attr)<span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <p class="description">
-        Generic getter of the attribute at the given position.
-Note: This method gets the same result as:
-    {@code node = grid.getNodeAt(x, y);
-           return node[attr];}
-    </p>
-    
-    
-    <dl class="details">
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Grid.js, line 140</dd>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 297</dd>
 	
 	
 	
@@ -486,7 +279,7 @@ Note: This method gets the same result as:
 	
         <tr>
             
-                <td class="name"><code>attr</code></td>
+                <td class="name"><code>which</code></td>
             
             
             <td class="type">
@@ -497,125 +290,7 @@ Note: This method gets the same result as:
             
             
             
-            <td class="description last">The name of attribute to get.</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-<div class="param-desc">
-    The value of the attribute.
-</div>
-
-
-
-    
-    
-
-</dd>
-<dt id="PF.Grid#getNodeAt">
-    <h4 class="name" id="getNodeAt"><span class="type-signature"></span>getNodeAt(x, y)<span class="type-signature"> &rarr; {PF.Node}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <p class="description">
-        Get the node at the given position.
-    </p>
-    
-    
-    <dl class="details">
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Grid.js, line 78</dd>
-	
-	
-	
-	
-	
-</dl>
-
-    
-    
-    
-    <h5>Parameters:</h5>
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>x</code></td>
-            
-            
-            <td class="type">
-            number
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The x coordinate of the node.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-            
-            <td class="type">
-            number
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The y coordinate of the node.</td>
+            <td class="description last">Inspection by `source` or `target`.</td>
         </tr>
 	
 	
@@ -638,7 +313,7 @@ Note: This method gets the same result as:
 	</dt>
 	<dd>
 		
-		<span class="param-type">PF.Node</span> 
+		<span class="param-type">number</span> 
 		
 	</dd>
 </dl>
@@ -647,8 +322,8 @@ Note: This method gets the same result as:
     
 
 </dd>
-<dt id="PF.Grid#isInside">
-    <h4 class="name" id="isInside"><span class="type-signature"></span>isInside(x, y)<span class="type-signature"> &rarr; {boolean}</span></h4>
+<dt id="PF.BiAStarFinder#_find">
+    <h4 class="name" id="_find"><span class="type-signature">&lt;protected> </span>_find()<span class="type-signature"> &rarr; {Array.&lt;[number, number]>}</span></h4>
     
     
 </dt>
@@ -656,7 +331,7 @@ Note: This method gets the same result as:
     
     
     <p class="description">
-        Determine whether the given position is inside the grid.
+        Find and return the the path.
     </p>
     
     
@@ -677,7 +352,7 @@ Note: This method gets the same result as:
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Grid.js, line 111</dd>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 25</dd>
 	
 	
 	
@@ -688,65 +363,7 @@ Note: This method gets the same result as:
     
     
     
-    <h5>Parameters:</h5>
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>x</code></td>
-            
-            
-            <td class="type">
-            number
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The x coordinate of the position.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-            
-            <td class="type">
-            number
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The y coordinate of the position.</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
+    
     
     
     
@@ -756,7 +373,8 @@ Note: This method gets the same result as:
     <h5>Returns:</h5>
     
 <div class="param-desc">
-    Whether the position is inside.
+    The path, including both start and 
+    end positions.
 </div>
 
 
@@ -768,7 +386,7 @@ Note: This method gets the same result as:
 	</dt>
 	<dd>
 		
-		<span class="param-type">boolean</span> 
+		<span class="param-type">Array.&lt;[number, number]></span> 
 		
 	</dd>
 </dl>
@@ -777,8 +395,8 @@ Note: This method gets the same result as:
     
 
 </dd>
-<dt id="PF.Grid#isWalkableAt">
-    <h4 class="name" id="isWalkableAt"><span class="type-signature"></span>isWalkableAt(x, y)<span class="type-signature"> &rarr; {boolean}</span></h4>
+<dt id="PF.BiAStarFinder#_inspectNodeAt">
+    <h4 class="name" id="_inspectNodeAt"><span class="type-signature">&lt;protected> </span>_inspectNodeAt(x, y, px, py, isDiagonal, which)<span class="type-signature"></span></h4>
     
     
 </dt>
@@ -786,7 +404,9 @@ Note: This method gets the same result as:
     
     
     <p class="description">
-        Determine whether the node on the given position is walkable.
+        Push the position into the open list if this position is not in the list.
+Otherwise, if the position can be accessed with a lower cost from the given
+parent position, then update its parent and cost
     </p>
     
     
@@ -807,140 +427,7 @@ Note: This method gets the same result as:
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Grid.js, line 89</dd>
-	
-	
-	
-	
-	
-</dl>
-
-    
-    
-    
-    <h5>Parameters:</h5>
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>x</code></td>
-            
-            
-            <td class="type">
-            number
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The x coordinate of the node.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-            
-            <td class="type">
-            number
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The y coordinate of the node.</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-<div class="param-desc">
-    - The walkability of the node.
-</div>
-
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-		<span class="param-type">boolean</span> 
-		
-	</dd>
-</dl>
-
-    
-    
-
-</dd>
-<dt id="PF.Grid#setAttributeAt">
-    <h4 class="name" id="setAttributeAt"><span class="type-signature"></span>setAttributeAt(x, y, attr, value)<span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <p class="description">
-        Generic setter of the attribute at the given position.
-Note: This method gets the same result as:
-    {@code node = grid.getNodeAt(x, y);
-           node[attr] = value;}
-    </p>
-    
-    
-    <dl class="details">
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Grid.js, line 126</dd>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 189</dd>
 	
 	
 	
@@ -1011,117 +498,7 @@ Note: This method gets the same result as:
 	
         <tr>
             
-                <td class="name"><code>attr</code></td>
-            
-            
-            <td class="type">
-            string
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The name of attribute to set.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>value</code></td>
-            
-            
-            <td class="type">
-            *
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The value of attribute.</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-    
-    
-    
-    
-    
-
-</dd>
-<dt id="PF.Grid#setWalkableAt">
-    <h4 class="name" id="setWalkableAt"><span class="type-signature"></span>setWalkableAt(x, y, walkable)<span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <p class="description">
-        Set whether the node on the given position is walkable.
-    </p>
-    
-    
-    <dl class="details">
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/core/Grid.js, line 100</dd>
-	
-	
-	
-	
-	
-</dl>
-
-    
-    
-    
-    <h5>Parameters:</h5>
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>x</code></td>
+                <td class="name"><code>px</code></td>
             
             
             <td class="type">
@@ -1132,14 +509,14 @@ Note: This method gets the same result as:
             
             
             
-            <td class="description last">The x coordinate of the node.</td>
+            <td class="description last">The x coordinate of the parent position.</td>
         </tr>
 	
 	
 	
         <tr>
             
-                <td class="name"><code>y</code></td>
+                <td class="name"><code>py</code></td>
             
             
             <td class="type">
@@ -1150,14 +527,14 @@ Note: This method gets the same result as:
             
             
             
-            <td class="description last">The y coordinate of the node.</td>
+            <td class="description last">The y coordinate of the parent position.</td>
         </tr>
 	
 	
 	
         <tr>
             
-                <td class="name"><code>walkable</code></td>
+                <td class="name"><code>isDiagonal</code></td>
             
             
             <td class="type">
@@ -1168,7 +545,25 @@ Note: This method gets the same result as:
             
             
             
-            <td class="description last">Whether the position is walkable.</td>
+            <td class="description last">Whether [x, y] and [px, py] is diagonal</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>which</code></td>
+            
+            
+            <td class="type">
+            string
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Inspection by 'source' or 'target'.</td>
         </tr>
 	
 	
@@ -1180,6 +575,467 @@ Note: This method gets the same result as:
     
     
     
+    
+    
+
+</dd>
+<dt id="PF.BiAStarFinder#_inspectSurround">
+    <h4 class="name" id="_inspectSurround"><span class="type-signature">&lt;protected> </span>_inspectSurround(x, y, which)<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Inspect the surrounding nodes of the given position
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 115</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>which</code></td>
+            
+            
+            <td class="type">
+            string
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Inspection by 'source' or 'target'.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    
+    
+
+</dd>
+<dt id="PF.BiAStarFinder#_inspectSurroundDiagonal">
+    <h4 class="name" id="_inspectSurroundDiagonal"><span class="type-signature">&lt;protected> </span>_inspectSurroundDiagonal(x, y, which)<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Inspect the surrounding nodes of the given position
+(including the diagonal ones).
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 144</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>which</code></td>
+            
+            
+            <td class="type">
+            string
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Inspection by 'source' or 'target'.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    
+    
+
+</dd>
+<dt id="PF.BiAStarFinder#_tryUpdate">
+    <h4 class="name" id="_tryUpdate"><span class="type-signature">&lt;protected> </span>_tryUpdate(x, y, px, py, isDiagonal, which)<span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Try to update the position's info with the given parent.
+If this position can be accessed from the given parent with lower 
+`g` cost, then this position's parent, `g` and `f` values will be updated.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 232</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>px</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The x coordinate of the parent position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>py</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The y coordinate of the parent position.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>isDiagonal</code></td>
+            
+            
+            <td class="type">
+            boolean
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Whether [x, y] and [px, py] is diagonal</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>which</code></td>
+            
+            
+            <td class="type">
+            string
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Inspection by 'source' or 'target'.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+<div class="param-desc">
+    Whether this position's info has been updated.
+</div>
+
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">boolean</span> 
+		
+	</dd>
+</dl>
+
     
     
 
