@@ -15,12 +15,17 @@ FILES = [
     'core/Node.js',
     'core/Grid.js',
     'core/BaseFinder.js',
+
     'modules/Heap.js',
+
     'modules/AStar.js',
     'modules/BreadthFirst.js',
     'modules/BestFirst.js',
     'modules/Dijkstra.js',
+
     'modules/BiAStar.js',
+    'modules/BiBestFirst.js',
+    'modules/BiDijkstra.js',
     ]
 
 
