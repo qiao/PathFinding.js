@@ -10,7 +10,7 @@ It comes along with an [online demo](http://qiao.github.com/PathFinding.js/visua
 
 ## Usage ##
 
-Download the (minified js file)[http://qiao.github.com/PathFinding.js/build/PathFinding.min.js] and include it in your web page.
+Download the [minified js file](http://qiao.github.com/PathFinding.js/build/PathFinding.min.js) and include it in your web page.
 
 ```html
 <script type="text/javascript" src="./PathFinding.min.js"></script>
@@ -22,7 +22,7 @@ To build a grid-map of width 5 and height 3:
 var grid = new PF.Grid(5, 3); 
 ```
 
-By default, all the nodes in the grid genereated above will be nodes that can be walked through.
+By default, all the nodes in the grid genereated above will be able to be walked through.
 To set whether a node at a given coordinate is walkable or not, use the `setWalkableAt` method.
 
 ```javascript
@@ -45,18 +45,18 @@ var matrix = [
 var grid = new PF.Grid(5, 3, matrix);
 ```
 
-Currently there are eight algorithms bundled in this library, namely:
+Currently there are eight path-finders bundled in this library, namely:
 
-*  AStar
-*  BreadthFirst
-*  BestFirst
-*  Dijkstra
-*  BiAStar
-*  BiBestFirst
-*  BiDijkstra
-*  BiBreadthFirst
+*  `AStarFinder`
+*  `BreadthFirstFinder`
+*  `BestFirstFinder`
+*  `DijkstraFinder`
+*  `BiAStarFinder`
+*  `BiBestFirstFinder`
+*  `BiDijkstraFinder`
+*  `BiBreadthFirstFinder`
 
-(The suffix `Bi` for the last four algorithms in the above list stands for the bi-directional searching strategy.)
+(The suffix `Bi` for the last four finders in the above list stands for the bi-directional searching strategy.)
 
 To build a path-finder:
 
@@ -73,4 +73,4 @@ var path = finder.findPath(1, 2, 4, 2, grid);
 `path` will be an array of coordinates including both the start and end positions.
 
 
-An online document is available at http://qiao.github.com/PathFinding.js/doc
+For a detailed API document, see http://qiao.github.com/PathFinding.js/doc
