@@ -38,6 +38,10 @@ window.Panel = {
         $('#reset_button').click(function() {
             GridController.resetAll();
         });
+
+        $('#hide_instruction').click(function() {
+            $('#help_panel').slideUp();
+        });
     },
 
 
