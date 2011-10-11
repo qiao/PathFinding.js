@@ -26,6 +26,7 @@ FILES = [
     'modules/BiAStar.js',
     'modules/BiBestFirst.js',
     'modules/BiDijkstra.js',
+    'modules/BiBreadthFirst.js',
     ]
 
 
