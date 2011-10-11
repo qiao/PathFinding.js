@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>PathFinding.js</title>
+
+    <!--if lt IE 9>
+    <script type="text/javascript">
+        window.location = './notsupported.html';
+    </script> 
+    <![endif]-->
+
     <link rel="stylesheet" href="./main.css" />
     <link rel="stylesheet" href="./lib/themes/jquery.ui.all.css" />
 
@@ -14,6 +21,7 @@
     <script type="text/javascript" src="./lib/ui/jquery.ui.mouse.min.js"></script>
     <script type="text/javascript" src="./lib/ui/jquery.ui.draggable.min.js"></script>
     <script type="text/javascript" src="./lib/ui/jquery.ui.accordion.min.js"></script>
+    <script type="text/javascript" src="./lib/ui/jquery.ui.slider.min.js"></script>
 
     <script type="text/javascript" src="../build/PathFinding.min.js"></script>
     <script type="text/javascript" src="./notification.js"></script>
@@ -95,6 +103,7 @@
     </div>
 
     <div id="play_panel" class="control_panel">
+        <!--<div id="speed_slider"></div>-->
         <button id="start_button">Start</button>
         <button id="stop_button">Stop</button>
         <button id="reset_button">Reset</button>

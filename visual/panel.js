@@ -9,12 +9,13 @@ window.Panel = {
         $('.accordion').accordion({
             collapsible: false,
         });
+        //$('#speed_slider').slider();
 
         this.updateGeometry();
     },
 
     initListeners: function() {
-        var self = this;
+        var self = this, finder, interval;
 
         $(window).resize(function() {
             self.updateGeometry();
@@ -26,7 +27,8 @@ window.Panel = {
             }
             GridController.resetCurrent();
             finder = self.getFinder();
-            GridController.start(finder, 0, function() {
+            interval = 3;
+            GridController.start(finder, interval, function() {
                 self.showStat();
             });
         });
