@@ -8,7 +8,7 @@
  *     being used to estimate the distance(defaults to manhattan).
  */
 PF.BiAStarFinder = function(allowDiagonal, heuristic) {
-    PF.AStarFinder.call(this, allowDiagonal);
+    PF.AStarFinder.call(this, allowDiagonal, heuristic);
 };
 
 
@@ -294,7 +294,7 @@ PF.BiAStarFinder.prototype._constructPath = function(x1, y1, x2, y2, which) {
  * @param {string} which - Inspection by `source` or `target`.
  * @return {number}
  */
-PF.AStarFinder.prototype._calculateH = function(x, y, which) {
+PF.BiAStarFinder.prototype._calculateH = function(x, y, which) {
     if (which == 'source') {
         var dx = Math.abs(x - this.endX),
             dy = Math.abs(y - this.endY);
