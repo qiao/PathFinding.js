@@ -9,12 +9,13 @@ window.Panel = {
         $('.accordion').accordion({
             collapsible: false,
         });
+        //$('#speed_slider').slider();
 
         this.updateGeometry();
     },
 
     initListeners: function() {
-        var self = this;
+        var self = this, finder, interval;
 
         $(window).resize(function() {
             self.updateGeometry();
@@ -26,12 +27,16 @@ window.Panel = {
             }
             GridController.resetCurrent();
             finder = self.getFinder();
-            GridController.start(finder, 0, function() {
+            interval = 3;
+            GridController.start(finder, interval, function() {
                 self.showStat();
             });
         });
         $('#stop_button').click(function() {
             GridController.stop();
+        });
+        $('#reset_button').click(function() {
+            GridController.resetAll();
         });
     },
 
@@ -63,7 +68,13 @@ window.Panel = {
         case 'breadthfirst_header':
             allowDiagonal = typeof $('#breadthfirst_section ' +
                                      '.allow_diagonal:checked').val() != 'undefined';
-            finder = new PF.BreadthFirstFinder(allowDiagonal);
+            biDirectional = typeof $('#breadthfirst_section ' +
+                                     '.bi-directional:checked').val() != 'undefined';
+            if (biDirectional) {
+                finder = new PF.BiBreadthFirstFinder(allowDiagonal);
+            } else {
+                finder = new PF.BreadthFirstFinder(allowDiagonal);
+            }
             break;
 
         case 'bestfirst_header':
