@@ -155,7 +155,7 @@ PF.BiAStarFinder.prototype._inspectSurroundDiagonal = function(x, y, which) {
         ny = y + yOffsets[i];
 
         if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
-            this._inspectNodeAt(nx, ny, x, y, false, by);
+            this._inspectNodeAt(nx, ny, x, y, false, which);
 
             diagonalCan.push(i);
         }
@@ -166,7 +166,7 @@ PF.BiAStarFinder.prototype._inspectSurroundDiagonal = function(x, y, which) {
         nx = x + xDiagonalOffsets[diagonalCan[i]];
         ny = y + yDiagonalOffsets[diagonalCan[i]];
         if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
-            if (this._inspectNodeAt(nx, ny, x, y, true, by)) {
+            if (this._inspectNodeAt(nx, ny, x, y, true, which)) {
                 return true;
             };
         }
@@ -203,13 +203,13 @@ PF.BiAStarFinder.prototype._inspectNodeAt = function(x, y, px, py, isDiagonal, w
             this.path = this._constructPath(x, y, px, py, which);
             return true;
         }
-        if (this._tryUpdate(x, y, px, py, isDiagonal)) {
+        if (this._tryUpdate(x, y, px, py, isDiagonal, which)) {
             openList.heapify();
         }
     } else {
         node.set('opened', true);
         node.set('by', which);
-        this._tryUpdate(x, y, px, py, isDiagonal);
+        this._tryUpdate(x, y, px, py, isDiagonal, which);
         openList.push([x, y]);
     }
     return false;
@@ -226,9 +226,10 @@ PF.BiAStarFinder.prototype._inspectNodeAt = function(x, y, px, py, isDiagonal, w
  * @param {number} px - The x coordinate of the parent position.
  * @param {number} py - The y coordinate of the parent position.
  * @param {boolean} isDiagonal - Whether [x, y] and [px, py] is diagonal 
+ * @param {string} which - Inspection by 'source' or 'target'.
  * @return {boolean} Whether this position's info has been updated.
  */
-PF.BiAStarFinder.prototype._tryUpdate = function(x, y, px, py, isDiagonal) {
+PF.BiAStarFinder.prototype._tryUpdate = function(x, y, px, py, isDiagonal, which) {
     var grid = this.grid,
         pNode = grid.getNodeAt(px, py), // parent node
         ng = pNode.get('g') + (isDiagonal ? 1.4142 : 1); // next `g` value
@@ -237,7 +238,7 @@ PF.BiAStarFinder.prototype._tryUpdate = function(x, y, px, py, isDiagonal) {
     if (node.get('g') === undefined || ng < node.get('g')) {
         node.set('parent', [px, py]);
         node.set('g', ng);
-        node.set('h', this._calculateH(x, y));
+        node.set('h', this._calculateH(x, y, which));
         node.set('f', node.get('g') + node.get('h'));
         return true;
     }
@@ -282,4 +283,25 @@ PF.BiAStarFinder.prototype._constructPath = function(x1, y1, x2, y2, which) {
     targetPath.reverse();
 
     return sourcePath.concat(targetPath);
+};
+
+
+/**
+ * Calculate the `h` value of a given position.
+ * @protected
+ * @param {number} x - The x coordinate of the position.
+ * @param {number} y - The y coordinate of the position.
+ * @param {string} which - Inspection by `source` or `target`.
+ * @return {number}
+ */
+PF.AStarFinder.prototype._calculateH = function(x, y, which) {
+    if (which == 'source') {
+        var dx = Math.abs(x - this.endX),
+            dy = Math.abs(y - this.endY);
+        return this.heuristic(dx, dy);
+    } else {
+        var dx = Math.abs(x - this.startX),
+            dy = Math.abs(y - this.startY);
+        return this.heuristic(dx, dy);
+    }
 };
