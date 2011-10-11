@@ -79,17 +79,29 @@ PF.BiAStarFinder.prototype._find = function() {
     return [];
 };
 
-
+/**
+ * Expand the source open list.
+ * @return {boolean} Whether the path has been found.
+ */
 PF.BiAStarFinder.prototype._expandSource = function() {
     return this._expand('source');
 };
 
 
+/**
+ * Expand the target open list.
+ * @return {boolean} Whether the path has been found.
+ */
 PF.BiAStarFinder.prototype._expandTarget = function() {
     return this._expand('target');
 };
 
 
+/**
+ * Expand one of the queues.
+ * @param {string} which - Expand `source` or `target`.
+ * @return {boolean} Whether the path has been found.
+ */
 PF.BiAStarFinder.prototype._expand = function(which) {
     var pos, x, y, grid;
 
@@ -111,6 +123,7 @@ PF.BiAStarFinder.prototype._expand = function(which) {
  * @param {number} x - The x coordinate of the position.
  * @param {number} y - The y coordinate of the position.
  * @param {string} which - Inspection by 'source' or 'target'.
+ * @return {boolean} Whether the path has been found.
  */
 PF.BiAStarFinder.prototype._inspectSurround = function(x, y, which) {
     var xOffsets = PF.BaseFinder.xOffsets,
@@ -140,6 +153,7 @@ PF.BiAStarFinder.prototype._inspectSurround = function(x, y, which) {
  * @param {number} x - The x coordinate of the position.
  * @param {number} y - The y coordinate of the position.
  * @param {string} which - Inspection by 'source' or 'target'.
+ * @return {boolean} Whether the path has been found.
  */
 PF.BiAStarFinder.prototype._inspectSurroundDiagonal = function(x, y, which) {
     var xOffsets = PF.BaseFinder.xOffsets,
@@ -185,6 +199,7 @@ PF.BiAStarFinder.prototype._inspectSurroundDiagonal = function(x, y, which) {
  * @param {number} py - The y coordinate of the parent position.
  * @param {boolean} isDiagonal - Whether [x, y] and [px, py] is diagonal 
  * @param {string} which - Inspection by 'source' or 'target'.
+ * @return {boolean} Whether the path has been found.
  */
 PF.BiAStarFinder.prototype._inspectNodeAt = function(x, y, px, py, isDiagonal, which) {
     var grid = this.grid,
@@ -246,6 +261,17 @@ PF.BiAStarFinder.prototype._tryUpdate = function(x, y, px, py, isDiagonal, which
 };
 
 
+/**
+ * Construct the path according to the nodes' parents.
+ * @protected
+ * @param {number} x1 - X coordinate of one of the meeting nodes.
+ * @param {number} y1 - Y coordinate of one of the meeting nodes.
+ * @param {number} x2 - X coordinate of the other meeting node.
+ * @param {number} y2 - Y coordinate of the other meeting node.
+ * @param {string} which - Construction initiated by `source` or `target`.
+ * @return {Array.<Array.<number>>} The path, including
+ *     both start and end positions.
+ */
 PF.BiAStarFinder.prototype._constructPath = function(x1, y1, x2, y2, which) {
     var x, y, sx, sy, ex, ey, grid, sourcePath, targetPath;
 
@@ -262,7 +288,6 @@ PF.BiAStarFinder.prototype._constructPath = function(x1, y1, x2, y2, which) {
         sourcePath = [[x1, y1]];
         targetPath = [[x2, y2]];
     }
-    cnt = 1;
 
     for (;;) {
         x = sourcePath[0][0];
@@ -292,7 +317,7 @@ PF.BiAStarFinder.prototype._constructPath = function(x1, y1, x2, y2, which) {
  * @param {number} x - The x coordinate of the position.
  * @param {number} y - The y coordinate of the position.
  * @param {string} which - Inspection by `source` or `target`.
- * @return {number}
+ * @return {number} The heuristic value.
  */
 PF.BiAStarFinder.prototype._calculateH = function(x, y, which) {
     if (which == 'source') {
