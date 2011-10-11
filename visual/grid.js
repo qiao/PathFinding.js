@@ -4,6 +4,7 @@ window.GridModel = {
     startPosChange: new Notification(this),
     endPosChange: new Notification(this),
     currentReset: new Notification(this), 
+    allReset: new Notification(this),
 
     init: function() {
         var self = this;
@@ -108,6 +109,13 @@ window.GridModel = {
 
         this.currentReset.notify();
     },
+
+    resetAll: function() {
+        this._grid = new PF.Grid(this._grid.width, this._grid.height);
+        this._queue = [];
+        
+        this.allReset.notify();
+    },
 };
 
 
@@ -173,6 +181,9 @@ window.GridView = {
         });
         GridModel.currentReset.attach(function() {
             self.resetCurrent();
+        });
+        GridModel.allReset.attach(function() {
+            self.resetAll();
         });
 
 
@@ -302,6 +313,20 @@ window.GridView = {
         }
     },
 
+    resetAll: function() {
+        var i, j;
+
+        for (i = 0; i < GridModel.getHeight(); ++i) {
+            for (j = 0; j < GridModel.getWidth(); ++j) {
+                this.colorizeNodeAt(j, i, this.normalNodeAttr.fill);
+            }
+        }
+        this.changedNodes = [];
+
+        if (this.path) {
+            this.path.hide();
+        }
+    },
 
     colorizeNodeAt: function(x, y, color) {
         this.rects[y][x].animate({
@@ -483,6 +508,10 @@ window.GridController = {
 
     resetCurrent: function() {
         GridModel.resetCurrent();
+    },
+
+    resetAll: function() {
+        GridModel.resetAll();
     },
 
     isRunning: function() {

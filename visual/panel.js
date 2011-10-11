@@ -33,6 +33,9 @@ window.Panel = {
         $('#stop_button').click(function() {
             GridController.stop();
         });
+        $('#reset_button').click(function() {
+            GridController.resetAll();
+        });
     },
 
 
