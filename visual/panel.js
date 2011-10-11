@@ -38,7 +38,7 @@ window.Panel = {
 
     // XXX: clean up this messy code
     getFinder: function() {
-        var finder, selected_header, allowDiagonal, heuristic;
+        var finder, selected_header, heuristic, allowDiagonal, biDirectional;
         
         selected_header = $(
             '#algorithm_panel ' + 
@@ -46,27 +46,49 @@ window.Panel = {
         ).attr('id');
         
         switch (selected_header) {
+
         case 'astar_header': 
             allowDiagonal = typeof $('#astar_section ' +
                                      '.allow_diagonal:checked').val() != 'undefined';
+            biDirectional = typeof $('#astar_section ' +
+                                     '.bi-directional:checked').val() != 'undefined';
             heuristic = $('input[name=astar_heuristic]:checked').val();
-            finder = new PF.AStarFinder(allowDiagonal, PF.AStarFinder[heuristic]);
+            if (biDirectional) {
+                finder = new PF.BiAStarFinder(allowDiagonal, PF.AStarFinder[heuristic]);
+            } else {
+                finder = new PF.AStarFinder(allowDiagonal, PF.AStarFinder[heuristic]);
+            }
             break;
+
         case 'breadthfirst_header':
             allowDiagonal = typeof $('#breadthfirst_section ' +
                                      '.allow_diagonal:checked').val() != 'undefined';
             finder = new PF.BreadthFirstFinder(allowDiagonal);
             break;
+
         case 'bestfirst_header':
             allowDiagonal = typeof $('#bestfirst_section ' +
                                      '.allow_diagonal:checked').val() != 'undefined';
+            biDirectional = typeof $('#bestfirst_section ' +
+                                     '.bi-directional:checked').val() != 'undefined';
             heuristic = $('input[name=bestfirst_heuristic]:checked').val();
-            finder = new PF.BestFirstFinder(allowDiagonal, PF.AStarFinder[heuristic]);
+            if (biDirectional) {
+                finder = new PF.BiBestFirstFinder(allowDiagonal, PF.AStarFinder[heuristic]);
+            } else {
+                finder = new PF.BestFirstFinder(allowDiagonal, PF.AStarFinder[heuristic]);
+            }
             break;
+
         case 'dijkstra_header':
             allowDiagonal = typeof $('#dijkstra_section ' +
                                      '.allow_diagonal:checked').val() != 'undefined';
-            finder = new PF.DijkstraFinder(allowDiagonal);
+            biDirectional = typeof $('#dijkstra_section ' +
+                                     '.bi-directional:checked').val() != 'undefined';
+            if (biDirectional) {
+                finder = new PF.BiDijkstraFinder(allowDiagonal);
+            } else {
+                finder = new PF.DijkstraFinder(allowDiagonal);
+            }
             break;
         }
 
