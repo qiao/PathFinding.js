@@ -125,7 +125,7 @@ PF.BiAStarFinder.prototype._inspectSurround = function(x, y, which) {
         if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
             if (this._inspectNodeAt(nx, ny, x, y, false, which)) {
                 return true;
-            };
+            }
         }
     }
     return false;
