@@ -63,7 +63,13 @@ window.Panel = {
         case 'breadthfirst_header':
             allowDiagonal = typeof $('#breadthfirst_section ' +
                                      '.allow_diagonal:checked').val() != 'undefined';
-            finder = new PF.BreadthFirstFinder(allowDiagonal);
+            biDirectional = typeof $('#breadthfirst_section ' +
+                                     '.bi-directional:checked').val() != 'undefined';
+            if (biDirectional) {
+                finder = new PF.BiBreadthFirstFinder(allowDiagonal);
+            } else {
+                finder = new PF.BreadthFirstFinder(allowDiagonal);
+            }
             break;
 
         case 'bestfirst_header':
