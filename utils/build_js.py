@@ -20,6 +20,7 @@ FILES = [
     'modules/BreadthFirst.js',
     'modules/BestFirst.js',
     'modules/Dijkstra.js',
+    'modules/BiAStar.js',
     ]
 
 
