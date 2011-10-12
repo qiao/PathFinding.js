@@ -92,6 +92,67 @@ PF.AStarFinder.prototype._find = function() {
 
 
 /**
+ * Inspect the surrounding nodes of the given position
+ * @protected
+ * @param {number} x - The x coordinate of the position.
+ * @param {number} y - The y coordinate of the position.
+ */
+PF.AStarFinder.prototype._inspectSurround = function(x, y) {
+    var xOffsets = PF.BaseFinder.xOffsets,
+        yOffsets = PF.BaseFinder.yOffsets,
+        grid = this.grid,
+        i, nx, ny;
+
+    for (i = 0; i < xOffsets.length; ++i) {
+        nx = x + xOffsets[i];
+        ny = y + yOffsets[i];
+
+        if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
+            this._inspectNodeAt(nx, ny, x, y, false);
+        }
+    }
+};
+
+
+/**
+ * Inspect the surrounding nodes of the given position
+ * (including the diagonal ones).
+ * @protected
+ * @param {number} x - The x coordinate of the position.
+ * @param {number} y - The y coordinate of the position.
+ */
+PF.AStarFinder.prototype._inspectSurroundDiagonal = function(x, y) {
+    var xOffsets = PF.BaseFinder.xOffsets,
+        yOffsets = PF.BaseFinder.yOffsets,
+        xDiagonalOffsets = PF.BaseFinder.xDiagonalOffsets,
+        yDiagonalOffsets = PF.BaseFinder.yDiagonalOffsets,
+        grid = this.grid,
+        i, nx, ny, diagonalCan = [];
+        
+
+    for (i = 0; i < xOffsets.length; ++i) {
+        nx = x + xOffsets[i];
+        ny = y + yOffsets[i];
+
+        if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
+            this._inspectNodeAt(nx, ny, x, y, false);
+
+            diagonalCan.push(i);
+        }
+    }   
+
+    // further inspect diagonal nodes
+    for (i = 0; i < diagonalCan.length; ++i) {
+        nx = x + xDiagonalOffsets[diagonalCan[i]];
+        ny = y + yDiagonalOffsets[diagonalCan[i]];
+        if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
+            this._inspectNodeAt(nx, ny, x, y, true);
+        }
+    }
+};
+
+
+/**
  * Push the position into the open list if this position is not in the list.
  * Otherwise, if the position can be accessed with a lower cost from the given
  * parent position, then update its parent and cost
@@ -163,65 +224,4 @@ PF.AStarFinder.prototype._calculateH = function(x, y) {
     var dx = Math.abs(x - this.endX),
         dy = Math.abs(y - this.endY);
     return this.heuristic(dx, dy);
-};
-
-
-/**
- * Inspect the surrounding nodes of the given position
- * @protected
- * @param {number} x - The x coordinate of the position.
- * @param {number} y - The y coordinate of the position.
- */
-PF.AStarFinder.prototype._inspectSurround = function(x, y) {
-    var xOffsets = PF.BaseFinder.xOffsets,
-        yOffsets = PF.BaseFinder.yOffsets,
-        grid = this.grid,
-        i, nx, ny;
-
-    for (i = 0; i < xOffsets.length; ++i) {
-        nx = x + xOffsets[i];
-        ny = y + yOffsets[i];
-
-        if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
-            this._inspectNodeAt(nx, ny, x, y, false);
-        }
-    }
-};
-
-
-/**
- * Inspect the surrounding nodes of the given position
- * (including the diagonal ones).
- * @protected
- * @param {number} x - The x coordinate of the position.
- * @param {number} y - The y coordinate of the position.
- */
-PF.AStarFinder.prototype._inspectSurroundDiagonal = function(x, y) {
-    var xOffsets = PF.BaseFinder.xOffsets,
-        yOffsets = PF.BaseFinder.yOffsets,
-        xDiagonalOffsets = PF.BaseFinder.xDiagonalOffsets,
-        yDiagonalOffsets = PF.BaseFinder.yDiagonalOffsets,
-        grid = this.grid,
-        i, nx, ny, diagonalCan = [];
-        
-
-    for (i = 0; i < xOffsets.length; ++i) {
-        nx = x + xOffsets[i];
-        ny = y + yOffsets[i];
-
-        if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
-            this._inspectNodeAt(nx, ny, x, y, false);
-
-            diagonalCan.push(i);
-        }
-    }   
-
-    // further inspect diagonal nodes
-    for (i = 0; i < diagonalCan.length; ++i) {
-        nx = x + xDiagonalOffsets[diagonalCan[i]];
-        ny = y + yDiagonalOffsets[diagonalCan[i]];
-        if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
-            this._inspectNodeAt(nx, ny, x, y, true);
-        }
-    }
 };
