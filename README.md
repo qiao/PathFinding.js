@@ -4,7 +4,7 @@ PathFinding.js
 
 ## Introduction ##
 
-The aim of this project is to provide a path-finding library which can be easily incorporated in web games. 
+The aim of this project is to provide a path-finding library that can be easily incorporated into web games. 
 
 It comes along with an [online demo](http://qiao.github.com/PathFinding.js/visual) to show how the various algorithms execute.
 
@@ -22,15 +22,15 @@ To build a grid-map of width 5 and height 3:
 var grid = new PF.Grid(5, 3); 
 ```
 
-By default, all the nodes in the grid genereated above will be able to be walked through.
+By default, all the nodes in the grid will be able to be walked through.
 To set whether a node at a given coordinate is walkable or not, use the `setWalkableAt` method.
+
+For example, to set the node at (0, 1) to be un-walkable, where 0 is the x coordinate (from left to right), and 
+1 is the y coordinate (from up to down):
 
 ```javascript
 grid.setWalkableAt(0, 1, false);
 ```
-
-The above command will set the node at (0, 1) to be un-walkable, where 0 is the x coordinate(left to right)
-1 is the y coordinate(up to down).
 
 You may also pass in a matrix while instantiating the `PF.Grid` class.
 It will initiate all the nodes in the grid with the same walkability indicated by the matrix.
