@@ -511,6 +511,7 @@ window.GridController = {
     },
 
     resetAll: function() {
+        this.stop();
         GridModel.resetAll();
     },
 
