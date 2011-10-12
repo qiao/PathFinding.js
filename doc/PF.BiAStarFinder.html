@@ -57,7 +57,7 @@
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 10</dd>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 11</dd>
 	
 	
 	
@@ -165,6 +165,8 @@
             
             <ul>
                 <li>module:PF.Heap</li>
+            
+                <li>module:PF.Heuristic</li>
             </ul>
         
         
@@ -208,7 +210,7 @@
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 297</dd>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 323</dd>
 	
 	
 	
@@ -304,6 +306,10 @@
     
     <h5>Returns:</h5>
     
+<div class="param-desc">
+    The heuristic value.
+</div>
+
 
 
 
@@ -314,6 +320,447 @@
 	<dd>
 		
 		<span class="param-type">number</span> 
+		
+	</dd>
+</dl>
+
+    
+    
+
+</dd>
+<dt id="PF.BiAStarFinder#_constructPath">
+    <h4 class="name" id="_constructPath"><span class="type-signature">&lt;protected> </span>_constructPath(x1, y1, x2, y2, which)<span class="type-signature"> &rarr; {Array.&lt;Array.&lt;number>>}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Construct the path according to the nodes' parents.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 276</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>x1</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">X coordinate of one of the meeting nodes.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y1</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Y coordinate of one of the meeting nodes.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>x2</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">X coordinate of the other meeting node.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>y2</code></td>
+            
+            
+            <td class="type">
+            number
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Y coordinate of the other meeting node.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>which</code></td>
+            
+            
+            <td class="type">
+            string
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Construction initiated by `source` or `target`.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+<div class="param-desc">
+    The path, including
+    both start and end positions.
+</div>
+
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">Array.&lt;Array.&lt;number>></span> 
+		
+	</dd>
+</dl>
+
+    
+    
+
+</dd>
+<dt id="PF.BiAStarFinder#_expand">
+    <h4 class="name" id="_expand"><span class="type-signature"></span>_expand(which)<span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Expand one of the queues.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 106</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    <h5>Parameters:</h5>
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>which</code></td>
+            
+            
+            <td class="type">
+            string
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Expand `source` or `target`.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+<div class="param-desc">
+    Whether the path has been found.
+</div>
+
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">boolean</span> 
+		
+	</dd>
+</dl>
+
+    
+    
+
+</dd>
+<dt id="PF.BiAStarFinder#_expandSource">
+    <h4 class="name" id="_expandSource"><span class="type-signature"></span>_expandSource()<span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Expand the source open list.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 87</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+<div class="param-desc">
+    Whether the path has been found.
+</div>
+
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">boolean</span> 
+		
+	</dd>
+</dl>
+
+    
+    
+
+</dd>
+<dt id="PF.BiAStarFinder#_expandTarget">
+    <h4 class="name" id="_expandTarget"><span class="type-signature"></span>_expandTarget()<span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <p class="description">
+        Expand the target open list.
+    </p>
+    
+    
+    <dl class="details">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 96</dd>
+	
+	
+	
+	
+	
+</dl>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+<div class="param-desc">
+    Whether the path has been found.
+</div>
+
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">boolean</span> 
 		
 	</dd>
 </dl>
@@ -352,7 +799,7 @@
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 25</dd>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 26</dd>
 	
 	
 	
@@ -396,7 +843,7 @@
 
 </dd>
 <dt id="PF.BiAStarFinder#_inspectNodeAt">
-    <h4 class="name" id="_inspectNodeAt"><span class="type-signature">&lt;protected> </span>_inspectNodeAt(x, y, px, py, isDiagonal, which)<span class="type-signature"></span></h4>
+    <h4 class="name" id="_inspectNodeAt"><span class="type-signature">&lt;protected> </span>_inspectNodeAt(x, y, px, py, isDiagonal, which)<span class="type-signature"> &rarr; {boolean}</span></h4>
     
     
 </dt>
@@ -427,7 +874,7 @@ parent position, then update its parent and cost
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 189</dd>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 205</dd>
 	
 	
 	
@@ -575,12 +1022,32 @@ parent position, then update its parent and cost
     
     
     
+    <h5>Returns:</h5>
+    
+<div class="param-desc">
+    Whether the path has been found.
+</div>
+
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">boolean</span> 
+		
+	</dd>
+</dl>
+
     
     
 
 </dd>
 <dt id="PF.BiAStarFinder#_inspectSurround">
-    <h4 class="name" id="_inspectSurround"><span class="type-signature">&lt;protected> </span>_inspectSurround(x, y, which)<span class="type-signature"></span></h4>
+    <h4 class="name" id="_inspectSurround"><span class="type-signature">&lt;protected> </span>_inspectSurround(x, y, which)<span class="type-signature"> &rarr; {boolean}</span></h4>
     
     
 </dt>
@@ -609,7 +1076,7 @@ parent position, then update its parent and cost
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 115</dd>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 129</dd>
 	
 	
 	
@@ -703,12 +1170,32 @@ parent position, then update its parent and cost
     
     
     
+    <h5>Returns:</h5>
+    
+<div class="param-desc">
+    Whether the path has been found.
+</div>
+
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">boolean</span> 
+		
+	</dd>
+</dl>
+
     
     
 
 </dd>
 <dt id="PF.BiAStarFinder#_inspectSurroundDiagonal">
-    <h4 class="name" id="_inspectSurroundDiagonal"><span class="type-signature">&lt;protected> </span>_inspectSurroundDiagonal(x, y, which)<span class="type-signature"></span></h4>
+    <h4 class="name" id="_inspectSurroundDiagonal"><span class="type-signature">&lt;protected> </span>_inspectSurroundDiagonal(x, y, which)<span class="type-signature"> &rarr; {boolean}</span></h4>
     
     
 </dt>
@@ -738,7 +1225,7 @@ parent position, then update its parent and cost
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 144</dd>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 159</dd>
 	
 	
 	
@@ -832,6 +1319,26 @@ parent position, then update its parent and cost
     
     
     
+    <h5>Returns:</h5>
+    
+<div class="param-desc">
+    Whether the path has been found.
+</div>
+
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+		<span class="param-type">boolean</span> 
+		
+	</dd>
+</dl>
+
     
     
 
@@ -868,7 +1375,7 @@ If this position can be accessed from the given parent with lower
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 232</dd>
+	<dd class="tag-source">./src/modules/BiAStar.js, line 248</dd>
 	
 	
 	
@@ -1052,13 +1559,13 @@ If this position can be accessed from the given parent with lower
 </div>
 
 <nav>
-    <h3>Classes</h3><ul><li><a href="PF.AStarFinder.html">AStarFinder</a></li><li><a href="PF.BaseFinder.html">BaseFinder</a></li><li><a href="PF.BestFirstFinder.html">BestFirstFinder</a></li><li><a href="PF.BiAStarFinder.html">BiAStarFinder</a></li><li><a href="PF.BiBestFirstFinder.html">BiBestFirstFinder</a></li><li><a href="PF.BiDijkstraFinder.html">BiDijkstraFinder</a></li><li><a href="PF.BreadthFirstFinder.html">BreadthFirstFinder</a></li><li><a href="PF.DijkstraFinder.html">DijkstraFinder</a></li><li><a href="PF.Grid.html">Grid</a></li><li><a href="PF.Heap.html">Heap</a></li><li><a href="PF.Node.html">Node</a></li></ul><h3>Namespaces</h3><ul><li><a href="PF.html">PF</a></li></ul>
+    <h3>Modules</h3><ul><li><a href="3e176aec7c.html">Heuristic A collection of heuristic functions.</a></li></ul><h3>Classes</h3><ul><li><a href="PF.AStarFinder.html">AStarFinder</a></li><li><a href="PF.BaseFinder.html">BaseFinder</a></li><li><a href="PF.BestFirstFinder.html">BestFirstFinder</a></li><li><a href="PF.BiAStarFinder.html">BiAStarFinder</a></li><li><a href="PF.BiBestFirstFinder.html">BiBestFirstFinder</a></li><li><a href="PF.BiBreadthFirstFinder.html">BiBreadthFirstFinder</a></li><li><a href="PF.BiDijkstraFinder.html">BiDijkstraFinder</a></li><li><a href="PF.BreadthFirstFinder.html">BreadthFirstFinder</a></li><li><a href="PF.DijkstraFinder.html">DijkstraFinder</a></li><li><a href="PF.Grid.html">Grid</a></li><li><a href="PF.Heap.html">Heap</a></li><li><a href="PF.Node.html">Node</a></li></ul><h3>Namespaces</h3><ul><li><a href="PF.html">PF</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Tue Oct 11 2011 14:13:43 GMT+0800 (HKT)
+    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Wed Oct 12 2011 14:56:04 GMT+0800 (HKT)
 </footer>
 
 <script> sh_highlightDocument(); </script>

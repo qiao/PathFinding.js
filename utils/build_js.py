@@ -17,6 +17,7 @@ FILES = [
     'core/BaseFinder.js',
 
     'modules/Heap.js',
+    'modules/Heuristic.js',
 
     'modules/AStar.js',
     'modules/BreadthFirst.js',

@@ -3,23 +3,10 @@
  * @constructor
  * @extends PF.BaseFinder
  * @requires PF.Heap
+ * @requires PF.Heuristic
  * @param {boolean} allowDiagonal - Whether diagonal movement is allowed.
  * @param {function(number, number): number} [heuristic] - Heuristic function
  *     being used to estimate the distance(defaults to manhattan).
- * @example
- * var finder, path;
- * finder = PF.AStarFinder(true);
- * path = finder.findPath(...);
- *
- * // Available heuristics:
- * //     PF.AStarFinder.manhattan
- * //     PF.AStarFinder.euclidean
- * //     PF.AStarFinder.chebyshev 
- * //
- * // Sample Custom heuristic:
- * function(dx, dy) {
- *     return Math.min(dx, dy);
- * }
  */
 PF.AStarFinder = function(allowDiagonal, heuristic) {
     PF.BaseFinder.call(this, allowDiagonal);
@@ -27,7 +14,7 @@ PF.AStarFinder = function(allowDiagonal, heuristic) {
     if (allowDiagonal) {
         this._inspectSurround = this._inspectSurroundDiagonal;
     }
-    this.heuristic = heuristic || PF.AStarFinder.manhattan;
+    this.heuristic = heuristic || PF.Heuristic.manhattan;
 };
 
 
@@ -176,31 +163,6 @@ PF.AStarFinder.prototype._calculateH = function(x, y) {
     var dx = Math.abs(x - this.endX),
         dy = Math.abs(y - this.endY);
     return this.heuristic(dx, dy);
-};
-
-
-/**
- * Manhattan distance.
- * @description dx + dy
- */
-PF.AStarFinder.manhattan = function(dx, dy) {
-    return dx + dy;
-};
-
-/**
- * Euclidean distance.
- * @description sqrt(dx * dx, dy * dy)
- */
-PF.AStarFinder.euclidean = function(dx, dy) {
-    return Math.sqrt(dx * dx + dy * dy);
-};
-
-/**
- * Chebyshev distance.
- * @description max(dx, dy)
- */
-PF.AStarFinder.chebyshev = function(dx, dy) {
-    return Math.max(dx, dy);
 };
 
 

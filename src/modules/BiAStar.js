@@ -3,6 +3,7 @@
  * @constructor
  * @extends PF.AStarFinder
  * @requires PF.Heap
+ * @requires PF.Heuristic
  * @param {boolean} allowDiagonal - Whether diagonal movement is allowed.
  * @param {function(number, number): number} [heuristic] - Heuristic function
  *     being used to estimate the distance(defaults to manhattan).
