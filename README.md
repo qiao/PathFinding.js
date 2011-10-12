@@ -74,3 +74,8 @@ var path = finder.findPath(1, 2, 4, 2, grid);
 
 
 For a detailed API document, see http://qiao.github.com/PathFinding.js/doc
+
+
+## License ##
+
+This project is released under the [MIT License](http://www.opensource.org/licenses/mit-license.php) .
