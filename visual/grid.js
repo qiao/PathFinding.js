@@ -395,7 +395,6 @@ window.GridView = {
 window.GridController = {
     init: function() {
         this.initGeometry();
-        this.initStartEndPos();
     },
 
     supportedDispatcher: {
@@ -406,6 +405,9 @@ window.GridController = {
 
     initGeometry: function() {
         var width, height,
+            marginRight, availWidth,
+            numCols, numRows,
+            centerX, centerY,
             nodeSize = GridView.nodeSize;
 
         width = $(window).width();
@@ -415,11 +417,16 @@ window.GridController = {
         numRows = Math.ceil(height / nodeSize);
         
         GridModel.setSize(numCols, numRows);
-    },
 
-    initStartEndPos: function() {
-        GridModel.setStartPos(10, 10);
-        GridModel.setEndPos(20, 10);
+        marginRight = $('#algorithm_panel').width();
+
+        availWidth = width - marginRight;
+
+        centerX = Math.ceil(availWidth / 2 / nodeSize);
+        centerY = Math.ceil(height / 2 / nodeSize);
+
+        GridModel.setStartPos(centerX - 5, centerY);
+        GridModel.setEndPos(centerX + 5, centerY);
     },
 
     onMouseDown: function(x, y) {
