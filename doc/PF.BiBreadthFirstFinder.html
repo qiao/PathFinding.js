@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>JSDoc: Class: BiAStarFinder</title>
+	<title>JSDoc: Class: BiBreadthFirstFinder</title>
 	
 	<script src="http://shjs.sourceforge.net/sh_main.min.js"> </script>
     <script src="http://shjs.sourceforge.net/lang/sh_javascript.min.js"> </script>
@@ -15,20 +15,20 @@
 
 <div id="main">
     
-    <h1 class="page-title">Class: BiAStarFinder</h1>
+    <h1 class="page-title">Class: BiBreadthFirstFinder</h1>
     
     
     
     <section>
      
     <header>
-        <h2><span class="ancestors"><a href="PF.html">PF</a> &rang; </span>BiAStarFinder</h2>
+        <h2><span class="ancestors"><a href="PF.html">PF</a> &rang; </span>BiBreadthFirstFinder</h2>
         
     </header>  
     
     <article>    
-        <dt id="PF.BiAStarFinder">
-    <h4 class="name" id="BiAStarFinder"><span class="type-signature"></span>new BiAStarFinder(allowDiagonal, [heuristic])<span class="type-signature"></span></h4>
+        <dt id="PF.BiBreadthFirstFinder">
+    <h4 class="name" id="BiBreadthFirstFinder"><span class="type-signature"></span>new BiBreadthFirstFinder(allowDiagonal)<span class="type-signature"></span></h4>
     
     
 </dt>
@@ -36,7 +36,7 @@
     
     
     <p class="description">
-        Bi-directional A* path-finder.
+        Bi-directional Breadth-First-Search path finder.
     </p>
     
     
@@ -57,7 +57,7 @@
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 11</dd>
+	<dd class="tag-source">./src/modules/BiBreadthFirst.js, line 7</dd>
 	
 	
 	
@@ -79,8 +79,6 @@
 		
 		<th>Type</th>
 		
-		
-		<th>Argument</th>
 		
 		
 		
@@ -102,37 +100,10 @@
             </td>
             
             
-                <td class="attributes">
-                
-                </td>
-            
             
             
             
             <td class="description last">Whether diagonal movement is allowed.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>heuristic</code></td>
-            
-            
-            <td class="type">
-            function(number, number): number
-            </td>
-            
-            
-                <td class="attributes">
-                &lt;optional><br>
-                </td>
-            
-            
-            
-            
-            <td class="description last">Heuristic function
-    being used to estimate the distance(defaults to manhattan).</td>
         </tr>
 	
 	
@@ -154,20 +125,12 @@
             <h3 class="subsection-title">Extends</h3>
             
             <ul>
-                <li><a href="PF.AStarFinder.html">PF.AStarFinder</a></li>
+                <li><a href="PF.BreadthFirstFinder.html">PF.BreadthFirstFinder</a></li>
             </ul>
         
         
         
         
-        
-            <h3 class="subsection-title">Requires</h3>
-            
-            <ul>
-                <li>module:PF.Heap</li>
-            
-                <li>module:PF.Heuristic</li>
-            </ul>
         
         
         
@@ -180,155 +143,7 @@
             
             <h3 class="subsection-title">Methods</h3>
             
-            <dl><dt id="PF.BiAStarFinder#_calculateH">
-    <h4 class="name" id="_calculateH"><span class="type-signature">&lt;protected> </span>_calculateH(x, y, which)<span class="type-signature"> &rarr; {number}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <p class="description">
-        Calculate the `h` value of a given position.
-    </p>
-    
-    
-    <dl class="details">
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 323</dd>
-	
-	
-	
-	
-	
-</dl>
-
-    
-    
-    
-    <h5>Parameters:</h5>
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>x</code></td>
-            
-            
-            <td class="type">
-            number
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The x coordinate of the position.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-            
-            <td class="type">
-            number
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The y coordinate of the position.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>which</code></td>
-            
-            
-            <td class="type">
-            string
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Inspection by `source` or `target`.</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-<div class="param-desc">
-    The heuristic value.
-</div>
-
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-		<span class="param-type">number</span> 
-		
-	</dd>
-</dl>
-
-    
-    
-
-</dd>
-<dt id="PF.BiAStarFinder#_constructPath">
+            <dl><dt id="PF.BiBreadthFirstFinder#_constructPath">
     <h4 class="name" id="_constructPath"><span class="type-signature">&lt;protected> </span>_constructPath(x1, y1, x2, y2, which)<span class="type-signature"> &rarr; {Array.&lt;Array.&lt;number>>}</span></h4>
     
     
@@ -358,7 +173,7 @@
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 276</dd>
+	<dd class="tag-source">./src/modules/BiBreadthFirst.js, line 214</dd>
 	
 	
 	
@@ -513,7 +328,7 @@
     
 
 </dd>
-<dt id="PF.BiAStarFinder#_expand">
+<dt id="PF.BiBreadthFirstFinder#_expand">
     <h4 class="name" id="_expand"><span class="type-signature"></span>_expand(which)<span class="type-signature"> &rarr; {boolean}</span></h4>
     
     
@@ -543,7 +358,7 @@
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 106</dd>
+	<dd class="tag-source">./src/modules/BiBreadthFirst.js, line 80</dd>
 	
 	
 	
@@ -625,7 +440,7 @@
     
 
 </dd>
-<dt id="PF.BiAStarFinder#_expandSource">
+<dt id="PF.BiBreadthFirstFinder#_expandSource">
     <h4 class="name" id="_expandSource"><span class="type-signature"></span>_expandSource()<span class="type-signature"> &rarr; {boolean}</span></h4>
     
     
@@ -655,7 +470,7 @@
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 87</dd>
+	<dd class="tag-source">./src/modules/BiBreadthFirst.js, line 61</dd>
 	
 	
 	
@@ -697,7 +512,7 @@
     
 
 </dd>
-<dt id="PF.BiAStarFinder#_expandTarget">
+<dt id="PF.BiBreadthFirstFinder#_expandTarget">
     <h4 class="name" id="_expandTarget"><span class="type-signature"></span>_expandTarget()<span class="type-signature"> &rarr; {boolean}</span></h4>
     
     
@@ -727,7 +542,7 @@
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 96</dd>
+	<dd class="tag-source">./src/modules/BiBreadthFirst.js, line 70</dd>
 	
 	
 	
@@ -769,7 +584,7 @@
     
 
 </dd>
-<dt id="PF.BiAStarFinder#_find">
+<dt id="PF.BiBreadthFirstFinder#_find">
     <h4 class="name" id="_find"><span class="type-signature">&lt;protected> </span>_find()<span class="type-signature"> &rarr; {Array.&lt;[number, number]>}</span></h4>
     
     
@@ -799,7 +614,7 @@
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 26</dd>
+	<dd class="tag-source">./src/modules/BiBreadthFirst.js, line 22</dd>
 	
 	
 	
@@ -842,8 +657,8 @@
     
 
 </dd>
-<dt id="PF.BiAStarFinder#_inspectNodeAt">
-    <h4 class="name" id="_inspectNodeAt"><span class="type-signature">&lt;protected> </span>_inspectNodeAt(x, y, px, py, isDiagonal, which)<span class="type-signature"> &rarr; {boolean}</span></h4>
+<dt id="PF.BiBreadthFirstFinder#_inspectNodeAt">
+    <h4 class="name" id="_inspectNodeAt"><span class="type-signature">&lt;protected> </span>_inspectNodeAt(x, y, px, py, which)<span class="type-signature"> &rarr; {boolean}</span></h4>
     
     
 </dt>
@@ -874,7 +689,7 @@ parent position, then update its parent and cost
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 205</dd>
+	<dd class="tag-source">./src/modules/BiBreadthFirst.js, line 180</dd>
 	
 	
 	
@@ -981,24 +796,6 @@ parent position, then update its parent and cost
 	
         <tr>
             
-                <td class="name"><code>isDiagonal</code></td>
-            
-            
-            <td class="type">
-            boolean
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Whether [x, y] and [px, py] is diagonal</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
                 <td class="name"><code>which</code></td>
             
             
@@ -1046,7 +843,7 @@ parent position, then update its parent and cost
     
 
 </dd>
-<dt id="PF.BiAStarFinder#_inspectSurround">
+<dt id="PF.BiBreadthFirstFinder#_inspectSurround">
     <h4 class="name" id="_inspectSurround"><span class="type-signature">&lt;protected> </span>_inspectSurround(x, y, which)<span class="type-signature"> &rarr; {boolean}</span></h4>
     
     
@@ -1076,7 +873,7 @@ parent position, then update its parent and cost
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 129</dd>
+	<dd class="tag-source">./src/modules/BiBreadthFirst.js, line 103</dd>
 	
 	
 	
@@ -1194,7 +991,7 @@ parent position, then update its parent and cost
     
 
 </dd>
-<dt id="PF.BiAStarFinder#_inspectSurroundDiagonal">
+<dt id="PF.BiBreadthFirstFinder#_inspectSurroundDiagonal">
     <h4 class="name" id="_inspectSurroundDiagonal"><span class="type-signature">&lt;protected> </span>_inspectSurroundDiagonal(x, y, which)<span class="type-signature"> &rarr; {boolean}</span></h4>
     
     
@@ -1225,7 +1022,7 @@ parent position, then update its parent and cost
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 159</dd>
+	<dd class="tag-source">./src/modules/BiBreadthFirst.js, line 132</dd>
 	
 	
 	
@@ -1323,210 +1120,6 @@ parent position, then update its parent and cost
     
 <div class="param-desc">
     Whether the path has been found.
-</div>
-
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-		<span class="param-type">boolean</span> 
-		
-	</dd>
-</dl>
-
-    
-    
-
-</dd>
-<dt id="PF.BiAStarFinder#_tryUpdate">
-    <h4 class="name" id="_tryUpdate"><span class="type-signature">&lt;protected> </span>_tryUpdate(x, y, px, py, isDiagonal, which)<span class="type-signature"> &rarr; {boolean}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <p class="description">
-        Try to update the position's info with the given parent.
-If this position can be accessed from the given parent with lower 
-`g` cost, then this position's parent, `g` and `f` values will be updated.
-    </p>
-    
-    
-    <dl class="details">
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/BiAStar.js, line 248</dd>
-	
-	
-	
-	
-	
-</dl>
-
-    
-    
-    
-    <h5>Parameters:</h5>
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>x</code></td>
-            
-            
-            <td class="type">
-            number
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The x coordinate of the position.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>y</code></td>
-            
-            
-            <td class="type">
-            number
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The y coordinate of the position.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>px</code></td>
-            
-            
-            <td class="type">
-            number
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The x coordinate of the parent position.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>py</code></td>
-            
-            
-            <td class="type">
-            number
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The y coordinate of the parent position.</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>isDiagonal</code></td>
-            
-            
-            <td class="type">
-            boolean
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Whether [x, y] and [px, py] is diagonal</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>which</code></td>
-            
-            
-            <td class="type">
-            string
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Inspection by 'source' or 'target'.</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-<div class="param-desc">
-    Whether this position's info has been updated.
 </div>
 
 

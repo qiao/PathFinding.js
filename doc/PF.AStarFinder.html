@@ -57,7 +57,7 @@
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 24</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 11</dd>
 	
 	
 	
@@ -145,21 +145,7 @@
     
     
     
-    <h5>Example</h5>
-    <pre class="sh_javascript"><code>var finder, path;
-finder = PF.AStarFinder(true);
-path = finder.findPath(...);
-
-// Available heuristics:
-//     PF.AStarFinder.manhattan
-//     PF.AStarFinder.euclidean
-//     PF.AStarFinder.chebyshev 
-//
-// Sample Custom heuristic:
-function(dx, dy) {
-    return Math.min(dx, dy);
-}</code></pre>
-
+    
 
 </dd>
 
@@ -179,6 +165,8 @@ function(dx, dy) {
             
             <ul>
                 <li>module:PF.Heap</li>
+            
+                <li>module:PF.Heuristic</li>
             </ul>
         
         
@@ -220,7 +208,7 @@ function(dx, dy) {
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 43</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 30</dd>
 	
 	
 	
@@ -269,7 +257,7 @@ function(dx, dy) {
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 175</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 162</dd>
 	
 	
 	
@@ -395,7 +383,7 @@ function(dx, dy) {
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 52</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 39</dd>
 	
 	
 	
@@ -470,7 +458,7 @@ parent position, then update its parent and cost
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 118</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 105</dd>
 	
 	
 	
@@ -634,7 +622,7 @@ parent position, then update its parent and cost
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 213</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 175</dd>
 	
 	
 	
@@ -745,7 +733,7 @@ parent position, then update its parent and cost
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 237</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 199</dd>
 	
 	
 	
@@ -857,7 +845,7 @@ If this position can be accessed from the given parent with lower
 	
 	
 	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 151</dd>
+	<dd class="tag-source">./src/modules/AStar.js, line 138</dd>
 	
 	
 	
@@ -1011,162 +999,6 @@ If this position can be accessed from the given parent with lower
     
 
 </dd>
-<dt id="PF.AStarFinder.chebyshev">
-    <h4 class="name" id="chebyshev"><span class="type-signature">&lt;static> </span>chebyshev()<span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <p class="description">
-        max(dx, dy)
-    </p>
-    
-    
-    <dl class="details">
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 202</dd>
-	
-	
-	
-	
-	
-</dl>
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-</dd>
-<dt id="PF.AStarFinder.euclidean">
-    <h4 class="name" id="euclidean"><span class="type-signature">&lt;static> </span>euclidean()<span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <p class="description">
-        sqrt(dx * dx, dy * dy)
-    </p>
-    
-    
-    <dl class="details">
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 194</dd>
-	
-	
-	
-	
-	
-</dl>
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-</dd>
-<dt id="PF.AStarFinder.manhattan">
-    <h4 class="name" id="manhattan"><span class="type-signature">&lt;static> </span>manhattan()<span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <p class="description">
-        dx + dy
-    </p>
-    
-    
-    <dl class="details">
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">./src/modules/AStar.js, line 186</dd>
-	
-	
-	
-	
-	
-</dl>
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-</dd>
 </dl>
             
         
@@ -1179,13 +1011,13 @@ If this position can be accessed from the given parent with lower
 </div>
 
 <nav>
-    <h3>Classes</h3><ul><li><a href="PF.AStarFinder.html">AStarFinder</a></li><li><a href="PF.BaseFinder.html">BaseFinder</a></li><li><a href="PF.BestFirstFinder.html">BestFirstFinder</a></li><li><a href="PF.BiAStarFinder.html">BiAStarFinder</a></li><li><a href="PF.BiBestFirstFinder.html">BiBestFirstFinder</a></li><li><a href="PF.BiDijkstraFinder.html">BiDijkstraFinder</a></li><li><a href="PF.BreadthFirstFinder.html">BreadthFirstFinder</a></li><li><a href="PF.DijkstraFinder.html">DijkstraFinder</a></li><li><a href="PF.Grid.html">Grid</a></li><li><a href="PF.Heap.html">Heap</a></li><li><a href="PF.Node.html">Node</a></li></ul><h3>Namespaces</h3><ul><li><a href="PF.html">PF</a></li></ul>
+    <h3>Classes</h3><ul><li><a href="PF.AStarFinder.html">AStarFinder</a></li><li><a href="PF.BaseFinder.html">BaseFinder</a></li><li><a href="PF.BestFirstFinder.html">BestFirstFinder</a></li><li><a href="PF.BiAStarFinder.html">BiAStarFinder</a></li><li><a href="PF.BiBestFirstFinder.html">BiBestFirstFinder</a></li><li><a href="PF.BiBreadthFirstFinder.html">BiBreadthFirstFinder</a></li><li><a href="PF.BiDijkstraFinder.html">BiDijkstraFinder</a></li><li><a href="PF.BreadthFirstFinder.html">BreadthFirstFinder</a></li><li><a href="PF.DijkstraFinder.html">DijkstraFinder</a></li><li><a href="PF.Grid.html">Grid</a></li><li><a href="PF.Heap.html">Heap</a></li><li><a href="PF.Node.html">Node</a></li></ul><h3>Namespaces</h3><ul><li><a href="PF.html">PF</a></li><li><a href="PF.Heuristic.html">Heuristic</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Tue Oct 11 2011 14:13:42 GMT+0800 (HKT)
+    Documentation generated by <a href="https://github.com/micmath/jsdoc">JSDoc 3</a> on Wed Oct 12 2011 15:15:43 GMT+0800 (HKT)
 </footer>
 
 <script> sh_highlightDocument(); </script>

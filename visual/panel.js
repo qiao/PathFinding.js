@@ -63,9 +63,9 @@ window.Panel = {
                                      '.bi-directional:checked').val() != 'undefined';
             heuristic = $('input[name=astar_heuristic]:checked').val();
             if (biDirectional) {
-                finder = new PF.BiAStarFinder(allowDiagonal, PF.AStarFinder[heuristic]);
+                finder = new PF.BiAStarFinder(allowDiagonal, PF.Heuristic[heuristic]);
             } else {
-                finder = new PF.AStarFinder(allowDiagonal, PF.AStarFinder[heuristic]);
+                finder = new PF.AStarFinder(allowDiagonal, PF.Heuristic[heuristic]);
             }
             break;
 
@@ -88,9 +88,9 @@ window.Panel = {
                                      '.bi-directional:checked').val() != 'undefined';
             heuristic = $('input[name=bestfirst_heuristic]:checked').val();
             if (biDirectional) {
-                finder = new PF.BiBestFirstFinder(allowDiagonal, PF.AStarFinder[heuristic]);
+                finder = new PF.BiBestFirstFinder(allowDiagonal, PF.Heuristic[heuristic]);
             } else {
-                finder = new PF.BestFirstFinder(allowDiagonal, PF.AStarFinder[heuristic]);
+                finder = new PF.BestFirstFinder(allowDiagonal, PF.Heuristic[heuristic]);
             }
             break;
 
