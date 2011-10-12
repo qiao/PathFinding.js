@@ -1,11 +1,18 @@
 /**
- * @module Heuristic A collection of heuristic functions.
+ * @namespace PF.Heuristic
+ * @description A collection of heuristic functions.
+ * Available heuristics:
+ *   * PF.Heuristic.manhattan
+ *   * PF.Heuristic.euclidean
+ *   * PF.Heuristic.chebyshev
  */
 PF.Heuristic = {};
 
 /**
  * Manhattan distance.
- * @description dx + dy
+ * @param {number} dx - Difference in x.
+ * @param {number} dy - Difference in y.
+ * @return {number} dx + dy
  */
 PF.Heuristic.manhattan = function(dx, dy) {
     return dx + dy;
@@ -13,7 +20,9 @@ PF.Heuristic.manhattan = function(dx, dy) {
 
 /**
  * Euclidean distance.
- * @description sqrt(dx * dx, dy * dy)
+ * @param {number} dx - Difference in x.
+ * @param {number} dy - Difference in y.
+ * @return {number} sqrt(dx * dx, dy * dy)
  */
 PF.Heuristic.euclidean = function(dx, dy) {
     return Math.sqrt(dx * dx + dy * dy);
@@ -21,7 +30,9 @@ PF.Heuristic.euclidean = function(dx, dy) {
 
 /**
  * Chebyshev distance.
- * @description max(dx, dy)
+ * @param {number} dx - Difference in x.
+ * @param {number} dy - Difference in y.
+ * @return {number} max(dx, dy)
  */
 PF.Heuristic.chebyshev = function(dx, dy) {
     return Math.max(dx, dy);

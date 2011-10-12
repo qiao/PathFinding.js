@@ -1,4 +1,5 @@
 /**
+ * @module PF.Heap
  * @fileoverview A binary heap container.
  * Based on the `heapq` module in Python's standard library.
  */
