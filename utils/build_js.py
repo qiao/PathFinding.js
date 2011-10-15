@@ -10,6 +10,9 @@ except ImportError:
     import StringIO
 
 
+MINIFY = True
+BANNER = True
+
 FILES = [
     'PathFinding.js',
     'core/Node.js',
@@ -32,14 +35,14 @@ FILES = [
 
 
 def merge_files(file_paths):
-    buffer = StringIO.StringIO()
+    buf = StringIO.StringIO()
 
     for file_path in file_paths:
         fin = open(file_path, 'r')
-        shutil.copyfileobj(fin, buffer)
+        shutil.copyfileobj(fin, buf)
      
-    buffer.seek(0)
-    return buffer
+    buf.seek(0)
+    return buf
 
 
 def uglify(uglify_path, input_path, output_path):
@@ -77,6 +80,15 @@ def add_min_to_filename(filename):
     return ''.join(segs)
 
 
+def add_banner(banner_path, js_path):
+    buf = StringIO.StringIO()
+    buf.write(open(banner_path).read())
+    buf.write(open(js_path).read())
+
+    buf.seek(0)
+    dump_file_obj(buf, js_path)
+
+
 def main():
     project_path = get_project_path()
     source_path = os.path.join(project_path, 'src')
@@ -92,17 +104,25 @@ def main():
     uglify_path = os.path.join(project_path, 'utils', 'node_modules', 
             '.bin', 'uglifyjs')
 
-    MINIFY = True
+    banner_path = os.path.join(project_path, 'utils', 'banner')
+
 
     try:
         dump_file_obj(
             merge_files(file_paths), output_path)
+
         if MINIFY:
+            new_output_path = add_min_to_filename(output_path)
             uglify(uglify_path, 
                    output_path, 
-                   add_min_to_filename(output_path))
+                   new_output_path)
             os.unlink(output_path)
-            print 'removed file:', output_path
+
+            output_path = new_output_path
+
+        if BANNER:
+            add_banner(banner_path, output_path)
+
     except IOError, e:
         print e
 
