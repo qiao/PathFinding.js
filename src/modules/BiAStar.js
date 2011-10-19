@@ -212,7 +212,6 @@ PF.BiAStarFinder.prototype._inspectNodeAt = function(x, y, px, py, isDiagonal, w
         return false;
     }
 
-    // TODO: Fix 
     if (node.get('opened')) {
         // if this node is opened by the other expansion queue.
         // then a path is found
