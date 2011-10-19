@@ -170,8 +170,9 @@ PF.BiAStarFinder.prototype._inspectSurroundDiagonal = function(x, y, which) {
         ny = y + yOffsets[i];
 
         if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
-            this._inspectNodeAt(nx, ny, x, y, false, which);
-
+            if (this._inspectNodeAt(nx, ny, x, y, false, which)) {
+                return true;
+            }
             diagonalCan.push(i);
         }
     }   
@@ -211,6 +212,7 @@ PF.BiAStarFinder.prototype._inspectNodeAt = function(x, y, px, py, isDiagonal, w
         return false;
     }
 
+    // TODO: Fix 
     if (node.get('opened')) {
         // if this node is opened by the other expansion queue.
         // then a path is found
