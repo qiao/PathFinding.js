@@ -148,7 +148,7 @@ PF.Grid.prototype.clone = function() {
     var i, j,
 
         width = this.width,
-        height = this.height
+        height = this.height,
         thisNodes = this.nodes,
 
         newGrid = new PF.Grid(width, height),

@@ -30,7 +30,7 @@ PF.Node = function(x, y, walkable, parent) {
      * @private
      * @type boolean
      */
-    this.walkable = (walkable === undefined ? false : walkable);
+    this.walkable = (walkable === undefined ? true : walkable);
     /**
      * This node's parent node. 
      * This variable will be used to construct the path after the search is done.
