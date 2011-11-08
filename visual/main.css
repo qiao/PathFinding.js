@@ -71,17 +71,15 @@ button {
     border: none;
     background: rgba(255, 255, 255, 0.7);
     border-radius: 5px;
-    padding: 2px 8px;
     font-size: 90%;
     cursor: pointer;
-    margin: 0 10px;
+    padding: 2px 8px;
+    margin: 0 3%;
+    width: 26%;
 }
 
 button:hover {
     background: rgba(255, 255, 255, 0.9);
-}
-
-#start_button {
 }
 
 .finder_section {
