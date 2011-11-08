@@ -20,8 +20,6 @@ PF.Grid = function(width, height, matrix) {
      */
     this.height = height;
 
-    this.nodes = []; // avoids to be garbage collected
-    
     this._buildGrid(matrix);
 };
 
@@ -139,4 +137,33 @@ PF.Grid.prototype.setAttributeAt = function(x, y, attr, value) {
  */
 PF.Grid.prototype.getAttributeAt = function(x, y, attr) {
     return this.getNodeAt(x, y).get(attr);
+};
+
+
+/**
+ * Get a clone of this grid.
+ * @return {PF.Grid} Cloned grid.
+ */
+PF.Grid.prototype.clone = function() {
+    var i, j,
+
+        width = this.width,
+        height = this.height
+        thisNodes = this.nodes,
+
+        newGrid = new PF.Grid(width, height),
+        newNodes = [], 
+        row;
+
+    for (i = 0; i < height; ++i) {
+        newNodes.push([]);
+        row = newNodes[i];
+        for (j = 0; j < width; ++j) {
+            row.push(thisNodes[i][j].clone());
+        }
+    }
+
+    newGrid.nodes = newNodes;
+
+    return newGrid;
 };
