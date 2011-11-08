@@ -9,8 +9,10 @@
  * @constructor
  * @param {number} x - The x coordinate of the node on the grid.
  * @param {number} y - The y coordinate of the node on the grid.
+ * @param {boolean} [walkable] - Whether this node is walkable.
+ * @param {PF.Node} [parent] - Parent of this node.
  */
-PF.Node = function(x, y) {
+PF.Node = function(x, y, walkable, parent) {
     /**
      * The x coordinate of the node on the grid.
      * @private
@@ -28,14 +30,14 @@ PF.Node = function(x, y) {
      * @private
      * @type boolean
      */
-    this.walkable = true;
+    this.walkable = (walkable === undefined ? false : walkable);
     /**
      * This node's parent node. 
      * This variable will be used to construct the path after the search is done.
      * @private
      * @type Array.<number, number>
      */
-    this.parent = null;
+    this.parent = (parent === undefined ? null : parent);
 };
 
 
@@ -59,4 +61,13 @@ PF.Node.prototype.set = function(attr, value) {
  */
 PF.Node.prototype.get = function(attr) {
     return this[attr];
+};
+
+
+/**
+ * Get a clone of this node.
+ * @return {PF.Node} Cloned node.
+ */
+PF.Node.prototype.clone = function() {
+    return new PF.Node(this.x, this.y, this.walkable, this.parent);
 };
