@@ -72,6 +72,11 @@ var path = finder.findPath(1, 2, 4, 2, grid);
 
 `path` will be an array of coordinates including both the start and end positions.
 
+Note: `grid` will be modified in each path-finding, and will not be usable afterwards. If you want to use a single grid multiple times, create a clone for it before calling `findPath`.
+
+```javascript
+var grid_backup = grid.clone();
+```
 
 For a detailed API document, see http://qiao.github.com/PathFinding.js/doc
 
