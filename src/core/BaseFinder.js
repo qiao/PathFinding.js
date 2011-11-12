@@ -101,7 +101,7 @@ PF.BaseFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     this.startY = startY;
     this.endX = endX;
     this.endY = endY;
-    this.grid = grid.clone();
+    this.grid = grid;
 
     this.gridWidth = grid.width;
     this.gridHeight = grid.height;
