@@ -42,6 +42,10 @@ window.Panel = {
         $('#hide_instruction').click(function() {
             $('#help_panel').slideUp();
         });
+
+        $('.option_label').click(function() {
+            $(this).prev().click();
+        });
     },
 
 

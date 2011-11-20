@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <title>PathFinding.js</title>
 
@@ -23,105 +23,119 @@
     <script type="text/javascript" src="./grid.js"></script>
     <script type="text/javascript" src="./panel.js"></script>
     <script type="text/javascript" src="./main.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <!-- TODO: info icon and text -->
     <div id="draw_area"></div>
 
     <div id="help_panel" class="control_panel">
-        <header>
-            <h2 class="header_title">Instructions</h2>
-            <span id="hide_instruction">hide</span>
-        </header>
-        click on the <span class="white">white</span> grids and drag your mouse to draw obstacles. <br>
-        drag <span class="green">green</span> node to set start position. <br>
-        drag <span class="red">red</span> node to set end position. <br>
-        choose algorithm from right panel. <br>
-        click start button at the lower right corner to start the animation.
+      <header>
+        <h2 class="header_title">Instructions</h2>
+        <span id="hide_instruction">hide</span>
+      </header>
+      click on the <span class="white">white</span> grids and drag your mouse to draw obstacles. <br>
+      drag <span class="green">green</span> node to set start position. <br>
+      drag <span class="red">red</span> node to set end position. <br>
+      choose algorithm from right panel. <br>
+      click start button at the lower right corner to start the animation.
     </div>
 
     <div id="algorithm_panel" class="control_panel">
-        <header><h2 class="header_title">Select Algorithm</h2></header>
+      <header><h2 class="header_title">Select Algorithm</h2></header>
 
-        <!-- TODO: using jquery-ui's triangle image to replace radio button -->
-        <div class="accordion">
-            <h3 id="astar_header"><a href="#">A*</a></h3>
-            <div id="astar_section" class="finder_section">
-                <header class="option_header">
-                    <h3>Heuristic</h3>
-                </header>
-                <div id="astar_heuristic" class="sub_options">
-                    <input type="radio" name="astar_heuristic" value="manhattan" checked />Manhattan <br>
-                    <input type="radio" name="astar_heuristic" value="euclidean"/>Euclidean <br>
-                    <input type="radio" name="astar_heuristic" value="chebyshev"/>Chebyshev <br>
-                </div>
+      <!-- TODO: using jquery-ui's triangle image to replace radio button -->
+      <div class="accordion">
+        <h3 id="astar_header"><a href="#">A*</a></h3>
+        <div id="astar_section" class="finder_section">
+          <header class="option_header">
+            <h3>Heuristic</h3>
+          </header>
+          <div id="astar_heuristic" class="sub_options">
+            <input type="radio" name="astar_heuristic" value="manhattan" checked />
+            <label class="option_label">Manhattan</label> <br>
+            <input type="radio" name="astar_heuristic" value="euclidean"/>
+            <label class="option_label">Euclidean</label> <br>
+            <input type="radio" name="astar_heuristic" value="chebyshev"/>
+            <label class="option_label">Chebyshev</label> <br>
+          </div>
 
-                <header class="option_header">
-                    <h3>Options</h3>
-                </header>
-                <div class="optional sub_options">
-                    <input type="checkbox" class="allow_diagonal" checked>Allow Diagonal <br>
-                    <input type="checkbox" class="bi-directional">Bi-directional<br>
-                </div>
-            </div>
-
-            <h3 id="breadthfirst_header"><a href="#">Breadth-First-Search</a></h3>
-            <div id="breadthfirst_section" class="finder_section">
-                <header class="option_header">
-                    <h3>Options</h3>
-                </header>
-                <div class="optional sub_options">
-                    <input type="checkbox" class="allow_diagonal" checked>Allow Diagonal <br>
-                    <input type="checkbox" class="bi-directional">Bi-directional<br>
-                </div>
-            </div>
-            
-            <h3 id="bestfirst_header"><a href="#">Best-First-Search</a></h3>
-            <div id="bestfirst_section" class="finder_section">
-                <header class="option_header">
-                    <h3>Heuristic</h3>
-                </header>
-                <div id="bestfirst_heuristic" class="sub_options">
-                    <input type="radio" name="bestfirst_heuristic" value="manhattan" checked />Manhattan <br>
-                    <input type="radio" name="bestfirst_heuristic" value="euclidean"/>Euclidean <br>
-                    <input type="radio" name="bestfirst_heuristic" value="chebyshev"/>Chebyshev <br>
-                </div>
-
-                <header class="option_header">
-                    <h3>Options</h3>
-                </header>
-                <div class="optional sub_options">
-                    <input type="checkbox" class="allow_diagonal" checked>Allow Diagonal <br>
-                    <input type="checkbox" class="bi-directional">Bi-directional<br>
-                </div>
-            </div>
-            
-            <h3 id="dijkstra_header"><a href="#">Dijkstra</a></h3>
-            <div id="dijkstra_section" class="finder_section">
-                <header class="option_header">
-                    <h3>Options</h3>
-                </header>
-                <div class="optional sub_options">
-                    <input type="checkbox" class="allow_diagonal" checked>Allow Diagonal <br>
-                    <input type="checkbox" class="bi-directional">Bi-directional<br>
-                </div>
-            </div>
+          <header class="option_header">
+            <h3>Options</h3>
+          </header>
+          <div class="optional sub_options">
+            <input type="checkbox" class="allow_diagonal" checked>
+            <label class="option_label">Allow Diagonal</label> <br>
+            <input type="checkbox" class="bi-directional">
+            <label class="option_label">Bi-directional</label> <br>
+          </div>
         </div>
+
+        <h3 id="breadthfirst_header"><a href="#">Breadth-First-Search</a></h3>
+        <div id="breadthfirst_section" class="finder_section">
+          <header class="option_header">
+            <h3>Options</h3>
+          </header>
+          <div class="optional sub_options">
+            <input type="checkbox" class="allow_diagonal" checked>
+            <label class="option_label">Allow Diagonal</label> <br>
+            <input type="checkbox" class="bi-directional">
+            <label class="option_label">Bi-directional</label> <br>
+          </div>
+        </div>
+
+        <h3 id="bestfirst_header"><a href="#">Best-First-Search</a></h3>
+        <div id="bestfirst_section" class="finder_section">
+          <header class="option_header">
+            <h3>Heuristic</h3>
+          </header>
+          <div id="bestfirst_heuristic" class="sub_options">
+            <input type="radio" name="bestfirst_heuristic" value="manhattan" checked />
+            <label class="option_label">Manhattan</label> <br>
+            <input type="radio" name="bestfirst_heuristic" value="euclidean"/>
+            <label class="option_label">Euclidean</label> <br>
+            <input type="radio" name="bestfirst_heuristic" value="chebyshev"/>
+            <label class="option_label">Chebyshev</label> <br>
+          </div>
+
+          <header class="option_header">
+            <h3>Options</h3>
+          </header>
+          <div class="optional sub_options">
+            <input type="checkbox" class="allow_diagonal" checked>
+            <label class="option_label">Allow Diagonal</label> <br>
+            <input type="checkbox" class="bi-directional">
+            <label class="option_label">Bi-directional</label> <br>
+          </div>
+        </div>
+
+        <h3 id="dijkstra_header"><a href="#">Dijkstra</a></h3>
+        <div id="dijkstra_section" class="finder_section">
+          <header class="option_header">
+            <h3>Options</h3>
+          </header>
+          <div class="optional sub_options">
+            <input type="checkbox" class="allow_diagonal" checked>
+            <label class="option_label">Allow Diagonal</label> <br>
+            <input type="checkbox" class="bi-directional">
+            <label class="option_label">Bi-directional</label> <br>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="play_panel" class="control_panel">
-        <!--<div id="speed_slider"></div>-->
-        <button id="start_button">Start</button>
-        <button id="stop_button">Stop</button>
-        <button id="reset_button">Reset</button>
+      <!--<div id="speed_slider"></div>-->
+      <button id="start_button">Start</button>
+      <button id="stop_button">Stop</button>
+      <button id="reset_button">Reset</button>
     </div>
 
     <div id="timer">
     </div>
 
     <footer>
-        Project Hosted on <a href="http://github.com/qiao/PathFinding.js">Github</a>
+      Project Hosted on <a href="http://github.com/qiao/PathFinding.js">Github</a>
     </footer>
 
-</body>
+  </body>
 </html>
