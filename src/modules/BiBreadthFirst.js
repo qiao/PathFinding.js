@@ -2,10 +2,10 @@
  * Bi-directional Breadth-First-Search path finder.
  * @constructor
  * @extends PF.BreadthFirstFinder
- * @param {boolean} allowDiagonal - Whether diagonal movement is allowed.
+ * @param {boolean} opt - opt.allowDiagonal: Whether diagonal movement is allowed.
  */
-PF.BiBreadthFirstFinder = function(allowDiagonal) {
-    PF.BreadthFirstFinder.call(this, allowDiagonal);
+PF.BiBreadthFirstFinder = function(opt) {
+    PF.BreadthFirstFinder.call(this, opt);
 };
 
 

@@ -2,14 +2,10 @@
  * Breadth-First-Search path finder.
  * @constructor
  * @extends PF.BaseFinder
- * @param {boolean} allowDiagonal - Whether diagonal movement is allowed.
+ * @param {boolean} opt - opt.allowDiagonal: Whether diagonal movement is allowed.
  */
-PF.BreadthFirstFinder = function(allowDiagonal) {
-    PF.BaseFinder.call(this);
-
-    if (allowDiagonal) {
-        this._inspectSurround = this._inspectSurroundDiagonal;
-    }
+PF.BreadthFirstFinder = function(opt) {
+    PF.BaseFinder.call(this, opt);
 };
 
 

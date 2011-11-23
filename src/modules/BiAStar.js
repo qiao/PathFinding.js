@@ -4,12 +4,13 @@
  * @extends PF.AStarFinder
  * @requires PF.Heap
  * @requires PF.Heuristic
- * @param {boolean} allowDiagonal - Whether diagonal movement is allowed.
- * @param {function(number, number): number} [heuristic] - Heuristic function
- *     being used to estimate the distance(defaults to manhattan).
+ * @param {boolean} opt - 
+ *     opt.allowDiagonal: Whether diagonal movement is allowed.
+ *     [opt.heuristic]: Heuristic function being used to estimate the distance
+ *     (defaults to manhattan).
  */
-PF.BiAStarFinder = function(allowDiagonal, heuristic) {
-    PF.AStarFinder.call(this, allowDiagonal, heuristic);
+PF.BiAStarFinder = function(opt) {
+    PF.AStarFinder.call(this, opt);
 };
 
 
