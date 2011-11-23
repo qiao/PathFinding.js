@@ -10,7 +10,7 @@
  *     (defaults to manhattan).
  */
 PF.AStarFinder = function(opt) {
-    opt = (typeof opt === 'object') || {};
+    opt = opt || {};
     PF.BaseFinder.call(this, opt);
     this.heuristic = opt.heuristic || PF.Heuristic.manhattan;
 };
