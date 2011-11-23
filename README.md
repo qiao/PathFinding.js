@@ -47,18 +47,20 @@ var grid = new PF.Grid(5, 3, matrix);
 
 Currently there are eight path-finders bundled in this library, namely:
 
-*  `AStarFinder`
-*  `BreadthFirstFinder`
+*  `AStarFinder` (*)
+*  `BreadthFirstFinder` (*)
 *  `BestFirstFinder`
-*  `DijkstraFinder`
+*  `DijkstraFinder` (*)
 *  `BiAStarFinder`
 *  `BiBestFirstFinder`
-*  `BiDijkstraFinder`
-*  `BiBreadthFirstFinder`
+*  `BiDijkstraFinder` (*)
+*  `BiBreadthFirstFinder` (*)
 
-(The suffix `Bi` for the last four finders in the above list stands for the bi-directional searching strategy.)
+The suffix `Bi` for the last four finders in the above list stands for the bi-directional searching strategy. 
 
-To build a path-finder:
+Also, Note that only the finders with trailing asterisks are guaranteed to find the shortest path.
+
+To build a path-finder, say, the `AStarFinder`:
 
 ```javascript
 var finder = new PF.AStarFinder();
@@ -91,10 +93,12 @@ When instantiating path-finders, you may pass in additional parameters to indica
 
 For all path-finders, you may indicate whether diagonal movement is allowed. The default value is `false`, which means that the path can only go orthogonally.
 
-In order to enable diagonal movement, pass `true` as the first argument of the path-finder.
+In order to enable diagonal movement:
 
 ```javascript
-var finder = new PF.AStarFinder(true);
+var finder = new PF.AStarFinder({
+    allowDiagonal: true
+});
 ```
 
 For `AStarFinder`, `BestFirstFinder` and all their `Bi` relatives, you may indicate which heuristic function to use.
@@ -104,14 +108,19 @@ The predefined heuristics are `PF.Heuristic.manhattan`(defalut), `PF.Heuristic.c
 To use the chebyshev heuristic:
 
 ```javascript
-var finder = new PF.AStarFinder(false, PF.Heuristic.chebyshev);
+var finder = new PF.AStarFinder({
+    heuristic: PF.Heuristic.chebyshev)
+});
 ```
 
-to use a custom heuristic:
+To build a `BestFirstFinder` with diagonal movement allowed and a custom heuristic function:
 
 ```javascript
-var finder = new PF.AStarFinder(false, function(dx, dy) {
-    return Math.min(dx, dy);
+var finder = new PF.BestFirstFinder({
+    allowDiagonal: true,
+    heuristic: function(dx, dy) {
+        return Math.min(dx, dy);
+    }
 });
 ```
 
