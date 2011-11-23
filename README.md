@@ -8,7 +8,7 @@ The aim of this project is to provide a path-finding library that can be easily 
 
 It comes along with an [online demo](http://qiao.github.com/PathFinding.js/visual) to show how the various algorithms execute.
 
-## Usage ##
+## Basic Usage ##
 
 Download the [minified js file](http://qiao.github.com/PathFinding.js/build/PathFinding.min.js) and include it in your web page.
 
@@ -64,7 +64,7 @@ To build a path-finder:
 var finder = new PF.AStarFinder();
 ```
 
-To find a path from (1, 2) to (4, 2):
+To find a path from (1, 2) to (4, 2), (Note: both the start point and end point should be walkable):
 
 ```javascript
 var path = finder.findPath(1, 2, 4, 2, grid);
@@ -72,13 +72,50 @@ var path = finder.findPath(1, 2, 4, 2, grid);
 
 `path` will be an array of coordinates including both the start and end positions.
 
-Note: `grid` will be modified in each path-finding, and will not be usable afterwards. If you want to use a single grid multiple times, create a clone for it before calling `findPath`.
+For the `matrix` defined previously, the `path` will be:
 
 ```javascript
-var grid_backup = grid.clone();
+[ [ 1, 2 ], [ 1, 1 ], [ 2, 1 ], [ 3, 1 ], [ 3, 2 ], [ 4, 2 ] ]
 ```
 
-For a detailed API document, see http://qiao.github.com/PathFinding.js/doc
+Be aware that `grid` will be modified in each path-finding, and will not be usable afterwards. If you want to use a single grid multiple times, create a clone for it before calling `findPath`.
+
+```javascript
+var gridBackup = grid.clone();
+```
+
+
+## Advanced Usage ##
+
+When instantiating path-finders, you may pass in additional parameters to indicate which specific strategies to use.
+
+For all path-finders, you may indicate whether diagonal movement is allowed. The default value is `false`, which means that the path can only go orthogonally.
+
+In order to enable diagonal movement, pass `true` as the first argument of the path-finder.
+
+```javascript
+var finder = new PF.AStarFinder(true);
+```
+
+For `AStarFinder`, `BestFirstFinder` and all their `Bi` relatives, you may indicate which heuristic function to use.
+
+The predefined heuristics are `PF.Heuristic.manhattan`(defalut), `PF.Heuristic.chebyshev` and `PF.Heuristic.euclidean`.
+
+To use the chebyshev heuristic:
+
+```javascript
+var finder = new PF.AStarFinder(false, PF.Heuristic.chebyshev);
+```
+
+to use a custom heuristic:
+
+```javascript
+var finder = new PF.AStarFinder(false, function(dx, dy) {
+    return Math.min(dx, dy);
+});
+```
+
+For a detailed developer's API document, see http://qiao.github.com/PathFinding.js/doc
 
 
 ## License ##
