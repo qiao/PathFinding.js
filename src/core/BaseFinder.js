@@ -4,9 +4,9 @@
  * any path-finding algorithms or methods and is intended to be extended 
  * by all the other path-finder classes.
  * @constructor
- * @param {boolean} allowDiagonal - Whether diagonal movement is allowed
+ * @param {boolean} opt - opt.allowDiagonal: Whether diagonal movement is allowed.
  */
-PF.BaseFinder = function(allowDiagonal) {
+PF.BaseFinder = function(opt) {
     this.startX = null;
     this.startY = null;
     this.endX = null;
@@ -15,7 +15,17 @@ PF.BaseFinder = function(allowDiagonal) {
 
     this.gridHeight = null;
     this.gridWidth = null;
-    this.allowDiagonal = allowDiagonal;
+
+    this.allowDiagonal = opt && opt.allowDiagonal;
+    if (this.allowDiagonal) {
+        /**
+         * sub-classes should implement both _inspectSurround 
+         * and _inspectSurroundDiagonal
+         */
+        if (this._inspectSurroundDiagonal !== undefined) {
+            this._inspectSurround = this._inspectSurroundDiagonal;
+        }
+    }
 };
 
 
