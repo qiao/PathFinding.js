@@ -4,17 +4,36 @@ PathFinding.js
 
 ## Introduction ##
 
-The aim of this project is to provide a path-finding library that can be easily incorporated into web games. 
+The aim of this project is to provide a path-finding library that can be easily incorporated into web games. It may run on Node.js or the browser.
 
 It comes along with an [online demo](http://qiao.github.com/PathFinding.js/visual) to show how the algorithms execute.
 
-## Basic Usage ##
+## Server ##
+
+If you want to use it in Node.js, you may install it via `npm`.
+
+```bash
+npm install pathfinding
+```
+
+Then, in your program:
+
+```javascript
+var PF = require('pathfinding');
+```
+
+Now skip to the `Basic Usage` section of this readme.
+
+
+## Browser ##
 
 Download the [minified js file](http://qiao.github.com/PathFinding.js/build/PathFinding.min.js) and include it in your web page.
 
 ```html
 <script type="text/javascript" src="./PathFinding.min.js"></script>
 ```
+
+## Basic Usage ##
 
 To build a grid-map of width 5 and height 3:
 
