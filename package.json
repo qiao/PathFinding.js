@@ -9,11 +9,11 @@
     "name": "Xueqiao Xu",
     "email": "xueqiaoxu@gmail.com"
   }],
-  "dependencies": [],
   "directories": {
-    "lib": "./build"
+    "lib": "./lib"
   },
-  "main": "/build/PathFinding.min.js",
+  "main": "/lib/PathFinding.min.js",
+  "dependencies": [],
   "repository": {
     "type": "git", 
     "url": "git://github.com/qiao/PathFinding.js.git"

@@ -95,7 +95,7 @@ def main():
 
     output_path = os.path.join(
                       project_path,
-                      'build',
+                      'lib',
                       'PathFinding.js')
 
     file_paths = [os.path.join(source_path, filename)
