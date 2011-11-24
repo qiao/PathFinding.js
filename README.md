@@ -6,7 +6,7 @@ PathFinding.js
 
 The aim of this project is to provide a path-finding library that can be easily incorporated into web games. 
 
-It comes along with an [online demo](http://qiao.github.com/PathFinding.js/visual) to show how the various algorithms execute.
+It comes along with an [online demo](http://qiao.github.com/PathFinding.js/visual) to show how the algorithms execute.
 
 ## Basic Usage ##
 
