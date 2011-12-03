@@ -128,7 +128,7 @@ To use the chebyshev heuristic:
 
 ```javascript
 var finder = new PF.AStarFinder({
-    heuristic: PF.Heuristic.chebyshev)
+    heuristic: PF.Heuristic.chebyshev
 });
 ```
 
