@@ -6,7 +6,7 @@
  * @constructor
  * @param {boolean} opt - opt.allowDiagonal: Whether diagonal movement is allowed.
  */
-PF.BaseFinder = function(opt) {
+var BaseFinder = function(opt) {
     this.startX = null;
     this.startY = null;
     this.endX = null;
@@ -35,7 +35,7 @@ PF.BaseFinder = function(opt) {
  * @param {number} y - The y coordinate of the position.
  * @return {boolean} Whether it is inside.
  */
-PF.BaseFinder.prototype.isInsideGrid = function(x, y) {
+BaseFinder.prototype.isInsideGrid = function(x, y) {
     // delegates to grid.
     return this.grid.isInside(x, y);
 };
@@ -46,7 +46,7 @@ PF.BaseFinder.prototype.isInsideGrid = function(x, y) {
  * @param {number} x - The x coordinate of the position.
  * @param {number} y - The y coordinate of the position.
  */
-PF.BaseFinder.prototype.setWalkableAt = function(x, y, walkable) {
+BaseFinder.prototype.setWalkableAt = function(x, y, walkable) {
     // delegates to grid.
     this.grid.setWalkableAt(x, y, walkable);
 };
@@ -58,7 +58,7 @@ PF.BaseFinder.prototype.setWalkableAt = function(x, y, walkable) {
  * @param {number} y - The y coordinate of the position.
  * @return {boolean} Whether it is walkable.
  */
-PF.BaseFinder.prototype.isWalkableAt = function(x, y) {
+BaseFinder.prototype.isWalkableAt = function(x, y) {
     // delegates to grid.
     return this.grid.isWalkableAt(x, y);
 };
@@ -71,7 +71,7 @@ PF.BaseFinder.prototype.isWalkableAt = function(x, y) {
  * @param {string} attr - The name of attribute to set.
  * @param {object} value - The value of attribute.
  */
-PF.BaseFinder.prototype.setAttributeAt = function(x, y, attr, value) {
+BaseFinder.prototype.setAttributeAt = function(x, y, attr, value) {
     // delegates to grid.
     this.grid.setAttributeAt(x, y, attr, value);
 };
@@ -84,7 +84,7 @@ PF.BaseFinder.prototype.setAttributeAt = function(x, y, attr, value) {
  * @param {string} attr -The name of attribute to get.
  * @return {object} The value of the attribute.
  */
-PF.BaseFinder.prototype.getAttributeAt = function(x, y, attr) {
+BaseFinder.prototype.getAttributeAt = function(x, y, attr) {
     // delegates to grid.
     return this.grid.getAttributeAt(x, y, attr);
 };
@@ -93,7 +93,7 @@ PF.BaseFinder.prototype.getAttributeAt = function(x, y, attr) {
 /**
  * Constructor of each BaseFinder instance.
  */
-PF.BaseFinder.prototype.constructor = PF.BaseFinder;
+BaseFinder.prototype.constructor = BaseFinder;
 
 
 /**
@@ -106,7 +106,7 @@ PF.BaseFinder.prototype.constructor = PF.BaseFinder;
  * @return {Array.<[number, number]>} The path, including both start and 
  *     end positions.
  */
-PF.BaseFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
+BaseFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     this.startX = startX;
     this.startY = startY;
     this.endX = endX;
@@ -126,7 +126,7 @@ PF.BaseFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
  * @return {Array.<Array.<number>>} The path, including
  *     both start and end positions.
  */
-PF.BaseFinder.prototype._constructPath = function() {
+BaseFinder.prototype._constructPath = function() {
     var sx = this.startX, sy = this.startY,
         x, y,
         grid = this.grid,
@@ -153,7 +153,7 @@ PF.BaseFinder.prototype._constructPath = function() {
  * @return {Array.<[number, number]>} The path, including both start and 
  *     end positions.
  */
-PF.BaseFinder.prototype._find = function() {
+BaseFinder.prototype._find = function() {
     throw new Error('Sub-classes must implement this method');
 };
 
@@ -171,7 +171,9 @@ PF.BaseFinder.prototype._find = function() {
 // if offsets[i] is valid, then
 // diagonalOffsets[i] and 
 // diagonalOffsets[(i + 1) % 4] is valid.
-PF.BaseFinder.xOffsets = [-1, 0, 1, 0];
-PF.BaseFinder.yOffsets = [0, 1, 0, -1];
-PF.BaseFinder.xDiagonalOffsets = [-1, -1, 1, 1]; 
-PF.BaseFinder.yDiagonalOffsets = [-1, 1, 1, -1];
+BaseFinder.xOffsets = [-1, 0, 1, 0];
+BaseFinder.yOffsets = [0, 1, 0, -1];
+BaseFinder.xDiagonalOffsets = [-1, -1, 1, 1]; 
+BaseFinder.yDiagonalOffsets = [-1, 1, 1, -1];
+
+exports.BaseFinder = BaseFinder;
