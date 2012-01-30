@@ -6,7 +6,7 @@
  * @constructor
  * @param {boolean} opt - opt.allowDiagonal: Whether diagonal movement is allowed.
  */
-var BaseFinder = function(opt) {
+function BaseFinder(opt) {
     this.startX = null;
     this.startY = null;
     this.endX = null;

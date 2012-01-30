@@ -1,5 +1,5 @@
 /**
- * @module PF.Heap
+ * @module Heap
  * @fileoverview A binary heap container.
  * Based on the `heapq` module in Python's standard library.
  */
@@ -11,7 +11,7 @@
  *     returns whether it's first argument is less than the second argument.
  *     If this argument is not provided, then the `<` operator will be used.
  */
-PF.Heap = function(cmpFunc) {
+function Heap(cmpFunc) {
     /**
      * Comparison function.
      * @type {function(*, *): boolean}
@@ -31,7 +31,7 @@ PF.Heap = function(cmpFunc) {
 /**
  * Get the top(smallest) item from the heap.
  */
-PF.Heap.prototype.top = function() {
+Heap.prototype.top = function() {
     return this._heap[0];
 };
 
@@ -40,7 +40,7 @@ PF.Heap.prototype.top = function() {
  * Get the size of the heap.
  * @return {number} The number of items in the heap.
  */
-PF.Heap.prototype.size = function() {
+Heap.prototype.size = function() {
     return this._heap.length;
 };
 
@@ -49,7 +49,7 @@ PF.Heap.prototype.size = function() {
  * Determine whether the heap is empty.
  * @return {boolean}
  */
-PF.Heap.prototype.isEmpty = function() {
+Heap.prototype.isEmpty = function() {
     return !this.size();
 };
 
@@ -58,7 +58,7 @@ PF.Heap.prototype.isEmpty = function() {
  * Push an item onto the heap.
  * @param {*} item - Item to push onto the heap.
  */
-PF.Heap.prototype.push = function(item) {
+Heap.prototype.push = function(item) {
     this._heap.push(item);
     this._siftDown(0, this._heap.length - 1);
 };
@@ -67,7 +67,7 @@ PF.Heap.prototype.push = function(item) {
 /**
  * Pop the smallest item off the heap.
  */
-PF.Heap.prototype.pop = function() {
+Heap.prototype.pop = function() {
     var heap, lastItem, returnItem;
     
     heap = this._heap;
@@ -92,7 +92,7 @@ PF.Heap.prototype.pop = function() {
  * returned may be larger than the pushed item!
  * @param {*} item - Item to replace the top one of the heap.
  */
-PF.Heap.prototype.replace = function(item) {
+Heap.prototype.replace = function(item) {
     var returnItem = this._heap[0];
     this._heap[0] = item;
     this._siftUp(0);
@@ -104,7 +104,7 @@ PF.Heap.prototype.replace = function(item) {
  * Fast version of a push followed by a pop.
  * @param {*} item - Item to be pushed onto the heap.
  */
-PF.Heap.prototype.pushpop = function(item) {
+Heap.prototype.pushpop = function(item) {
     var heap = this._heap, t;
     
     if (heap.length && this._cmp(heap[0], item)) {
@@ -121,7 +121,7 @@ PF.Heap.prototype.pushpop = function(item) {
  * Heapify the heap.
  * This method may be used when the internal data is modified.
  */
-PF.Heap.prototype.heapify = function() {
+Heap.prototype.heapify = function() {
     var i, len = this._heap.length;
     for (i = Math.floor(len / 2) - 1; i >= 0; --i) {
         this._siftUp(i);
@@ -135,7 +135,7 @@ PF.Heap.prototype.heapify = function() {
  * @param {number} pos Index of the leaf with possiblly out-of-order value.
  * @private
  */
-PF.Heap.prototype._siftDown = function(startPos, pos) {
+Heap.prototype._siftDown = function(startPos, pos) {
     var heap, cmp, newItem, parentPos, parent;
 
     heap = this._heap;
@@ -164,7 +164,7 @@ PF.Heap.prototype._siftDown = function(startPos, pos) {
  * @param {number} pos Index of leaf with possibly out-of-order value.
  * @private
  */
-PF.Heap.prototype._siftUp = function(pos) {
+Heap.prototype._siftUp = function(pos) {
     var heap, cmp, endPos, startPos, newItem, childPos, rightPos;
     
     cmp = this._cmp;
@@ -192,3 +192,5 @@ PF.Heap.prototype._siftUp = function(pos) {
     heap[pos] = newItem;
     this._siftDown(startPos, pos);
 };
+
+exports.Heap = Heap;

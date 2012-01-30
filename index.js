@@ -1,1 +1,1 @@
-module.exports = require('./lib/PathFinding.min');
+module.exports = require('./lib/pathfinding');

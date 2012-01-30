@@ -1,7 +1,9 @@
 /**
  * @namespace PF 
  */
-var PF = PF || {};
+var PF = module.exports = {
+    
+}
 
 // Export for Node.js and CommonJS
 if (typeof exports !== 'undefined') {

@@ -10,9 +10,9 @@
  * @param {number} x - The x coordinate of the node on the grid.
  * @param {number} y - The y coordinate of the node on the grid.
  * @param {boolean} [walkable] - Whether this node is walkable.
- * @param {PF.Node} [parent] - Parent of this node.
+ * @param {Node} [parent] - Parent of this node.
  */
-PF.Node = function(x, y, walkable, parent) {
+function Node(x, y, walkable, parent) {
     /**
      * The x coordinate of the node on the grid.
      * @private
@@ -41,7 +41,7 @@ PF.Node = function(x, y, walkable, parent) {
 };
 
 
-PF.Node.prototype.constructor = PF.Node;
+Node.prototype.constructor = Node;
 
 
 /**
@@ -49,7 +49,7 @@ PF.Node.prototype.constructor = PF.Node;
  * @param {string} attr - Attribute name.
  * @param {*} value - Attribute value.
  */
-PF.Node.prototype.set = function(attr, value) {
+Node.prototype.set = function(attr, value) {
     this[attr] = value;
 };
 
@@ -59,15 +59,17 @@ PF.Node.prototype.set = function(attr, value) {
  * @param {string} attr - Attribute name
  * @return {*} The value of the attribute.
  */
-PF.Node.prototype.get = function(attr) {
+Node.prototype.get = function(attr) {
     return this[attr];
 };
 
 
 /**
  * Get a clone of this node.
- * @return {PF.Node} Cloned node.
+ * @return {Node} Cloned node.
  */
-PF.Node.prototype.clone = function() {
-    return new PF.Node(this.x, this.y, this.walkable, this.parent);
+Node.prototype.clone = function() {
+    return new Node(this.x, this.y, this.walkable, this.parent);
 };
+
+exports.Node = Node;
