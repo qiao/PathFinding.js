@@ -1,5 +1,5 @@
-var Grid = require('../src/core/grid').Grid;
-var BaseFinder = require('../src/finders/base').BaseFinder;
+var Grid = require('../src/core/grid');
+var BaseFinder = require('../src/finders/base');
 
 describe('BaseFinder', function() {
     var baseFinder, startX, startY, endX, endY, grid, 

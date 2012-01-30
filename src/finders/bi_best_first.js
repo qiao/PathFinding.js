@@ -1,9 +1,9 @@
-var BiAStarFinder = require('./bi_astar').BiAStarFinder;
+var BiAStarFinder = require('./bi_astar');
 
 /**
  * Bi-direcitional Best-First-Search path-finder.
  * @constructor
- * @extends PF.BiAStarFinder
+ * @extends BiAStarFinder
  * @param {boolean} opt - 
  *     opt.allowDiagonal: Whether diagonal movement is allowed.
  *     [opt.heuristic]: Heuristic function being used to estimate the distance
@@ -21,4 +21,4 @@ BiBestFirstFinder = function(opt) {
 BiBestFirstFinder.prototype = new BiAStarFinder();
 BiBestFirstFinder.prototype.constructor = BiBestFirstFinder;
 
-exports.BiBestFirstFinder = BiBestFirstFinder;
+module.exports = BiBestFirstFinder;

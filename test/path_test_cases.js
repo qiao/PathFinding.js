@@ -1,4 +1,4 @@
-exports.testCases = [
+module.exports = [
     {
         startX: 0,
         startY: 0,

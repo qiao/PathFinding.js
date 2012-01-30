@@ -72,4 +72,4 @@ Node.prototype.clone = function() {
     return new Node(this.x, this.y, this.walkable, this.parent);
 };
 
-exports.Node = Node;
+module.exports = Node;

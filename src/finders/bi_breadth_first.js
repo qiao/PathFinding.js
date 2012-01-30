@@ -1,5 +1,5 @@
-var BaseFinder         = require('./base').BaseFinder;
-var BreadthFirstFinder = require('./breadth_first').BreadthFirstFinder;
+var BaseFinder         = require('./base');
+var BreadthFirstFinder = require('./breadth_first');
 
 /**
  * Bi-directional Breadth-First-Search path finder.
@@ -252,4 +252,4 @@ BiBreadthFirstFinder.prototype._constructPath = function(x1, y1, x2, y2, which) 
     return sourcePath.concat(targetPath);
 };
 
-exports.BiBreadthFirstFinder = BiBreadthFirstFinder;
+module.exports = BiBreadthFirstFinder;

@@ -102,7 +102,7 @@ BaseFinder.prototype.constructor = BaseFinder;
  * @param {number} startY - The y coordinate of the start position.
  * @param {number} endX - The x coordinate of the end position.
  * @param {number} endY - The y coordinate of the end position.
- * @param {PF.Grid} grid - The grid holding the nodes' status.
+ * @param {Grid} grid - The grid holding the nodes' status.
  * @return {Array.<[number, number]>} The path, including both start and 
  *     end positions.
  */
@@ -176,4 +176,4 @@ BaseFinder.yOffsets = [0, 1, 0, -1];
 BaseFinder.xDiagonalOffsets = [-1, -1, 1, 1]; 
 BaseFinder.yDiagonalOffsets = [-1, 1, 1, -1];
 
-exports.BaseFinder = BaseFinder;
+module.exports = BaseFinder;

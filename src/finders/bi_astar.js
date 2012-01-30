@@ -1,6 +1,6 @@
-var BaseFinder  = require('./base').BaseFinder;
-var AStarFinder = require('./astar').AStarFinder;
-var Heap        = require('../core/heap').Heap;
+var BaseFinder  = require('./base');
+var AStarFinder = require('./astar');
+var Heap        = require('../core/heap');
 
 /**
  * Bi-directional A* path-finder.
@@ -338,4 +338,4 @@ BiAStarFinder.prototype._calculateH = function(x, y, which) {
     }
 };
 
-exports.BiAStarFinder = BiAStarFinder;
+module.exports = BiAStarFinder;

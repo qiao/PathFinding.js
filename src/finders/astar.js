@@ -1,6 +1,6 @@
-var BaseFinder = require('./base').BaseFinder;
-var Heuristic  = require('../core/heuristic').Heuristic;
-var Heap       = require('../core/heap').Heap;
+var BaseFinder = require('./base');
+var Heuristic  = require('../core/heuristic');
+var Heap       = require('../core/heap');
 
 /**
  * A* path-finder.
@@ -229,4 +229,4 @@ AStarFinder.prototype._calculateH = function(x, y) {
     return this.heuristic(dx, dy);
 };
 
-exports.AStarFinder = AStarFinder;
+module.exports = AStarFinder;

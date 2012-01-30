@@ -1,5 +1,5 @@
-var Grid      = require('../src/core/grid').Grid;
-var testCases = require('./path_test_cases').testCases;
+var Grid      = require('../src/core/grid');
+var testCases = require('./path_test_cases');
 
 /**
  * Path-finding tests for the path-finders.
@@ -44,11 +44,11 @@ var STRICT = true;
 var NON_STRICT = false;
 
 // strict path tests.
-var AStarFinder          = require('../src/finders/astar.js').AStarFinder;
-var BreadthFirstFinder   = require('../src/finders/breadth_first').BreadthFirstFinder;
-var DijkstraFinder       = require('../src/finders/dijkstra').DijkstraFinder;
-var BiBreadthFirstFinder = require('../src/finders/bi_breadth_first').BiBreadthFirstFinder;
-var BiDijkstraFinder     = require('../src/finders/bi_dijkstra').BiDijkstraFinder;
+var AStarFinder          = require('../src/finders/astar.js');
+var BreadthFirstFinder   = require('../src/finders/breadth_first');
+var DijkstraFinder       = require('../src/finders/dijkstra');
+var BiBreadthFirstFinder = require('../src/finders/bi_breadth_first');
+var BiDijkstraFinder     = require('../src/finders/bi_dijkstra');
 
 pathTest('AStar', new AStarFinder(), STRICT);
 pathTest('BreadthFirst', new BreadthFirstFinder(), STRICT);
@@ -57,9 +57,9 @@ pathTest('BiBreadthFirst', new BiBreadthFirstFinder(), STRICT);
 pathTest('BiDijkstra', new BiDijkstraFinder(), STRICT);
 
 // non strict tests.
-var BestFirstFinder        = require('../src/finders/best_first.js').BestFirstFinder;
-var BiBestFirstFinder      = require('../src/finders/bi_best_first.js').BiBestFirstFinder;
-var BiAStarFinder          = require('../src/finders/bi_astar.js').BiAStarFinder;
+var BestFirstFinder        = require('../src/finders/best_first.js');
+var BiBestFirstFinder      = require('../src/finders/bi_best_first.js');
+var BiAStarFinder          = require('../src/finders/bi_astar.js');
 
 pathTest('BestFirst', new BestFirstFinder(), NON_STRICT);
 pathTest('BiBestFirst', new BiBestFirstFinder(), NON_STRICT);

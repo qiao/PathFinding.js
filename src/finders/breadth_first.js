@@ -1,4 +1,4 @@
-var BaseFinder = require('./base').BaseFinder;
+var BaseFinder = require('./base');
 
 /**
  * Breadth-First-Search path finder.
@@ -147,4 +147,4 @@ BreadthFirstFinder.prototype._inspectSurroundDiagonal = function(x, y) {
     }
 };
 
-exports.BreadthFirstFinder = BreadthFirstFinder;
+module.exports = BreadthFirstFinder;

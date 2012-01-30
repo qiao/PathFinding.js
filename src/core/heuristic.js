@@ -2,7 +2,7 @@
  * @namespace PF.Heuristic
  * @description A collection of heuristic functions.
  */
-exports.Heuristic = {
+module.exports = {
 
   /**
    * Manhattan distance.

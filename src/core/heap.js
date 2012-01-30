@@ -193,4 +193,4 @@ Heap.prototype._siftUp = function(pos) {
     this._siftDown(startPos, pos);
 };
 
-exports.Heap = Heap;
+module.exports = Heap;

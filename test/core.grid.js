@@ -1,4 +1,4 @@
-var Grid = require('../src/core/grid.js').Grid;
+var Grid = require('../src/core/grid.js');
 
 describe('Grid', function() {
     describe('generate without matrix', function() {

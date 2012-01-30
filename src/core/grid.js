@@ -1,4 +1,4 @@
-var Node = require('./node').Node;
+var Node = require('./node');
 
 /**
  * The Grid class, which serves as the encapsulation of the layout of the 
@@ -170,4 +170,4 @@ Grid.prototype.clone = function() {
     return newGrid;
 };
 
-exports.Grid = Grid;
+module.exports = Grid;
