@@ -12,7 +12,7 @@ exports.Heuristic = {
    */
   manhattan: function(dx, dy) {
       return dx + dy;
-  };
+  },
 
   /**
    * Euclidean distance.
@@ -22,7 +22,7 @@ exports.Heuristic = {
    */
   euclidean: function(dx, dy) {
       return Math.sqrt(dx * dx + dy * dy);
-  };
+  },
 
   /**
    * Chebyshev distance.
@@ -32,6 +32,6 @@ exports.Heuristic = {
    */
   chebyshev: function(dx, dy) {
       return Math.max(dx, dy);
-  };
+  }
 
 };
