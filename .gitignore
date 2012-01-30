@@ -1,7 +1,6 @@
-*.pyc
 *.swp
-*.livereload
 doc
 test
 src
 utils
+node_modules/
