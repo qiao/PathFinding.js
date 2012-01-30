@@ -1,25 +1,19 @@
 {
-  "name": "pathfinding",
-  "version": "0.2.0",
-  "description": "Comprehensive pathfinding library for grid based games",
-  "homepage": "https://github.com/qiao/PathFinding.js",
-  "keywords": ["algorithm", "game"],
-  "author": "Xueqiao Xu <xueqiaoxu@gmail.com>",
-  "maintainers": [{
-    "name": "Xueqiao Xu",
-    "email": "xueqiaoxu@gmail.com"
-  }],
-  "directories": {
-    "lib": "./lib"
-  },
-  "main": "/lib/PathFinding.min.js",
-  "dependencies": [],
-  "repository": {
-    "type": "git", 
-    "url": "git://github.com/qiao/PathFinding.js.git"
-  },
-  "licenses": [{
-    "type":  "MIT",
-    "url": "http://opensource.org/licenses/mit-license.php"
+    "name"            : "pathfinding"
+  , "version"         : "0.2.0"
+  , "description"     : "Comprehensive pathfinding library for grid based games"
+  , "homepage"        : "https://github.com/qiao/PathFinding.js"
+  , "keywords"        : ["algorithm", "game"]
+  , "author"          : "Xueqiao Xu <xueqiaoxu@gmail.com>"
+  , "main"            : "./index.js"
+  , "dependencies"    : {}
+  , "devDependencies" : {}
+  , "repository"      : {
+      "type"          : "git"
+      "url"           : "git://github.com/qiao/PathFinding.js.git"
+  }
+  , "licenses"        : [{
+      "type"          :  "MIT"
+      "url"           : "http://opensource.org/licenses/mit-license.php"
   }]
 }
