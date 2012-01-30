@@ -1,19 +1,21 @@
-var Heuristic = require('./')
+var BaseFinder = require('../core/base_finder').BaseFinder;
+var Heuristic  = require('./heuristic').Heuristic;
+var Heap       = require('./heap').Heap;
 
 /**
  * A* path-finder.
  * @constructor
- * @extends PF.BaseFinder
- * @requires PF.Heap
- * @requires PF.Heuristic
+ * @extends BaseFinder
+ * @requires Heap
+ * @requires Heuristic
  * @param {boolean} opt - 
  *     opt.allowDiagonal: Whether diagonal movement is allowed.
  *     [opt.heuristic]: Heuristic function being used to estimate the distance
  *     (defaults to manhattan).
  */
-AStarFinder = function(opt) {
+function AStarFinder(opt) {
     opt = opt || {};
-    PF.BaseFinder.call(this, opt);
+    BaseFinder.call(this, opt);
     this.heuristic = opt.heuristic || Heuristic.manhattan;
 };
 
@@ -21,13 +23,13 @@ AStarFinder = function(opt) {
 /**
  * Extends the BaseFinder
  */
-PF.AStarFinder.prototype = new PF.BaseFinder();
+AStarFinder.prototype = new BaseFinder();
 
 
 /**
  * The constructor of the instance.
  */
-PF.AStarFinder.prototype.constructor = PF.AStarFinder;
+AStarFinder.prototype.constructor = AStarFinder;
 
 
 /**
@@ -36,7 +38,7 @@ PF.AStarFinder.prototype.constructor = PF.AStarFinder;
  * @return {Array.<[number, number]>} The path, including both start and 
  *     end positions.
  */
-PF.AStarFinder.prototype._find = function() {
+AStarFinder.prototype._find = function() {
     var x, y,    // current x, y
         sx = this.startX,
         sy = this.startY,
@@ -45,7 +47,7 @@ PF.AStarFinder.prototype._find = function() {
         grid = this.grid,
 
 
-        openList = new PF.Heap(function(posA, posB) {
+        openList = new Heap(function(posA, posB) {
             var fa = grid.getAttributeAt(posA[0], posA[1], 'f'),
                 fb = grid.getAttributeAt(posB[0], posB[1], 'f');
             if (fa != fb) {
@@ -55,6 +57,7 @@ PF.AStarFinder.prototype._find = function() {
                        grid.getAttributeAt(posB[0], posB[1], 'h');
             }
         }),
+        pos,
         node;
 
     this.openList = openList;
@@ -97,9 +100,9 @@ PF.AStarFinder.prototype._find = function() {
  * @param {number} x - The x coordinate of the position.
  * @param {number} y - The y coordinate of the position.
  */
-PF.AStarFinder.prototype._inspectSurround = function(x, y) {
-    var xOffsets = PF.BaseFinder.xOffsets,
-        yOffsets = PF.BaseFinder.yOffsets,
+AStarFinder.prototype._inspectSurround = function(x, y) {
+    var xOffsets = BaseFinder.xOffsets,
+        yOffsets = BaseFinder.yOffsets,
         grid = this.grid,
         i, nx, ny;
 
@@ -121,11 +124,11 @@ PF.AStarFinder.prototype._inspectSurround = function(x, y) {
  * @param {number} x - The x coordinate of the position.
  * @param {number} y - The y coordinate of the position.
  */
-PF.AStarFinder.prototype._inspectSurroundDiagonal = function(x, y) {
-    var xOffsets = PF.BaseFinder.xOffsets,
-        yOffsets = PF.BaseFinder.yOffsets,
-        xDiagonalOffsets = PF.BaseFinder.xDiagonalOffsets,
-        yDiagonalOffsets = PF.BaseFinder.yDiagonalOffsets,
+AStarFinder.prototype._inspectSurroundDiagonal = function(x, y) {
+    var xOffsets = BaseFinder.xOffsets,
+        yOffsets = BaseFinder.yOffsets,
+        xDiagonalOffsets = BaseFinder.xDiagonalOffsets,
+        yDiagonalOffsets = BaseFinder.yDiagonalOffsets,
         grid = this.grid,
         i, nx, ny, diagonalCan = [];
         
@@ -163,7 +166,7 @@ PF.AStarFinder.prototype._inspectSurroundDiagonal = function(x, y) {
  * @param {number} py - The y coordinate of the parent position.
  * @param {boolean} isDiagonal - Whether [x, y] and [px, py] is diagonal 
  */
-PF.AStarFinder.prototype._inspectNodeAt = function(x, y, px, py, isDiagonal) {
+AStarFinder.prototype._inspectNodeAt = function(x, y, px, py, isDiagonal) {
     var grid = this.grid,
         openList = this.openList,
         node = grid.getNodeAt(x, y);
@@ -196,10 +199,10 @@ PF.AStarFinder.prototype._inspectNodeAt = function(x, y, px, py, isDiagonal) {
  * @param {boolean} isDiagonal - Whether [x, y] and [px, py] is diagonal 
  * @return {boolean} Whether this position's info has been updated.
  */
-PF.AStarFinder.prototype._tryUpdate = function(x, y, px, py, isDiagonal) {
+AStarFinder.prototype._tryUpdate = function(x, y, px, py, isDiagonal) {
     var grid = this.grid,
         pNode = grid.getNodeAt(px, py), // parent node
-        ng = pNode.get('g') + (isDiagonal ? 1.4142 : 1); // next `g` value
+        ng = pNode.get('g') + (isDiagonal ? 1.4142 : 1), // next `g` value
         node = grid.getNodeAt(x, y);
 
     if (node.get('g') === undefined || ng < node.get('g')) {
@@ -220,8 +223,10 @@ PF.AStarFinder.prototype._tryUpdate = function(x, y, px, py, isDiagonal) {
  * @param {number} y - The y coordinate of the position.
  * @return {number}
  */
-PF.AStarFinder.prototype._calculateH = function(x, y) {
+AStarFinder.prototype._calculateH = function(x, y) {
     var dx = Math.abs(x - this.endX),
         dy = Math.abs(y - this.endY);
     return this.heuristic(dx, dy);
 };
+
+exports.AStarFinder = AStarFinder;
