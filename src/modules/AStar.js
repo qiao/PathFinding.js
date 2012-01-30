@@ -1,3 +1,5 @@
+var Heuristic = require('./')
+
 /**
  * A* path-finder.
  * @constructor
@@ -9,10 +11,10 @@
  *     [opt.heuristic]: Heuristic function being used to estimate the distance
  *     (defaults to manhattan).
  */
-PF.AStarFinder = function(opt) {
+AStarFinder = function(opt) {
     opt = opt || {};
     PF.BaseFinder.call(this, opt);
-    this.heuristic = opt.heuristic || PF.Heuristic.manhattan;
+    this.heuristic = opt.heuristic || Heuristic.manhattan;
 };
 
 
