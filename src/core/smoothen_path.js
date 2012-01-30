@@ -1,3 +1,7 @@
+/**
+ * methods for smoothening the path. not finished yet.
+ */
+
 PF.smoothenPath = (function() {
 
     /**
