@@ -1,5 +1,9 @@
+SRC = $(shell find src -name "*.js" -type f)
 TEST_TIMEOUT = 2000
 TEST_REPORTER = spec
+
+lib/pathfinding-browser.js: $(SRC)
+	@node utils/build.js
 
 test:
 	@NODE_ENV=test \
@@ -8,4 +12,7 @@ test:
 			--timeout $(TEST_TIMEOUT) \
 			--reporter $(TEST_REPORTER) 
 
-.PHONY: test
+clean:
+	rm -f lib/pathfinding-browser.js
+
+.PHONY: test clean
