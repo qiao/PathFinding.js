@@ -3,20 +3,25 @@ var testCases = require('./path_test_cases').testCases;
 
 /**
  * Path-finding tests for the path-finders.
+ * @param {boolean} strict - Whether the finder is guaranteed to find the shortest path
  */
-exports.pathTest = function(name, finder) {
-    describe('pathfinding of ' + name, function() {
+function pathTest(name, finder, strict) {
+    describe(name, function() {
         var startX, startY, endX, endY, grid, expectedLength,
-            width, height, matrix;
+            width, height, matrix, path;
 
         var test = (function() {
             var testId = 0;
 
             return function(startX, startY, endX, endY, grid, expectedLength) {
-                describe('test ' + ++testId, function() {
-                    it('should solve it', function() {
-                        finder.findPath(startX, startY, endX, endY, grid).length.should.equal(expectedLength);
-                    });
+                it('should solve maze '+ ++testId, function() {
+                    path = finder.findPath(startX, startY, endX, endY, grid);
+                    if (strict) {
+                        path.length.should.equal(expectedLength);
+                    } else {
+                        path[0].should.eql([startX, startY]);
+                        path[path.length - 1].should.eql([endX, endY]);
+                    }
                 });
             };
         })();
@@ -33,3 +38,29 @@ exports.pathTest = function(name, finder) {
         }
     });
 };
+
+
+var STRICT = true;
+var NON_STRICT = false;
+
+// strict path tests.
+var AStarFinder          = require('../src/finders/astar.js').AStarFinder;
+var BreadthFirstFinder   = require('../src/finders/breadth_first').BreadthFirstFinder;
+var DijkstraFinder       = require('../src/finders/dijkstra').DijkstraFinder;
+var BiBreadthFirstFinder = require('../src/finders/bi_breadth_first').BiBreadthFirstFinder;
+var BiDijkstraFinder     = require('../src/finders/bi_dijkstra').BiDijkstraFinder;
+
+pathTest('AStar', new AStarFinder(), STRICT);
+pathTest('BreadthFirst', new BreadthFirstFinder(), STRICT);
+pathTest('Dijkstra', new DijkstraFinder(), STRICT);
+pathTest('BiBreadthFirst', new BiBreadthFirstFinder(), STRICT);
+pathTest('BiDijkstra', new BiDijkstraFinder(), STRICT);
+
+// non strict tests.
+var BestFirstFinder        = require('../src/finders/best_first.js').BestFirstFinder;
+var BiBestFirstFinder      = require('../src/finders/bi_best_first.js').BiBestFirstFinder;
+var BiAStarFinder          = require('../src/finders/bi_astar.js').BiAStarFinder;
+
+pathTest('BestFirst', new BestFirstFinder(), NON_STRICT);
+pathTest('BiBestFirst', new BiBestFirstFinder(), NON_STRICT);
+pathTest('BiAStar', new BiAStarFinder(), NON_STRICT);

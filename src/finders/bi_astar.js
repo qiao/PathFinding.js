@@ -1,21 +1,25 @@
+var BaseFinder  = require('./base').BaseFinder;
+var AStarFinder = require('./astar').AStarFinder;
+var Heap        = require('../core/heap').Heap;
+
 /**
  * Bi-directional A* path-finder.
  * @constructor
- * @extends PF.AStarFinder
- * @requires PF.Heap
- * @requires PF.Heuristic
+ * @extends AStarFinder
+ * @requires Heap
+ * @requires Heuristic
  * @param {boolean} opt - 
  *     opt.allowDiagonal: Whether diagonal movement is allowed.
  *     [opt.heuristic]: Heuristic function being used to estimate the distance
  *     (defaults to manhattan).
  */
-PF.BiAStarFinder = function(opt) {
-    PF.AStarFinder.call(this, opt);
+function BiAStarFinder(opt) {
+    AStarFinder.call(this, opt);
 };
 
 
-PF.BiAStarFinder.prototype = new PF.AStarFinder();
-PF.BiAStarFinder.prototype.constructor = PF.BiAStarFinder;
+BiAStarFinder.prototype = new AStarFinder();
+BiAStarFinder.prototype.constructor = BiAStarFinder;
 
 
 /**
@@ -24,7 +28,7 @@ PF.BiAStarFinder.prototype.constructor = PF.BiAStarFinder;
  * @return {Array.<[number, number]>} The path, including both start and 
  *     end positions.
  */
-PF.BiAStarFinder.prototype._find = function() {
+BiAStarFinder.prototype._find = function() {
     var x, y,    // current x, y
         sx = this.startX,
         sy = this.startY,
@@ -44,8 +48,8 @@ PF.BiAStarFinder.prototype._find = function() {
             }
         },
 
-        sourceOpenList = new PF.Heap(heapCmpFunc),
-        targetOpenList = new PF.Heap(heapCmpFunc);
+        sourceOpenList = new Heap(heapCmpFunc),
+        targetOpenList = new Heap(heapCmpFunc);
 
     this.sourceOpenList = sourceOpenList;
     this.targetOpenList = targetOpenList;
@@ -85,7 +89,7 @@ PF.BiAStarFinder.prototype._find = function() {
  * Expand the source open list.
  * @return {boolean} Whether the path has been found.
  */
-PF.BiAStarFinder.prototype._expandSource = function() {
+BiAStarFinder.prototype._expandSource = function() {
     return this._expand('source');
 };
 
@@ -94,7 +98,7 @@ PF.BiAStarFinder.prototype._expandSource = function() {
  * Expand the target open list.
  * @return {boolean} Whether the path has been found.
  */
-PF.BiAStarFinder.prototype._expandTarget = function() {
+BiAStarFinder.prototype._expandTarget = function() {
     return this._expand('target');
 };
 
@@ -104,7 +108,7 @@ PF.BiAStarFinder.prototype._expandTarget = function() {
  * @param {string} which - Expand `source` or `target`.
  * @return {boolean} Whether the path has been found.
  */
-PF.BiAStarFinder.prototype._expand = function(which) {
+BiAStarFinder.prototype._expand = function(which) {
     var pos, x, y, grid;
 
     grid = this.grid;
@@ -127,9 +131,9 @@ PF.BiAStarFinder.prototype._expand = function(which) {
  * @param {string} which - Inspection by 'source' or 'target'.
  * @return {boolean} Whether the path has been found.
  */
-PF.BiAStarFinder.prototype._inspectSurround = function(x, y, which) {
-    var xOffsets = PF.BaseFinder.xOffsets,
-        yOffsets = PF.BaseFinder.yOffsets,
+BiAStarFinder.prototype._inspectSurround = function(x, y, which) {
+    var xOffsets = BaseFinder.xOffsets,
+        yOffsets = BaseFinder.yOffsets,
         grid = this.grid,
         i, nx, ny;
 
@@ -157,11 +161,11 @@ PF.BiAStarFinder.prototype._inspectSurround = function(x, y, which) {
  * @param {string} which - Inspection by 'source' or 'target'.
  * @return {boolean} Whether the path has been found.
  */
-PF.BiAStarFinder.prototype._inspectSurroundDiagonal = function(x, y, which) {
-    var xOffsets = PF.BaseFinder.xOffsets,
-        yOffsets = PF.BaseFinder.yOffsets,
-        xDiagonalOffsets = PF.BaseFinder.xDiagonalOffsets,
-        yDiagonalOffsets = PF.BaseFinder.yDiagonalOffsets,
+BiAStarFinder.prototype._inspectSurroundDiagonal = function(x, y, which) {
+    var xOffsets = BaseFinder.xOffsets,
+        yOffsets = BaseFinder.yOffsets,
+        xDiagonalOffsets = BaseFinder.xDiagonalOffsets,
+        yDiagonalOffsets = BaseFinder.yDiagonalOffsets,
         grid = this.grid,
         i, nx, ny, diagonalCan = [];
         
@@ -204,7 +208,7 @@ PF.BiAStarFinder.prototype._inspectSurroundDiagonal = function(x, y, which) {
  * @param {string} which - Inspection by 'source' or 'target'.
  * @return {boolean} Whether the path has been found.
  */
-PF.BiAStarFinder.prototype._inspectNodeAt = function(x, y, px, py, isDiagonal, which) {
+BiAStarFinder.prototype._inspectNodeAt = function(x, y, px, py, isDiagonal, which) {
     var grid = this.grid,
         openList = this[which + 'OpenList'],
         node = grid.getNodeAt(x, y);
@@ -247,10 +251,10 @@ PF.BiAStarFinder.prototype._inspectNodeAt = function(x, y, px, py, isDiagonal, w
  * @param {string} which - Inspection by 'source' or 'target'.
  * @return {boolean} Whether this position's info has been updated.
  */
-PF.BiAStarFinder.prototype._tryUpdate = function(x, y, px, py, isDiagonal, which) {
+BiAStarFinder.prototype._tryUpdate = function(x, y, px, py, isDiagonal, which) {
     var grid = this.grid,
         pNode = grid.getNodeAt(px, py), // parent node
-        ng = pNode.get('g') + (isDiagonal ? 1.4142 : 1); // next `g` value
+        ng = pNode.get('g') + (isDiagonal ? 1.4142 : 1), // next `g` value
         node = grid.getNodeAt(x, y);
 
     if (node.get('g') === undefined || ng < node.get('g')) {
@@ -275,7 +279,7 @@ PF.BiAStarFinder.prototype._tryUpdate = function(x, y, px, py, isDiagonal, which
  * @return {Array.<Array.<number>>} The path, including
  *     both start and end positions.
  */
-PF.BiAStarFinder.prototype._constructPath = function(x1, y1, x2, y2, which) {
+BiAStarFinder.prototype._constructPath = function(x1, y1, x2, y2, which) {
     var x, y, sx, sy, ex, ey, grid, sourcePath, targetPath;
 
     sx = this.startX;
@@ -322,7 +326,7 @@ PF.BiAStarFinder.prototype._constructPath = function(x1, y1, x2, y2, which) {
  * @param {string} which - Inspection by `source` or `target`.
  * @return {number} The heuristic value.
  */
-PF.BiAStarFinder.prototype._calculateH = function(x, y, which) {
+BiAStarFinder.prototype._calculateH = function(x, y, which) {
     if (which == 'source') {
         var dx = Math.abs(x - this.endX),
             dy = Math.abs(y - this.endY);
@@ -333,3 +337,5 @@ PF.BiAStarFinder.prototype._calculateH = function(x, y, which) {
         return this.heuristic(dx, dy);
     }
 };
+
+exports.BiAStarFinder = BiAStarFinder;

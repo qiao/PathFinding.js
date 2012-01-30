@@ -1,24 +1,26 @@
+var BaseFinder = require('./base').BaseFinder;
+
 /**
  * Breadth-First-Search path finder.
  * @constructor
- * @extends PF.BaseFinder
+ * @extends BaseFinder
  * @param {boolean} opt - opt.allowDiagonal: Whether diagonal movement is allowed.
  */
-PF.BreadthFirstFinder = function(opt) {
-    PF.BaseFinder.call(this, opt);
+BreadthFirstFinder = function(opt) {
+    BaseFinder.call(this, opt);
 };
 
 
 /**
  * Extends the base finder.
  */
-PF.BreadthFirstFinder.prototype = new PF.BaseFinder();
+BreadthFirstFinder.prototype = new BaseFinder();
 
 
 /**
  * The constructor of the instance.
  */
-PF.BreadthFirstFinder.prototype.constructor = PF.BreadthFirstFinder;
+BreadthFirstFinder.prototype.constructor = BreadthFirstFinder;
 
 
 /**
@@ -27,7 +29,7 @@ PF.BreadthFirstFinder.prototype.constructor = PF.BreadthFirstFinder;
  * @return {Array.<[number, number]>} The path, including both start and 
  *     end positions.
  */
-PF.BreadthFirstFinder.prototype._find = function() {
+BreadthFirstFinder.prototype._find = function() {
     var openList = [],
         pos,
         x, y,    // current x, y
@@ -73,7 +75,7 @@ PF.BreadthFirstFinder.prototype._find = function() {
  * @param {number} px - The x coordinate of the parent position.
  * @param {number} py - The y coordinate of the parent position.
  */
-PF.BreadthFirstFinder.prototype._inspectNodeAt = function(x, y, px, py) {
+BreadthFirstFinder.prototype._inspectNodeAt = function(x, y, px, py) {
     var grid = this.grid,
         node = grid.getNodeAt(x, y);
 
@@ -92,9 +94,9 @@ PF.BreadthFirstFinder.prototype._inspectNodeAt = function(x, y, px, py) {
  * @param {number} x - The x coordinate of the position.
  * @param {number} y - The y coordinate of the position.
  */
-PF.BreadthFirstFinder.prototype._inspectSurround = function(x, y) {
-    var xOffsets = PF.BaseFinder.xOffsets,
-        yOffsets = PF.BaseFinder.yOffsets,
+BreadthFirstFinder.prototype._inspectSurround = function(x, y) {
+    var xOffsets = BaseFinder.xOffsets,
+        yOffsets = BaseFinder.yOffsets,
         grid = this.grid,
         i, nx, ny;
 
@@ -116,11 +118,11 @@ PF.BreadthFirstFinder.prototype._inspectSurround = function(x, y) {
  * @param {number} x - The x coordinate of the position.
  * @param {number} y - The y coordinate of the position.
  */
-PF.BreadthFirstFinder.prototype._inspectSurroundDiagonal = function(x, y) {
-    var xOffsets = PF.BaseFinder.xOffsets,
-        yOffsets = PF.BaseFinder.yOffsets,
-        xDiagonalOffsets = PF.BaseFinder.xDiagonalOffsets,
-        yDiagonalOffsets = PF.BaseFinder.yDiagonalOffsets,
+BreadthFirstFinder.prototype._inspectSurroundDiagonal = function(x, y) {
+    var xOffsets = BaseFinder.xOffsets,
+        yOffsets = BaseFinder.yOffsets,
+        xDiagonalOffsets = BaseFinder.xDiagonalOffsets,
+        yDiagonalOffsets = BaseFinder.yDiagonalOffsets,
         grid = this.grid,
         i, nx, ny, diagonalCan = [];
 
@@ -144,3 +146,5 @@ PF.BreadthFirstFinder.prototype._inspectSurroundDiagonal = function(x, y) {
         }
     }
 };
+
+exports.BreadthFirstFinder = BreadthFirstFinder;

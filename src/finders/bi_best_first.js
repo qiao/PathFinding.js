@@ -1,3 +1,5 @@
+var BiAStarFinder = require('./bi_astar').BiAStarFinder;
+
 /**
  * Bi-direcitional Best-First-Search path-finder.
  * @constructor
@@ -7,8 +9,8 @@
  *     [opt.heuristic]: Heuristic function being used to estimate the distance
  *     (defaults to manhattan).
  */
-PF.BiBestFirstFinder = function(opt) {
-    PF.BiAStarFinder.call(this, opt);
+BiBestFirstFinder = function(opt) {
+    BiAStarFinder.call(this, opt);
 
     var orig = this.heuristic;
     this.heuristic = function(dx, dy) {
@@ -16,6 +18,7 @@ PF.BiBestFirstFinder = function(opt) {
     };
 };
 
-PF.BiBestFirstFinder.prototype = new PF.BiAStarFinder();
+BiBestFirstFinder.prototype = new BiAStarFinder();
+BiBestFirstFinder.prototype.constructor = BiBestFirstFinder;
 
-PF.BiBestFirstFinder.prototype.constructor = PF.BiBestFirstFinder;
+exports.BiBestFirstFinder = BiBestFirstFinder;

@@ -1,6 +1,6 @@
-var Heap = require('../src/modules/heap').Heap;
+var Heap = require('../src/core/heap').Heap;
 
-describe('modules/heap.js', function() {
+describe('Heap', function() {
     /**
      * Generate a random array of integers.
      * @param {integer} size The length of the array.

@@ -1,7 +1,7 @@
 var Grid = require('../src/core/grid').Grid;
-var BaseFinder = require('../src/core/base_finder').BaseFinder;
+var BaseFinder = require('../src/finders/base').BaseFinder;
 
-describe('core/base_finder.js', function() {
+describe('BaseFinder', function() {
     var baseFinder, startX, startY, endX, endY, grid, 
         width, height, matrix,
 

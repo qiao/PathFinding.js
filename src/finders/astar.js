@@ -1,6 +1,6 @@
-var BaseFinder = require('../core/base_finder').BaseFinder;
-var Heuristic  = require('./heuristic').Heuristic;
-var Heap       = require('./heap').Heap;
+var BaseFinder = require('./base').BaseFinder;
+var Heuristic  = require('../core/heuristic').Heuristic;
+var Heap       = require('../core/heap').Heap;
 
 /**
  * A* path-finder.

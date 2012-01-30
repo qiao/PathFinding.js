@@ -1,16 +1,19 @@
+var BaseFinder         = require('./base').BaseFinder;
+var BreadthFirstFinder = require('./breadth_first').BreadthFirstFinder;
+
 /**
  * Bi-directional Breadth-First-Search path finder.
  * @constructor
- * @extends PF.BreadthFirstFinder
+ * @extends BreadthFirstFinder
  * @param {boolean} opt - opt.allowDiagonal: Whether diagonal movement is allowed.
  */
-PF.BiBreadthFirstFinder = function(opt) {
-    PF.BreadthFirstFinder.call(this, opt);
+BiBreadthFirstFinder = function(opt) {
+    BreadthFirstFinder.call(this, opt);
 };
 
 
-PF.BiBreadthFirstFinder.prototype = new PF.BreadthFirstFinder();
-PF.BiBreadthFirstFinder.prototype.constructor = PF.BiBreadthFirstFinder;
+BiBreadthFirstFinder.prototype = new BreadthFirstFinder();
+BiBreadthFirstFinder.prototype.constructor = BiBreadthFirstFinder;
 
 
 /**
@@ -19,7 +22,7 @@ PF.BiBreadthFirstFinder.prototype.constructor = PF.BiBreadthFirstFinder;
  * @return {Array.<[number, number]>} The path, including both start and 
  *     end positions.
  */
-PF.BiBreadthFirstFinder.prototype._find = function() {
+BiBreadthFirstFinder.prototype._find = function() {
     var pos,
         x, y,    // current x, y
         nx, ny,  // next x, y
@@ -58,7 +61,7 @@ PF.BiBreadthFirstFinder.prototype._find = function() {
  * Expand the source open list.
  * @return {boolean} Whether the path has been found.
  */
-PF.BiBreadthFirstFinder.prototype._expandSource = function() {
+BiBreadthFirstFinder.prototype._expandSource = function() {
     return this._expand('source');
 };
 
@@ -67,7 +70,7 @@ PF.BiBreadthFirstFinder.prototype._expandSource = function() {
  * Expand the target open list.
  * @return {boolean} Whether the path has been found.
  */
-PF.BiBreadthFirstFinder.prototype._expandTarget = function() {
+BiBreadthFirstFinder.prototype._expandTarget = function() {
     return this._expand('target');
 };
 
@@ -77,7 +80,7 @@ PF.BiBreadthFirstFinder.prototype._expandTarget = function() {
  * @param {string} which - Expand `source` or `target`.
  * @return {boolean} Whether the path has been found.
  */
-PF.BiBreadthFirstFinder.prototype._expand = function(which) {
+BiBreadthFirstFinder.prototype._expand = function(which) {
     var pos, x, y, grid = this.grid;
 
     // take the front node from the queue
@@ -100,9 +103,9 @@ PF.BiBreadthFirstFinder.prototype._expand = function(which) {
  * @param {string} which - Inspection by 'source' or 'target'.
  * @return {boolean} Whether the path has been found.
  */
-PF.BiBreadthFirstFinder.prototype._inspectSurround = function(x, y, which) {
-    var xOffsets = PF.BaseFinder.xOffsets,
-        yOffsets = PF.BaseFinder.yOffsets,
+BiBreadthFirstFinder.prototype._inspectSurround = function(x, y, which) {
+    var xOffsets = BaseFinder.xOffsets,
+        yOffsets = BaseFinder.yOffsets,
         grid = this.grid,
         i, nx, ny;
 
@@ -129,11 +132,11 @@ PF.BiBreadthFirstFinder.prototype._inspectSurround = function(x, y, which) {
  * @param {string} which - Inspection by 'source' or 'target'.
  * @return {boolean} Whether the path has been found.
  */
-PF.BiBreadthFirstFinder.prototype._inspectSurroundDiagonal = function(x, y, which) {
-    var xOffsets = PF.BaseFinder.xOffsets,
-        yOffsets = PF.BaseFinder.yOffsets,
-        xDiagonalOffsets = PF.BaseFinder.xDiagonalOffsets,
-        yDiagonalOffsets = PF.BaseFinder.yDiagonalOffsets,
+BiBreadthFirstFinder.prototype._inspectSurroundDiagonal = function(x, y, which) {
+    var xOffsets = BaseFinder.xOffsets,
+        yOffsets = BaseFinder.yOffsets,
+        xDiagonalOffsets = BaseFinder.xDiagonalOffsets,
+        yDiagonalOffsets = BaseFinder.yDiagonalOffsets,
         grid = this.grid,
         i, nx, ny, diagonalCan = [];
 
@@ -177,7 +180,7 @@ PF.BiBreadthFirstFinder.prototype._inspectSurroundDiagonal = function(x, y, whic
  * @param {string} which - Inspection by 'source' or 'target'.
  * @return {boolean} Whether the path has been found.
  */
-PF.BiBreadthFirstFinder.prototype._inspectNodeAt = function(x, y, px, py, which) {
+BiBreadthFirstFinder.prototype._inspectNodeAt = function(x, y, px, py, which) {
     var grid = this.grid,
         node = grid.getNodeAt(x, y);
 
@@ -211,7 +214,7 @@ PF.BiBreadthFirstFinder.prototype._inspectNodeAt = function(x, y, px, py, which)
  * @return {Array.<Array.<number>>} The path, including
  *     both start and end positions.
  */
-PF.BiBreadthFirstFinder.prototype._constructPath = function(x1, y1, x2, y2, which) {
+BiBreadthFirstFinder.prototype._constructPath = function(x1, y1, x2, y2, which) {
     var x, y, sx, sy, ex, ey, grid, sourcePath, targetPath;
 
     sx = this.startX;
@@ -248,3 +251,5 @@ PF.BiBreadthFirstFinder.prototype._constructPath = function(x1, y1, x2, y2, whic
 
     return sourcePath.concat(targetPath);
 };
+
+exports.BiBreadthFirstFinder = BiBreadthFirstFinder;
