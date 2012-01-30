@@ -6,7 +6,7 @@ var BiAStarFinder = require('./bi_astar');
  * @extends BiAStarFinder
  * @param {boolean} opt - opt.allowDiagonal: Whether diagonal movement is allowed.
  */
-BiDijkstraFinder = function(opt) {
+function BiDijkstraFinder(opt) {
     BiAStarFinder.call(this, opt);
     this.heuristic = function(dx, dy) {
         return 0;

@@ -6,7 +6,7 @@ var BaseFinder = require('./base');
  * @extends BaseFinder
  * @param {boolean} opt - opt.allowDiagonal: Whether diagonal movement is allowed.
  */
-BreadthFirstFinder = function(opt) {
+function BreadthFirstFinder(opt) {
     BaseFinder.call(this, opt);
 };
 

@@ -9,7 +9,7 @@ var BiAStarFinder = require('./bi_astar');
  *     [opt.heuristic]: Heuristic function being used to estimate the distance
  *     (defaults to manhattan).
  */
-BiBestFirstFinder = function(opt) {
+function BiBestFirstFinder(opt) {
     BiAStarFinder.call(this, opt);
 
     var orig = this.heuristic;

@@ -7,7 +7,7 @@ var BreadthFirstFinder = require('./breadth_first');
  * @extends BreadthFirstFinder
  * @param {boolean} opt - opt.allowDiagonal: Whether diagonal movement is allowed.
  */
-BiBreadthFirstFinder = function(opt) {
+function BiBreadthFirstFinder(opt) {
     BreadthFirstFinder.call(this, opt);
 };
 
