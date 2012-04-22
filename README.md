@@ -149,8 +149,8 @@ var finder = new PF.BestFirstFinder({
 });
 ```
 
-Developing
-----------
+Developement
+------------
 
 Layout:
 
@@ -160,24 +160,22 @@ Layout:
     |-- test       # test scripts
     |-- utils      # build scripts
     `-- visual     # visualization
-    `
 
 You will need to install `node.js` and use `npm` to install the dependencies: 
 
     npm install -d 
 
-To build the browser distribution  
-
-    make
-
+To build the browser distribution 
 (It will use [node-browserify](https://github.com/substack/node-browserify) to generate a browser distribution,
 and use [UglifyJS](https://github.com/mishoo/UglifyJS) to compress):
 
-To run the tests (algorithm only, not including the visualization)
+    make
+
+To run the tests
+(algorithms only, not including the visualization) with
+[mocha](http://visionmedia.github.com/mocha/) and [should.js](https://github.com/visionmedia/should.js) 
 
     make tests
-
-(Tests are using [mocha](http://visionmedia.github.com/mocha/) and [should.js](https://github.com/visionmedia/should.js) )
 
 License
 -------
