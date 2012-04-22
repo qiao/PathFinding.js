@@ -7,7 +7,7 @@ Introduction
 
 The aim of this project is to provide a path-finding library that can be easily incorporated into web games. It may run on Node.js or the browser.
 
-It comes along with an [online demo](http://qiao.github.com/PathFinding.js/visual) to show how the algorithms execute.
+It comes along with an [online demo](http://qiao.github.com/PathFinding.js/visual) to show how the algorithms execute. (The animation speed is deliberately slowed down for you to see the expanding procedure)
 
 Server
 ------
@@ -78,6 +78,7 @@ Currently there are eight path-finders bundled in this library, namely:
 *  `BiBestFirstFinder`
 *  `BiDijkstraFinder` *
 *  `BiBreadthFirstFinder` *
+*  `JumpPointFinder` *
 
 The suffix `Bi` for the last four finders in the above list stands for the bi-directional searching strategy. 
 
@@ -148,8 +149,45 @@ var finder = new PF.BestFirstFinder({
 });
 ```
 
+Developing
+----------
+
+Layout:
+
+    .
+    |-- lib        # browser distribution
+    |-- src        # source code (algorithms only)
+    |-- test       # test scripts
+    |-- utils      # build scripts
+    `-- visual     # visualization
+    `
+
+You will need to install `node.js` and use `npm` to install the dependencies: 
+
+    npm install -d 
+
+To build the browser distribution  
+
+    make
+
+(It will use [node-browserify](https://github.com/substack/node-browserify) to generate a browser distribution,
+and use [UglifyJS](https://github.com/mishoo/UglifyJS) to compress):
+
+To run the tests (algorithm only, not including the visualization)
+
+    make tests
+
+(Tests are using [mocha](http://visionmedia.github.com/mocha/) and [should.js](https://github.com/visionmedia/should.js) )
 
 License
 -------
 
-This project is released under the [MIT License](http://www.opensource.org/licenses/mit-license.php) .
+[MIT License](http://www.opensource.org/licenses/mit-license.php)
+
+&copy; 2011-2012 Xueqiao Xu &lt;xueqiaoxu@gmail.com&gt;
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

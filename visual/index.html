@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./lib/themes/jquery.ui.all.css" />
 
     <script type="text/javascript" src="./lib/raphael-min.js"></script>
-    <script type="text/javascript" src="./lib/jquery-1.6.4.min.js"></script>
+    <script type="text/javascript" src="./lib/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="./lib/modernizr.js"></script>
 
     <script type="text/javascript" src="./lib/ui/jquery.ui.core.min.js"></script>
@@ -118,6 +118,21 @@
             <label class="option_label">Allow Diagonal</label> <br>
             <input type="checkbox" class="bi-directional">
             <label class="option_label">Bi-directional</label> <br>
+          </div>
+        </div>
+
+        <h3 id="jump_point_header"><a href="#">Jump Point Search</a></h3>
+        <div id="jump_point_section" class="finder_section">
+          <header class="option_header">
+            <h3>Heuristic</h3>
+          </header>
+          <div id="jump_point_heuristic" class="sub_options">
+            <input type="radio" name="jump_point_heuristic" value="manhattan" checked />
+            <label class="option_label">Manhattan</label> <br>
+            <input type="radio" name="jump_point_heuristic" value="euclidean"/>
+            <label class="option_label">Euclidean</label> <br>
+            <input type="radio" name="jump_point_heuristic" value="chebyshev"/>
+            <label class="option_label">Chebyshev</label> <br>
           </div>
         </div>
       </div>

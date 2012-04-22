@@ -116,6 +116,27 @@ window.GridModel = {
         
         this.allReset.notify();
     },
+
+    toJSON: function() {
+        var i, j, 
+            grid = this._grid,
+            width = grid.width,
+            height = grid.height,
+            matrix = [];
+
+        for (i = 0; i < height; ++i) {
+            matrix.push([]);
+            for (j = 0; j < width; j++) {
+                matrix[i].push(grid.isWalkableAt(j, i) ? 0 : 1);
+            };
+        }
+
+        return {
+            width: width,
+            height: height,
+            matrix: matrix
+        };
+    },
 };
 
 
@@ -410,6 +431,7 @@ window.GridView = {
 window.GridController = {
     init: function() {
         this.initGeometry();
+        this.initHashSetter();
     },
 
     supportedDispatcher: {
@@ -442,6 +464,9 @@ window.GridController = {
 
         GridModel.setStartPos(centerX - 5, centerY);
         GridModel.setEndPos(centerX + 5, centerY);
+    },
+
+    initHashSetter: function() {
     },
 
     onMouseDown: function(x, y) {
