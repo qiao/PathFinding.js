@@ -60,7 +60,9 @@ pathTest('BiDijkstra', new BiDijkstraFinder(), STRICT);
 var BestFirstFinder        = require('../src/finders/best_first.js');
 var BiBestFirstFinder      = require('../src/finders/bi_best_first.js');
 var BiAStarFinder          = require('../src/finders/bi_astar.js');
+var JumpPointFinder      = require('../src/finders/jump_point');
 
 pathTest('BestFirst', new BestFirstFinder(), NON_STRICT);
 pathTest('BiBestFirst', new BiBestFirstFinder(), NON_STRICT);
 pathTest('BiAStar', new BiAStarFinder(), NON_STRICT);
+pathTest('JumpPoint', new JumpPointFinder(), NON_STRICT);
