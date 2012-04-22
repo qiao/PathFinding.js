@@ -334,14 +334,11 @@ window.GridView = {
 
     showFailure: function() {
         var i, node,
-            fill = this.failedNodeAttr.fill,
-            startX = GridModel.getStartX(),
-            startY = GridModel.getStartY();
+            fill = this.failedNodeAttr.fill;
 
         for (i = 0; node = this.changedNodes[i]; ++i) {
-            if (GridModel.isWalkableAt(node.x, node.y) &&
-                !(node.x === startX && node.y === startY)) {
-                this.colorizeNodeAt(node.x, node.y, fill);
+            if (GridModel.isWalkableAt(node.x, node.y)) {
+              this.colorizeNodeAt(node.x, node.y, fill);
             }
         }
     },
