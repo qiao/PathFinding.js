@@ -98,12 +98,12 @@ button:hover {
     margin: 2px 30px 0;
 }
 
-#timer {
+#stats {
     position: absolute;
-    bottom: 10px;
-    left: 20px;
+    bottom: 40px;
+    left: 35px;
     color: #0a0;
-    font-size: 70%;
+    font-size: 85%;
     padding: 5px;
     display: none;
     background: rgba(255, 255, 255, 0.5);

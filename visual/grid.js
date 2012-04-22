@@ -581,4 +581,8 @@ window.GridController = {
         return this.operationCnt;
     },
 
+    getPathLength: function() {
+        return this.path.length;
+    },
+
 };
