@@ -445,6 +445,9 @@ window.GridController = {
     },
 
     onMouseDown: function(x, y) {
+        if (this.isRunning()) {
+          return;
+        }
         if (x == GridModel.getStartX() && y == GridModel.getStartY()) {
             this.isMoving = true;
             this.moving = 'start';
