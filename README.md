@@ -2,13 +2,15 @@ PathFinding.js
 ==============
 #### A comprehensive path-finding library in javascript. ####
 
-## Introduction ##
+Introduction
+------------
 
 The aim of this project is to provide a path-finding library that can be easily incorporated into web games. It may run on Node.js or the browser.
 
 It comes along with an [online demo](http://qiao.github.com/PathFinding.js/visual) to show how the algorithms execute.
 
-## Server ##
+Server
+------
 
 If you want to use it in Node.js, you may install it via `npm`.
 
@@ -25,15 +27,17 @@ var PF = require('pathfinding');
 Now skip to the `Basic Usage` section of this readme.
 
 
-## Browser ##
+Browser
+-------
 
-Download the [minified js file](http://qiao.github.com/PathFinding.js/build/PathFinding.min.js) and include it in your web page.
+Download the [minified js file](http://qiao.github.com/PathFinding.js/lib/pathfinding-browser.js) and include it in your web page.
 
 ```html
-<script type="text/javascript" src="./PathFinding.min.js"></script>
+<script type="text/javascript" src="./pathfinding-browser.js"></script>
 ```
 
-## Basic Usage ##
+Basic Usage
+-----------
 
 To build a grid-map of width 5 and height 3:
 
@@ -106,7 +110,8 @@ var gridBackup = grid.clone();
 ```
 
 
-## Advanced Usage ##
+Advanced Usage
+--------------
 
 When instantiating path-finders, you may pass in additional parameters to indicate which specific strategies to use.
 
@@ -143,9 +148,8 @@ var finder = new PF.BestFirstFinder({
 });
 ```
 
-For a detailed developer's API document, see http://qiao.github.com/PathFinding.js/doc
 
-
-## License ##
+License
+-------
 
 This project is released under the [MIT License](http://www.opensource.org/licenses/mit-license.php) .

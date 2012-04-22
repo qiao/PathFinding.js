@@ -146,6 +146,10 @@ window.GridView = {
         fill: '#afeeee',
         'stroke-opacity': 0.2,
     },
+    failedNodeAttr: {
+        fill: '#ffff88',
+        'stroke-opacity': 0.2,
+    },
     pathAttr: {
         stroke: 'yellow',
         'stroke-width': 3,
@@ -328,6 +332,20 @@ window.GridView = {
         }
     },
 
+    showFailure: function() {
+        var i, node,
+            fill = this.failedNodeAttr.fill,
+            startX = GridModel.getStartX(),
+            startY = GridModel.getStartY();
+
+        for (i = 0; node = this.changedNodes[i]; ++i) {
+            if (GridModel.isWalkableAt(node.x, node.y) &&
+                !(node.x === startX && node.y === startY)) {
+                this.colorizeNodeAt(node.x, node.y, fill);
+            }
+        }
+    },
+
     colorizeNodeAt: function(x, y, color) {
         this.rects[y][x].animate({
             fill: color,
@@ -485,7 +503,11 @@ window.GridController = {
             self.step(function() {
                 self.stop();
                 callback();
-                GridView.drawPath(self.path);
+                if (self.path.length) {
+                    GridView.drawPath(self.path);
+                } else {
+                    GridView.showFailure();
+                }
             });
         }, interval);
 
