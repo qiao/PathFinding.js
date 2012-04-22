@@ -142,9 +142,12 @@ window.Panel = {
     },
 
     showStat: function() {
-        var text1 = GridController.getTimeSpent() + 'ms',
-            text2 = GridController.getOperationCount() + 'ops';
-        $('#timer').show().text([text1, text2].join(' '));
+        var texts = [
+            'time: ' + GridController.getTimeSpent() + 'ms',
+            'length: ' + GridController.getPathLength(),
+            'operations: ' + GridController.getOperationCount()
+        ];
+        $('#stats').show().html(texts.join('<br>'));
     },
 
 };
