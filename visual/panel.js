@@ -121,6 +121,14 @@ window.Panel = {
                 finder = new PF.DijkstraFinder({allowDiagonal: allowDiagonal});
             }
             break;
+
+        case 'jump_point_header':
+            heuristic = $('input[name=jump_point_heuristic]:checked').val();
+            finder = new PF.JumpPointFinder({
+              heuristic: PF.Heuristic[heuristic]
+            });
+            break;
+
         }
 
         return finder;
