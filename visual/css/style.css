@@ -21,15 +21,19 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: -10px;
 }
 
-.control_panel {
-    position: absolute;
+#right_column {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
+.panel {
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.6);
     color: #fff;
     border-radius: 8px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     cursor: default;
-    display: none;
 }
 
 .option_header {
@@ -42,19 +46,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #algorithm_panel {
-    width: 250px;
-    right: 20px;
-    top: 20px;
 }
 
 #play_panel {
-    width: 250px;
-    right: 20px;
+    margin-top: 20px;
 }
 
 #help_panel {
+    position: absolute;
     top: 20px;
     left: 20px;
+    width: 600px;
 }
 
 
