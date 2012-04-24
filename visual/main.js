@@ -3,8 +3,8 @@
  * It uses raphael.js to show the grids.
  */
 var Visual = {
-    gridSize: [64, 36],
-    nodeSize: 30, // width and height a single node, in pixel
+    gridSize: [64, 36],  // number of columns and rows
+    nodeSize: 30, // width and height of a single node, in pixel
     nodeStyle: {
         normal: {
             fill: 'white',
@@ -47,18 +47,14 @@ var Visual = {
         transform: 's1.2', // scale by 1.2x
     },
     init: function() {
+        var self = this;
+
         this.paper = Raphael('draw_area');
-        this.paper.setSize($(window).width(), $(window).height());
-
-        var layout = this.getOptimalLayout();
-
-        this.generateGrid();
-        this.centerView();
-        this.setStartNodePos(layout.startX, layout.startY);
-        this.setEndNodePos(layout.endX, layout.endY);
-        //this.test()
+        this.generateGrid(function() {
+            self.setDefaultStartEndPos();
+        });
     },
-    generateGrid: function() {
+    generateGrid: function(callback) {
         var i, j, x, y, 
             paper, grid,
             rect, rects,
@@ -70,6 +66,7 @@ var Visual = {
         numRows     = this.gridSize[1],
         paper       = this.paper;
 
+        paper.setSize(numCols * nodeSize, numRows * nodeSize);
         grid = this.grid = new PF.Grid(numCols, numRows);
         rects = this.rects = [];
 
@@ -107,55 +104,73 @@ var Visual = {
         }
 
         async.series(tasks, function() {
-            console.log('done generating grid')
+            console.log('grid generated')
+            callback();
         });
 
+
     },
-    centerView: function() {
-    },
-    setStartNodePos: function(x, y) {
-    },
-    setEndNodePos: function(x, y) {
-    
-    },
-    /**
-     * Get the optimal layout information based on node size and 
-     * user's display size.
-     */
-    getOptimalLayout: function() {
+    setDefaultStartEndPos: function() {
         var width, height,
             marginRight, availWidth,
-            numCols, numRows,
             centerX, centerY,
             startX, startY,
             endX, endY,
-            nodeSize = this.nodeSize;
+            nodeSize = this.nodeSize,
+            paper = this.paper,
+            numCols = this.gridSize[0],
+            numRows = this.gridSize[1];
 
         width  = $(window).width();
         height = $(window).height();
 
-        numCols = Math.ceil(width / nodeSize);
-        numRows = Math.ceil(height / nodeSize);
-        
-        marginRight = $('#algorithm_panel').width();
+        marginRight = $('#right_column').width();
         availWidth = width - marginRight;
 
         centerX = Math.ceil(availWidth / 2 / nodeSize);
-        centerY = Math.ceil(height / 2 / nodeSize);
+        centerY = Math.floor(height / 2 / nodeSize);
 
         startX = centerX - 5;
         startY = centerY;
         endX = centerX + 5;
         endY = centerY;
 
-        return {
-            startX:  startX,  // start node position
-            startY:  startY,
-            endX:    endX,    // end node position
-            endY:    endY,
-            numRows: numRows, // number of grid rows
-            numCols: numCols, // number of grid columns
-        };
+        this.setStartNodePos(startX, startY);
+        this.setEndNodePos(endX, endY);
+    },
+    setStartNodePos: function(gridX, gridY) {
+        var coord = this.toPageCoordinate(gridX, gridY);
+        if (!this.startNode) {
+            this.startNode = this.paper.rect(
+                coord[0],
+                coord[1],
+                this.nodeSize, 
+                this.nodeSize
+            ).attr(this.nodeStyle.normal)
+             .animate(
+                this.nodeStyle.start,
+                1000
+            );
+        } else {
+            this.startNode.attr({ x: x, y: y }).toFront();
+        }
+    },
+    setEndNodePos: function(gridX, gridY) {
+        var coord = this.toPageCoordinate(gridX, gridY);
+        if (!this.endNode) {
+            this.endNode = this.paper.rect(
+                coord[0],
+                coord[1],
+                this.nodeSize, 
+                this.nodeSize
+            ).attr(this.nodeStyle.normal)
+             .animate(
+                this.nodeStyle.end, 
+                1000
+            );
+        } else {
+            this.endNode.attr({ x: x, y: y }).toFront();
+        }
     },
     /**
      * Given a path, build its SVG represention.

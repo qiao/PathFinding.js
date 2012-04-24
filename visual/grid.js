@@ -7,20 +7,6 @@ window.GridModel = {
     allReset: new Notification(this),
 
     init: function() {
-        var self = this;
-
-        this._queue = []
-        // add hook on the `set' method of PF.Node
-        var orig = PF.Node.prototype.set;
-        PF.Node.prototype.set = function() {
-            orig.apply(this, arguments);
-            self._queue.push({
-                x: this.x,
-                y: this.y,
-                attr: arguments[0],
-                value: arguments[1],
-            });
-        };
     },
 
     getWidth: function() {
@@ -388,39 +374,6 @@ window.GridView = {
 
         svgPath = this.buildSvgPath(path);
         this.path = this.paper.path(svgPath).attr(this.pathAttr);
-    },
-
-    // given a path, build its SVG represention.
-    buildSvgPath: function(path) {
-        var i, strs = [], size = this.nodeSize;
-
-        strs.push('M' + (path[0][0] * size + size / 2) + ' ' 
-                + (path[0][1] * size + size / 2));
-        for (i = 1; i < path.length; ++i) {
-            strs.push('L' + (path[i][0] * size + size / 2) + ' ' 
-                    + (path[i][1] * size + size / 2));
-        }
-
-        return strs.join('');
-    },
-
-    // helper function to convert the page coordinate to grid coordinate
-    toGridCoordinate: function(pageX, pageY) {
-        var nodeSize = this.nodeSize;
-        return {
-            x: Math.floor(pageX / nodeSize), 
-            y: Math.floor(pageY / nodeSize)
-        };
-    },
-
-
-    // helper function to convert the grid coordinate to page coordinate
-    toPageCoordinate: function(gridX, gridY) {
-        var nodeSize = this.nodeSize;
-        return {
-            x: gridX * nodeSize, 
-            y: gridY * nodeSize
-        };
     },
 
 
