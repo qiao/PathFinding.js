@@ -22,9 +22,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #right_column {
-  position: absolute;
-  right: 20px;
-  top: 20px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 300px;
 }
 
 .panel {
@@ -120,7 +121,7 @@ footer {
     color: #333;
     font-size: 70%;
     text-align: center;
-    position: absolute;
+    position: fixed;
     width: 200px;
     bottom: 10px;
     left: 50%;
