@@ -54,29 +54,32 @@ var Visual = {
             self.setDefaultStartEndPos();
         });
     },
+    /**
+     * Generate the grid asynchonously.
+     * This method will be a very expensive task.
+     * On my firefox, it takes 3 seconds to generate a 64x36 grid.
+     * Chrome will behave much better, which completes the task within 1s.
+     * Therefore, in order to not to block the rendering of browser ui, 
+     * I decomposed the task into smaller ones. Each will only generate a 
+     * row.
+     */
     generateGrid: function(callback) {
         var i, j, x, y, 
-            paper, grid,
+            paper,
             rect, rects,
             normalStyle, nodeSize,
+            createRowTask, sleep, tasks,
+            nodeSize    = this.nodeSize,
+            normalStyle = this.nodeStyle.normal,
+            numCols     = this.gridSize[0],
+            numRows     = this.gridSize[1],
+            paper       = this.paper,
+            rects       = this.rects = [];
 
-        nodeSize    = this.nodeSize;
-        normalStyle = this.nodeStyle.normal;
-        numCols     = this.gridSize[0],
-        numRows     = this.gridSize[1],
-        paper       = this.paper;
-
+        this.grid = new PF.Grid(numCols, numRows);
         paper.setSize(numCols * nodeSize, numRows * nodeSize);
-        grid = this.grid = new PF.Grid(numCols, numRows);
-        rects = this.rects = [];
 
-        // Generating the grid will be a very expensive task.
-        // On my firefox, it takes 5 seconds to generate a 64x36 grid.
-        // Chrome will behave much better, which completes the task within 1s.
-        // Therefore, in order to not to block the rendering of browser ui, 
-        // I decomposed the task into smaller ones. Each will only generate a 
-        // row.
-        var createRowTask = function(rowId) {
+        createRowTask = function(rowId) {
             return function(done) {
                 rects[rowId] = [];
                 for (j = 0; j < numCols; ++j) {
@@ -91,13 +94,13 @@ var Visual = {
             };
         };
 
-        var sleep = function(done) {
+        sleep = function(done) {
             setTimeout(function() {
                 done(null);
             }, 0);
         };
 
-        var tasks = [];
+        tasks = [];
         for (i = 0; i < numRows; ++i) {
             tasks.push(createRowTask(i));
             tasks.push(sleep);
@@ -107,9 +110,12 @@ var Visual = {
             console.log('grid generated')
             callback();
         });
-
-
     },
+    /**
+     * When initializing, this method will be called to set the positions 
+     * of start node and end node.
+     * It will detect user's display size, and compute the best positions.
+     */
     setDefaultStartEndPos: function() {
         var width, height,
             marginRight, availWidth,
@@ -147,10 +153,7 @@ var Visual = {
                 this.nodeSize, 
                 this.nodeSize
             ).attr(this.nodeStyle.normal)
-             .animate(
-                this.nodeStyle.start,
-                1000
-            );
+             .animate(this.nodeStyle.start, 1000);
         } else {
             this.startNode.attr({ x: x, y: y }).toFront();
         }
@@ -164,13 +167,13 @@ var Visual = {
                 this.nodeSize, 
                 this.nodeSize
             ).attr(this.nodeStyle.normal)
-             .animate(
-                this.nodeStyle.end, 
-                1000
-            );
+             .animate(this.nodeStyle.end, 1000);
         } else {
             this.endNode.attr({ x: x, y: y }).toFront();
         }
+    },
+    setFinder: function(finder) {
+        this.finder = finder;
     },
     /**
      * Given a path, build its SVG represention.
