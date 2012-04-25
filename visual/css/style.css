@@ -32,21 +32,20 @@ h1, h2, h3, h4, h5, h6 {
     cursor: default;
 }
 
+.right_panel {
+    width: 250px;
+    right: 20px;
+}
+
 #algorithm_panel {
     right: 20px;
     top: 20px;
-    width: 300px;
-}
-
-#play_panel {
-    right: 20px;
-    width: 300px;
 }
 
 #instructions_panel {
     top: 20px;
     left: 20px;
-    width: 600px;
+    width: 550px;
 }
 
 #hide_instructions {
