@@ -74,7 +74,9 @@ var Visual = {
             numCols     = this.gridSize[0],
             numRows     = this.gridSize[1],
             paper       = this.paper,
-            rects       = this.rects = [];
+            rects       = this.rects = [],
+            $stats      = this.$stats = $('#stats'),
+            self        = this;
 
         this.grid = new PF.Grid(numCols, numRows);
         paper.setSize(numCols * nodeSize, numRows * nodeSize);
@@ -90,6 +92,10 @@ var Visual = {
                     rect.attr(normalStyle);
                     rects[rowId].push(rect);
                 }
+                $stats.text(
+                    'generating grid ' + 
+                    Math.round((rowId + 1) / numRows * 100) + '%'
+                );
                 done(null);
             };
         };
