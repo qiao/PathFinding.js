@@ -53,15 +53,14 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 20px;
 }
 
-#help_panel {
+#instructions_panel {
     position: absolute;
     top: 20px;
     left: 20px;
     width: 600px;
 }
 
-
-#hide_instruction {
+#hide_instructions {
     position: absolute;
     right: 25px;
     top: 10px;
