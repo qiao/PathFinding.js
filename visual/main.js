@@ -34,16 +34,17 @@ var View = {
             'stroke-opacity': 0.2,
         },
     },
+    nodeColorizeEffect: {
+        duration: 50,
+    },
+    nodeZoomEffect: {
+        duration: 200,
+        transform: 's1.2', // scale by 1.2x
+        transformBack: 's1.0',
+    },
     pathStyle: {
         stroke: 'yellow',
         'stroke-width': 3,
-    },
-    colorizeEffect: {
-        duration: 50,
-    },
-    zoomEffect: {
-        duration: 200,
-        transform: 's1.2', // scale by 1.2x
     },
     init: function(opts) {
         this.numCols = opts.numCols;
@@ -143,6 +144,50 @@ var View = {
         }
     },
     /**
+     * Set the attribute of the node at the given coordinate.
+     */
+    setAttributeAt: function(gridX, gridY, attr, value) {
+        var color, nodeStyle = this.nodeStyle;
+        switch (attr) {
+        case 'walkable':
+            color = value ? nodeStyle.normal.fill : nodeStyle.blocked.fill;
+            this.colorizeNodeAt(gridX, gridY, color);
+            this.zoomNodeAt(gridX, gridY);
+            break;
+        case 'opened':
+            this.colorizeNodeAt(gridX, gridY, nodeStyle.opened.fill);
+            break;
+        case 'closed':
+            this.colorizeNodeAt(gridX, gridY, nodeStyle.closed.fill);
+            break;
+        case 'parent':
+            // XXX: Maybe draw a line from this node to its parent?
+            // This would be expensive.
+            break;
+        default:
+            console.error('unsupported operation: ' + attr + ':' + value);
+        }
+    },
+    colorizeNodeAt: function(gridX, gridY, color) {
+        this.rects[gridY][gridX].animate({
+            fill: color
+        }, this.nodeColorizeEffect.duration);
+    },
+    zoomNodeAt: function(gridX, gridY) {
+        this.rects[gridY][gridX].toFront().attr({
+            transform: this.nodeZoomEffect.transform,
+        }).animate({
+            transform: this.nodeZoomEffect.transformBack,
+        }, this.nodeZoomEffect.duration);
+    },
+    drawPath: function(path) {
+        if (!path.length) {
+            return;
+        }
+        var svgPath = this.buildSvgPath(path);
+        this.path = paper.path(svgPath).attr(this.pathStyle);
+    },
+    /**
      * Given a path, build its SVG represention.
      */
     buildSvgPath: function(path) {
@@ -181,7 +226,27 @@ var View = {
 /**
  * The visualization controller, which works as a state machine.
  */
-var Controller = {
+var Controller = StateMachine.create({
+    initial: 'none',
+    events: [
+        { name: 'init',    from: 'none',      to: 'before'    },
+        { name: 'start',   from: 'before',    to: 'starting'  },
+        { name: 'search',  from: 'starting',  to: 'searching' },
+        { name: 'restart', from: 'searching', to: 'starting'  },
+        { name: 'pause',   from: 'searching', to: 'paused'    },
+        { name: 'finish',  from: 'searching', to: 'finished'  },
+        { name: 'resume',  from: 'paused',    to: 'searching' },
+        { name: 'cancel',  from: 'paused',    to: 'before'    },
+        { name: 'restart', from: 'finished',  to: 'starting'  },
+        { name: 'clear',   from: 'finished',  to: 'before'    },
+        { name: 'modify',  from: 'finished',  to: 'modified'  },
+        { name: 'start',   from: 'modified',  to: 'starting'  },
+        { name: 'clear',   from: 'modified',  to: 'before'    },
+        { name: 'reset',   from: '*',         to: 'before'    },
+    ],
+});
+
+$.extend(Controller, {
     onleavenone: function() { // init (asynchronous transition)
         View.init({
             numCols: 64,
@@ -244,26 +309,6 @@ var Controller = {
         View.setStartPos(startX, startY);
         View.setEndPos(endX, endY);
     },
-};
-
-StateMachine.create({
-    target: Controller,
-    events: [
-        { name: 'init',    from: 'none',      to: 'before'    },
-        { name: 'start',   from: 'before',    to: 'starting'  },
-        { name: 'search',  from: 'starting',  to: 'searching' },
-        { name: 'restart', from: 'searching', to: 'starting'  },
-        { name: 'pause',   from: 'searching', to: 'paused'    },
-        { name: 'finish',  from: 'searching', to: 'finished'  },
-        { name: 'resume',  from: 'paused',    to: 'searching' },
-        { name: 'cancel',  from: 'paused',    to: 'before'    },
-        { name: 'restart', from: 'finished',  to: 'starting'  },
-        { name: 'clear',   from: 'finished',  to: 'before'    },
-        { name: 'modify',  from: 'finished',  to: 'modified'  },
-        { name: 'start',   from: 'modified',  to: 'starting'  },
-        { name: 'clear',   from: 'modified',  to: 'before'    },
-        { name: 'reset',   from: '*',         to: 'before'    },
-    ],
 });
 
 var Panel = {
