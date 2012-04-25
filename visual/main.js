@@ -46,11 +46,14 @@ var View = {
         stroke: 'yellow',
         'stroke-width': 3,
     },
+    supportedOperations: ['opened', 'closed'],
     init: function(opts) {
-        this.numCols = opts.numCols;
-        this.numRows = opts.numRows;
-        this.paper   = Raphael('draw_area');
-        this.$stats  = $('#stats');
+        this.numCols     = opts.numCols;
+        this.numRows     = opts.numRows;
+        this.paper       = Raphael('draw_area');
+        this.$stats      = $('#stats');
+        this.dirtyCoords = [];
+        this.wallCoords  = [];
     },
     /**
      * Generate the grid asynchronously.
@@ -151,12 +154,17 @@ var View = {
             color = value ? nodeStyle.normal.fill : nodeStyle.blocked.fill;
             this.colorizeNodeAt(gridX, gridY, color);
             this.zoomNodeAt(gridX, gridY);
+            if (!value) {
+                this.wallCoords.push([gridX, gridY]);
+            }
             break;
         case 'opened':
             this.colorizeNodeAt(gridX, gridY, nodeStyle.opened.fill);
+            this.dirtyCoords.push(gridX, gridY);
             break;
         case 'closed':
             this.colorizeNodeAt(gridX, gridY, nodeStyle.closed.fill);
+            this.dirtyCoords.push(gridX, gridY);
             break;
         case 'parent':
             // XXX: Maybe draw a line from this node to its parent?
@@ -218,6 +226,26 @@ var View = {
             gridY * this.nodeSize
         ];
     },
+    showStats: function(opts) {
+        var texts = [
+            'length: ' + opts.pathLength,
+            'time: ' + opts.timeSpent + 'ms',
+            'operations: ' + opts.operationCount
+        ];
+        $('#stats').show().html(texts.join('<br>'));
+    },
+    getDirtyCoords: function() {
+        return this.dirtyCoords;
+    },
+    clearDirtyCoords: function() {
+        this.dirtyCoords = [];
+    },
+    getWallCoords: function() {
+        return this.wallCoords;
+    },
+    clearDirtyCoords: function() {
+        this.dirtyCoords = [];
+    }
 };
 
 
@@ -231,12 +259,6 @@ var Controller = StateMachine.create({
     initial: 'none',
     events: [
         { name: 'init'      , from: 'none'       , to: 'ready'         } ,
-
-        { name: 'dragStart' , from: 'ready'      , to: 'draggingStart' } ,
-        { name: 'dragEnd'   , from: 'ready'      , to: 'draggingEnd'   } ,
-        { name: 'drawWall'  , from: 'ready'      , to: 'drawingWall'   } ,
-        { name: 'eraseWall' , from: 'ready'      , to: 'erasingWall'   } ,
-
         { name: 'search'    , from: 'starting'   , to: 'searching'     } ,
         { name: 'pause'     , from: 'searching'  , to: 'paused'        } ,
         { name: 'finish'    , from: 'searching'  , to: 'finished'      } ,
@@ -249,6 +271,11 @@ var Controller = StateMachine.create({
         { name: 'start'     , from: ['ready'     , 'modified'] , to: 'starting' },
         { name: 'restart'   , from: ['searching' , 'finished'] , to: 'starting' },
 
+        { name: 'dragStart' , from: ['ready'     , 'finished'] , to: 'draggingStart' },
+        { name: 'dragEnd'   , from: ['ready'     , 'finished'] , to: 'draggingEnd'   },
+        { name: 'drawWall'  , from: ['ready'     , 'finished'] , to: 'drawingWall'   },
+        { name: 'eraseWall' , from: ['ready'     , 'finished'] , to: 'erasingWall'   },
+
         { 
           name: 'rest',
           from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall'], 
@@ -259,6 +286,7 @@ var Controller = StateMachine.create({
 
 $.extend(Controller, {
     gridSize: [64, 36], // number of nodes horizontally and vertically
+    operationsPerSecond: 300,
     /**
      * Asynchronous transition from `none` state to `ready` state.
      */
@@ -373,14 +401,49 @@ $.extend(Controller, {
         this.setWalkableAt(gridX, gridY, true);
     },
     onsearch: function(event, from, to) { 
-        var finder = Panel.getFinder();
-        var operations = 
+        var grid,
+            timeStart, timeEnd,
+            finder = Panel.getFinder();
+
+        timeStart = Date.now();
+        grid = this.grid.clone();
+        this.path = finder.findPath(
+            this.startX, this.startY, this.endX, this.endY, grid
+        );
+        timeEnd = Date.now();
+        this.timeSpent = timeEnd - timeStart;
+        
+        this.timer = setInterval(
+            $.proxy(this.step, this),
+            1000 / this.operationsPerSecond
+        );
+    },
+    step: function() {
+        var operations = this.operations,
+            op, isSupported;
+
+        do {
+            if (!operations.length) {
+                this.finish();
+                return;
+            }
+            op = operations.shift();
+            isSupported = View.supportedOperations.indexOf(op.attr) !== -1;
+        } while (!isSupported);
+
+        View.setAttributeAt(op.x, op.y, op.attr, op.value);
     },
     onrestart: function(event, from, to) { 
     },
     onpause: function(event, from, to) { 
     },
     onfinish: function(event, from, to) { 
+        clearInterval(this.timer);
+        View.showStats({
+            pathLength: this.path.length,
+            timeSpent:  this.timeSpent,
+            operationCount: this.operations.length
+        });
     },
     oncancel: function(event, from, to) { 
     },
@@ -414,7 +477,22 @@ $.extend(Controller, {
         // Clears any existing search progress and then immediately 
         // goes to searching state.
         this.$button2.removeAttr('disabled');
+        this.clearFootprints();
         this.search();
+    },
+    clearFootprints: function() {
+        var i, x, y, 
+            dirtyCoords = View.getDirtyCoords(),
+            numCols = this.gridSize[0],
+            numRows = this.gridSize[1],
+            grid = this.grid;
+
+        for (i = 0; i < dirtyCoords.length; ++i) {
+            x = dirtyCoords[i][0];
+            y = dirtyCoords[i][1];
+
+            View.setAttributeAt(x, y, 'walkable', true);
+        }
     },
     onsearching: function() {
         console.log('=> searching');
@@ -622,14 +700,6 @@ var Panel = {
     }
 };
 
-    //showStat: function() {
-        //var texts = [
-            //'time: ' + GridController.getTimeSpent() + 'ms',
-            //'length: ' + GridController.getPathLength(),
-            //'operations: ' + GridController.getOperationCount()
-        //];
-        //$('#stats').show().html(texts.join('<br>'));
-    //},
 
 $(document).ready(function() {
     if (!Modernizr.svg) {
