@@ -129,9 +129,9 @@ var Visual = {
             startX, startY,
             endX, endY,
             nodeSize = this.nodeSize,
-            paper = this.paper,
-            numCols = this.gridSize[0],
-            numRows = this.gridSize[1];
+            paper    = this.paper,
+            numCols  = this.gridSize[0],
+            numRows  = this.gridSize[1];
 
         width  = $(window).width();
         height = $(window).height();
@@ -161,7 +161,7 @@ var Visual = {
             ).attr(this.nodeStyle.normal)
              .animate(this.nodeStyle.start, 1000);
         } else {
-            this.startNode.attr({ x: x, y: y }).toFront();
+            this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
         }
     },
     setEndNodePos: function(gridX, gridY) {
@@ -175,7 +175,7 @@ var Visual = {
             ).attr(this.nodeStyle.normal)
              .animate(this.nodeStyle.end, 1000);
         } else {
-            this.endNode.attr({ x: x, y: y }).toFront();
+            this.endNode.attr({ x: coord[0], y: coord[1] }).toFront();
         }
     },
     setFinder: function(finder) {
