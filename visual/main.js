@@ -108,7 +108,6 @@ var View = {
         }
 
         async.series(tasks, function() {
-            console.log('grid generated')
             if (callback) {
                 callback();
             }
@@ -223,8 +222,10 @@ var View = {
 
 
 /**
- * The visualization controller, which works as a state machine.
- * See files under the `doc` folder for details.
+ * The visualization controller will works as a state machine.
+ * See files under the `doc` folder for transition descriptions.
+ * See https://github.com/jakesgordon/javascript-state-machine 
+ * for the document of the StateMachine module.
  */
 var Controller = StateMachine.create({
     initial: 'none',
@@ -244,8 +245,8 @@ var Controller = StateMachine.create({
         { name: 'modify'    , from: 'finished'   , to: 'modified'      } ,
         { name: 'reset'     , from: '*'          , to: 'ready'         } ,
 
-        { name: 'clear'     , from: ['finished'  , 'modified'] , to:'ready'     },
-        { name: 'start'     , from: ['ready'     , 'modified'] , to:'starting'  },
+        { name: 'clear'     , from: ['finished'  , 'modified'] , to: 'ready'    },
+        { name: 'start'     , from: ['ready'     , 'modified'] , to: 'starting' },
         { name: 'restart'   , from: ['searching' , 'finished'] , to: 'starting' },
 
         { 
@@ -277,14 +278,37 @@ $.extend(Controller, {
             Controller.transition(); // transit to the next state (ready)
         });
 
+        this.$button1 = $('#button1');
+        this.$button2 = $('#button2');
+        this.$button3 = $('#button3');
+
+        this.hookPathFinding();
+
         return StateMachine.ASYNC;
+    },
+    /**
+     * Add hook on the `set' method of PF.Node. Then we can get the operations
+     * of the pathfinding.
+     */
+    hookPathFinding: function() {
+        var operations = this.operations = [],
+            originalSet = PF.Node.prototype.set;
+
+        PF.Node.prototype.set = function() {
+            originalSet.apply(this, arguments);
+            operations.push({
+                x: this.x,
+                y: this.y,
+                attr: arguments[0],
+                value: arguments[1],
+            });
+        };
     },
     bindEvents: function() {
         $('#draw_area').mousedown($.proxy(this.mousedown, this));
         $(window)
             .mousemove($.proxy(this.mousemove, this))
             .mouseup($.proxy(this.mouseup, this));
-    
     },
     mousedown: function (event) {
         var coord = View.toGridCoordinate(event.pageX, event.pageY),
@@ -314,22 +338,26 @@ $.extend(Controller, {
             gridX = coord[0],
             gridY = coord[1];
 
+        if (this.isStartOrEndPos(gridX, gridY)) {
+            return;
+        }
+
         switch (this.current) {
         case 'draggingStart':
-            this.setStartPos(gridX, gridY);
+            if (grid.isWalkableAt(gridX, gridY)) {
+                this.setStartPos(gridX, gridY);
+            }
             break;
         case 'draggingEnd':
-            this.setEndPos(gridX, gridY);
+            if (grid.isWalkableAt(gridX, gridY)) {
+                this.setEndPos(gridX, gridY);
+            }
             break;
         case 'drawingWall':
-            if (!this.isStartOrEndPos(gridX, gridY)) {
-                this.setWalkableAt(gridX, gridY, false);
-            }
+            this.setWalkableAt(gridX, gridY, false);
             break;
         case 'erasingWall':
-            if (!this.isStartOrEndPos(gridX, gridY)) {
-                this.setWalkableAt(gridX, gridY, true);
-            }
+            this.setWalkableAt(gridX, gridY, true);
             break;
         }
     },
@@ -344,13 +372,9 @@ $.extend(Controller, {
     oneraseWall: function(event, from, to, gridX, gridY) {
         this.setWalkableAt(gridX, gridY, true);
     },
-    /**
-     * Clears any existing search progress and then immediately 
-     * goes to searching state.
-     */
-    onstart: function(event, from, to) {
-    },
     onsearch: function(event, from, to) { 
+        var finder = Panel.getFinder();
+        var operations = 
     },
     onrestart: function(event, from, to) { 
     },
@@ -363,10 +387,80 @@ $.extend(Controller, {
     onclear: function (event, from, to) { 
     },
     onmodify: function onmodify(event, from, to) { 
-
     },
     onreset: function onreset(event, from, to) {
     },
+
+    /**
+     * The following functions are called on entering states.
+     */
+
+    onready: function() {
+        console.log('=> ready');
+        this.$button1
+            .text('Start Search')
+            .unbind('click')
+            .click($.proxy(this.start, this));
+        this.$button2
+            .text('Pause Search')
+            .attr('disabled', 'disabled');
+        this.$button3
+            .text('Clear Walls')
+            .unbind('click')
+            .click($.proxy(this.reset, this));
+    },
+    onstarting: function(event, from, to) {
+        console.log('=> starting');
+        // Clears any existing search progress and then immediately 
+        // goes to searching state.
+        this.$button2.removeAttr('disabled');
+        this.search();
+    },
+    onsearching: function() {
+        console.log('=> searching');
+        this.$button1
+            .text('Restart Search')
+            .unbind('click')
+            .click($.proxy(this.restart, this));
+        this.$button2
+            .text('Pause Search')
+            .unbind('click')
+            .click($.proxy(this.pause, this));
+    },
+    onpaused: function() {
+        console.log('=> paused');
+        this.$button1
+            .text('Resume Search')
+            .unbind('click')
+            .click($.proxy(this.resume, this));
+        this.$button2
+            .text('Cancel Search')
+            .unbind('click')
+            .click($.proxy(this.cancel, this));
+    },
+    onfinished: function() {
+        console.log('=> finished');
+        this.$button1
+            .text('Restart Search')
+            .unbind('click')
+            .click($.proxy(this.restart, this));
+        this.$button2
+            .text('Clear Path')
+            .unbind('click')
+            .click($.proxy(this.clear, this));
+    },
+    onmodified: function() {
+        console.log('=> modified');
+        this.$button1
+            .text('Start Search')
+            .unbind('click')
+            .click($.proxy(this.start, this));
+        this.$button2
+            .text('Clear Path')
+            .unbind('click')
+            .click($.proxy(this.clear, this));
+    },
+
     /**
      * When initializing, this method will be called to set the positions 
      * of start node and end node.
@@ -423,6 +517,7 @@ $.extend(Controller, {
 var Panel = {
     init: function() {
         var $algo = $('#algorithm_panel');
+
         $('.panel').draggable();
         $('.accordion').accordion({
             collapsible: false,
@@ -436,6 +531,7 @@ var Panel = {
         $('#play_panel').css({
             top: $algo.offset().top + $algo.outerHeight() + 20
         });
+        $('#button2').attr('disabled', 'disabled');
     },
     /**
      * Get the user selected path-finder.
@@ -525,39 +621,6 @@ var Panel = {
         return finder;
     }
 };
-
-
-
-
-        //$('#start_button').click(function() {
-            //if (GridController.isRunning()) {
-                //return;
-            //}
-            //GridController.resetCurrent();
-            //finder = self.getFinder();
-            //interval = 3;
-            //GridController.start(finder, interval, function() {
-                //self.showStat();
-            //});
-        //});
-        //$('#stop_button').click(function() {
-            //GridController.stop();
-        //});
-        //$('#reset_button').click(function() {
-            //GridController.resetAll();
-        //});
-
-
-    //},
-
-
-    //// XXX: clean up this messy code
-
-    //updateGeometry: function() {
-        //(function($ele) {
-            //$ele.css('top', $(window).height() - $ele.outerHeight() - 40 + 'px');
-        //})($('#play_panel'));
-    //},
 
     //showStat: function() {
         //var texts = [
