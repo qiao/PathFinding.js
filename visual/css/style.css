@@ -21,14 +21,9 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: -10px;
 }
 
-#right_column {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    width: 300px;
-}
 
 .panel {
+    position: fixed;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.6);
     color: #fff;
@@ -37,24 +32,18 @@ h1, h2, h3, h4, h5, h6 {
     cursor: default;
 }
 
-.option_header {
-    font-size: 80%;
-    margin-left: 20px;
-}
-
-.option_label {
-    cursor: pointer;
-}
-
 #algorithm_panel {
+    right: 20px;
+    top: 20px;
+    width: 300px;
 }
 
 #play_panel {
-    margin-top: 20px;
+    right: 20px;
+    width: 300px;
 }
 
 #instructions_panel {
-    position: absolute;
     top: 20px;
     left: 20px;
     width: 600px;
@@ -71,6 +60,15 @@ h1, h2, h3, h4, h5, h6 {
 #hide_instruction:hover {
     color: #fff;
     text-decoration: underline;
+}
+
+.option_header {
+    font-size: 80%;
+    margin-left: 20px;
+}
+
+.option_label {
+    cursor: pointer;
 }
 
 button {
@@ -101,7 +99,7 @@ button:hover {
 }
 
 #stats {
-    position: absolute;
+    position: fixed;
     bottom: 40px;
     left: 35px;
     color: #0a0;

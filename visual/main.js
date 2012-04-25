@@ -63,8 +63,7 @@ var View = {
      */
     generateGrid: function(callback) {
         var i, j, x, y, 
-            paper,
-            rect, rects,
+            rect, 
             normalStyle, nodeSize,
             createRowTask, sleep, tasks,
             nodeSize    = this.nodeSize,
@@ -225,42 +224,108 @@ var View = {
 
 /**
  * The visualization controller, which works as a state machine.
+ * See files under the `doc` folder for details.
  */
 var Controller = StateMachine.create({
     initial: 'none',
     events: [
-        { name: 'init',    from: 'none',      to: 'before'    },
-        { name: 'start',   from: 'before',    to: 'starting'  },
-        { name: 'search',  from: 'starting',  to: 'searching' },
-        { name: 'restart', from: 'searching', to: 'starting'  },
-        { name: 'pause',   from: 'searching', to: 'paused'    },
-        { name: 'finish',  from: 'searching', to: 'finished'  },
-        { name: 'resume',  from: 'paused',    to: 'searching' },
-        { name: 'cancel',  from: 'paused',    to: 'before'    },
-        { name: 'restart', from: 'finished',  to: 'starting'  },
-        { name: 'clear',   from: 'finished',  to: 'before'    },
-        { name: 'modify',  from: 'finished',  to: 'modified'  },
-        { name: 'start',   from: 'modified',  to: 'starting'  },
-        { name: 'clear',   from: 'modified',  to: 'before'    },
-        { name: 'reset',   from: '*',         to: 'before'    },
+        { name: 'init',     from: 'none',      to: 'ready'     },
+        { name: 'drag',     from: 'ready',     to: 'dragging'  },
+        { name: 'draw',     from: 'ready',     to: 'drawing'   },
+        { name: 'mouseup',  from: 'drawing',   to: 'ready'     },
+        { name: 'mouseup',  from: 'dragging',  to: 'ready'     },
+        { name: 'start',    from: 'ready',     to: 'starting'  },
+        { name: 'search',   from: 'starting',  to: 'searching' },
+        { name: 'restart',  from: 'searching', to: 'starting'  },
+        { name: 'pause',    from: 'searching', to: 'paused'    },
+        { name: 'finish',   from: 'searching', to: 'finished'  },
+        { name: 'resume',   from: 'paused',    to: 'searching' },
+        { name: 'cancel',   from: 'paused',    to: 'ready'     },
+        { name: 'restart',  from: 'finished',  to: 'starting'  },
+        { name: 'clear',    from: 'finished',  to: 'ready'     },
+        { name: 'modify',   from: 'finished',  to: 'modified'  },
+        { name: 'start',    from: 'modified',  to: 'starting'  },
+        { name: 'clear',    from: 'modified',  to: 'ready'     },
+        { name: 'reset',    from: '*',         to: 'ready'     },
     ],
 });
 
 $.extend(Controller, {
-    onleavenone: function() { // init (asynchronous transition)
+    gridSize: [64, 36], // number of nodes horizontally and vertically
+    /**
+     * Asynchronous transition from `none` state to `ready` state.
+     */
+    onleavenone: function() {
+        var numCols = this.gridSize[0],
+            numRows = this.gridSize[1];
+
+        this.grid = new PF.Grid(numCols, numRows);
+
         View.init({
-            numCols: 64,
-            numRows: 36
+            numCols: numCols,
+            numRows: numRows,
         });
         View.generateGrid(function() {
             Controller.setDefaultStartEndPos();
-            Controller.transition(); // transit to the next state
+            Controller.bindEvents();
+            Controller.transition(); // transit to the next state (ready)
         });
+
         return StateMachine.ASYNC;
     },
+    bindEvents: function() {
+        $('#draw_area').mousedown(function(event) {
+            var coord = View.toGridCoordinate(event.pageX, event.pageY),
+                gridX = coord[0],
+                gridY = coord[1];
+
+            if (Controller.can('drag')) {
+                if (Controller.startX === gridX && Controller.startY === gridY) {
+                    Controller.drag('start');
+                    return true;
+                } else if (Controller.endX === gridX && Controller.endY === gridY) {
+                    Controller.drag('end');
+                    return true;
+                }
+            }
+            if (Controller.can('draw')) {
+                Controller.draw();
+            }
+        });
+        $(window).mousemove(function(event) {
+            var coord = View.toGridCoordinate(event.pageX, event.pageY),
+                gridX = coord[0],
+                gridY = coord[1];
+            if (Controller.is('dragging')) {
+                if (Controller.draggingNode === 'start') {
+                    Controller.setStartPos(gridX, gridY);
+                } else {
+                    Controller.setEndPos(gridX, gridY);
+                }
+            }
+        }).mouseup(function() {
+            if (Controller.can('mouseup')) {
+                Controller.mouseup();
+            }
+        });
+    },
+    /**
+     * Drag start or end node
+     */
+    ondrag: function(event, from, to, whichNode) {
+        this.draggingNode = whichNode;
+    },
+    /**
+     * Draw obstacles
+     */
+    ondraw: function(event, from, to, whichNode, gridX, gridY) {
+    
+    },
+    /**
+     * Clears any existing search progress and then immediately 
+     * goes to searching state.
+     */
     onstart: function(event, from, to) {
-        // Clears any existing search progress and then immediately 
-        // goes to searching state.
     },
     onsearch: function(event, from, to) { 
     },
@@ -288,34 +353,52 @@ $.extend(Controller, {
         var width, height,
             marginRight, availWidth,
             centerX, centerY,
-            startX, startY,
             endX, endY,
             nodeSize = View.nodeSize;
 
         width  = $(window).width();
         height = $(window).height();
 
-        marginRight = $('#right_column').width();
+        marginRight = $('#algorithm_panel').width();
         availWidth = width - marginRight;
 
         centerX = Math.ceil(availWidth / 2 / nodeSize);
         centerY = Math.floor(height / 2 / nodeSize);
 
-        startX = centerX - 5;
-        startY = centerY;
-        endX = centerX + 5;
-        endY = centerY;
-
-        View.setStartPos(startX, startY);
-        View.setEndPos(endX, endY);
+        this.setStartPos(centerX - 5, centerY);
+        this.setEndPos(centerX + 5, centerY);
+    },
+    setStartPos: function(gridX, gridY) {
+        this.startX = gridX;
+        this.startY = gridY;
+        View.setStartPos(gridX, gridY);
+    },
+    setEndPos: function(gridX, gridY) {
+        this.endX = gridX;
+        this.endY = gridY;
+        View.setEndPos(gridX, gridY);
     },
 });
 
+
+/**
+ * The control panel.
+ */
 var Panel = {
     init: function() {
+        var $algo = $('#algorithm_panel');
         $('.panel').draggable();
         $('.accordion').accordion({
             collapsible: false,
+        });
+        $('.option_label').click(function() {
+            $(this).prev().click();
+        });
+        $('#hide_instructions').click(function() {
+            $('#instructions_panel').slideUp();
+        });
+        $('#play_panel').css({
+            top: $algo.offset().top + $algo.outerHeight() + 20
         });
     },
     /**
@@ -408,17 +491,7 @@ var Panel = {
 };
 
 
-    //initGeometry: function() {
 
-        //this.updateGeometry();
-    //},
-
-    //initListeners: function() {
-        //var self = this, finder, interval;
-
-        //$(window).resize(function() {
-            //self.updateGeometry();
-        //});
 
         //$('#start_button').click(function() {
             //if (GridController.isRunning()) {
@@ -438,13 +511,7 @@ var Panel = {
             //GridController.resetAll();
         //});
 
-        //$('#hide_instruction').click(function() {
-            //$('#help_panel').slideUp();
-        //});
 
-        //$('.option_label').click(function() {
-            //$(this).prev().click();
-        //});
     //},
 
 
@@ -465,22 +532,17 @@ var Panel = {
         //$('#stats').show().html(texts.join('<br>'));
     //},
 
-$(function() {
+$(document).ready(function() {
     if (!Modernizr.svg) {
         window.location = './notsupported.html';
     }
-
 
     // suppress select events
     $(window).bind('selectstart', function(event) {
         event.preventDefault();
     });
 
+    // initialize visualization
     Panel.init();
     Controller.init()
-
-    //GridModel.init();
-    //GridView.init();
-    //GridController.init();
-
 });
