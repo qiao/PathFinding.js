@@ -2,8 +2,7 @@
  * The pathfinding visualization.
  * It uses raphael.js to show the grids.
  */
-var Visual = {
-    gridSize: [64, 36],  // number of columns and rows
+var View = {
     nodeSize: 30, // width and height of a single node, in pixel
     nodeStyle: {
         normal: {
@@ -46,16 +45,14 @@ var Visual = {
         duration: 200,
         transform: 's1.2', // scale by 1.2x
     },
-    init: function() {
-        var self = this;
-
-        this.paper = Raphael('draw_area');
-        this.generateGrid(function() {
-            self.setDefaultStartEndPos();
-        });
+    init: function(opts) {
+        this.numCols = opts.numCols;
+        this.numRows = opts.numRows;
+        this.paper   = Raphael('draw_area');
+        this.$stats  = $('#stats');
     },
     /**
-     * Generate the grid asynchonously.
+     * Generate the grid asynchronously.
      * This method will be a very expensive task.
      * On my firefox, it takes 3 seconds to generate a 64x36 grid.
      * Chrome will behave much better, which completes the task within 1s.
@@ -71,14 +68,12 @@ var Visual = {
             createRowTask, sleep, tasks,
             nodeSize    = this.nodeSize,
             normalStyle = this.nodeStyle.normal,
-            numCols     = this.gridSize[0],
-            numRows     = this.gridSize[1],
+            numCols     = this.numCols,
+            numRows     = this.numRows,
             paper       = this.paper,
             rects       = this.rects = [],
-            $stats      = this.$stats = $('#stats'),
-            self        = this;
+            $stats      = this.$stats;
 
-        this.grid = new PF.Grid(numCols, numRows);
         paper.setSize(numCols * nodeSize, numRows * nodeSize);
 
         createRowTask = function(rowId) {
@@ -114,43 +109,12 @@ var Visual = {
 
         async.series(tasks, function() {
             console.log('grid generated')
-            callback();
+            if (callback) {
+                callback();
+            }
         });
     },
-    /**
-     * When initializing, this method will be called to set the positions 
-     * of start node and end node.
-     * It will detect user's display size, and compute the best positions.
-     */
-    setDefaultStartEndPos: function() {
-        var width, height,
-            marginRight, availWidth,
-            centerX, centerY,
-            startX, startY,
-            endX, endY,
-            nodeSize = this.nodeSize,
-            paper    = this.paper,
-            numCols  = this.gridSize[0],
-            numRows  = this.gridSize[1];
-
-        width  = $(window).width();
-        height = $(window).height();
-
-        marginRight = $('#right_column').width();
-        availWidth = width - marginRight;
-
-        centerX = Math.ceil(availWidth / 2 / nodeSize);
-        centerY = Math.floor(height / 2 / nodeSize);
-
-        startX = centerX - 5;
-        startY = centerY;
-        endX = centerX + 5;
-        endY = centerY;
-
-        this.setStartNodePos(startX, startY);
-        this.setEndNodePos(endX, endY);
-    },
-    setStartNodePos: function(gridX, gridY) {
+    setStartPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.startNode) {
             this.startNode = this.paper.rect(
@@ -164,7 +128,7 @@ var Visual = {
             this.startNode.attr({ x: coord[0], y: coord[1] }).toFront();
         }
     },
-    setEndNodePos: function(gridX, gridY) {
+    setEndPos: function(gridX, gridY) {
         var coord = this.toPageCoordinate(gridX, gridY);
         if (!this.endNode) {
             this.endNode = this.paper.rect(
@@ -177,9 +141,6 @@ var Visual = {
         } else {
             this.endNode.attr({ x: coord[0], y: coord[1] }).toFront();
         }
-    },
-    setFinder: function(finder) {
-        this.finder = finder;
     },
     /**
      * Given a path, build its SVG represention.
@@ -218,78 +179,105 @@ var Visual = {
 
 
 /**
- * The demo controller, which works as a state machine.
+ * The visualization controller, which works as a state machine.
  */
-var Demo = (function() {
+var Controller = {
+    onleavenone: function() { // init (asynchronous transition)
+        View.init({
+            numCols: 64,
+            numRows: 36
+        });
+        View.generateGrid(function() {
+            Controller.setDefaultStartEndPos();
+            Controller.transition(); // transit to the next state
+        });
+        return StateMachine.ASYNC;
+    },
+    onstart: function(event, from, to) {
+        // Clears any existing search progress and then immediately 
+        // goes to searching state.
+    },
+    onsearch: function(event, from, to) { 
+    },
+    onrestart: function(event, from, to) { 
+    },
+    onpause: function(event, from, to) { 
+    },
+    onfinish: function(event, from, to) { 
+    },
+    oncancel: function(event, from, to) { 
+    },
+    onclear: function (event, from, to) { 
+    },
+    onmodify: function onmodify(event, from, to) { 
 
-    var demo = StateMachine.create({
-        initial: 'none',
-        events: [
-            { name: 'init',    from: 'none',      to: 'before'    },
-            { name: 'start',   from: 'before',    to: 'starting'  },
-            { name: 'search',  from: 'starting',  to: 'searching' },
-            { name: 'restart', from: 'searching', to: 'starting'  },
-            { name: 'pause',   from: 'searching', to: 'paused'    },
-            { name: 'finish',  from: 'searching', to: 'finished'  },
-            { name: 'resume',  from: 'paused',    to: 'searching' },
-            { name: 'cancel',  from: 'paused',    to: 'before'    },
-            { name: 'restart', from: 'finished',  to: 'starting'  },
-            { name: 'clear',   from: 'finished',  to: 'before'    },
-            { name: 'modify',  from: 'finished',  to: 'modified'  },
-            { name: 'start',   from: 'modified',  to: 'starting'  },
-            { name: 'clear',   from: 'modified',  to: 'before'    },
-            { name: 'reset',   from: '*',         to: 'before'    },
-        ],
-        callbacks: {
-            oninit: function() {
-                Visual.init();
+    },
+    onreset: function onreset(event, from, to) {
+    },
+    /**
+     * When initializing, this method will be called to set the positions 
+     * of start node and end node.
+     * It will detect user's display size, and compute the best positions.
+     */
+    setDefaultStartEndPos: function() {
+        var width, height,
+            marginRight, availWidth,
+            centerX, centerY,
+            startX, startY,
+            endX, endY,
+            nodeSize = View.nodeSize;
 
-                $('.panel').draggable();
-                $('.accordion').accordion({
-                    collapsible: false,
-                });
-            },
-            onstart: function(event, from, to) {
-                // Clears any existing search progress and then immediately 
-                // goes to searching state.
-                Visual.stop();
-                Visual.clear();
-                Demo.search();
-            },
-            onsearch: function(event, from, to) { 
-                var finder = getFinder();
-                Visual.setFinder(finder);
-                Visual.search();
-            },
-            onrestart: function(event, from, to) { 
-                Demo.start();
-            },
-            onpause: function(event, from, to) { 
-                Visual.pause();
-            },
-            onfinish: function(event, from, to) { 
-                Visual.showStats();
-            },
-            oncancel: function(event, from, to) { 
-                Visual.cancel();
-            },
-            onclear: function (event, from, to) { 
-                Visual.clear();
-            },
-            onmodify: function onmodify(event, from, to) { 
-    
-            },
-            onreset: function onreset(event, from, to) {
-                Visual.reset();
-            },
-        },
-    });
+        width  = $(window).width();
+        height = $(window).height();
 
+        marginRight = $('#right_column').width();
+        availWidth = width - marginRight;
+
+        centerX = Math.ceil(availWidth / 2 / nodeSize);
+        centerY = Math.floor(height / 2 / nodeSize);
+
+        startX = centerX - 5;
+        startY = centerY;
+        endX = centerX + 5;
+        endY = centerY;
+
+        View.setStartPos(startX, startY);
+        View.setEndPos(endX, endY);
+    },
+};
+
+StateMachine.create({
+    target: Controller,
+    events: [
+        { name: 'init',    from: 'none',      to: 'before'    },
+        { name: 'start',   from: 'before',    to: 'starting'  },
+        { name: 'search',  from: 'starting',  to: 'searching' },
+        { name: 'restart', from: 'searching', to: 'starting'  },
+        { name: 'pause',   from: 'searching', to: 'paused'    },
+        { name: 'finish',  from: 'searching', to: 'finished'  },
+        { name: 'resume',  from: 'paused',    to: 'searching' },
+        { name: 'cancel',  from: 'paused',    to: 'before'    },
+        { name: 'restart', from: 'finished',  to: 'starting'  },
+        { name: 'clear',   from: 'finished',  to: 'before'    },
+        { name: 'modify',  from: 'finished',  to: 'modified'  },
+        { name: 'start',   from: 'modified',  to: 'starting'  },
+        { name: 'clear',   from: 'modified',  to: 'before'    },
+        { name: 'reset',   from: '*',         to: 'before'    },
+    ],
+});
+
+var Panel = {
+    init: function() {
+        $('.panel').draggable();
+        $('.accordion').accordion({
+            collapsible: false,
+        });
+    },
     /**
      * Get the user selected path-finder.
      * TODO: clean up this messy code.
      */
-    function getFinder() {
+    getFinder: function() {
         var finder, selected_header, heuristic, allowDiagonal, biDirectional;
         
         selected_header = $(
@@ -372,10 +360,8 @@ var Demo = (function() {
 
         return finder;
     }
+};
 
-    return demo;
-
-})();
 
     //initGeometry: function() {
 
@@ -445,7 +431,8 @@ $(function() {
         event.preventDefault();
     });
 
-    Demo.init();
+    Panel.init();
+    Controller.init()
 
     //GridModel.init();
     //GridView.init();
