@@ -229,24 +229,30 @@ var View = {
 var Controller = StateMachine.create({
     initial: 'none',
     events: [
-        { name: 'init',     from: 'none',      to: 'ready'     },
-        { name: 'drag',     from: 'ready',     to: 'dragging'  },
-        { name: 'draw',     from: 'ready',     to: 'drawing'   },
-        { name: 'mouseup',  from: 'drawing',   to: 'ready'     },
-        { name: 'mouseup',  from: 'dragging',  to: 'ready'     },
-        { name: 'start',    from: 'ready',     to: 'starting'  },
-        { name: 'search',   from: 'starting',  to: 'searching' },
-        { name: 'restart',  from: 'searching', to: 'starting'  },
-        { name: 'pause',    from: 'searching', to: 'paused'    },
-        { name: 'finish',   from: 'searching', to: 'finished'  },
-        { name: 'resume',   from: 'paused',    to: 'searching' },
-        { name: 'cancel',   from: 'paused',    to: 'ready'     },
-        { name: 'restart',  from: 'finished',  to: 'starting'  },
-        { name: 'clear',    from: 'finished',  to: 'ready'     },
-        { name: 'modify',   from: 'finished',  to: 'modified'  },
-        { name: 'start',    from: 'modified',  to: 'starting'  },
-        { name: 'clear',    from: 'modified',  to: 'ready'     },
-        { name: 'reset',    from: '*',         to: 'ready'     },
+        { name: 'init'      , from: 'none'       , to: 'ready'         } ,
+
+        { name: 'dragStart' , from: 'ready'      , to: 'draggingStart' } ,
+        { name: 'dragEnd'   , from: 'ready'      , to: 'draggingEnd'   } ,
+        { name: 'drawWall'  , from: 'ready'      , to: 'drawingWall'   } ,
+        { name: 'eraseWall' , from: 'ready'      , to: 'erasingWall'   } ,
+
+        { name: 'search'    , from: 'starting'   , to: 'searching'     } ,
+        { name: 'pause'     , from: 'searching'  , to: 'paused'        } ,
+        { name: 'finish'    , from: 'searching'  , to: 'finished'      } ,
+        { name: 'resume'    , from: 'paused'     , to: 'searching'     } ,
+        { name: 'cancel'    , from: 'paused'     , to: 'ready'         } ,
+        { name: 'modify'    , from: 'finished'   , to: 'modified'      } ,
+        { name: 'reset'     , from: '*'          , to: 'ready'         } ,
+
+        { name: 'clear'     , from: ['finished'  , 'modified'] , to:'ready'     },
+        { name: 'start'     , from: ['ready'     , 'modified'] , to:'starting'  },
+        { name: 'restart'   , from: ['searching' , 'finished'] , to: 'starting' },
+
+        { 
+          name: 'rest',
+          from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall'], 
+          to  : 'ready' 
+        },
     ],
 });
 
@@ -274,52 +280,69 @@ $.extend(Controller, {
         return StateMachine.ASYNC;
     },
     bindEvents: function() {
-        $('#draw_area').mousedown(function(event) {
-            var coord = View.toGridCoordinate(event.pageX, event.pageY),
-                gridX = coord[0],
-                gridY = coord[1];
-
-            if (Controller.can('drag')) {
-                if (Controller.startX === gridX && Controller.startY === gridY) {
-                    Controller.drag('start');
-                    return true;
-                } else if (Controller.endX === gridX && Controller.endY === gridY) {
-                    Controller.drag('end');
-                    return true;
-                }
-            }
-            if (Controller.can('draw')) {
-                Controller.draw();
-            }
-        });
-        $(window).mousemove(function(event) {
-            var coord = View.toGridCoordinate(event.pageX, event.pageY),
-                gridX = coord[0],
-                gridY = coord[1];
-            if (Controller.is('dragging')) {
-                if (Controller.draggingNode === 'start') {
-                    Controller.setStartPos(gridX, gridY);
-                } else {
-                    Controller.setEndPos(gridX, gridY);
-                }
-            }
-        }).mouseup(function() {
-            if (Controller.can('mouseup')) {
-                Controller.mouseup();
-            }
-        });
-    },
-    /**
-     * Drag start or end node
-     */
-    ondrag: function(event, from, to, whichNode) {
-        this.draggingNode = whichNode;
-    },
-    /**
-     * Draw obstacles
-     */
-    ondraw: function(event, from, to, whichNode, gridX, gridY) {
+        $('#draw_area').mousedown($.proxy(this.mousedown, this));
+        $(window)
+            .mousemove($.proxy(this.mousemove, this))
+            .mouseup($.proxy(this.mouseup, this));
     
+    },
+    mousedown: function (event) {
+        var coord = View.toGridCoordinate(event.pageX, event.pageY),
+            gridX = coord[0],
+            gridY = coord[1],
+            grid  = this.grid;
+
+        if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
+            this.dragStart();
+            return;
+        } 
+        if (this.can('dragEnd') && this.isEndPos(gridX, gridY)) {
+            this.dragEnd();
+            return;
+        }
+        if (this.can('drawWall') && grid.isWalkableAt(gridX, gridY)) {
+            this.drawWall(gridX, gridY);
+            return;
+        }
+        if (this.can('eraseWall') && !grid.isWalkableAt(gridX, gridY)) {
+            this.eraseWall(gridX, gridY);
+        }
+    },
+    mousemove: function(event) {
+        var coord = View.toGridCoordinate(event.pageX, event.pageY),
+            grid = this.grid,
+            gridX = coord[0],
+            gridY = coord[1];
+
+        switch (this.current) {
+        case 'draggingStart':
+            this.setStartPos(gridX, gridY);
+            break;
+        case 'draggingEnd':
+            this.setEndPos(gridX, gridY);
+            break;
+        case 'drawingWall':
+            if (!this.isStartOrEndPos(gridX, gridY)) {
+                this.setWalkableAt(gridX, gridY, false);
+            }
+            break;
+        case 'erasingWall':
+            if (!this.isStartOrEndPos(gridX, gridY)) {
+                this.setWalkableAt(gridX, gridY, true);
+            }
+            break;
+        }
+    },
+    mouseup: function(event) {
+        if (Controller.can('rest')) {
+            Controller.rest();
+        }
+    },
+    ondrawWall: function(event, from, to, gridX, gridY) {
+        this.setWalkableAt(gridX, gridY, false);
+    },
+    oneraseWall: function(event, from, to, gridX, gridY) {
+        this.setWalkableAt(gridX, gridY, true);
     },
     /**
      * Clears any existing search progress and then immediately 
@@ -377,6 +400,19 @@ $.extend(Controller, {
         this.endX = gridX;
         this.endY = gridY;
         View.setEndPos(gridX, gridY);
+    },
+    setWalkableAt: function(gridX, gridY, walkable) {
+        this.grid.setWalkableAt(gridX, gridY, walkable);
+        View.setAttributeAt(gridX, gridY, 'walkable', walkable);
+    },
+    isStartPos: function(gridX, gridY) {
+        return gridX === this.startX && gridY === this.startY;
+    },
+    isEndPos: function(gridX, gridY) {
+        return gridX === this.endX && gridY === this.endY;
+    },
+    isStartOrEndPos: function(gridX, gridY) {
+        return this.isStartPos(gridX, gridY) || this.isEndPos(gridX, gridY);
     },
 });
 
