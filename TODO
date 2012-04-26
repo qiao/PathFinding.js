@@ -4,3 +4,4 @@ implement Dynamic Weighting
 implement Path Smoothing
 customize heuristic functions on demo page
 beautify play panel
+fix path length calculation
