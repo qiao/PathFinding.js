@@ -77,8 +77,8 @@ button {
     font-size: 90%;
     cursor: pointer;
     padding: 2px 8px;
-    margin: 0 3%;
-    width: 26%;
+    margin: 0 2%;
+    width: 28%;
 }
 
 button:hover {
