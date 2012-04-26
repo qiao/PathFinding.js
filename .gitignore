@@ -1,2 +1,6 @@
 *.swp
+doc
+test
+src
+utils
 node_modules/
