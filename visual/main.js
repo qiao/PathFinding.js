@@ -885,7 +885,7 @@ var Panel = {
 
 
 $(document).ready(function() {
-    if (!Modernizr.svg) {
+    if (!Raphael.svg) {
         window.location = './notsupported.html';
     }
 
