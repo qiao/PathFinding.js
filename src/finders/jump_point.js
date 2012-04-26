@@ -45,14 +45,8 @@ JumpPointFinder.prototype._find = function() {
         ey = this.endY,
         grid = this.grid,
         openList = new Heap(function(posA, posB) {
-            var fa = grid.getAttributeAt(posA[0], posA[1], 'f'),
-                fb = grid.getAttributeAt(posB[0], posB[1], 'f');
-            if (fa != fb) {
-                return fa < fb;
-            } else {
-                return grid.getAttributeAt(posA[0], posA[1], 'h') <
-                       grid.getAttributeAt(posB[0], posB[1], 'h');
-            }
+            return grid.getAttributeAt(posA[0], posA[1], 'f') <
+                   grid.getAttributeAt(posB[0], posB[1], 'f');
         }),
         pos,
         node;

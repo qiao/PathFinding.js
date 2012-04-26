@@ -46,16 +46,9 @@ AStarFinder.prototype._find = function() {
         ey = this.endY,
         grid = this.grid,
 
-
         openList = new Heap(function(posA, posB) {
-            var fa = grid.getAttributeAt(posA[0], posA[1], 'f'),
-                fb = grid.getAttributeAt(posB[0], posB[1], 'f');
-            if (fa != fb) {
-                return fa < fb;
-            } else {
-                return grid.getAttributeAt(posA[0], posA[1], 'h') < 
-                       grid.getAttributeAt(posB[0], posB[1], 'h');
-            }
+            return grid.getAttributeAt(posA[0], posA[1], 'f') <
+                   grid.getAttributeAt(posB[0], posB[1], 'f');
         }),
         pos,
         node;
@@ -133,7 +126,7 @@ AStarFinder.prototype._inspectSurroundDiagonal = function(x, y) {
         i, nx, ny, diagonalCan = [];
         
 
-    for (i = 0; i < xOffsets.length; ++i) {
+    for (i = 0; i < 4; ++i) {
         nx = x + xOffsets[i];
         ny = y + yOffsets[i];
 
@@ -146,7 +139,7 @@ AStarFinder.prototype._inspectSurroundDiagonal = function(x, y) {
     }   
 
     // further inspect diagonal nodes
-    for (i = 0; i < diagonalCan.length; ++i) {
+    for (i = 0; i < 4; ++i) {
         if (diagonalCan[i]) {
             nx = x + xDiagonalOffsets[i];
             ny = y + yDiagonalOffsets[i];
