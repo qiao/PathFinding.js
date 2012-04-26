@@ -126,23 +126,26 @@ BreadthFirstFinder.prototype._inspectSurroundDiagonal = function(x, y) {
         grid = this.grid,
         i, nx, ny, diagonalCan = [];
 
-    for (i = 0; i < xOffsets.length; ++i) {
+    for (i = 0; i < 4; ++i) {
         nx = x + xOffsets[i];
         ny = y + yOffsets[i];
 
         if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
             this._inspectNodeAt(nx, ny, x, y);
 
-            diagonalCan.push(i);
+            diagonalCan[i] = true;
+            diagonalCan[(i + 1) % 4] = true;
         }
     }   
 
     // further inspect diagonal nodes
-    for (i = 0; i < diagonalCan.length; ++i) {
-        nx = x + xDiagonalOffsets[diagonalCan[i]];
-        ny = y + yDiagonalOffsets[diagonalCan[i]];
-        if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
-            this._inspectNodeAt(nx, ny, x, y);
+    for (i = 0; i < 4; ++i) {
+        if (diagonalCan[i]) {
+            nx = x + xDiagonalOffsets[i];
+            ny = y + yDiagonalOffsets[i];
+            if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
+                this._inspectNodeAt(nx, ny, x, y);
+            }
         }
     }
 };

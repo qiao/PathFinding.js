@@ -137,7 +137,7 @@ BiAStarFinder.prototype._inspectSurround = function(x, y, which) {
         grid = this.grid,
         i, nx, ny;
 
-    for (i = 0; i < xOffsets.length; ++i) {
+    for (i = 0; i < 4; ++i) {
         nx = x + xOffsets[i];
         ny = y + yOffsets[i];
 
@@ -170,7 +170,7 @@ BiAStarFinder.prototype._inspectSurroundDiagonal = function(x, y, which) {
         i, nx, ny, diagonalCan = [];
         
 
-    for (i = 0; i < xOffsets.length; ++i) {
+    for (i = 0; i < 4; ++i) {
         nx = x + xOffsets[i];
         ny = y + yOffsets[i];
 
@@ -178,18 +178,21 @@ BiAStarFinder.prototype._inspectSurroundDiagonal = function(x, y, which) {
             if (this._inspectNodeAt(nx, ny, x, y, false, which)) {
                 return true;
             }
-            diagonalCan.push(i);
+            diagonalCan[i] = true;
+            diagonalCan[(i + 1) % 4] = true;
         }
     }   
 
     // further inspect diagonal nodes
-    for (i = 0; i < diagonalCan.length; ++i) {
-        nx = x + xDiagonalOffsets[diagonalCan[i]];
-        ny = y + yDiagonalOffsets[diagonalCan[i]];
-        if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
-            if (this._inspectNodeAt(nx, ny, x, y, true, which)) {
-                return true;
-            };
+    for (i = 0; i < 4; ++i) {
+        if (diagonalCan[i]) {
+            nx = x + xDiagonalOffsets[i];
+            ny = y + yDiagonalOffsets[i];
+            if (grid.isInside(nx, ny) && grid.isWalkableAt(nx, ny)) {
+                if (this._inspectNodeAt(nx, ny, x, y, true, which)) {
+                    return true;
+                };
+            }
         }
     }
     return false;
