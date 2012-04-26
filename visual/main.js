@@ -48,21 +48,16 @@ var View = {
     },
     supportedOperations: ['opened', 'closed'],
     init: function(opts) {
-        this.numCols     = opts.numCols;
-        this.numRows     = opts.numRows;
-        this.paper       = Raphael('draw_area');
-        this.$stats      = $('#stats');
-        this.dirtyCoords = [];
-        this.wallCoords  = [];
+        this.numCols      = opts.numCols;
+        this.numRows      = opts.numRows;
+        this.paper        = Raphael('draw_area');
+        this.$stats       = $('#stats');
     },
     /**
      * Generate the grid asynchronously.
      * This method will be a very expensive task.
-     * On my firefox, it takes 3 seconds to generate a 64x36 grid.
-     * Chrome will behave much better, which completes the task within 1s.
      * Therefore, in order to not to block the rendering of browser ui, 
-     * I decomposed the task into smaller ones. Each will only generate a 
-     * row.
+     * I decomposed the task into smaller ones. Each will only generate a row.
      */
     generateGrid: function(callback) {
         var i, j, x, y, 
@@ -154,17 +149,12 @@ var View = {
             color = value ? nodeStyle.normal.fill : nodeStyle.blocked.fill;
             this.colorizeNodeAt(gridX, gridY, color);
             this.zoomNodeAt(gridX, gridY);
-            if (!value) {
-                this.wallCoords.push([gridX, gridY]);
-            }
             break;
         case 'opened':
             this.colorizeNodeAt(gridX, gridY, nodeStyle.opened.fill);
-            this.dirtyCoords.push(gridX, gridY);
             break;
         case 'closed':
             this.colorizeNodeAt(gridX, gridY, nodeStyle.closed.fill);
-            this.dirtyCoords.push(gridX, gridY);
             break;
         case 'parent':
             // XXX: Maybe draw a line from this node to its parent?
@@ -172,7 +162,9 @@ var View = {
             break;
         default:
             console.error('unsupported operation: ' + attr + ':' + value);
+            return;
         }
+        this.setCoordDirty(gridX, gridY, true);
     },
     colorizeNodeAt: function(gridX, gridY, color) {
         this.rects[gridY][gridX].animate({
@@ -186,12 +178,16 @@ var View = {
             transform: this.nodeZoomEffect.transformBack,
         }, this.nodeZoomEffect.duration);
     },
+    resetNodeAt: function(gridX, gridY) {
+        this.rects[gridY][gridX].attr(this.nodeStyle.normal);
+        this.setCoordDirty(gridX, gridY, false);
+    },
     drawPath: function(path) {
         if (!path.length) {
             return;
         }
         var svgPath = this.buildSvgPath(path);
-        this.path = paper.path(svgPath).attr(this.pathStyle);
+        this.path = this.paper.path(svgPath).attr(this.pathStyle);
     },
     /**
      * Given a path, build its SVG represention.
@@ -207,6 +203,11 @@ var View = {
         }
 
         return strs.join('');
+    },
+    clearPath: function() {
+        if (this.path) {
+            this.path.remove();
+        }
     },
     /**
      * Helper function to convert the page coordinate to grid coordinate
@@ -234,18 +235,44 @@ var View = {
         ];
         $('#stats').show().html(texts.join('<br>'));
     },
+    setCoordDirty: function(gridX, gridY, isDirty) {
+        var x, y,
+            numRows = this.numRows,
+            numCols = this.numCols,
+            coordDirty;
+
+        if (this.coordDirty === undefined) {
+            coordDirty = this.coordDirty = [];
+            for (y = 0; y < numRows; ++y) {
+                coordDirty.push([]);
+                for (x = 0; x < numCols; ++x) {
+                    coordDirty[y].push(false);
+                }
+            }
+        }
+
+        this.coordDirty[gridY][gridX] = isDirty;
+    },
     getDirtyCoords: function() {
-        return this.dirtyCoords;
+        var x, y,
+            numRows = this.numRows,
+            numCols = this.numCols,
+            coordDirty = this.coordDirty,
+            coords = [];
+
+        if (coordDirty === undefined) {
+            return [];
+        }
+
+        for (y = 0; y < numRows; ++y) {
+            for (x = 0; x < numCols; ++x) {
+                if (coordDirty[y][x]) {
+                    coords.push([x, y]);
+                }
+            }
+        }
+        return coords;
     },
-    clearDirtyCoords: function() {
-        this.dirtyCoords = [];
-    },
-    getWallCoords: function() {
-        return this.wallCoords;
-    },
-    clearDirtyCoords: function() {
-        this.dirtyCoords = [];
-    }
 };
 
 
@@ -258,24 +285,81 @@ var View = {
 var Controller = StateMachine.create({
     initial: 'none',
     events: [
-        { name: 'init'      , from: 'none'       , to: 'ready'         } ,
-        { name: 'search'    , from: 'starting'   , to: 'searching'     } ,
-        { name: 'pause'     , from: 'searching'  , to: 'paused'        } ,
-        { name: 'finish'    , from: 'searching'  , to: 'finished'      } ,
-        { name: 'resume'    , from: 'paused'     , to: 'searching'     } ,
-        { name: 'cancel'    , from: 'paused'     , to: 'ready'         } ,
-        { name: 'modify'    , from: 'finished'   , to: 'modified'      } ,
-        { name: 'reset'     , from: '*'          , to: 'ready'         } ,
-
-        { name: 'clear'     , from: ['finished'  , 'modified'] , to: 'ready'    },
-        { name: 'start'     , from: ['ready'     , 'modified'] , to: 'starting' },
-        { name: 'restart'   , from: ['searching' , 'finished'] , to: 'starting' },
-
-        { name: 'dragStart' , from: ['ready'     , 'finished'] , to: 'draggingStart' },
-        { name: 'dragEnd'   , from: ['ready'     , 'finished'] , to: 'draggingEnd'   },
-        { name: 'drawWall'  , from: ['ready'     , 'finished'] , to: 'drawingWall'   },
-        { name: 'eraseWall' , from: ['ready'     , 'finished'] , to: 'erasingWall'   },
-
+        { 
+          name: 'init',
+          from: 'none',
+          to:   'ready'
+        }, 
+        { 
+          name: 'search',
+          from: 'starting',
+          to:   'searching'
+        },
+        { 
+          name: 'pause',
+          from: 'searching',
+          to:   'paused'
+        },
+        { 
+          name: 'finish',
+          from: 'searching',
+          to:   'finished'
+        },
+        { 
+          name: 'resume',
+          from: 'paused',
+          to:   'searching'
+        },
+        { 
+          name: 'cancel',
+          from: 'paused',
+          to:   'ready'
+        },
+        { 
+          name: 'modify',
+          from: 'finished',
+          to:   'modified'
+        },
+        { 
+          name: 'reset',
+          from: '*',
+          to:   'ready'
+        },
+        { 
+          name: 'clear', 
+          from: ['finished', 'modified'], 
+          to:   'ready'
+        }, 
+        { 
+          name: 'start', 
+          from: ['ready', 'modified', 'restarting'], 
+          to:   'starting'      
+        },
+        { 
+          name: 'restart', 
+          from: ['searching', 'finished'], 
+          to:   'restarting'
+        },
+        { 
+          name: 'dragStart', 
+          from: ['ready', 'finished'],
+          to:   'draggingStart'
+        },
+        { 
+          name: 'dragEnd',
+          from: ['ready', 'finished'],
+          to:   'draggingEnd' 
+        },
+        { 
+          name: 'drawWall', 
+          from: ['ready', 'finished'],
+          to:   'drawingWall'
+        },
+        { 
+          name: 'eraseWall',
+          from: ['ready', 'finished'],
+          to:   'erasingWall'
+        },
         { 
           name: 'rest',
           from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall'], 
@@ -287,6 +371,7 @@ var Controller = StateMachine.create({
 $.extend(Controller, {
     gridSize: [64, 36], // number of nodes horizontally and vertically
     operationsPerSecond: 300,
+
     /**
      * Asynchronous transition from `none` state to `ready` state.
      */
@@ -298,7 +383,7 @@ $.extend(Controller, {
 
         View.init({
             numCols: numCols,
-            numRows: numRows,
+            numRows: numRows 
         });
         View.generateGrid(function() {
             Controller.setDefaultStartEndPos();
@@ -306,25 +391,192 @@ $.extend(Controller, {
             Controller.transition(); // transit to the next state (ready)
         });
 
-        this.$button1 = $('#button1');
-        this.$button2 = $('#button2');
-        this.$button3 = $('#button3');
+        this.$buttons = $('.control_button');
 
         this.hookPathFinding();
 
         return StateMachine.ASYNC;
+        // => ready
     },
+    ondrawWall: function(event, from, to, gridX, gridY) {
+        this.setWalkableAt(gridX, gridY, false);
+        // => drawingWall
+    },
+    oneraseWall: function(event, from, to, gridX, gridY) {
+        this.setWalkableAt(gridX, gridY, true);
+        // => erasingWall
+    },
+    onsearch: function(event, from, to) { 
+        var grid,
+            timeStart, timeEnd,
+            finder = Panel.getFinder();
+
+        timeStart = Date.now();
+        grid = this.grid.clone();
+        this.path = finder.findPath(
+            this.startX, this.startY, this.endX, this.endY, grid
+        );
+        this.operationCount = this.operations.length;
+        timeEnd = Date.now();
+        this.timeSpent = timeEnd - timeStart;
+
+        this.loop();
+        // => searching
+    },
+    onrestart: function() {
+        // When clearing the colorized nodes, there may be
+        // nodes still animating, which is an asynchronous procedure. 
+        // Therefore, we have to defer the `abort` routine to make sure
+        // that all the animations are done by the time we clear the colors.
+        // The same reason applies for the `onreset` event handler.
+        setTimeout(function() {
+            Controller.clearOperations();
+            Controller.clearFootprints();
+            Controller.start();
+        }, View.nodeColorizeEffect.duration * 1.2);
+        // => restarting
+    },
+    onpause: function(event, from, to) { 
+        // => paused
+    },
+    onresume: function(event, from, to) {
+        this.loop();
+        // => searching
+    },
+    oncancel: function(event, from, to) {
+        this.clearOperations();
+        this.clearFootprints();
+        // => ready
+    },
+    onfinish: function(event, from, to) { 
+        View.showStats({
+            pathLength: this.path.length,
+            timeSpent:  this.timeSpent,
+            operationCount: this.operationCount,
+        });
+        View.drawPath(this.path);
+        // => finished
+    },
+    onclear: function(event, from, to) { 
+        this.clearOperations();
+        this.clearFootprints();
+        // => ready
+    },
+    onmodify: function(event, from, to) { 
+        // => modified
+    },
+    onreset: function(event, from, to) {
+        setTimeout(function() {
+            Controller.clearOperations();
+            Controller.clearAll();
+            Controller.buildNewGrid();
+        }, View.nodeColorizeEffect.duration * 1.2);
+        // => ready
+    },
+
+    /**
+     * The following functions are called on entering states.
+     */
+
+    onready: function() {
+        console.log('=> ready');
+        this.setButtonStates({
+            id: 1,
+            text: 'Start Search',
+            enabled: true,
+            callback: $.proxy(this.start, this),
+        }, {
+            id: 2,
+            text: 'Pause Search',
+            enabled: false,
+        }, {
+            id: 3,
+            text: 'Clear Walls',
+            enabled: true,
+            callback: $.proxy(this.reset, this),
+        });
+        // => [starting, draggingStart, draggingEnd, drawingStart, drawingEnd]
+    },
+    onstarting: function(event, from, to) {
+        console.log('=> starting');
+        // Clears any existing search progress
+        this.clearFootprints();
+        this.setButtonStates({
+            id: 2,
+            enabled: true,
+        });
+        this.search();
+        // => searching
+    },
+    onsearching: function() {
+        console.log('=> searching');
+        this.setButtonStates({
+            id: 1,
+            text: 'Restart Search',
+            enabled: true,
+            callback: $.proxy(this.restart, this),
+        }, {
+            id: 2,
+            text: 'Pause Search',
+            enabled: true,
+            callback: $.proxy(this.pause, this),
+        })
+        // => [paused, finished]
+    },
+    onpaused: function() {
+        console.log('=> paused');
+        this.setButtonStates({
+            id: 1,
+            text: 'Resume Search',
+            enabled: true,
+            callback: $.proxy(this.resume, this),
+        }, {
+            id: 2,
+            text: 'Cancel Search',
+            enabled: true,
+            callback: $.proxy(this.cancel, this),
+        });
+        // => [searching, ready]
+    },
+    onfinished: function() {
+        console.log('=> finished');
+        this.setButtonStates({
+            id: 1,
+            text: 'Restart Search',
+            enabled: true,
+            callback: $.proxy(this.restart, this),
+        }, {
+            id: 2,
+            text: 'Clear Path',
+            enabled: true,
+            callback: $.proxy(this.clear, this),
+        });
+    },
+    onmodified: function() {
+        console.log('=> modified');
+        this.setButtonStates({
+            id: 1,
+            text: 'Start Search',
+            enabled: true,
+            callback: $.proxy(this.start, this),
+        }, {
+            id: 2,
+            text: 'Clear Path',
+            enabled: true,
+            callback: $.proxy(this.clear, this),
+        });
+    },
+
     /**
      * Add hook on the `set' method of PF.Node. Then we can get the operations
      * of the pathfinding.
      */
     hookPathFinding: function() {
-        var operations = this.operations = [],
-            originalSet = PF.Node.prototype.set;
-
+        var originalSet = PF.Node.prototype.set;
+        this.operations = [];
         PF.Node.prototype.set = function() {
             originalSet.apply(this, arguments);
-            operations.push({
+            Controller.operations.push({
                 x: this.x,
                 y: this.y,
                 attr: arguments[0],
@@ -338,6 +590,62 @@ $.extend(Controller, {
             .mousemove($.proxy(this.mousemove, this))
             .mouseup($.proxy(this.mouseup, this));
     },
+    loop: function() {
+        var interval = 1000 / this.operationsPerSecond;
+        (function loop() {
+            if (!Controller.is('searching')) {
+                return;
+            }
+            Controller.step();
+            setTimeout(loop, interval);
+        })();
+    },
+    step: function() {
+        var operations = this.operations,
+            op, isSupported;
+
+        do {
+            if (!operations.length) {
+                this.finish(); // transit to `finished` state
+                return;
+            }
+            op = operations.shift();
+            isSupported = View.supportedOperations.indexOf(op.attr) !== -1;
+        } while (!isSupported);
+
+        View.setAttributeAt(op.x, op.y, op.attr, op.value);
+    },
+    clearOperations: function() {
+        this.operations = [];
+    },
+    clearFootprints: function() {
+        var i, x, y, 
+            grid = this.grid,
+            dirtyCoords = View.getDirtyCoords();
+        for (i = 0; i < dirtyCoords.length; ++i) {
+            x = dirtyCoords[i][0];
+            y = dirtyCoords[i][1];
+
+            if (grid.isWalkableAt(x, y)) {
+                View.resetNodeAt(x, y);
+            }
+        }
+        View.clearPath();
+    },
+    clearAll: function() {
+        var i, x, y, 
+            grid = this.grid,
+            dirtyCoords = View.getDirtyCoords();
+        for (i = 0; i < dirtyCoords.length; ++i) {
+            x = dirtyCoords[i][0];
+            y = dirtyCoords[i][1];
+            View.resetNodeAt(x, y);
+        }
+        View.clearPath();
+    },
+    buildNewGrid: function() {
+        this.grid = new PF.Grid(this.gridSize[0], this.gridSize[1]);
+    }, 
     mousedown: function (event) {
         var coord = View.toGridCoordinate(event.pageX, event.pageY),
             gridX = coord[0],
@@ -394,151 +702,26 @@ $.extend(Controller, {
             Controller.rest();
         }
     },
-    ondrawWall: function(event, from, to, gridX, gridY) {
-        this.setWalkableAt(gridX, gridY, false);
-    },
-    oneraseWall: function(event, from, to, gridX, gridY) {
-        this.setWalkableAt(gridX, gridY, true);
-    },
-    onsearch: function(event, from, to) { 
-        var grid,
-            timeStart, timeEnd,
-            finder = Panel.getFinder();
-
-        timeStart = Date.now();
-        grid = this.grid.clone();
-        this.path = finder.findPath(
-            this.startX, this.startY, this.endX, this.endY, grid
-        );
-        timeEnd = Date.now();
-        this.timeSpent = timeEnd - timeStart;
-        
-        this.timer = setInterval(
-            $.proxy(this.step, this),
-            1000 / this.operationsPerSecond
-        );
-    },
-    step: function() {
-        var operations = this.operations,
-            op, isSupported;
-
-        do {
-            if (!operations.length) {
-                this.finish();
-                return;
+    setButtonStates: function() {
+        $.each(arguments, function(i, opt) {
+            var $button = Controller.$buttons.eq(opt.id - 1);
+            if (opt.text) {
+                $button.text(opt.text);
             }
-            op = operations.shift();
-            isSupported = View.supportedOperations.indexOf(op.attr) !== -1;
-        } while (!isSupported);
-
-        View.setAttributeAt(op.x, op.y, op.attr, op.value);
-    },
-    onrestart: function(event, from, to) { 
-    },
-    onpause: function(event, from, to) { 
-    },
-    onfinish: function(event, from, to) { 
-        clearInterval(this.timer);
-        View.showStats({
-            pathLength: this.path.length,
-            timeSpent:  this.timeSpent,
-            operationCount: this.operations.length
+            if (opt.callback) {
+                $button
+                    .unbind('click')
+                    .click(opt.callback);
+            }
+            if (opt.enabled === undefined) {
+                return;
+            } else if (opt.enabled) {
+                $button.removeAttr('disabled');
+            } else {
+                $button.attr({ disabled: 'disabled' });
+            }
         });
     },
-    oncancel: function(event, from, to) { 
-    },
-    onclear: function (event, from, to) { 
-    },
-    onmodify: function onmodify(event, from, to) { 
-    },
-    onreset: function onreset(event, from, to) {
-    },
-
-    /**
-     * The following functions are called on entering states.
-     */
-
-    onready: function() {
-        console.log('=> ready');
-        this.$button1
-            .text('Start Search')
-            .unbind('click')
-            .click($.proxy(this.start, this));
-        this.$button2
-            .text('Pause Search')
-            .attr('disabled', 'disabled');
-        this.$button3
-            .text('Clear Walls')
-            .unbind('click')
-            .click($.proxy(this.reset, this));
-    },
-    onstarting: function(event, from, to) {
-        console.log('=> starting');
-        // Clears any existing search progress and then immediately 
-        // goes to searching state.
-        this.$button2.removeAttr('disabled');
-        this.clearFootprints();
-        this.search();
-    },
-    clearFootprints: function() {
-        var i, x, y, 
-            dirtyCoords = View.getDirtyCoords(),
-            numCols = this.gridSize[0],
-            numRows = this.gridSize[1],
-            grid = this.grid;
-
-        for (i = 0; i < dirtyCoords.length; ++i) {
-            x = dirtyCoords[i][0];
-            y = dirtyCoords[i][1];
-
-            View.setAttributeAt(x, y, 'walkable', true);
-        }
-    },
-    onsearching: function() {
-        console.log('=> searching');
-        this.$button1
-            .text('Restart Search')
-            .unbind('click')
-            .click($.proxy(this.restart, this));
-        this.$button2
-            .text('Pause Search')
-            .unbind('click')
-            .click($.proxy(this.pause, this));
-    },
-    onpaused: function() {
-        console.log('=> paused');
-        this.$button1
-            .text('Resume Search')
-            .unbind('click')
-            .click($.proxy(this.resume, this));
-        this.$button2
-            .text('Cancel Search')
-            .unbind('click')
-            .click($.proxy(this.cancel, this));
-    },
-    onfinished: function() {
-        console.log('=> finished');
-        this.$button1
-            .text('Restart Search')
-            .unbind('click')
-            .click($.proxy(this.restart, this));
-        this.$button2
-            .text('Clear Path')
-            .unbind('click')
-            .click($.proxy(this.clear, this));
-    },
-    onmodified: function() {
-        console.log('=> modified');
-        this.$button1
-            .text('Start Search')
-            .unbind('click')
-            .click($.proxy(this.start, this));
-        this.$button2
-            .text('Clear Path')
-            .unbind('click')
-            .click($.proxy(this.clear, this));
-    },
-
     /**
      * When initializing, this method will be called to set the positions 
      * of start node and end node.
