@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>PathFinding.js</title>
+
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./lib/themes/jquery.ui.all.css" />
+
+    <script type="text/javascript" src="./lib/raphael-min.js"></script>
+    <script type="text/javascript" src="./lib/es5-shim.min.js"></script>
+    <script type="text/javascript" src="./lib/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="./lib/state-machine.min.js"></script>
+    <script type="text/javascript" src="./lib/async.min.js"></script>
+
+    <script type="text/javascript" src="./lib/ui/jquery.ui.core.min.js"></script>
+    <script type="text/javascript" src="./lib/ui/jquery.ui.widget.min.js"></script>
+    <script type="text/javascript" src="./lib/ui/jquery.ui.mouse.min.js"></script>
+    <script type="text/javascript" src="./lib/ui/jquery.ui.draggable.min.js"></script>
+    <script type="text/javascript" src="./lib/ui/jquery.ui.accordion.min.js"></script>
+    <script type="text/javascript" src="./lib/ui/jquery.ui.slider.min.js"></script>
+
+
+    <script type="text/javascript" src="../lib/pathfinding-browser.js"></script>
+
+    <script type="text/javascript" src="./js/view.js"></script>
+    <script type="text/javascript" src="./js/controller.js"></script>
+    <script type="text/javascript" src="./js/panel.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
+  </head>
+  <body>
+    <div id="draw_area"></div>
+
+    <div id="instructions_panel" class="panel">
+      <header>
+        <h2 class="header_title">Instructions</h2>
+        <span id="hide_instructions">hide</span>
+      </header>
+      Click within the <span class="white">white</span> grid and drag your mouse to draw obstacles. <br>
+      Drag the <span class="green">green</span> node to set the start position. <br>
+      Drag the <span class="red">red</span> node to set the end position. <br>
+      Choose an algorithm from the right-hand panel. <br>
+      Click Start Search in the lower-right corner to start the animation.
+    </div>
+
+    <div id="algorithm_panel" class="panel right_panel">
+      <header><h2 class="header_title">Select Algorithm</h2></header>
+
+      <div class="accordion">
+        <h3 id="astar_header"><a href="#">A*</a></h3>
+        <div id="astar_section" class="finder_section">
+          <header class="option_header">
+            <h3>Heuristic</h3>
+          </header>
+          <div id="astar_heuristic" class="sub_options">
+            <input type="radio" name="astar_heuristic" value="manhattan" checked />
+            <label class="option_label">Manhattan</label> <br>
+            <input type="radio" name="astar_heuristic" value="euclidean"/>
+            <label class="option_label">Euclidean</label> <br>
+            <input type="radio" name="astar_heuristic" value="chebyshev"/>
+            <label class="option_label">Chebyshev</label> <br>
+          </div>
+
+          <header class="option_header">
+            <h3>Options</h3>
+          </header>
+          <div class="optional sub_options">
+            <input type="checkbox" class="allow_diagonal" checked>
+            <label class="option_label">Allow Diagonal</label> <br>
+            <input type="checkbox" class="bi-directional">
+            <label class="option_label">Bi-directional</label> <br>
+          </div>
+        </div>
+
+        <h3 id="breadthfirst_header"><a href="#">Breadth-First-Search</a></h3>
+        <div id="breadthfirst_section" class="finder_section">
+          <header class="option_header">
+            <h3>Options</h3>
+          </header>
+          <div class="optional sub_options">
+            <input type="checkbox" class="allow_diagonal" checked>
+            <label class="option_label">Allow Diagonal</label> <br>
+            <input type="checkbox" class="bi-directional">
+            <label class="option_label">Bi-directional</label> <br>
+          </div>
+        </div>
+
+        <h3 id="bestfirst_header"><a href="#">Best-First-Search</a></h3>
+        <div id="bestfirst_section" class="finder_section">
+          <header class="option_header">
+            <h3>Heuristic</h3>
+          </header>
+          <div id="bestfirst_heuristic" class="sub_options">
+            <input type="radio" name="bestfirst_heuristic" value="manhattan" checked />
+            <label class="option_label">Manhattan</label> <br>
+            <input type="radio" name="bestfirst_heuristic" value="euclidean"/>
+            <label class="option_label">Euclidean</label> <br>
+            <input type="radio" name="bestfirst_heuristic" value="chebyshev"/>
+            <label class="option_label">Chebyshev</label> <br>
+          </div>
+
+          <header class="option_header">
+            <h3>Options</h3>
+          </header>
+          <div class="optional sub_options">
+            <input type="checkbox" class="allow_diagonal" checked>
+            <label class="option_label">Allow Diagonal</label> <br>
+            <input type="checkbox" class="bi-directional">
+            <label class="option_label">Bi-directional</label> <br>
+          </div>
+        </div>
+
+        <h3 id="dijkstra_header"><a href="#">Dijkstra</a></h3>
+        <div id="dijkstra_section" class="finder_section">
+          <header class="option_header">
+            <h3>Options</h3>
+          </header>
+          <div class="optional sub_options">
+            <input type="checkbox" class="allow_diagonal" checked>
+            <label class="option_label">Allow Diagonal</label> <br>
+            <input type="checkbox" class="bi-directional">
+            <label class="option_label">Bi-directional</label> <br>
+          </div>
+        </div>
+
+        <h3 id="jump_point_header"><a href="#">Jump Point Search</a></h3>
+        <div id="jump_point_section" class="finder_section">
+          <header class="option_header">
+            <h3>Heuristic</h3>
+          </header>
+          <div id="jump_point_heuristic" class="sub_options">
+            <input type="radio" name="jump_point_heuristic" value="manhattan" checked />
+            <label class="option_label">Manhattan</label> <br>
+            <input type="radio" name="jump_point_heuristic" value="euclidean"/>
+            <label class="option_label">Euclidean</label> <br>
+            <input type="radio" name="jump_point_heuristic" value="chebyshev"/>
+            <label class="option_label">Chebyshev</label> <br>
+          </div>
+        </div>
+      </div><!-- .accordion -->
+    </div><!-- #algorithm_panel -->
+
+    <div id="play_panel" class="panel right_panel">
+      <button id="button1" class="control_button">Start Search</button>
+      <button id="button2" class="control_button">Pause Search</button>
+      <button id="button3" class="control_button">Clear Walls</button>
+    </div>
+
+    <div id="stats"></div>
+
+    <footer>
+      Project Hosted on <a href="http://github.com/qiao/PathFinding.js">Github</a>
+    </footer>
+
+  </body>
+</html>

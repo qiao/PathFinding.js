@@ -1,0 +1,139 @@
+body {
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+
+input {
+    cursor: pointer;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0px;
+    padding: 0px;
+    font-weight: normal;
+}
+
+.header_title {
+    font-size: 120%;
+    font-weight: bold;
+    padding-bottom: 5px;
+    margin-top: -10px;
+}
+
+
+.panel {
+    position: fixed;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    cursor: default;
+}
+
+.right_panel {
+    width: 250px;
+    right: 20px;
+}
+
+#algorithm_panel {
+    right: 20px;
+    top: 20px;
+}
+
+#instructions_panel {
+    top: 20px;
+    left: 20px;
+    width: 550px;
+}
+
+#hide_instructions {
+    position: absolute;
+    right: 25px;
+    top: 10px;
+    font-size: 90%;
+    cursor: pointer;
+}
+
+#hide_instruction:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.option_header {
+    font-size: 80%;
+    margin-left: 20px;
+}
+
+.option_label {
+    cursor: pointer;
+}
+
+button {
+    border: none;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+    font-size: 90%;
+    cursor: pointer;
+    padding: 2px 8px;
+    margin: 0 2%;
+    width: 28%;
+}
+
+button:hover {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.finder_section {
+    border: solid 1px #ddd;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.sub_options {
+    padding: 2px;
+    font-size: 90%;
+    margin: 2px 30px 0;
+}
+
+#stats {
+    position: fixed;
+    bottom: 40px;
+    left: 35px;
+    color: #0a0;
+    font-size: 85%;
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+}
+
+a {
+    color: #33f;
+}
+
+footer {
+    color: #333;
+    font-size: 70%;
+    text-align: center;
+    position: fixed;
+    width: 200px;
+    bottom: 10px;
+    left: 50%;
+    margin-left: -100px;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.white {
+    color: #fff;
+}
+
+.green {
+    color: #0d0;
+}
+
+.red {
+    color: #ff9166;
+}

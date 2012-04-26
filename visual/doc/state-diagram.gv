@@ -1,0 +1,19 @@
+digraph controller_states {
+	rankdir=LR;
+	size="10,8"
+	node [shape = circle];
+    none       -> before    [ label = "init"    ];
+	before     -> starting  [ label = "start"   ];
+	starting   -> searching [ label = "search"  ];
+	searching  -> starting  [ label = "restart" ];
+	searching  -> paused    [ label = "pause"   ];
+	searching  -> finished  [ label = "finish"  ];
+	paused     -> searching [ label = "resume"  ];
+	paused     -> before    [ label = "cancel"  ];
+	finished   -> starting  [ label = "restart" ];
+	finished   -> before    [ label = "clear"   ];
+	finished   -> modified  [ label = "modify"  ];
+	modified   -> starting  [ label = "start"   ];
+	modified   -> before    [ label = "clear"   ];
+}
+

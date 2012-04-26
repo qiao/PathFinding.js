@@ -1,0 +1,24 @@
+{
+    "name"            : "pathfinding"
+  , "version"         : "0.3.2"
+  , "description"     : "Comprehensive pathfinding library for grid based games"
+  , "homepage"        : "https://github.com/qiao/PathFinding.js"
+  , "keywords"        : ["algorithm", "game"]
+  , "author"          : "Xueqiao Xu <xueqiaoxu@gmail.com>"
+  , "main"            : "./index.js"
+  , "dependencies"    : {}
+  , "devDependencies" : {
+      "uglify-js"       : ">= 1.2.5"
+    , "browserify"      : "1.10.8"
+    , "mocha"           : "1.0.x"
+    , "should"          : "0.6.x"
+  }
+  , "repository"      : {
+      "type"          : "git"
+    , "url"           : "git://github.com/qiao/PathFinding.js.git"
+  }
+  , "licenses"        : [{
+      "type"          :  "MIT"
+    , "url"           : "http://opensource.org/licenses/mit-license.php"
+  }]
+}
