@@ -1,9 +1,19 @@
 /**
- * methods for smoothening the path. not finished yet.
+ * Backtrace according to the parent records and return the path 
+ * (including both start and end nodes);
+ * @param {Node} node End node
+ * @return {Array.<Array.<number>>} the path
  */
+exports.backtrace = function(node) {
+    var path = [[node.x, node.y]];
+    while (node.parent) {
+        node = node.parent;
+        path.push([node.x, node.y]);
+    }
+    return path.reverse();
+};
 
-PF.smoothenPath = (function() {
-
+exports.smoothenPath = (function() {
     /**
      * Get the slope-intercept representation of a line passing
      * through the given two coordinates.
@@ -90,3 +100,4 @@ PF.smoothenPath = (function() {
     };
 
 })();
+
