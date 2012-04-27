@@ -1,4 +1,4 @@
-var Heap = require('../src/core/heap');
+var Heap = require('../../src/core/Heap');
 
 describe('Heap', function() {
     /**
