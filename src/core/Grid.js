@@ -22,7 +22,6 @@ function Grid(width, height, matrix) {
 
     /**
      * A 2D array of nodes.
-     * This property is public to finders in order to enhance performance.
      */
     this.nodes = this._buildNodes(width, height, matrix);
 };
@@ -71,6 +70,11 @@ Grid.prototype._buildNodes = function(width, height, matrix) {
 };
 
 
+Grid.prototype.getNodeAt = function(x, y) {
+    return this.nodes[y][x];
+};
+
+
 /**
  * Determine whether the node at the given position is walkable.
  * (Also returns false if the position is outside the grid.)
@@ -85,6 +89,9 @@ Grid.prototype.isWalkableAt = function(x, y) {
 
 /**
  * Determine whether the position is inside the grid.
+ * XXX: `grid.isInside(x, y)` is wierd to read.
+ * It should be `(x, y) is inside grid`, but I failed to find a better
+ * name for this method.
  * @param {number} x
  * @param {number} y
  * @return {boolean} 
@@ -103,6 +110,77 @@ Grid.prototype.isInside = function(x, y) {
  */
 Grid.prototype.setWalkableAt = function(x, y, walkable) {
     this.nodes[y][x].walkable = walkable;
+};
+
+
+/**
+ * Get the neighbors of the given node.
+ *
+ *     offsets      diagonalOffsets:
+ *  +---+---+---+    +---+---+---+
+ *  |   | 0 |   |    | 0 |   | 1 |
+ *  +---+---+---+    +---+---+---+
+ *  | 3 |   | 1 |    |   |   |   |
+ *  +---+---+---+    +---+---+---+
+ *  |   | 2 |   |    | 3 |   | 2 |
+ *  +---+---+---+    +---+---+---+
+ * 
+ *  When allowDiagonal is true, if offsets[i] is valid, then
+ *  diagonalOffsets[i] and
+ *  diagonalOffsets[(i + 1) % 4] is valid.
+ * @param {Node} node
+ * @param {boolean} allowDiagonal
+ */
+Grid.prototype.getNeighbors = function(node, allowDiagonal) {
+    var x = node.x,
+        y = node.y,
+        neighbors = [],
+        validDiagonals = [false, false, false, false],
+        nodes = this.nodes;
+
+    // ↑
+    if (this.isWalkableAt(x, y - 1)) {
+        neighbors.push(nodes[y - 1][x]);
+        validDiagonals[0] = validDiagonals[1] = true;
+    }
+    // →
+    if (this.isWalkableAt(x + 1, y)) {
+        neighbors.push(nodes[y][x + 1]);
+        validDiagonals[1] = validDiagonals[2] = true;
+    }
+    // ↓
+    if (this.isWalkableAt(x, y + 1)) {
+        neighbors.push(nodes[y + 1][x]);
+        validDiagonals[2] = validDiagonals[3] = true;
+    }
+    // ←
+    if (this.isWalkableAt(x - 1, y)) {
+        neighbors.push(nodes[y][x - 1]);
+        validDiagonals[3] = validDiagonals[0] = true;
+    }
+
+    if (!allowDiagonal) {
+        return neighbors;
+    }
+
+    // ↖
+    if (validDiagonals[0] && this.isWalkableAt(x - 1, y - 1)) {
+        neighbors.push(nodes[y - 1][x - 1]);
+    }
+    // ↗
+    if (validDiagonals[1] && this.isWalkableAt(x + 1, y - 1)) {
+        neighbors.push(nodes[y - 1][x + 1]);
+    }
+    // ↘
+    if (validDiagonals[2] && this.isWalkableAt(x + 1, y + 1)) {
+        neighbors.push(nodes[y + 1][x + 1]);
+    }
+    // ↙
+    if (validDiagonals[3] && this.isWalkableAt(x - 1, y + 1)) {
+        neighbors.push(nodes[y + 1][x - 1]);
+    }
+
+    return neighbors;
 };
 
 
