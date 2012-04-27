@@ -8,8 +8,7 @@ var Node = require('./node');
  * @param {number} height Number of rows of the grid.
  * @param {Array.<Array.<(number|boolean)>>} [matrix] - A 0-1 matrix 
  *     representing the walkable status of the nodes(0 or false for walkable). 
- *     If the matrix is not supplied, all the nodes will be walkable.
- */
+ *     If the matrix is not supplied, all the nodes will be walkable.  */
 function Grid(width, height, matrix) {
     /**
      * The number of columns of the grid.
@@ -84,61 +83,25 @@ Grid.prototype.getNodeAt = function(x, y) {
  * Determine whether the node on the given position is walkable.
  * @param {number} x - The x coordinate of the node.
  * @param {number} y - The y coordinate of the node.
- * @return {boolean} - The walkability of the node.
+ * @return {boolean} - The walkability of the node. (Also returns false if 
+ *     the coordinate is not inside the grid.)
  */
 Grid.prototype.isWalkableAt = function(x, y) {
-    return this.getNodeAt(x, y).get('walkable');
+    return (x >= 0 && x < this.width) &&
+           (y >= 0 && y < this.height) &&
+           this.getNodeAt(x, y).walkable;
 };
 
 
 /**
  * Set whether the node on the given position is walkable.
+ * NOTE: throws exception if the coordinate is not inside the grid.
  * @param {number} x - The x coordinate of the node.
  * @param {number} y - The y coordinate of the node.
  * @param {boolean} walkable - Whether the position is walkable.
  */
 Grid.prototype.setWalkableAt = function(x, y, walkable) {
-    this.getNodeAt(x, y).set('walkable', walkable);
-};
-
-
-/**
- * Determine whether the given position is inside the grid.
- * @param {number} x - The x coordinate of the position.
- * @param {number} y - The y coordinate of the position.
- * @return {boolean} Whether the position is inside.
- */
-Grid.prototype.isInside = function(x, y) {
-    return x >= 0 && x < this.width &&
-           y >= 0 && y < this.height;
-};
-
-/**
- * Generic setter of the attribute at the given position.
- * Note: This method gets the same result as:
- *     {@code node = grid.getNodeAt(x, y);
- *            node[attr] = value;}
- * @param {number} x - The x coordinate of the position.
- * @param {number} y - The y coordinate of the position.
- * @param {string} attr - The name of attribute to set.
- * @param {*} value - The value of attribute.
- */
-Grid.prototype.setAttributeAt = function(x, y, attr, value) {
-    this.getNodeAt(x, y).set(attr, value);
-};
-
-/**
- * Generic getter of the attribute at the given position.
- * Note: This method gets the same result as:
- *     {@code node = grid.getNodeAt(x, y);
- *            return node[attr];}
- * @param {number} x - The x coordinate of the position.
- * @param {number} y - The y coordinate of the position.
- * @param {string} attr - The name of attribute to get.
- * @return The value of the attribute.
- */
-Grid.prototype.getAttributeAt = function(x, y, attr) {
-    return this.getNodeAt(x, y).get(attr);
+    this.getNodeAt(x, y).walkable = walkable;
 };
 
 
