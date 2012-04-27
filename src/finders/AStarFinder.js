@@ -1,4 +1,4 @@
-var Heap       = require('heap');
+var Heap       = require('heap'); // https://github.com/qiao/heap.js
 var Util       = require('../core/Util');
 var Heuristic  = require('../core/Heuristic');
 
