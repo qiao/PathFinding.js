@@ -1,10 +1,11 @@
-var AStarFinder = require('./astar');
+var AStarFinder = require('./AStarFinder');
 
 /**
  * Dijkstra path-finder.
  * @constructor
  * @extends AStarFinder
- * @param {object} opt - opt.allowDiagonal: Whether diagonal movement is allowed.
+ * @param {object} opt 
+ * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed.
  */
 function DijkstraFinder(opt) {
     AStarFinder.call(this, opt);
