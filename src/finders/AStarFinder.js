@@ -1,4 +1,4 @@
-var Heap       = require('heap'); // https://github.com/qiao/heap.js
+var Heap       = require('../core/Heap');
 var Util       = require('../core/Util');
 var Heuristic  = require('../core/Heuristic');
 
@@ -28,7 +28,7 @@ function AStarFinder(opt) {
  */
 AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     var openList = new Heap(function(nodeA, nodeB) {
-            return nodeA.f - nodeB.f;
+            return nodeA.f < nodeB.f;
         }),
         startNode = grid.getNodeAt(startX, startY),
         endNode = grid.getNodeAt(endX, endY),
@@ -46,7 +46,7 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     startNode.opened = true;
 
     // while the open list is not empty
-    while (!openList.empty()) {
+    while (!openList.isEmpty()) {
         // pop the position of node which has the minimum `f` value.
         node = openList.pop();
         node.closed = true;
