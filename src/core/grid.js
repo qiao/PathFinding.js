@@ -1,8 +1,7 @@
 var Node = require('./node');
 
 /**
- * The Grid class, which serves as the encapsulation of the layout of the 
- * nodes on the map.
+ * The Grid class, which serves as the encapsulation of the layout of the nodes.
  * @constructor
  * @param {number} width Number of columns of the grid.
  * @param {number} height Number of rows of the grid.
@@ -21,38 +20,40 @@ function Grid(width, height, matrix) {
      */
     this.height = height;
 
-    this._buildGrid(matrix);
+    /**
+     * A 2D array of nodes.
+     * This property is public to finders in order to enhance performance.
+     */
+    this.nodes = this._buildNodes(width, height, matrix);
 };
 
 /**
- * Build the grids.
+ * Build and return the nodes.
  * @private
+ * @param {number} width
+ * @param {number} height
  * @param {Array.<Array.<number|boolean>>} [matrix] - A 0-1 matrix representing
  *     the walkable status of the nodes. 
  * @see Grid
  */
-Grid.prototype._buildGrid = function(matrix) {
+Grid.prototype._buildNodes = function(width, height, matrix) {
     var i, j, 
-        width = this.width,
-        height = this.height,
-        nodes = [], 
+        nodes = new Array(height),
         row;
 
     for (i = 0; i < height; ++i) {
-        nodes.push([]); // push is faster than assignment via indexing
-        row = nodes[i]; 
+        nodes[i] = new Array(width);
         for (j = 0; j < width; ++j) {
-            row.push(new Node(j, i));
+            nodes[i][j] = new Node(j, i);
         }            
     }
 
-    this.nodes = nodes;
 
     if (matrix === undefined) {
-        return;
+        return nodes;
     }
 
-    if (matrix.length != height || matrix[0].length != width) {
+    if (matrix.length !== height || matrix[0].length !== width) {
         throw new Error('Matrix size does not fit');
     }
 
@@ -65,31 +66,31 @@ Grid.prototype._buildGrid = function(matrix) {
             }
         }
     }
+
+    return nodes;
 };
 
 
 /**
- * Get the node at the given position.
+ * Determine whether the node at the given position is walkable.
+ * (Also returns false if the position is outside the grid.)
  * @param {number} x - The x coordinate of the node.
  * @param {number} y - The y coordinate of the node.
- * @return {Node}
- */
-Grid.prototype.getNodeAt = function(x, y) {
-    return this.nodes[y][x];
-};
-
-
-/**
- * Determine whether the node on the given position is walkable.
- * @param {number} x - The x coordinate of the node.
- * @param {number} y - The y coordinate of the node.
- * @return {boolean} - The walkability of the node. (Also returns false if 
- *     the coordinate is not inside the grid.)
+ * @return {boolean} - The walkability of the node. 
  */
 Grid.prototype.isWalkableAt = function(x, y) {
-    return (x >= 0 && x < this.width) &&
-           (y >= 0 && y < this.height) &&
-           this.getNodeAt(x, y).walkable;
+    return this.isInside(x, y) && this.nodes[y][x].walkable;
+};
+
+
+/**
+ * Determine whether the position is inside the grid.
+ * @param {number} x
+ * @param {number} y
+ * @return {boolean} 
+ */
+Grid.prototype.isInside = function(x, y) {
+    return (x >= 0 && x < this.width) && (y >= 0 && y < this.height);
 };
 
 
@@ -101,7 +102,7 @@ Grid.prototype.isWalkableAt = function(x, y) {
  * @param {boolean} walkable - Whether the position is walkable.
  */
 Grid.prototype.setWalkableAt = function(x, y, walkable) {
-    this.getNodeAt(x, y).walkable = walkable;
+    this.nodes[y][x].walkable = walkable;
 };
 
 
@@ -117,14 +118,13 @@ Grid.prototype.clone = function() {
         thisNodes = this.nodes,
 
         newGrid = new Grid(width, height),
-        newNodes = [], 
+        newNodes = new Array(height),
         row;
 
     for (i = 0; i < height; ++i) {
-        newNodes.push([]);
-        row = newNodes[i];
+        newNodes[i] = new Array(width);
         for (j = 0; j < width; ++j) {
-            row.push(thisNodes[i][j].clone());
+            newNodes[i][j] = thisNodes[i][j].clone();
         }
     }
 
