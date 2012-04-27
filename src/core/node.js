@@ -15,54 +15,29 @@
 function Node(x, y, walkable, parent) {
     /**
      * The x coordinate of the node on the grid.
-     * @private
      * @type number
      */
     this.x = x;
     /**
      * The y coordinate of the node on the grid.
-     * @private
      * @type number
      */
     this.y = y;
     /**
      * Whether this node can be walked through.
-     * @private
      * @type boolean
      */
     this.walkable = (walkable === undefined ? true : walkable);
     /**
      * This node's parent node. 
      * This variable will be used to construct the path after the search is done.
-     * @private
-     * @type Array.<number, number>
+     * @type Node
      */
     this.parent = (parent === undefined ? null : parent);
 };
 
 
 Node.prototype.constructor = Node;
-
-
-/**
- * Generic setter of the attribute of the node.
- * @param {string} attr - Attribute name.
- * @param {*} value - Attribute value.
- */
-Node.prototype.set = function(attr, value) {
-    this[attr] = value;
-};
-
-
-/**
- * Generic getter of the attribute of the node.
- * @param {string} attr - Attribute name
- * @return {*} The value of the attribute.
- */
-Node.prototype.get = function(attr) {
-    return this[attr];
-};
-
 
 /**
  * Get a clone of this node.
