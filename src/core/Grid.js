@@ -1,4 +1,4 @@
-var Node = require('./node');
+var Node = require('./Node');
 
 /**
  * The Grid class, which serves as the encapsulation of the layout of the nodes.
