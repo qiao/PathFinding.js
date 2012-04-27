@@ -26,10 +26,10 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     var heapCmpFunc = function(nodeA, nodeB) {
             return nodeA.f < nodeB.f;
         },
-        startNode = grid.getNodeAt(startX, startY),
-        endNode = grid.getNodeAt(endX, endY),
         startOpenList = new Heap(heapCmpFunc),
         endOpenList = new Heap(heapCmpFunc),
+        startNode = grid.getNodeAt(startX, startY),
+        endNode = grid.getNodeAt(endX, endY),
         heuristic = this.heuristic,
         allowDiagonal = this.allowDiagonal,
         node, neighbors, neighbor, i, l, dx, dy, ng,
@@ -64,7 +64,7 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
             neighbor = neighbors[i];
 
             if (neighbor.opened === BY_END) {
-                return Util.biBacktrace(neighbor, node);
+                return Util.biBacktrace(node, neighbor);
             }
             
             dx = abs(neighbor.x - node.x);
@@ -98,7 +98,7 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
             neighbor = neighbors[i];
 
             if (neighbor.opened === BY_START) {
-                return Util.biBacktrace(node, neighbor);
+                return Util.biBacktrace(neighbor, node);
             }
             
             dx = abs(neighbor.x - node.x);
