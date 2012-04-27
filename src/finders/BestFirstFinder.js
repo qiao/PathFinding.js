@@ -1,13 +1,12 @@
-var AStarFinder = require('./astar');
+var AStarFinder = require('./AStarFinder');
 
 /**
  * Best-First-Search path-finder.
  * @constructor
  * @extends AStarFinder
- * @param {boolean} allowDiagonal - Whether diagonal movement is allowed.
- * @param {boolean} opt - 
- *     opt.allowDiagonal: Whether diagonal movement is allowed.
- *     [opt.heuristic]: Heuristic function being used to estimate the distance
+ * @param {object} opt
+ * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed.
+ * @param {function} opt.heuristic Heuristic function to estimate the distance
  *     (defaults to manhattan).
  */
 function BestFirstFinder(opt) {
