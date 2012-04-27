@@ -135,28 +135,28 @@ Grid.prototype.getNeighbors = function(node, allowDiagonal) {
     var x = node.x,
         y = node.y,
         neighbors = [],
-        validDiagonals = [false, false, false, false],
+        d0 = d1 = d2 = d3 = false, // diagonal valid
         nodes = this.nodes;
 
     // ↑
     if (this.isWalkableAt(x, y - 1)) {
         neighbors.push(nodes[y - 1][x]);
-        validDiagonals[0] = validDiagonals[1] = true;
+        d0 = d1 = true;
     }
     // →
     if (this.isWalkableAt(x + 1, y)) {
         neighbors.push(nodes[y][x + 1]);
-        validDiagonals[1] = validDiagonals[2] = true;
+        d1 = d2 = true;
     }
     // ↓
     if (this.isWalkableAt(x, y + 1)) {
         neighbors.push(nodes[y + 1][x]);
-        validDiagonals[2] = validDiagonals[3] = true;
+        d2 = d3 = true;
     }
     // ←
     if (this.isWalkableAt(x - 1, y)) {
         neighbors.push(nodes[y][x - 1]);
-        validDiagonals[3] = validDiagonals[0] = true;
+        d3 = d0 = true;
     }
 
     if (!allowDiagonal) {
@@ -164,19 +164,19 @@ Grid.prototype.getNeighbors = function(node, allowDiagonal) {
     }
 
     // ↖
-    if (validDiagonals[0] && this.isWalkableAt(x - 1, y - 1)) {
+    if (d0 && this.isWalkableAt(x - 1, y - 1)) {
         neighbors.push(nodes[y - 1][x - 1]);
     }
     // ↗
-    if (validDiagonals[1] && this.isWalkableAt(x + 1, y - 1)) {
+    if (d1 && this.isWalkableAt(x + 1, y - 1)) {
         neighbors.push(nodes[y - 1][x + 1]);
     }
     // ↘
-    if (validDiagonals[2] && this.isWalkableAt(x + 1, y + 1)) {
+    if (d2 && this.isWalkableAt(x + 1, y + 1)) {
         neighbors.push(nodes[y + 1][x + 1]);
     }
     // ↙
-    if (validDiagonals[3] && this.isWalkableAt(x - 1, y + 1)) {
+    if (d3 && this.isWalkableAt(x - 1, y + 1)) {
         neighbors.push(nodes[y + 1][x - 1]);
     }
 
