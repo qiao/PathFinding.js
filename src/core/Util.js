@@ -1,10 +1,10 @@
 /**
- * Backtrace according to the parent records and return the path 
- * (including both start and end nodes);
+ * Backtrace according to the parent records and return the path.
+ * (including both start and end nodes)
  * @param {Node} node End node
  * @return {Array.<Array.<number>>} the path
  */
-exports.backtrace = function(node) {
+function backtrace(node) {
     var path = [[node.x, node.y]];
     while (node.parent) {
         node = node.parent;
@@ -12,6 +12,20 @@ exports.backtrace = function(node) {
     }
     return path.reverse();
 };
+exports.backtrace = backtrace;
+
+/**
+ * Backtrace from start and end node, and return the path.
+ * (including both start and end nodes)
+ * @param {Node}
+ * @param {Node} 
+ */
+function biBacktrace(nodeA, nodeB) {
+    var pathA = backtrace(nodeA),
+        pathB = backtrace(nodeB);
+    return pathA.concat(pathB.reverse());
+};
+exports.biBacktrace = biBacktrace;
 
 exports.smoothenPath = (function() {
     /**
