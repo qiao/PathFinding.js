@@ -21,7 +21,7 @@ BreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, gri
         allowDiagonal = this.allowDiagonal,
         startNode = grid.getNodeAt(startX, startY),
         endNode = grid.getNodeAt(endX, endY),
-        neighbors, neighbor, i, l;
+        neighbors, neighbor, node, i, l;
 
     // push the start pos into the queue
     openList.push(startNode);
