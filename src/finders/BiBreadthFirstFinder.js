@@ -21,7 +21,7 @@ BiBreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, g
     var startNode = grid.getNodeAt(startX, startY), 
         endNode = grid.getNodeAt(endX, endY),
         startOpenList = [], endOpenList = [],
-        neighbors, neighbor,
+        neighbors, neighbor, node,
         allowDiagonal = this.allowDiagonal,
         BY_START = 0, BY_END = 1, 
         i, l;
