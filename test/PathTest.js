@@ -79,3 +79,18 @@ pathTests({
     finder: new PF.BiDijkstraFinder(),
     optimal: true
 });
+
+// finders NOT guaranteed to find the shortest path
+pathTests({
+    name: 'BiAStar',
+    finder: new PF.BiAStarFinder(),
+    optimal: false
+}, {
+    name: 'BestFirst',
+    finder: new PF.BestFirstFinder(),
+    optimal: false
+}, {
+    name: 'BiBestFirst',
+    finder: new PF.BiBestFirstFinder(),
+    optimal: false
+});
