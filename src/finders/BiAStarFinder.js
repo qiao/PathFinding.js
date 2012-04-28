@@ -73,7 +73,7 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
             x = neighbor.x;
             y = neighbor.y;
             
-            ng = node.g + ((x - node.x === 0 || x - node.y === 0) ? SQRT2 : 1);
+            ng = node.g + ((x - node.x === 0 || y - node.y === 0) ? SQRT2 : 1);
 
             if (!neighbor.opened || ng < neighbor.g) {
                 neighbor.g = ng;
