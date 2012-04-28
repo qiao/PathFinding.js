@@ -32,7 +32,7 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         endNode = grid.getNodeAt(endX, endY),
         heuristic = this.heuristic,
         allowDiagonal = this.allowDiagonal,
-        node, neighbors, neighbor, i, l, dx, dy, ng,
+        node, neighbors, neighbor, i, l, x, y, dx, dy, ng,
         abs = Math.abs, SQRT2 = Math.SQRT2,
         BY_START = 1, BY_END = 2;
 
@@ -63,20 +63,23 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         for (i = 0, l = neighbors.length; i < l; ++i) {
             neighbor = neighbors[i];
 
-            if (neighbor.opened === BY_END) {
-                return Util.biBacktrace(node, neighbor);
-            }
-            
-            dx = abs(neighbor.x - node.x);
-            dy = abs(neighbor.y - node.y);
-            ng = node.g + ((dx === 1 && dy === 1) ? SQRT2 : 1);
-
             if (neighbor.closed) {
                 continue;
             }
+            if (neighbor.opened === BY_END) {
+                return Util.biBacktrace(node, neighbor);
+            }
+
+            x = neighbor.x;
+            y = neighbor.y;
+            
+            dx = x - node.x
+            dy = y - node.y
+            ng = node.g + ((dx === 0 || dy === 0) ? SQRT2 : 1);
+
             if (!neighbor.opened || ng < neighbor.g) {
                 neighbor.g = ng;
-                neighbor.h = neighbor.h || heuristic(dx, dy);
+                neighbor.h = neighbor.h || heuristic(abs(x - endX), abs(y - endY));
                 neighbor.f = neighbor.g + neighbor.h;
                 neighbor.parent = node;
                 if (!neighbor.opened) {
