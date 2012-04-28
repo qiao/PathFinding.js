@@ -31,7 +31,7 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         heuristic = this.heuristic,
         allowDiagonal = this.allowDiagonal,
         abs = Math.abs, SQRT2 = Math.SQRT2,
-        node, neighbors, neighbor, i, l, x, y;
+        node, neighbors, neighbor, i, l, x, y, ng;
 
     // set the `g` and `f` value of the start node to be 0
     startNode.g = 0;
