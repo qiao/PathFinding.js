@@ -24,7 +24,7 @@ function BiAStarFinder(opt) {
  */
 BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     var heapCmpFunc = function(nodeA, nodeB) {
-            return nodeA.f < nodeB.f;
+            return nodeA.f - nodeB.f;
         },
         startOpenList = new Heap(heapCmpFunc),
         endOpenList = new Heap(heapCmpFunc),
@@ -32,7 +32,7 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         endNode = grid.getNodeAt(endX, endY),
         heuristic = this.heuristic,
         allowDiagonal = this.allowDiagonal,
-        node, neighbors, neighbor, i, l, x, y, dx, dy, ng,
+        node, neighbors, neighbor, i, l, x, y, ng,
         abs = Math.abs, SQRT2 = Math.SQRT2,
         BY_START = 1, BY_END = 2;
 
@@ -51,8 +51,8 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     endOpenList.opened = BY_END;
 
     // while both open lists are not empty
-    while (!(startOpenList.isEmpty() ||
-             endOpenList.isEmpty())) {
+    while (!(startOpenList.empty() ||
+             endOpenList.empty())) {
 
         // expand start open list
 
@@ -73,9 +73,7 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
             x = neighbor.x;
             y = neighbor.y;
             
-            dx = x - node.x
-            dy = y - node.y
-            ng = node.g + ((dx === 0 || dy === 0) ? SQRT2 : 1);
+            ng = node.g + ((x - node.x === 0 || x - node.y === 0) ? SQRT2 : 1);
 
             if (!neighbor.opened || ng < neighbor.g) {
                 neighbor.g = ng;
@@ -86,7 +84,7 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
                     startOpenList.push(neighbor);
                     neighbor.opened = BY_START;
                 } else {
-                    startOpenList.heapify();
+                    startOpenList.updateItem(neighbor);
                 }
             }
         }
@@ -100,32 +98,29 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         for (i = 0, l = neighbors.length; i < l; ++i) {
             neighbor = neighbors[i];
 
+            if (neighbor.closed) {
+                continue;
+            }
             if (neighbor.opened === BY_START) {
                 return Util.biBacktrace(neighbor, node);
             }
             
-            dx = abs(neighbor.x - node.x);
-            dy = abs(neighbor.y - node.y);
-            ng = node.g + ((dx === 1 && dy === 1) ? SQRT2 : 1);
+            ng = node.g + ((x - node.x === 0 || y - node.y === 0) ? SQRT2 : 1);
 
-            if (neighbor.closed) {
-                continue;
-            }
             if (!neighbor.opened || ng < neighbor.g) {
                 neighbor.g = ng;
-                neighbor.h = neighbor.h || heuristic(dx, dy);
+                neighbor.h = neighbor.h || heuristic(abs(x - startX), abs(y - startY));
                 neighbor.f = neighbor.g + neighbor.h;
                 neighbor.parent = node;
                 if (!neighbor.opened) {
                     endOpenList.push(neighbor);
                     neighbor.opened = BY_END;
                 } else {
-                    endOpenList.heapify();
+                    endOpenList.updateItem(neighbor);
                 }
             }
-        }
-
-    }
+        } // end for each neighbor
+    } // end while not open list is empty
 
     // path not found
     return [];
