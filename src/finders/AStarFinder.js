@@ -29,9 +29,9 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         startNode = grid.getNodeAt(startX, startY),
         endNode = grid.getNodeAt(endX, endY),
         heuristic = this.heuristic,
+        abs = Math.abs, SQRT2 = Math.SQRT2,
         allowDiagonal = this.allowDiagonal,
-        node, neighbors, neighbor, i, l,
-        abs = Math.abs, SQRT2 = Math.SQRT2;
+        node, neighbors, neighbor, i, l, x, y;
 
     // set the `g` and `f` value of the start node to be 0
     startNode.g = 0;
@@ -56,23 +56,25 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         neighbors = grid.getNeighbors(node, allowDiagonal);
         for (i = 0, l = neighbors.length; i < l; ++i) {
             neighbor = neighbors[i];
-            // get the distance between current node and the neighbor
-            dx = abs(neighbor.x - node.x);
-            dy = abs(neighbor.y - node.y);
-
-            // calculate the next g score
-            ng = node.g + ((dx === 1 && dy === 1) ? SQRT2 : 1);
 
             if (neighbor.closed) {
                 continue;
             }
 
+            x = neighbor.x;
+            y = neighbor.y;
+
+            // get the distance between current node and the neighbor
+            // and calculate the next g score
+            dx = x - node.x;
+            dy = y - node.y;
+            ng = node.g + ((dx === 0 || dy === 0) ? 1 : SQRT2);
+
             // check if the neighbor has not been inspected yet, or
             // can be reached with smaller cost from the current node
             if (!neighbor.opened || ng < neighbor.g) {
-
                 neighbor.g = ng;
-                neighbor.h = neighbor.h || heuristic(dx, dy);
+                neighbor.h = neighbor.h || heuristic(abs(x - endX), abs(y - endY));
                 neighbor.f = neighbor.g + neighbor.h;
                 neighbor.parent = node;
 
