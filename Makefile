@@ -10,7 +10,8 @@ test:
 		./node_modules/.bin/mocha \
 			--require should \
 			--timeout $(TEST_TIMEOUT) \
-			--reporter $(TEST_REPORTER) 
+			--reporter $(TEST_REPORTER) \
+			--bail
 
 clean:
 	rm -f lib/pathfinding-browser.js
