@@ -135,7 +135,10 @@ Grid.prototype.getNeighbors = function(node, allowDiagonal) {
     var x = node.x,
         y = node.y,
         neighbors = [],
-        d0 = d1 = d2 = d3 = false, // diagonal valid
+        d0 = false,
+        d1 = false,
+        d2 = false,
+        d3 = false,
         nodes = this.nodes;
 
     // ↑
