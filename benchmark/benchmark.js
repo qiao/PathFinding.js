@@ -1,32 +1,10 @@
 #!/usr/bin/env node
 
-var PF = require('..');
-var parseMap = require('./parse_map').parse;
-
-/**
- * @param opts.mapFilename
- * @param opts.startX
- * @param opts.startY
- * @param opts.endX
- * @param opts.endY
- * @param opts.finder
- */
-function benchmark(opts) {
-  var map = parseMap(opts.mapFilename);
-  var grid = new PF.Grid(map.width, map.height, map.grid);
-
-  var result = profile(function() {
-    return opts.finder.findPath(
-      opts.startX, opts.startY,
-      opts.endX, opts.endY,
-      grid
-    );
-  });
-  var path = result.returnValue;
-  var time = result.time;
-  console.log(opts.name, 'length:', path.length, 'time:', time+'ms');
-}
-exports.benchmark = benchmark;
+var colors    = require('colors');
+var PF        = require('..');
+var parseMap  = require('./parse_map').parse;
+var parseScen = require('./parse_scen').parse;
+var testCases = require('./test_cases');
 
 function profile(callback) {
   var startTime = Date.now();
@@ -38,12 +16,62 @@ function profile(callback) {
   };
 }
 
-benchmark({
-  mapFilename: '64room_000.map',
-  startX: 496,
-  startY: 505,
-  endX: 48,
-  endY: 17,
-  name: 'AStarFinder',
-  finder: new PF.AStarFinder()
+/**
+ * @param {object} opt
+ * @param {string} opt.header
+ * @param {string} opt.footer
+ * @param {PF.*Finder} opt.finder
+ * @param {PF.Grid} opt.grid
+ * @param {number} opt.startX
+ * @param {number} opt.startY
+ * @param {number} opt.endX
+ * @param {number} opt.endY
+ */
+function benchmark(opt) {
+  var result = profile(function() {
+    return opt.finder.findPath(
+      opt.startX,
+      opt.startY,
+      opt.endX,
+      opt.endY,
+      opt.grid
+    );
+  });
+  var fields = [
+    opt.header,
+    (''+result.time + 'ms').yellow,
+    'length' , result.returnValue.length,
+    opt.footer,
+  ];
+  console.log(fields.join(' '));
+}
+
+function map2grid(map) {
+  return new PF.Grid(map.width, map.height, map.grid);
+}
+
+
+testCases.forEach(function(test) {
+
+  var grid = map2grid(parseMap(test.map));
+  var scens = parseScen(test.scen).scenarios;
+  var select = test.select;
+
+  select.forEach(function(id) {
+
+    var scen = scens[id];
+
+    var result = benchmark({
+      header: 'AStarFinder',
+      finder: new PF.AStarFinder,
+      grid: grid,
+      startX: scen.startX,
+      startY: scen.startY,
+      endX: scen.endX,
+      endY: scen.endY,
+      footer: '(optimal: '.grey + (''+scen.length).green + ')'.grey
+    });
+
+  });
+
 });
