@@ -6,8 +6,8 @@ var uglify     = require('uglify-js');
 var browserify = require('browserify');
 
 function build(dest) {
-  var browserified = browserify.bundle(__dirname + '/../src/pathfinding.js');
-  var namespaced   = 'var PF = (function() {' + browserified + 'return require("/pathfinding");})();';
+  var browserified = browserify.bundle(__dirname + '/../src/PathFinding.js');
+  var namespaced   = 'var PF = (function() {' + browserified + 'return require("/PathFinding");})();';
   var uglified     = uglify(namespaced);
   var bannered     = fs.readFileSync(__dirname + '/banner').toString() + uglified;
   fs.writeFileSync(dest, bannered);
