@@ -7,7 +7,7 @@ Introduction
 
 The aim of this project is to provide a path-finding library that can be easily incorporated into web games. It may run on Node.js or the browser.
 
-It comes along with an [online demo](http://qiao.github.com/PathFinding.js/visual) to show how the algorithms execute. (The animation speed is deliberately slowed down for you to see the expanding procedure)
+It comes along with an [online demo](http://qiao.github.com/PathFinding.js/visual) to show how the algorithms execute. (The pathfinding speed is slowed down in the demo)
 
 Server
 ------
@@ -68,7 +68,7 @@ var matrix = [
 var grid = new PF.Grid(5, 3, matrix);
 ```
 
-Currently there are eight path-finders bundled in this library, namely:
+Currently there are 9 path-finders bundled in this library, namely:
 
 *  `AStarFinder` *
 *  `BreadthFirstFinder` *
@@ -155,11 +155,11 @@ Developement
 Layout:
 
     .
-    |-- lib        # browser distribution
-    |-- src        # source code (algorithms only)
-    |-- test       # test scripts
-    |-- utils      # build scripts
-    `-- visual     # visualization
+    |-- lib          # browser distribution
+    |-- src          # source code (algorithms only)
+    |-- test         # test scripts
+    |-- utils        # build scripts
+    `-- visual       # visualization
 
 You will need to install `node.js` and use `npm` to install the dependencies: 
 
@@ -175,7 +175,7 @@ To run the tests
 (algorithms only, not including the visualization) with
 [mocha](http://visionmedia.github.com/mocha/) and [should.js](https://github.com/visionmedia/should.js) 
 
-    make tests
+    make test
 
 License
 -------

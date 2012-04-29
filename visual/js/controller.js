@@ -290,21 +290,39 @@ $.extend(Controller, {
     },
 
     /**
-     * Add hook on the `set' method of PF.Node. Then we can get the operations
+     * Define setters and getters of PF.Node, then we can get the operations
      * of the pathfinding.
      */
     hookPathFinding: function() {
-        var originalSet = PF.Node.prototype.set;
-        this.operations = [];
-        PF.Node.prototype.set = function() {
-            originalSet.apply(this, arguments);
-            Controller.operations.push({
-                x: this.x,
-                y: this.y,
-                attr: arguments[0],
-                value: arguments[1],
-            });
+
+        PF.Node.prototype = {
+            get opened() {
+                return this._opened;
+            },
+            set opened(v) {
+                this._opened = v;
+                Controller.operations.push({
+                    x: this.x,
+                    y: this.y,
+                    attr: 'opened',
+                    value: v
+                });
+            },
+            get closed() {
+                return this._closed;
+            },
+            set closed(v) {
+                this._closed = v;
+                Controller.operations.push({
+                    x: this.x,
+                    y: this.y,
+                    attr: 'closed',
+                    value: v
+                });
+            },
         };
+
+        this.operations = [];
     },
     bindEvents: function() {
         $('#draw_area').mousedown($.proxy(this.mousedown, this));
