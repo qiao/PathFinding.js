@@ -93,4 +93,8 @@ pathTests({
     name: 'BiBestFirst',
     finder: new PF.BiBestFirstFinder(),
     optimal: false
+}, {
+    name: 'JumpPoint',
+    finder: new PF.JumpPointFinder(),
+    optimal: false
 });
