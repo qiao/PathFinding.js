@@ -1,6 +1,6 @@
 {
     "name"            : "pathfinding"
-  , "version"         : "0.3.3"
+  , "version"         : "0.4.0"
   , "description"     : "Comprehensive pathfinding library for grid based games"
   , "homepage"        : "https://github.com/qiao/PathFinding.js"
   , "keywords"        : ["algorithm", "game"]
@@ -9,6 +9,7 @@
   , "dependencies"    : {}
   , "devDependencies" : {
       "uglify-js"       : ">= 1.2.5"
+    , "colors"          : "0.6.x"
     , "browserify"      : "1.10.8"
     , "mocha"           : "1.0.x"
     , "should"          : "0.6.x"
