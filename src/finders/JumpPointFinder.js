@@ -1,3 +1,6 @@
+/**
+ * @author aniero / https://github.com/aniero
+ */
 var Heap       = require('../core/Heap');
 var Util       = require('../core/Util')
 var Heuristic  = require('../core/Heuristic');
