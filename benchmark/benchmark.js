@@ -40,10 +40,14 @@ function benchmark(opt) {
   var fields = [
     opt.header,
     (''+result.time + 'ms').yellow,
-    'length' , result.returnValue.length,
+    'length' , formatFloat(PF.Util.pathLength(result.returnValue)),
     opt.footer,
   ];
   console.log(fields.join(' '));
+}
+
+function formatFloat(float) {
+  return Math.round(float * 1000) / 1000;
 }
 
 function map2grid(map) {
@@ -63,7 +67,7 @@ testCases.forEach(function(test) {
 
     var result = benchmark({
       header: 'AStarFinder',
-      finder: new PF.AStarFinder,
+      finder: new PF.AStarFinder({allowDiagonal: true}),
       grid: grid,
       startX: scen.startX,
       startY: scen.startY,
