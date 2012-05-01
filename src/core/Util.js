@@ -27,6 +27,24 @@ function biBacktrace(nodeA, nodeB) {
 };
 exports.biBacktrace = biBacktrace;
 
+/**
+ * Compute the length of the path.
+ */
+function pathLength(path) {
+    var i, sum = 0, a, b, dx, dy;
+    for (i = 1; i < path.length; ++i) {
+        a = path[i - 1];
+        b = path[i];
+        dx = a[0] - b[0];
+        dy = a[1] - b[1];
+        sum += Math.sqrt(dx * dx + dy * dy);
+    }
+    return sum;
+}
+exports.pathLength = pathLength;
+
+
+// XXX: not finished yet
 exports.smoothenPath = (function() {
     /**
      * Get the slope-intercept representation of a line passing
