@@ -147,14 +147,15 @@ var View = {
         switch (attr) {
         case 'walkable':
             color = value ? nodeStyle.normal.fill : nodeStyle.blocked.fill;
-            this.colorizeNodeAt(gridX, gridY, color);
-            this.zoomNodeAt(gridX, gridY);
+            this.setWalkableAt(gridX, gridY, value);
             break;
         case 'opened':
-            this.colorizeNodeAt(gridX, gridY, nodeStyle.opened.fill);
+            this.colorizeNode(this.rects[gridY][gridX], nodeStyle.opened.fill);
+            this.setCoordDirty(gridX, gridY, true);
             break;
         case 'closed':
-            this.colorizeNodeAt(gridX, gridY, nodeStyle.closed.fill);
+            this.colorizeNode(this.rects[gridY][gridX], nodeStyle.closed.fill);
+            this.setCoordDirty(gridX, gridY, true);
             break;
         case 'parent':
             // XXX: Maybe draw a line from this node to its parent?
@@ -164,23 +165,71 @@ var View = {
             console.error('unsupported operation: ' + attr + ':' + value);
             return;
         }
-        this.setCoordDirty(gridX, gridY, true);
     },
-    colorizeNodeAt: function(gridX, gridY, color) {
-        this.rects[gridY][gridX].animate({
+    colorizeNode: function(node, color) {
+        node.animate({
             fill: color
         }, this.nodeColorizeEffect.duration);
     },
-    zoomNodeAt: function(gridX, gridY) {
-        this.rects[gridY][gridX].toFront().attr({
+    zoomNode: function(node) {
+        node.toFront().attr({
             transform: this.nodeZoomEffect.transform,
         }).animate({
             transform: this.nodeZoomEffect.transformBack,
         }, this.nodeZoomEffect.duration);
     },
-    resetNodeAt: function(gridX, gridY) {
-        this.rects[gridY][gridX].attr(this.nodeStyle.normal);
-        this.setCoordDirty(gridX, gridY, false);
+    setWalkableAt: function(gridX, gridY, value) {
+        var node, i, blockedNodes = this.blockedNodes;
+        if (!blockedNodes) {
+            blockedNodes = this.blockedNodes = new Array(this.numRows);
+            for (i = 0; i < this.numCols; ++i) {
+                blockedNodes[i] = [];
+            }
+        }
+        node = blockedNodes[gridY][gridX];
+        if (value) {
+            // clear blocked node
+            if (node) {
+                this.colorizeNode(node, this.rects[gridY][gridX].attr('fill'));
+                this.zoomNode(node);
+                setTimeout(function() {
+                    node.remove();
+                }, this.nodeZoomEffect.duration);
+                blockedNodes[gridY][gridX] = null;
+            }
+        } else {
+            // draw blocked node
+            if (node) {
+                return;
+            }
+            node = blockedNodes[gridY][gridX] = this.rects[gridY][gridX].clone();
+            this.colorizeNode(node, this.nodeStyle.blocked.fill);
+            this.zoomNode(node);
+        }
+    },
+    clearFootprints: function() {
+        var i, x, y, coord, coords = this.getDirtyCoords();
+        for (i = 0; i < coords.length; ++i) {
+            coord = coords[i];
+            x = coord[0];
+            y = coord[1];
+            this.rects[y][x].attr(this.nodeStyle.normal);
+            this.setCoordDirty(x, y, false);
+        }
+    },
+    clearBlockedNodes: function() {
+        var i, j, blockedNodes = this.blockedNodes;
+        if (!blockedNodes) {
+            return;
+        }
+        for (i = 0; i < this.numRows; ++i) {
+            for (j = 0 ;j < this.numCols; ++j) {
+                if (blockedNodes[i][j]) {
+                    blockedNodes[i][j].remove();
+                    blockedNodes[i][j] = null;
+                }
+            }
+        }
     },
     drawPath: function(path) {
         if (!path.length) {

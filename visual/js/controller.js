@@ -8,84 +8,84 @@ var Controller = StateMachine.create({
     initial: 'none',
     events: [
         { 
-          name: 'init',
-          from: 'none',
-          to:   'ready'
+            name: 'init',
+            from: 'none',
+            to:   'ready'
         }, 
         { 
-          name: 'search',
-          from: 'starting',
-          to:   'searching'
+            name: 'search',
+            from: 'starting',
+            to:   'searching'
         },
         { 
-          name: 'pause',
-          from: 'searching',
-          to:   'paused'
+            name: 'pause',
+            from: 'searching',
+            to:   'paused'
         },
         { 
-          name: 'finish',
-          from: 'searching',
-          to:   'finished'
+            name: 'finish',
+            from: 'searching',
+            to:   'finished'
         },
         { 
-          name: 'resume',
-          from: 'paused',
-          to:   'searching'
+            name: 'resume',
+            from: 'paused',
+            to:   'searching'
         },
         { 
-          name: 'cancel',
-          from: 'paused',
-          to:   'ready'
+            name: 'cancel',
+            from: 'paused',
+            to:   'ready'
         },
         { 
-          name: 'modify',
-          from: 'finished',
-          to:   'modified'
+            name: 'modify',
+            from: 'finished',
+            to:   'modified'
         },
         { 
-          name: 'reset',
-          from: '*',
-          to:   'ready'
+            name: 'reset',
+            from: '*',
+            to:   'ready'
         },
         { 
-          name: 'clear', 
-          from: ['finished', 'modified'], 
-          to:   'ready'
+            name: 'clear', 
+            from: ['finished', 'modified'], 
+            to:   'ready'
         }, 
         { 
-          name: 'start', 
-          from: ['ready', 'modified', 'restarting'], 
-          to:   'starting'      
+            name: 'start', 
+            from: ['ready', 'modified', 'restarting'], 
+            to:   'starting'      
         },
         { 
-          name: 'restart', 
-          from: ['searching', 'finished'], 
-          to:   'restarting'
+            name: 'restart', 
+            from: ['searching', 'finished'], 
+            to:   'restarting'
         },
         { 
-          name: 'dragStart', 
-          from: ['ready', 'finished'],
-          to:   'draggingStart'
+            name: 'dragStart', 
+            from: ['ready', 'finished'],
+            to:   'draggingStart'
         },
         { 
-          name: 'dragEnd',
-          from: ['ready', 'finished'],
-          to:   'draggingEnd' 
+            name: 'dragEnd',
+            from: ['ready', 'finished'],
+            to:   'draggingEnd' 
         },
         { 
-          name: 'drawWall', 
-          from: ['ready', 'finished'],
-          to:   'drawingWall'
+            name: 'drawWall', 
+            from: ['ready', 'finished'],
+            to:   'drawingWall'
         },
         { 
-          name: 'eraseWall',
-          from: ['ready', 'finished'],
-          to:   'erasingWall'
+            name: 'eraseWall',
+            from: ['ready', 'finished'],
+            to:   'erasingWall'
         },
         { 
-          name: 'rest',
-          from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall'], 
-          to  : 'ready' 
+            name: 'rest',
+            from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall'], 
+            to  : 'ready' 
         },
     ],
 });
@@ -359,29 +359,12 @@ $.extend(Controller, {
         this.operations = [];
     },
     clearFootprints: function() {
-        var i, x, y, 
-            grid = this.grid,
-            dirtyCoords = View.getDirtyCoords();
-        for (i = 0; i < dirtyCoords.length; ++i) {
-            x = dirtyCoords[i][0];
-            y = dirtyCoords[i][1];
-
-            if (grid.isWalkableAt(x, y)) {
-                View.resetNodeAt(x, y);
-            }
-        }
+        View.clearFootprints();
         View.clearPath();
     },
     clearAll: function() {
-        var i, x, y, 
-            grid = this.grid,
-            dirtyCoords = View.getDirtyCoords();
-        for (i = 0; i < dirtyCoords.length; ++i) {
-            x = dirtyCoords[i][0];
-            y = dirtyCoords[i][1];
-            View.resetNodeAt(x, y);
-        }
-        View.clearPath();
+        this.clearFootprints();
+        View.clearBlockedNodes();
     },
     buildNewGrid: function() {
         this.grid = new PF.Grid(this.gridSize[0], this.gridSize[1]);
