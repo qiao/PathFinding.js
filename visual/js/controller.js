@@ -359,29 +359,12 @@ $.extend(Controller, {
         this.operations = [];
     },
     clearFootprints: function() {
-        var i, x, y, 
-            grid = this.grid,
-            dirtyCoords = View.getDirtyCoords();
-        for (i = 0; i < dirtyCoords.length; ++i) {
-            x = dirtyCoords[i][0];
-            y = dirtyCoords[i][1];
-
-            if (grid.isWalkableAt(x, y)) {
-                View.resetNodeAt(x, y);
-            }
-        }
+        View.clearFootprints();
         View.clearPath();
     },
     clearAll: function() {
-        var i, x, y, 
-            grid = this.grid,
-            dirtyCoords = View.getDirtyCoords();
-        for (i = 0; i < dirtyCoords.length; ++i) {
-            x = dirtyCoords[i][0];
-            y = dirtyCoords[i][1];
-            View.resetNodeAt(x, y);
-        }
-        View.clearPath();
+        this.clearFootprints();
+        View.clearBlockedNodes();
     },
     buildNewGrid: function() {
         this.grid = new PF.Grid(this.gridSize[0], this.gridSize[1]);
