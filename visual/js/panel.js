@@ -28,26 +28,26 @@ var Panel = {
         var finder, selected_header, heuristic, allowDiagonal, biDirectional;
         
         selected_header = $(
-            '#algorithm_panel ' + 
+            '#algorithm_panel ' +
             '.ui-accordion-header[aria-selected=true]'
         ).attr('id');
         
         switch (selected_header) {
 
-        case 'astar_header': 
+        case 'astar_header':
             allowDiagonal = typeof $('#astar_section ' +
-                                     '.allow_diagonal:checked').val() != 'undefined';
+                                     '.allow_diagonal:checked').val() !== 'undefined';
             biDirectional = typeof $('#astar_section ' +
-                                     '.bi-directional:checked').val() != 'undefined';
+                                     '.bi-directional:checked').val() !=='undefined';
             heuristic = $('input[name=astar_heuristic]:checked').val();
             if (biDirectional) {
                 finder = new PF.BiAStarFinder({
-                    allowDiagonal: allowDiagonal, 
+                    allowDiagonal: allowDiagonal,
                     heuristic: PF.Heuristic[heuristic]
                 });
             } else {
                 finder = new PF.AStarFinder({
-                    allowDiagonal: allowDiagonal, 
+                    allowDiagonal: allowDiagonal,
                     heuristic: PF.Heuristic[heuristic]
                 });
             }
@@ -55,9 +55,9 @@ var Panel = {
 
         case 'breadthfirst_header':
             allowDiagonal = typeof $('#breadthfirst_section ' +
-                                     '.allow_diagonal:checked').val() != 'undefined';
+                                     '.allow_diagonal:checked').val() !== 'undefined';
             biDirectional = typeof $('#breadthfirst_section ' +
-                                     '.bi-directional:checked').val() != 'undefined';
+                                     '.bi-directional:checked').val() !== 'undefined';
             if (biDirectional) {
                 finder = new PF.BiBreadthFirstFinder({allowDiagonal: allowDiagonal});
             } else {
@@ -67,18 +67,18 @@ var Panel = {
 
         case 'bestfirst_header':
             allowDiagonal = typeof $('#bestfirst_section ' +
-                                     '.allow_diagonal:checked').val() != 'undefined';
+                                     '.allow_diagonal:checked').val() !== 'undefined';
             biDirectional = typeof $('#bestfirst_section ' +
-                                     '.bi-directional:checked').val() != 'undefined';
+                                     '.bi-directional:checked').val() !== 'undefined';
             heuristic = $('input[name=bestfirst_heuristic]:checked').val();
             if (biDirectional) {
                 finder = new PF.BiBestFirstFinder({
-                    allowDiagonal: allowDiagonal, 
+                    allowDiagonal: allowDiagonal,
                     heuristic: PF.Heuristic[heuristic]
                 });
             } else {
                 finder = new PF.BestFirstFinder({
-                    allowDiagonal: allowDiagonal, 
+                    allowDiagonal: allowDiagonal,
                     heuristic: PF.Heuristic[heuristic]
                 });
             }
@@ -86,9 +86,9 @@ var Panel = {
 
         case 'dijkstra_header':
             allowDiagonal = typeof $('#dijkstra_section ' +
-                                     '.allow_diagonal:checked').val() != 'undefined';
+                                     '.allow_diagonal:checked').val() !== 'undefined';
             biDirectional = typeof $('#dijkstra_section ' +
-                                     '.bi-directional:checked').val() != 'undefined';
+                                     '.bi-directional:checked').val() !=='undefined';
             if (biDirectional) {
                 finder = new PF.BiDijkstraFinder({allowDiagonal: allowDiagonal});
             } else {

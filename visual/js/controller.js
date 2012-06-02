@@ -1,91 +1,91 @@
 /**
  * The visualization controller will works as a state machine.
  * See files under the `doc` folder for transition descriptions.
- * See https://github.com/jakesgordon/javascript-state-machine 
+ * See https://github.com/jakesgordon/javascript-state-machine
  * for the document of the StateMachine module.
  */
 var Controller = StateMachine.create({
     initial: 'none',
     events: [
-        { 
+        {
             name: 'init',
             from: 'none',
             to:   'ready'
-        }, 
-        { 
+        },
+        {
             name: 'search',
             from: 'starting',
             to:   'searching'
         },
-        { 
+        {
             name: 'pause',
             from: 'searching',
             to:   'paused'
         },
-        { 
+        {
             name: 'finish',
             from: 'searching',
             to:   'finished'
         },
-        { 
+        {
             name: 'resume',
             from: 'paused',
             to:   'searching'
         },
-        { 
+        {
             name: 'cancel',
             from: 'paused',
             to:   'ready'
         },
-        { 
+        {
             name: 'modify',
             from: 'finished',
             to:   'modified'
         },
-        { 
+        {
             name: 'reset',
             from: '*',
             to:   'ready'
         },
-        { 
-            name: 'clear', 
-            from: ['finished', 'modified'], 
+        {
+            name: 'clear',
+            from: ['finished', 'modified'],
             to:   'ready'
-        }, 
-        { 
-            name: 'start', 
-            from: ['ready', 'modified', 'restarting'], 
-            to:   'starting'      
         },
-        { 
-            name: 'restart', 
-            from: ['searching', 'finished'], 
+        {
+            name: 'start',
+            from: ['ready', 'modified', 'restarting'],
+            to:   'starting'
+        },
+        {
+            name: 'restart',
+            from: ['searching', 'finished'],
             to:   'restarting'
         },
-        { 
-            name: 'dragStart', 
+        {
+            name: 'dragStart',
             from: ['ready', 'finished'],
             to:   'draggingStart'
         },
-        { 
+        {
             name: 'dragEnd',
             from: ['ready', 'finished'],
-            to:   'draggingEnd' 
+            to:   'draggingEnd'
         },
-        { 
-            name: 'drawWall', 
+        {
+            name: 'drawWall',
             from: ['ready', 'finished'],
             to:   'drawingWall'
         },
-        { 
+        {
             name: 'eraseWall',
             from: ['ready', 'finished'],
             to:   'erasingWall'
         },
-        { 
+        {
             name: 'rest',
-            from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall'], 
-            to  : 'ready' 
+            from: ['draggingStart', 'draggingEnd', 'drawingWall', 'erasingWall'],
+            to  : 'ready'
         },
     ],
 });
@@ -105,7 +105,7 @@ $.extend(Controller, {
 
         View.init({
             numCols: numCols,
-            numRows: numRows 
+            numRows: numRows
         });
         View.generateGrid(function() {
             Controller.setDefaultStartEndPos();
@@ -128,7 +128,7 @@ $.extend(Controller, {
         this.setWalkableAt(gridX, gridY, true);
         // => erasingWall
     },
-    onsearch: function(event, from, to) { 
+    onsearch: function(event, from, to) {
         var grid,
             timeStart, timeEnd,
             finder = Panel.getFinder();
@@ -147,7 +147,7 @@ $.extend(Controller, {
     },
     onrestart: function() {
         // When clearing the colorized nodes, there may be
-        // nodes still animating, which is an asynchronous procedure. 
+        // nodes still animating, which is an asynchronous procedure.
         // Therefore, we have to defer the `abort` routine to make sure
         // that all the animations are done by the time we clear the colors.
         // The same reason applies for the `onreset` event handler.
@@ -158,7 +158,7 @@ $.extend(Controller, {
         }, View.nodeColorizeEffect.duration * 1.2);
         // => restarting
     },
-    onpause: function(event, from, to) { 
+    onpause: function(event, from, to) {
         // => paused
     },
     onresume: function(event, from, to) {
@@ -170,7 +170,7 @@ $.extend(Controller, {
         this.clearFootprints();
         // => ready
     },
-    onfinish: function(event, from, to) { 
+    onfinish: function(event, from, to) {
         View.showStats({
             pathLength: PF.Util.pathLength(this.path),
             timeSpent:  this.timeSpent,
@@ -179,12 +179,12 @@ $.extend(Controller, {
         View.drawPath(this.path);
         // => finished
     },
-    onclear: function(event, from, to) { 
+    onclear: function(event, from, to) {
         this.clearOperations();
         this.clearFootprints();
         // => ready
     },
-    onmodify: function(event, from, to) { 
+    onmodify: function(event, from, to) {
         // => modified
     },
     onreset: function(event, from, to) {
@@ -242,7 +242,7 @@ $.extend(Controller, {
             text: 'Pause Search',
             enabled: true,
             callback: $.proxy(this.pause, this),
-        })
+        });
         // => [paused, finished]
     },
     onpaused: function() {
@@ -368,7 +368,7 @@ $.extend(Controller, {
     },
     buildNewGrid: function() {
         this.grid = new PF.Grid(this.gridSize[0], this.gridSize[1]);
-    }, 
+    },
     mousedown: function (event) {
         var coord = View.toGridCoordinate(event.pageX, event.pageY),
             gridX = coord[0],
@@ -378,7 +378,7 @@ $.extend(Controller, {
         if (this.can('dragStart') && this.isStartPos(gridX, gridY)) {
             this.dragStart();
             return;
-        } 
+        }
         if (this.can('dragEnd') && this.isEndPos(gridX, gridY)) {
             this.dragEnd();
             return;
@@ -446,7 +446,7 @@ $.extend(Controller, {
         });
     },
     /**
-     * When initializing, this method will be called to set the positions 
+     * When initializing, this method will be called to set the positions
      * of start node and end node.
      * It will detect user's display size, and compute the best positions.
      */
