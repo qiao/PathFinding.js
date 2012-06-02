@@ -6,7 +6,7 @@ var Heuristic  = require('../core/Heuristic');
  * A* path-finder.
  * based upon https://github.com/bgrins/javascript-astar
  * @constructor
- * @param {object} opt 
+ * @param {object} opt
  * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed.
  * @param {function} opt.heuristic Heuristic function to estimate the distance
  *     (defaults to manhattan).
@@ -19,7 +19,7 @@ function AStarFinder(opt) {
 
 /**
  * Find and return the the path.
- * @return {Array.<[number, number]>} The path, including both start and 
+ * @return {Array.<[number, number]>} The path, including both start and
  *     end positions.
  */
 AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
@@ -81,7 +81,7 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
                     neighbor.opened = true;
                 } else {
                     // the neighbor can be reached with smaller cost.
-                    // Since its f value has been updated, we have to 
+                    // Since its f value has been updated, we have to
                     // update its position in the open list
                     openList.updateItem(neighbor);
                 }

@@ -5,8 +5,8 @@ var Node = require('./Node');
  * @constructor
  * @param {number} width Number of columns of the grid.
  * @param {number} height Number of rows of the grid.
- * @param {Array.<Array.<(number|boolean)>>} [matrix] - A 0-1 matrix 
- *     representing the walkable status of the nodes(0 or false for walkable). 
+ * @param {Array.<Array.<(number|boolean)>>} [matrix] - A 0-1 matrix
+ *     representing the walkable status of the nodes(0 or false for walkable).
  *     If the matrix is not supplied, all the nodes will be walkable.  */
 function Grid(width, height, matrix) {
     /**
@@ -24,7 +24,7 @@ function Grid(width, height, matrix) {
      * A 2D array of nodes.
      */
     this.nodes = this._buildNodes(width, height, matrix);
-};
+}
 
 /**
  * Build and return the nodes.
@@ -32,11 +32,11 @@ function Grid(width, height, matrix) {
  * @param {number} width
  * @param {number} height
  * @param {Array.<Array.<number|boolean>>} [matrix] - A 0-1 matrix representing
- *     the walkable status of the nodes. 
+ *     the walkable status of the nodes.
  * @see Grid
  */
 Grid.prototype._buildNodes = function(width, height, matrix) {
-    var i, j, 
+    var i, j,
         nodes = new Array(height),
         row;
 
@@ -44,7 +44,7 @@ Grid.prototype._buildNodes = function(width, height, matrix) {
         nodes[i] = new Array(width);
         for (j = 0; j < width; ++j) {
             nodes[i][j] = new Node(j, i);
-        }            
+        }
     }
 
 
@@ -58,7 +58,7 @@ Grid.prototype._buildNodes = function(width, height, matrix) {
 
     for (i = 0; i < height; ++i) {
         for (j = 0; j < width; ++j) {
-            if (matrix[i][j]) { 
+            if (matrix[i][j]) {
                 // 0, false, null will be walkable
                 // while others will be un-walkable
                 nodes[i][j].walkable = false;
@@ -80,7 +80,7 @@ Grid.prototype.getNodeAt = function(x, y) {
  * (Also returns false if the position is outside the grid.)
  * @param {number} x - The x coordinate of the node.
  * @param {number} y - The y coordinate of the node.
- * @return {boolean} - The walkability of the node. 
+ * @return {boolean} - The walkability of the node.
  */
 Grid.prototype.isWalkableAt = function(x, y) {
     return this.isInside(x, y) && this.nodes[y][x].walkable;
@@ -94,7 +94,7 @@ Grid.prototype.isWalkableAt = function(x, y) {
  * name for this method.
  * @param {number} x
  * @param {number} y
- * @return {boolean} 
+ * @return {boolean}
  */
 Grid.prototype.isInside = function(x, y) {
     return (x >= 0 && x < this.width) && (y >= 0 && y < this.height);
@@ -124,7 +124,7 @@ Grid.prototype.setWalkableAt = function(x, y, walkable) {
  *  +---+---+---+    +---+---+---+
  *  |   | 2 |   |    | 3 |   | 2 |
  *  +---+---+---+    +---+---+---+
- * 
+ *
  *  When allowDiagonal is true, if offsets[i] is valid, then
  *  diagonalOffsets[i] and
  *  diagonalOffsets[(i + 1) % 4] is valid.

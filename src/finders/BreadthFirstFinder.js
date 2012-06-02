@@ -13,7 +13,7 @@ function BreadthFirstFinder(opt) {
 
 /**
  * Find and return the the path.
- * @return {Array.<[number, number]>} The path, including both start and 
+ * @return {Array.<[number, number]>} The path, including both start and
  *     end positions.
  */
 BreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {

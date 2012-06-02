@@ -14,16 +14,16 @@ function BiBreadthFirstFinder(opt) {
 
 /**
  * Find and return the the path.
- * @return {Array.<[number, number]>} The path, including both start and 
+ * @return {Array.<[number, number]>} The path, including both start and
  *     end positions.
  */
 BiBreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
-    var startNode = grid.getNodeAt(startX, startY), 
+    var startNode = grid.getNodeAt(startX, startY),
         endNode = grid.getNodeAt(endX, endY),
         startOpenList = [], endOpenList = [],
         neighbors, neighbor, node,
         allowDiagonal = this.allowDiagonal,
-        BY_START = 0, BY_END = 1, 
+        BY_START = 0, BY_END = 1,
         i, l;
 
     // push the start and end nodes into the queues

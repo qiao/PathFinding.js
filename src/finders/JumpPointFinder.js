@@ -2,7 +2,7 @@
  * @author aniero / https://github.com/aniero
  */
 var Heap       = require('../core/Heap');
-var Util       = require('../core/Util')
+var Util       = require('../core/Util');
 var Heuristic  = require('../core/Heuristic');
 
 /**
@@ -63,13 +63,13 @@ JumpPointFinder.prototype.findPath = function(startX, startY, endX, endY, grid) 
  * @protected
  */
 JumpPointFinder.prototype._identifySuccessors = function(node) {
-    var grid = this.grid, 
+    var grid = this.grid,
         heuristic = this.heuristic,
         openList = this.openList,
         endX = this.endNode.x,
         endY = this.endNode.y,
         neighbors, neighbor,
-        jumpPoint, i, l, 
+        jumpPoint, i, l,
         x = node.x, y = node.y,
         jx, jy, dx, dy, d, ng, jumpNode,
         abs = Math.abs, max = Math.max;
@@ -176,9 +176,9 @@ JumpPointFinder.prototype._jump = function(x, y, px, py) {
  * @return {Array.<[number, number]>} The neighbors found.
  */
 JumpPointFinder.prototype._findNeighbors = function(node) {
-    var parent = node.parent, 
-        x = node.x, y = node.y, 
-        grid = this.grid, 
+    var parent = node.parent,
+        x = node.x, y = node.y,
+        grid = this.grid,
         px, py, nx, ny, dx, dy,
         neighbors = [], neighborNodes, neighborNode, i, l;
 
@@ -237,7 +237,7 @@ JumpPointFinder.prototype._findNeighbors = function(node) {
                 }
             }
         }
-    } 
+    }
     // return all neighbors
     else {
         neighborNodes = grid.getNeighbors(node, true);

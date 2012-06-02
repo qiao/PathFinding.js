@@ -11,20 +11,20 @@ function backtrace(node) {
         path.push([node.x, node.y]);
     }
     return path.reverse();
-};
+}
 exports.backtrace = backtrace;
 
 /**
  * Backtrace from start and end node, and return the path.
  * (including both start and end nodes)
  * @param {Node}
- * @param {Node} 
+ * @param {Node}
  */
 function biBacktrace(nodeA, nodeB) {
     var pathA = backtrace(nodeA),
         pathB = backtrace(nodeB);
     return pathA.concat(pathB.reverse());
-};
+}
 exports.biBacktrace = biBacktrace;
 
 /**
@@ -88,14 +88,14 @@ exports.smoothenPath = (function() {
             coord2 = tmp;
         }
 
-        // get line 
+        // get line
         line = getLineEquation(coord1, coord2);
         k = line.slope;
         b = line.intercept;
 
 
         // handle vertical line
-        if (slope == Infinity) {
+        if (slope === Infinity) {
             x = coord1[0];
             // enumerate y indices on the line
             for (y = coord1[1]; y < coord2[1]; ++y) {
@@ -129,7 +129,6 @@ exports.smoothenPath = (function() {
             }
         }
         return false;
-    };
+    }
 
 })();
-
