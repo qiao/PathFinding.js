@@ -29,6 +29,8 @@ exports.biBacktrace = biBacktrace;
 
 /**
  * Compute the length of the path.
+ * @param {Array.<Array.<number>>} path The path
+ * @return {number} The length of the path
  */
 function pathLength(path) {
     var i, sum = 0, a, b, dx, dy;
@@ -44,91 +46,102 @@ function pathLength(path) {
 exports.pathLength = pathLength;
 
 
-// XXX: not finished yet
-exports.smoothenPath = (function() {
-    /**
-     * Get the slope-intercept representation of a line passing
-     * through the given two coordinates.
-     * @private
-     * @param {[number, number]} coord1
-     * @param {[number, number]} coord2
-     * @return {object} A hash containing the slope and intercept of the line
-     */
-    function getLineEquation(coord1, coord2) {
-        var x1 = coord1[0],
-            y1 = coord1[1],
-            x2 = coord2[0],
-            y2 = coord2[1],
+/**
+ * Given the start and end coordinates, return all the coordinates lying
+ * on the line formed by these coordinates, based on Bresenham's algorithm.
+ * http://en.wikipedia.org/wiki/Bresenham's_line_algorithm#Simplification
+ * @param {number} x0 Start x coordinate
+ * @param {number} y0 Start y coordinate
+ * @param {number} x1 End x coordinate
+ * @param {number} y1 End y coordinate
+ * @return {Array.<Array.<number>>} The coordinates on the line
+ */
+function getLine(x0, y0, x1, y1) {
+    var abs = Math.abs,
+        line = [],
+        sx, sy, dx, dy, err, e2;
 
-            k = (y2 - y1) / (x2 - x1);
-            b = y1 - k * x1;
+    dx = abs(x1 - x0);
+    dy = abs(y1 - y0);
 
-        return {
-            slope: k,
-            intercept: b
-        };
+    sx = (x0 < x1) ? 1 : -1;
+    sy = (y0 < y1) ? 1 : -1;
+
+    err = dx - dy;
+
+    while (true) {
+        line.push([x0, y0]);
+
+        if (x0 === x1 && y0 === y1) {
+            break;
+        }
+        
+        e2 = 2 * err;
+        if (e2 > -dy) {
+            err = err - dy;
+            x0 = x0 + sx;
+        }
+        if (e2 < dx) {
+            err = err + dx;
+            y0 = y0 + sy;
+        }
     }
 
-    /**
-     * Determine whether the line passing through coord1 and coord2 intersects
-     * with an unwalkable node in the grid.
-     * @private
-     * @param {[number, number]} coord1
-     * @param {[number, number]} coord2
-     * @param {PF.Grid} grid
-     * @return {boolean}
-     */
-    function intersects(coord1, coord2, grid) {
-        var tmp, line, k, b, x, y;
-
-        // make sure that coord1 is beneath coord2
-        if (coord1[1] > coord2[1]) {
-            tmp = coord1;
-            coord1 = coord2;
-            coord2 = tmp;
-        }
-
-        // get line
-        line = getLineEquation(coord1, coord2);
-        k = line.slope;
-        b = line.intercept;
+    return line;
+}
+exports.getLine = getLine;
 
 
-        // handle vertical line
-        if (slope === Infinity) {
-            x = coord1[0];
-            // enumerate y indices on the line
-            for (y = coord1[1]; y < coord2[1]; ++y) {
-                if (!grid.isWalkableAt(x, y)) {
-                    return true;
-                }
-            }
-            return false;
-        }
+/**
+ * Smoothen the give path.
+ * The original path will not be modified; a new path will be returned.
+ * @param {PF.Grid} grid
+ * @param {Array.<Array.<number>>} path The path
+ * @return {Array.<Array.<number>>} Smoothened path
+ */
+function smoothenPath(grid, path) {
+    var len = path.length,
+        x0 = path[0][0],        // path start x
+        y0 = path[0][1],        // path start y
+        x1 = path[len - 1][0],  // path end x
+        y1 = path[len - 1][1],  // path end y
+        sx, sy,                 // current start coordinate
+        ex, ey,                 // current end coordinate
+        lx, ly,                 // last valid end coordinate
+        newPath,
+        i, j, coord, line, testCoord, blocked;
 
-        // enumerate y indices on the line
-        for (y = coord1[1]; y < coord2[1]; ++y) {
-            x = ~~(y / k - b + 0.5);
-            if (!grid.isWalkableAt(x, y)) {
-                return true;
-            }
-        }
+    sx = x0;
+    sy = y0;
+    lx = path[1][0];
+    ly = path[1][1];
+    newPath = [[sx, sy]];
 
-        // make sure that coord1 is to the left of coord2
-        if (coord1[0] > coord2[0]) {
-            tmp = coord1;
-            coord1 = coord2;
-            coord2 = tmp;
-        }
+    for (i = 2; i < len; ++i) {
+        coord = path[i];
+        ex = coord[0];
+        ey = coord[1];
+        line = getLine(sx, sy, ex, ey);
 
-        // enumerate x indices on the line
-        for (x = coord1[0]; x < coord2[0]; ++x) {
-            y = ~~(k * x + b + 0.5);
-            if (!grid.isWalkableAt(x, y)) {
-                return true;
+        blocked = false;
+        for (j = 1; j < line.length; ++j) {
+            testCoord = line[j];
+
+            if (!grid.isWalkableAt(testCoord[0], testCoord[1])) {
+                blocked = true;
+                newPath.push([lx, ly]);
+                sx = lx;
+                sy = ly;
+                break;
             }
         }
-        return false;
+        if (!blocked) {
+            lx = ex;
+            ly = ey;
+        }
     }
+    newPath.push([x1, y1]);
 
-})();
+    return newPath;
+}
+exports.smoothenPath = smoothenPath;
