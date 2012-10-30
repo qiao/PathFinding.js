@@ -149,6 +149,17 @@ var finder = new PF.BestFirstFinder({
 });
 ```
 
+To smoothen the path, you may use `PF.Util.smoothenPath`. This routine will return
+a new path with the original one unmodified.
+
+```javascript
+var newPath = PF.Util.smoothenPath(grid, path);
+```
+
+Note that the new path will be compressed as well, i.e. if the original path is
+`[[0, 1], [0, 2], [0, 3], [0, 4]]`, then the new path will be `[[0, 1], [0, 4]]`.
+
+
 Developement
 ------------
 
