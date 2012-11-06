@@ -5,10 +5,12 @@ var Util = require('../core/Util');
  * @constructor
  * @param {object} opt
  * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed.
+ * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching block corners.
  */
 function BreadthFirstFinder(opt) {
     opt = opt || {};
     this.allowDiagonal = opt.allowDiagonal;
+    this.dontCrossCorners = opt.dontCrossCorners;
 }
 
 /**
@@ -19,6 +21,7 @@ function BreadthFirstFinder(opt) {
 BreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     var openList = [],
         allowDiagonal = this.allowDiagonal,
+        dontCrossCorners = this.dontCrossCorners,
         startNode = grid.getNodeAt(startX, startY),
         endNode = grid.getNodeAt(endX, endY),
         neighbors, neighbor, node, i, l;
@@ -38,7 +41,7 @@ BreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, gri
             return Util.backtrace(endNode);
         }
 
-        neighbors = grid.getNeighbors(node, allowDiagonal);
+        neighbors = grid.getNeighbors(node, allowDiagonal, dontCrossCorners);
         for (i = 0, l = neighbors.length; i < l; ++i) {
             neighbor = neighbors[i];
 

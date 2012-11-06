@@ -6,6 +6,7 @@ var AStarFinder = require('./AStarFinder');
  * @extends AStarFinder
  * @param {object} opt
  * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed.
+ * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching block corners.
  * @param {function} opt.heuristic Heuristic function to estimate the distance
  *     (defaults to manhattan).
  */

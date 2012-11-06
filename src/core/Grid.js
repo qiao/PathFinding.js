@@ -130,40 +130,53 @@ Grid.prototype.setWalkableAt = function(x, y, walkable) {
  *  diagonalOffsets[(i + 1) % 4] is valid.
  * @param {Node} node
  * @param {boolean} allowDiagonal
+ * @param {boolean} dontCrossCorners
  */
-Grid.prototype.getNeighbors = function(node, allowDiagonal) {
+Grid.prototype.getNeighbors = function(node, allowDiagonal, dontCrossCorners) {
     var x = node.x,
         y = node.y,
         neighbors = [],
-        d0 = false,
-        d1 = false,
-        d2 = false,
-        d3 = false,
+        s0 = false, d0 = false,
+        s1 = false, d1 = false,
+        s2 = false, d2 = false,
+        s3 = false, d3 = false,
         nodes = this.nodes;
 
     // ↑
     if (this.isWalkableAt(x, y - 1)) {
         neighbors.push(nodes[y - 1][x]);
-        d0 = d1 = true;
+        s0 = true;
     }
     // →
     if (this.isWalkableAt(x + 1, y)) {
         neighbors.push(nodes[y][x + 1]);
-        d1 = d2 = true;
+        s1 = true;
     }
     // ↓
     if (this.isWalkableAt(x, y + 1)) {
         neighbors.push(nodes[y + 1][x]);
-        d2 = d3 = true;
+        s2 = true;
     }
     // ←
     if (this.isWalkableAt(x - 1, y)) {
         neighbors.push(nodes[y][x - 1]);
-        d3 = d0 = true;
+        s3 = true;
     }
 
     if (!allowDiagonal) {
         return neighbors;
+    }
+
+    if (dontCrossCorners) {
+        d0 = s3 && s0;
+        d1 = s0 && s1;
+        d2 = s1 && s2;
+        d3 = s2 && s3;
+    } else {
+        d0 = s3 || s0;
+        d1 = s0 || s1;
+        d2 = s1 || s2;
+        d3 = s2 || s3;
     }
 
     // ↖
