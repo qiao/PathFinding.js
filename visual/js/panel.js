@@ -62,10 +62,18 @@ var Panel = {
                                      '.allow_diagonal:checked').val() !== 'undefined';
             biDirectional = typeof $('#breadthfirst_section ' +
                                      '.bi-directional:checked').val() !== 'undefined';
+            dontCrossCorners = typeof $('#breadthfirst_section ' +
+                                     '.dont_cross_corners:checked').val() !=='undefined';
             if (biDirectional) {
-                finder = new PF.BiBreadthFirstFinder({allowDiagonal: allowDiagonal});
+                finder = new PF.BiBreadthFirstFinder({
+                    allowDiagonal: allowDiagonal,
+                    dontCrossCorners: dontCrossCorners
+                });
             } else {
-                finder = new PF.BreadthFirstFinder({allowDiagonal: allowDiagonal});
+                finder = new PF.BreadthFirstFinder({
+                    allowDiagonal: allowDiagonal,
+                    dontCrossCorners: dontCrossCorners
+                });
             }
             break;
 
@@ -74,15 +82,19 @@ var Panel = {
                                      '.allow_diagonal:checked').val() !== 'undefined';
             biDirectional = typeof $('#bestfirst_section ' +
                                      '.bi-directional:checked').val() !== 'undefined';
+            dontCrossCorners = typeof $('#bestfirst_section ' +
+                                     '.dont_cross_corners:checked').val() !=='undefined';
             heuristic = $('input[name=bestfirst_heuristic]:checked').val();
             if (biDirectional) {
                 finder = new PF.BiBestFirstFinder({
                     allowDiagonal: allowDiagonal,
+                    dontCrossCorners: dontCrossCorners,
                     heuristic: PF.Heuristic[heuristic]
                 });
             } else {
                 finder = new PF.BestFirstFinder({
                     allowDiagonal: allowDiagonal,
+                    dontCrossCorners: dontCrossCorners,
                     heuristic: PF.Heuristic[heuristic]
                 });
             }
@@ -93,10 +105,18 @@ var Panel = {
                                      '.allow_diagonal:checked').val() !== 'undefined';
             biDirectional = typeof $('#dijkstra_section ' +
                                      '.bi-directional:checked').val() !=='undefined';
+            dontCrossCorners = typeof $('#dijkstra_section ' +
+                                     '.dont_cross_corners:checked').val() !=='undefined';
             if (biDirectional) {
-                finder = new PF.BiDijkstraFinder({allowDiagonal: allowDiagonal});
+                finder = new PF.BiDijkstraFinder({
+                    allowDiagonal: allowDiagonal,
+                    dontCrossCorners: dontCrossCorners
+                });
             } else {
-                finder = new PF.DijkstraFinder({allowDiagonal: allowDiagonal});
+                finder = new PF.DijkstraFinder({
+                    allowDiagonal: allowDiagonal,
+                    dontCrossCorners: dontCrossCorners
+                });
             }
             break;
 
