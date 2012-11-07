@@ -8,12 +8,14 @@ var Heuristic  = require('../core/Heuristic');
  * @constructor
  * @param {object} opt
  * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed.
+ * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching block corners.
  * @param {function} opt.heuristic Heuristic function to estimate the distance
  *     (defaults to manhattan).
  */
 function AStarFinder(opt) {
     opt = opt || {};
     this.allowDiagonal = opt.allowDiagonal;
+    this.dontCrossCorners = opt.dontCrossCorners;
     this.heuristic = opt.heuristic || Heuristic.manhattan;
 }
 
@@ -30,6 +32,7 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         endNode = grid.getNodeAt(endX, endY),
         heuristic = this.heuristic,
         allowDiagonal = this.allowDiagonal,
+        dontCrossCorners = this.dontCrossCorners,
         abs = Math.abs, SQRT2 = Math.SQRT2,
         node, neighbors, neighbor, i, l, x, y, ng;
 
@@ -53,7 +56,7 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         }
 
         // get neigbours of the current node
-        neighbors = grid.getNeighbors(node, allowDiagonal);
+        neighbors = grid.getNeighbors(node, allowDiagonal, dontCrossCorners);
         for (i = 0, l = neighbors.length; i < l; ++i) {
             neighbor = neighbors[i];
 

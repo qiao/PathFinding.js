@@ -25,7 +25,7 @@ var Panel = {
      * TODO: clean up this messy code.
      */
     getFinder: function() {
-        var finder, selected_header, heuristic, allowDiagonal, biDirectional;
+        var finder, selected_header, heuristic, allowDiagonal, biDirectional, dontCrossCorners;
         
         selected_header = $(
             '#algorithm_panel ' +
@@ -39,15 +39,19 @@ var Panel = {
                                      '.allow_diagonal:checked').val() !== 'undefined';
             biDirectional = typeof $('#astar_section ' +
                                      '.bi-directional:checked').val() !=='undefined';
+            dontCrossCorners = typeof $('#astar_section ' +
+                                     '.dont_cross_corners:checked').val() !=='undefined';
             heuristic = $('input[name=astar_heuristic]:checked').val();
             if (biDirectional) {
                 finder = new PF.BiAStarFinder({
                     allowDiagonal: allowDiagonal,
+                    dontCrossCorners: dontCrossCorners,
                     heuristic: PF.Heuristic[heuristic]
                 });
             } else {
                 finder = new PF.AStarFinder({
                     allowDiagonal: allowDiagonal,
+                    dontCrossCorners: dontCrossCorners,
                     heuristic: PF.Heuristic[heuristic]
                 });
             }

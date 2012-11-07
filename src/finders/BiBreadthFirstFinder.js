@@ -5,10 +5,12 @@ var Util = require('../core/Util');
  * @constructor
  * @param {object} opt
  * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed.
+ * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching block corners.
  */
 function BiBreadthFirstFinder(opt) {
     opt = opt || {};
     this.allowDiagonal = opt.allowDiagonal;
+    this.dontCrossCorners = opt.dontCrossCorners;
 }
 
 
@@ -23,6 +25,7 @@ BiBreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, g
         startOpenList = [], endOpenList = [],
         neighbors, neighbor, node,
         allowDiagonal = this.allowDiagonal,
+        dontCrossCorners = this.dontCrossCorners,
         BY_START = 0, BY_END = 1,
         i, l;
 
@@ -43,7 +46,7 @@ BiBreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, g
         node = startOpenList.shift();
         node.closed = true;
 
-        neighbors = grid.getNeighbors(node, allowDiagonal);
+        neighbors = grid.getNeighbors(node, allowDiagonal, dontCrossCorners);
         for (i = 0, l = neighbors.length; i < l; ++i) {
             neighbor = neighbors[i];
 
@@ -69,7 +72,7 @@ BiBreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, g
         node = endOpenList.shift();
         node.closed = true;
 
-        neighbors = grid.getNeighbors(node, allowDiagonal);
+        neighbors = grid.getNeighbors(node, allowDiagonal, dontCrossCorners);
         for (i = 0, l = neighbors.length; i < l; ++i) {
             neighbor = neighbors[i];
 
