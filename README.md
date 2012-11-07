@@ -126,6 +126,19 @@ var finder = new PF.AStarFinder({
 });
 ```
 
+When diagonal movement is enabled, you might want to prevent the path from touching the corners of the occupied grid blocks. This is usually desirable if the objects using the path have physical width and can also move between the grid cells.
+
+To enable the corner crossing prevention:
+
+```javascript
+var finder = new PF.AStarFinder({
+    allowDiagonal: true,
+    dontCrossCorners: true
+});
+```
+
+Note that `dontCrossCorners` only makes sense when `allowDiagonal` is also used. Currently all algorithms except `JumpPointFinder` support this feature.
+
 For `AStarFinder`, `BestFirstFinder` and all their `Bi` relatives, you may indicate which heuristic function to use.
 
 The predefined heuristics are `PF.Heuristic.manhattan`(defalut), `PF.Heuristic.chebyshev` and `PF.Heuristic.euclidean`.
