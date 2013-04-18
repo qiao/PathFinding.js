@@ -17,7 +17,7 @@ function JumpPointFinder(opt) {
 }
 
 /**
- * Find and return the the path.
+ * Find and return the path.
  * @return {Array.<[number, number]>} The path, including both start and
  *     end positions.
  */
