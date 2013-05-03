@@ -133,14 +133,14 @@ $.extend(Controller, {
             timeStart, timeEnd,
             finder = Panel.getFinder();
 
-        timeStart = Date.now();
+        timeStart = window.performance ? performance.now() : Date.now();
         grid = this.grid.clone();
         this.path = finder.findPath(
             this.startX, this.startY, this.endX, this.endY, grid
         );
         this.operationCount = this.operations.length;
-        timeEnd = Date.now();
-        this.timeSpent = timeEnd - timeStart;
+        timeEnd = window.performance ? performance.now() : Date.now();
+        this.timeSpent = (timeEnd - timeStart).toFixed(4);
 
         this.loop();
         // => searching
