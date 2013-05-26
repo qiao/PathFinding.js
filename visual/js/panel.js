@@ -62,7 +62,7 @@ var Panel = {
                     dontCrossCorners: dontCrossCorners,
                     heuristic: PF.Heuristic[heuristic],
                     weight: weight, 
-					avoidStaircase: avoidStaircase
+                    avoidStaircase: avoidStaircase
                 });
             }
             break;
