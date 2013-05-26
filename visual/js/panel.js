@@ -41,6 +41,8 @@ var Panel = {
                                      '.bi-directional:checked').val() !=='undefined';
             dontCrossCorners = typeof $('#astar_section ' +
                                      '.dont_cross_corners:checked').val() !=='undefined';
+            avoidStaircase = typeof $('#astar_section ' +
+                                     '.avoid_staircase:checked').val() !=='undefined';
 
             /* parseInt returns NaN (which is falsy) if the string can't be parsed */
             weight = parseInt($('#astar_section .spinner').val()) || 1;
@@ -59,7 +61,8 @@ var Panel = {
                     allowDiagonal: allowDiagonal,
                     dontCrossCorners: dontCrossCorners,
                     heuristic: PF.Heuristic[heuristic],
-                    weight: weight
+                    weight: weight, 
+                    avoidStaircase: avoidStaircase
                 });
             }
             break;
