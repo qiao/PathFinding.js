@@ -137,3 +137,7 @@ footer {
 .red {
     color: #ff9166;
 }
+
+.spinner {
+    width: 2em;
+}

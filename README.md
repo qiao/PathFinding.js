@@ -30,10 +30,10 @@ Now skip to the `Basic Usage` section of this readme.
 Browser
 -------
 
-Download the [minified js file](http://qiao.github.com/PathFinding.js/lib/pathfinding-browser.js) and include it in your web page.
+Download the [minified js file](https://github.com/qiao/PathFinding.js/raw/master/lib/pathfinding-browser.min.js) and include it in your web page.
 
 ```html
-<script type="text/javascript" src="./pathfinding-browser.js"></script>
+<script type="text/javascript" src="./pathfinding-browser.min.js"></script>
 ```
 
 Basic Usage
@@ -126,6 +126,19 @@ var finder = new PF.AStarFinder({
 });
 ```
 
+When diagonal movement is enabled, you might want to prevent the path from touching the corners of the occupied grid blocks. This is usually desirable if the objects using the path have physical width and can also move between the grid cells.
+
+To enable the corner crossing prevention:
+
+```javascript
+var finder = new PF.AStarFinder({
+    allowDiagonal: true,
+    dontCrossCorners: true
+});
+```
+
+Note that `dontCrossCorners` only makes sense when `allowDiagonal` is also used. Currently all algorithms except `JumpPointFinder` support this feature.
+
 For `AStarFinder`, `BestFirstFinder` and all their `Bi` relatives, you may indicate which heuristic function to use.
 
 The predefined heuristics are `PF.Heuristic.manhattan`(defalut), `PF.Heuristic.chebyshev` and `PF.Heuristic.euclidean`.
@@ -148,6 +161,17 @@ var finder = new PF.BestFirstFinder({
     }
 });
 ```
+
+To smoothen the path, you may use `PF.Util.smoothenPath`. This routine will return
+a new path with the original one unmodified.
+
+```javascript
+var newPath = PF.Util.smoothenPath(grid, path);
+```
+
+Note that the new path will be compressed as well, i.e. if the original path is
+`[[0, 1], [0, 2], [0, 3], [0, 4]]`, then the new path will be `[[0, 1], [0, 4]]`.
+
 
 Developement
 ------------

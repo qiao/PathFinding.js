@@ -56,12 +56,12 @@ var View = {
     /**
      * Generate the grid asynchronously.
      * This method will be a very expensive task.
-     * Therefore, in order to not to block the rendering of browser ui, 
+     * Therefore, in order to not to block the rendering of browser ui,
      * I decomposed the task into smaller ones. Each will only generate a row.
      */
     generateGrid: function(callback) {
-        var i, j, x, y, 
-            rect, 
+        var i, j, x, y,
+            rect,
             normalStyle, nodeSize,
             createRowTask, sleep, tasks,
             nodeSize    = this.nodeSize,
@@ -86,7 +86,7 @@ var View = {
                     rects[rowId].push(rect);
                 }
                 $stats.text(
-                    'generating grid ' + 
+                    'generating grid ' +
                     Math.round((rowId + 1) / numRows * 100) + '%'
                 );
                 done(null);
@@ -117,7 +117,7 @@ var View = {
             this.startNode = this.paper.rect(
                 coord[0],
                 coord[1],
-                this.nodeSize, 
+                this.nodeSize,
                 this.nodeSize
             ).attr(this.nodeStyle.normal)
              .animate(this.nodeStyle.start, 1000);
@@ -131,7 +131,7 @@ var View = {
             this.endNode = this.paper.rect(
                 coord[0],
                 coord[1],
-                this.nodeSize, 
+                this.nodeSize,
                 this.nodeSize
             ).attr(this.nodeStyle.normal)
              .animate(this.nodeStyle.end, 1000);
@@ -244,11 +244,11 @@ var View = {
     buildSvgPath: function(path) {
         var i, strs = [], size = this.nodeSize;
 
-        strs.push('M' + (path[0][0] * size + size / 2) + ' ' 
-                + (path[0][1] * size + size / 2));
+        strs.push('M' + (path[0][0] * size + size / 2) + ' ' +
+                  (path[0][1] * size + size / 2));
         for (i = 1; i < path.length; ++i) {
-            strs.push('L' + (path[i][0] * size + size / 2) + ' ' 
-                    + (path[i][1] * size + size / 2));
+            strs.push('L' + (path[i][0] * size + size / 2) + ' ' +
+                      (path[i][1] * size + size / 2));
         }
 
         return strs.join('');
@@ -263,7 +263,7 @@ var View = {
      */
     toGridCoordinate: function(pageX, pageY) {
         return [
-            Math.floor(pageX / this.nodeSize), 
+            Math.floor(pageX / this.nodeSize),
             Math.floor(pageY / this.nodeSize)
         ];
     },
@@ -272,7 +272,7 @@ var View = {
      */
     toPageCoordinate: function(gridX, gridY) {
         return [
-            gridX * this.nodeSize, 
+            gridX * this.nodeSize,
             gridY * this.nodeSize
         ];
     },
