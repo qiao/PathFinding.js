@@ -12,7 +12,7 @@ function build(dest, options) {
   var browserified = browserify.bundle(__dirname + '/../src/PathFinding.js');
   var namespaced   = 'var PF = (function() {' + browserified + 'return require("/PathFinding");})();';
   var bannered     = fs.readFileSync(__dirname + '/banner').toString() + namespaced;
-  fs.writeFileSync(dest, options.uglify ? uglify(bannered) : bannered);
+  fs.writeFileSync(dest, options.uglify ? uglify.minify(bannered, {fromString: true}) : bannered);
   console.log('built', path.resolve(dest));
 }
 

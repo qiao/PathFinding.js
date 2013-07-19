@@ -8,7 +8,7 @@
   , "main"            : "./index.js"
   , "dependencies"    : {}
   , "devDependencies" : {
-      "uglify-js"       : ">= 1.2.5"
+      "uglify-js"       : "2.3.6"
     , "colors"          : "0.6.x"
     , "browserify"      : "1.10.8"
     , "mocha"           : "1.0.x"
