@@ -110,7 +110,7 @@ JumpPointFinder.prototype._identifySuccessors = function(node) {
 };
 
 /**
- Search recursively in the direction (parent -> child), stopping only when a
+ * Search recursively in the direction (parent -> child), stopping only when a
  * jump point is found.
  * @protected
  * @return {Array.<[number, number]>} The x, y coordinate of the jump point
