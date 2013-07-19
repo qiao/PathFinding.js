@@ -2,19 +2,36 @@
 
 var fs         = require('fs');
 var path       = require('path');
-var uglify     = require('uglify-js');
+var uglifyjs   = require('uglify-js');
 var browserify = require('browserify');
 
-function build(dest, options) {
-  options || (options = {});
-  options.uglify || (options.uglify = false);
+function bundle(file, callback) {
+  var opts = { standalone: 'PF' };
+  browserify(file).bundle(opts, callback);
+}
 
-  var browserified = browserify.bundle(__dirname + '/../src/PathFinding.js');
-  var namespaced   = 'var PF = (function() {' + browserified + 'return require("/PathFinding");})();';
-  var bannered     = fs.readFileSync(__dirname + '/banner').toString() + namespaced;
-  fs.writeFileSync(dest, options.uglify ? uglify.minify(bannered, {fromString: true}) : bannered);
-  console.log('built', path.resolve(dest));
+function addBanner(source) {
+  var banner = fs.readFileSync(__dirname + '/banner').toString();
+  return banner + source;
+}
+
+function minify(source) {
+  var opts = { fromString: true };
+  return uglifyjs.minify(source, opts);
+}
+
+function build(dest, options) {
+  options = options || {};
+
+  var src = __dirname + '/../src/PathFinding.js';
+
+  bundle(src, function (err, bundled) {
+    var bannered = addBanner(bundled);
+    var content = options.minify ? minify(bannered) : bannered;
+    fs.writeFileSync(dest, content);
+    console.log('built', path.resolve(dest));
+  });
 }
 
 build(__dirname + '/../lib/pathfinding-browser.js');
-build(__dirname + '/../lib/pathfinding-browser.min.js', { uglify: true });
+build(__dirname + '/../lib/pathfinding-browser.min.js', { minify: true });
