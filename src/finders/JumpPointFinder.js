@@ -14,6 +14,7 @@ var Heuristic  = require('../core/Heuristic');
 function JumpPointFinder(opt) {
     opt = opt || {};
     this.heuristic = opt.heuristic || Heuristic.manhattan;
+    this.trackJumpRecursion = opt.trackJumpRecursion || false;
 }
 
 /**
@@ -123,7 +124,12 @@ JumpPointFinder.prototype._jump = function(x, y, px, py) {
     if (!grid.isWalkableAt(x, y)) {
         return null;
     }
-    else if (grid.getNodeAt(x, y) === this.endNode) {
+    
+    if(this.trackJumpRecursion === true) {
+        grid.getNodeAt(x, y).jumptest = true;
+    }
+    
+    if (grid.getNodeAt(x, y) === this.endNode) {
         return [x, y];
     }
 

@@ -25,7 +25,7 @@ var Panel = {
      * TODO: clean up this messy code.
      */
     getFinder: function() {
-        var finder, selected_header, heuristic, allowDiagonal, biDirectional, dontCrossCorners, weight;
+        var finder, selected_header, heuristic, allowDiagonal, biDirectional, dontCrossCorners, weight, trackJumpRecursion;
         
         selected_header = $(
             '#algorithm_panel ' +
@@ -128,8 +128,12 @@ var Panel = {
             break;
 
         case 'jump_point_header':
+            trackJumpRecursion = typeof $('#jump_point_section ' +
+                                     '.track_jump_recursion:checked').val() !== 'undefined';
             heuristic = $('input[name=jump_point_heuristic]:checked').val();
+            
             finder = new PF.JumpPointFinder({
+              trackJumpRecursion: trackJumpRecursion,
               heuristic: PF.Heuristic[heuristic]
             });
             break;
