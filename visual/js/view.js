@@ -33,6 +33,10 @@ var View = {
             fill: '#ff8888',
             'stroke-opacity': 0.2,
         },
+        jumptest: {
+            fill: '#e5e5e5',
+            'stroke-opacity': 0.2,
+        },
     },
     nodeColorizeEffect: {
         duration: 50,
@@ -46,7 +50,7 @@ var View = {
         stroke: 'yellow',
         'stroke-width': 3,
     },
-    supportedOperations: ['opened', 'closed'],
+    supportedOperations: ['opened', 'closed', 'jumptest'],
     init: function(opts) {
         this.numCols      = opts.numCols;
         this.numRows      = opts.numRows;
@@ -155,6 +159,10 @@ var View = {
             break;
         case 'closed':
             this.colorizeNode(this.rects[gridY][gridX], nodeStyle.closed.fill);
+            this.setCoordDirty(gridX, gridY, true);
+            break;
+        case 'jumptest':
+            this.colorizeNode(this.rects[gridY][gridX], nodeStyle.jumptest.fill);
             this.setCoordDirty(gridX, gridY, true);
             break;
         case 'parent':
