@@ -126,7 +126,7 @@ JumpPointFinder.prototype._jump = function(x, y, px, py) {
     }
     
     if(this.trackJumpRecursion === true) {
-        grid.getNodeAt(x, y).jumptest = true;
+        grid.getNodeAt(x, y).tested = true;
     }
     
     if (grid.getNodeAt(x, y) === this.endNode) {

@@ -97,4 +97,8 @@ pathTests({
     name: 'JumpPoint',
     finder: new PF.JumpPointFinder(),
     optimal: false
+}, {
+    name: 'IDAStar',
+    finder: new PF.IDAStarFinder(),
+    optimal: false
 });

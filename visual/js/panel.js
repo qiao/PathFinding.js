@@ -25,7 +25,7 @@ var Panel = {
      * TODO: clean up this messy code.
      */
     getFinder: function() {
-        var finder, selected_header, heuristic, allowDiagonal, biDirectional, dontCrossCorners, weight, trackJumpRecursion;
+        var finder, selected_header, heuristic, allowDiagonal, biDirectional, dontCrossCorners, weight, trackRecursion, timeLimit;
         
         selected_header = $(
             '#algorithm_panel ' +
@@ -128,16 +128,43 @@ var Panel = {
             break;
 
         case 'jump_point_header':
-            trackJumpRecursion = typeof $('#jump_point_section ' +
-                                     '.track_jump_recursion:checked').val() !== 'undefined';
+            trackRecursion = typeof $('#jump_point_section ' +
+                                     '.track_recursion:checked').val() !== 'undefined';
             heuristic = $('input[name=jump_point_heuristic]:checked').val();
             
             finder = new PF.JumpPointFinder({
-              trackJumpRecursion: trackJumpRecursion,
+              trackJumpRecursion: trackRecursion,
               heuristic: PF.Heuristic[heuristic]
             });
             break;
+        case 'ida_header':
+            allowDiagonal = typeof $('#ida_section ' +
+                                     '.allow_diagonal:checked').val() !== 'undefined';
+            dontCrossCorners = typeof $('#ida_section ' +
+                                     '.dont_cross_corners:checked').val() !=='undefined';
+            trackRecursion = typeof $('#ida_section ' +
+                                     '.track_recursion:checked').val() !== 'undefined';
 
+            heuristic = $('input[name=jump_point_heuristic]:checked').val();
+
+            weight = parseInt($('#ida_section input[name=astar_weight]').val()) || 1;
+            weight = weight >= 1 ? weight : 1; /* if negative or 0, use 1 */
+
+            timeLimit = parseInt($('#ida_section input[name=time_limit]').val());
+
+            // Any non-negative integer, indicates "forever".
+            timeLimit = (timeLimit <= 0 || isNaN(timeLimit)) ? -1 : timeLimit;
+
+            finder = new PF.IDAStarFinder({
+              timeLimit: timeLimit,
+              trackRecursion: trackRecursion,
+              allowDiagonal: allowDiagonal,
+              dontCrossCorners: dontCrossCorners,
+              heuristic: PF.Heuristic[heuristic],
+              weight: weight
+            });
+
+            break;
         }
 
         return finder;
