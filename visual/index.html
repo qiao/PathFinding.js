@@ -75,6 +75,36 @@
           </div>
         </div>
 
+        <h3 id="ida_header"><a href="#">IDA*</a></h3>
+        <div id="ida_section" class="finder_section">
+          <header class="option_header">
+            <h3>Heuristic</h3>
+          </header>
+          <div id="ida_heuristic" class="sub_options">
+            <input type="radio" name="ida_heuristic" value="manhattan" checked />
+            <label class="option_label">Manhattan</label> <br>
+            <input type="radio" name="ida_heuristic" value="euclidean"/>
+            <label class="option_label">Euclidean</label> <br>
+            <input type="radio" name="ida_heuristic" value="chebyshev"/>
+            <label class="option_label">Chebyshev</label> <br>
+          </div>
+          <header class="option_header">
+            <h3>Options</h3>
+          </header>
+          <div class="optional sub_options">
+            <input type="checkbox" class="allow_diagonal" checked>
+            <label class="option_label">Allow Diagonal</label> <br>
+            <input type="checkbox" class="dont_cross_corners">
+            <label class="option_label">Don't Cross Corners</label> <br>
+            <input class="spinner" name="astar_weight" value="1">
+            <label class="option_label">Weight</label> <br>
+            <input class="spinner" name="time_limit" value="10">
+            <label class="option_label">Seconds limit</label> <br>
+            <input type="checkbox" class="track_recursion" checked />
+            <label class="option_label">Visualize recursion</label> <br>
+          </div>
+        </div>
+
         <h3 id="breadthfirst_header"><a href="#">Breadth-First-Search</a></h3>
         <div id="breadthfirst_section" class="finder_section">
           <header class="option_header">
@@ -149,11 +179,11 @@
             <h3>Options</h3>
           </header>
           <div class="optional sub_options">
-            <input type="checkbox" class="track_jump_recursion" checked>
+            <input type="checkbox" class="track_recursion" checked>
             <label class="option_label">Visualize recursion</label> <br>
           </div>
-            
         </div>
+
       </div><!-- .accordion -->
     </div><!-- #algorithm_panel -->
 
