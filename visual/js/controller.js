@@ -320,12 +320,15 @@ $.extend(Controller, {
                     value: v
                 });
             },
-            set jumptest(v) {
+            get tested() {
+                return this._tested;
+            },
+            set tested(v) {
+                this._tested = v;
                 Controller.operations.push({
                     x: this.x,
                     y: this.y,
-                    attr: 'jumptest',
-                    jumptested: true,
+                    attr: 'tested',
                     value: v
                 });
             },
