@@ -19,7 +19,7 @@ function AStarFinder(opt) {
     this.allowDiagonal = opt.allowDiagonal;
     this.dontCrossCorners = opt.dontCrossCorners;
     this.heuristic = opt.heuristic || Heuristic.manhattan;
-    this.weight = opt.weight || 1;
+    this.weight = opt.weight || 1;
 }
 
 /**
