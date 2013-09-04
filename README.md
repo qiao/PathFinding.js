@@ -175,7 +175,7 @@ Note that the new path will be compressed as well, i.e. if the original path is
 `[[0, 1], [0, 2], [0, 3], [0, 4]]`, then the new path will be `[[0, 1], [0, 4]]`.
 
 
-Developement
+Development
 ------------
 
 Layout:
