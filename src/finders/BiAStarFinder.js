@@ -1,4 +1,4 @@
-var Heap       = require('../core/Heap');
+var Heap       = require('heap');
 var Util       = require('../core/Util');
 var Heuristic  = require('../core/Heuristic');
 
