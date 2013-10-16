@@ -17,7 +17,7 @@ function addBanner(source) {
 
 function minify(source) {
   var opts = { fromString: true };
-  return uglifyjs.minify(source, opts);
+  return uglifyjs.minify(source, opts).code;
 }
 
 function build(dest, options) {
