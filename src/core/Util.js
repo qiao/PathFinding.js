@@ -56,7 +56,7 @@ exports.pathLength = pathLength;
  * @param {number} y1 End y coordinate
  * @return {Array.<Array.<number>>} The coordinates on the line
  */
-function getLine(x0, y0, x1, y1) {
+function interpolate(x0, y0, x1, y1) {
     var abs = Math.abs,
         line = [],
         sx, sy, dx, dy, err, e2;
@@ -89,7 +89,7 @@ function getLine(x0, y0, x1, y1) {
 
     return line;
 }
-exports.getLine = getLine;
+exports.interpolate = interpolate;
 
 
 /**
@@ -121,7 +121,7 @@ function smoothenPath(grid, path) {
         coord = path[i];
         ex = coord[0];
         ey = coord[1];
-        line = getLine(sx, sy, ex, ey);
+        line = interpolate(sx, sy, ex, ey);
 
         blocked = false;
         for (j = 1; j < line.length; ++j) {
