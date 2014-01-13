@@ -47,7 +47,7 @@ JumpPointFinder.prototype.findPath = function(startX, startY, endX, endY, grid) 
         node.closed = true;
 
         if (node === endNode) {
-            return Util.backtrace(endNode);
+            return Util.expandPath(Util.backtrace(endNode));
         }
 
         this._identifySuccessors(node);
