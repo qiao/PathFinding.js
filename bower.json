@@ -1,7 +1,7 @@
 {
   "name": "PathFinding.js",
   "main": "./pathfinding-browser.min.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "http://qiao.github.io/PathFinding.js/visual/",
   "authors": [
     "Xueqiao Xu xueqiaoxu@gmail.com"
