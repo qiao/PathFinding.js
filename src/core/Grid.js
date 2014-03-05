@@ -7,13 +7,16 @@ var Node = require('./Node');
  * @param {number} height Number of rows of the grid.
  * @param {Array.<Array.<(number|boolean)>>} [matrix] - A 0-1 matrix
  *     representing the walkable status of the nodes(0 or false for walkable).
- *     If the matrix is not supplied, all the nodes will be walkable.  */
-function Grid(width, height, matrix) {
+ *     If the matrix is not supplied, all the nodes will be walkable.
+ * @param {boolean} walkable Default 'walkable' state of nodes.
+ */
+function Grid(width, height, matrix, walkable) {
     /**
      * The number of columns of the grid.
      * @type number
      */
     this.width = width;
+
     /**
      * The number of rows of the grid.
      * @type number
@@ -23,7 +26,7 @@ function Grid(width, height, matrix) {
     /**
      * A 2D array of nodes.
      */
-    this.nodes = this._buildNodes(width, height, matrix);
+    this.nodes = this._buildNodes(width, height, matrix, walkable);
 }
 
 /**
@@ -35,7 +38,7 @@ function Grid(width, height, matrix) {
  *     the walkable status of the nodes.
  * @see Grid
  */
-Grid.prototype._buildNodes = function(width, height, matrix) {
+Grid.prototype._buildNodes = function(width, height, matrix, walkable) {
     var i, j,
         nodes = new Array(height),
         row;
@@ -43,7 +46,7 @@ Grid.prototype._buildNodes = function(width, height, matrix) {
     for (i = 0; i < height; ++i) {
         nodes[i] = new Array(width);
         for (j = 0; j < width; ++j) {
-            nodes[i][j] = new Node(j, i);
+            nodes[i][j] = new Node(j, i, walkable);
         }
     }
 
