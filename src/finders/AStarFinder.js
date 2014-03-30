@@ -1,4 +1,4 @@
-var Heap       = require('heap');
+var Skiplist   = require('../core/Skiplist');
 var Util       = require('../core/Util');
 var Heuristic  = require('../core/Heuristic');
 
@@ -28,7 +28,7 @@ function AStarFinder(opt) {
  *     end positions.
  */
 AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
-    var openList = new Heap(function(nodeA, nodeB) {
+    var openList = new Skiplist(function(nodeA, nodeB) {
             return nodeA.f - nodeB.f;
         }),
         startNode = grid.getNodeAt(startX, startY),
@@ -78,19 +78,19 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
             // check if the neighbor has not been inspected yet, or
             // can be reached with smaller cost from the current node
             if (!neighbor.opened || ng < neighbor.g) {
+
+                if(neighbor.opened){
+                    openList.remove(neighbor);
+                }
+
                 neighbor.g = ng;
                 neighbor.h = neighbor.h || weight * heuristic(abs(x - endX), abs(y - endY));
                 neighbor.f = neighbor.g + neighbor.h;
                 neighbor.parent = node;
 
+                openList.push(neighbor);
                 if (!neighbor.opened) {
-                    openList.push(neighbor);
                     neighbor.opened = true;
-                } else {
-                    // the neighbor can be reached with smaller cost.
-                    // Since its f value has been updated, we have to
-                    // update its position in the open list
-                    openList.updateItem(neighbor);
                 }
             }
         } // end for each neighbor
