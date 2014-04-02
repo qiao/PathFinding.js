@@ -56,15 +56,12 @@ Grid.prototype._buildNodes = function(width, height, matrix) {
         throw new Error('Matrix size does not fit');
     }
 
-    // Thje matrix is used to flip nodes from the default, so it doesn't have to mutate every node.
-    var matrixWalkable = !walkable;
-
     for (i = 0; i < height; ++i) {
         for (j = 0; j < width; ++j) {
-            if (matrix[i][j] != walkable) {
+            if (matrix[i][j]) {
                 // 0, false, null will be walkable
                 // while others will be un-walkable
-                nodes[i][j].walkable = matrixWalkable;
+                nodes[i][j].walkable = false;
             }
         }
     }
