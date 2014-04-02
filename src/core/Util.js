@@ -201,6 +201,8 @@ function compressPath(path) {
         py = path[1][1], // second point y
         dx = px - sx, // direction between the two points
         dy = py - sy, // direction between the two points
+        lx, ly,
+        ldx, ldy,
         sq, i;
 
     // normalize the direction
