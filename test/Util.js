@@ -35,13 +35,13 @@ describe('Utility functions', function () {
         });
 
         it('should return a compressed path', function () {
-            PF.Util.expandPath([
+            PF.Util.compressPath([
                 [0, 1], [0, 2], [0, 3], [0, 4]
             ]).should.eql([
                 [0, 1], [0, 4]
             ]);
 
-            PF.Util.expandPath([
+            PF.Util.compressPath([
                 [0, 1], [0, 2], [0, 3], [0, 4], [1, 5], [2, 6]
             ]).should.eql([
                 [0, 1], [0, 4], [2, 6]
