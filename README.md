@@ -174,6 +174,12 @@ var newPath = PF.Util.smoothenPath(grid, path);
 Note that the new path will be compressed as well, i.e. if the original path is
 `[[0, 1], [0, 2], [0, 3], [0, 4]]`, then the new path will be `[[0, 1], [0, 4]]`.
 
+To just compress a path without smoothing it, you may use `PF.Util.compressPath`.
+
+```javascript
+var newPath = PF.Util.compressPath(path);
+```
+
 To expand the compressed path like `[[0, 1], [0, 4]]` back to `[[0, 1], [0, 2], [0, 3], [0, 4]]`,
 you may use `PF.Util.expandPath`.
 
