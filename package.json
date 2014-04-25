@@ -16,6 +16,9 @@
     , "mocha"           : "1.0.x"
     , "should"          : "0.6.x"
   }
+  , "scripts"         : {
+      "test"            : "make test"
+  }
   , "repository"      : {
       "type"          : "git"
     , "url"           : "git://github.com/qiao/PathFinding.js.git"
