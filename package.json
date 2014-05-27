@@ -1,6 +1,6 @@
 {
     "name"            : "pathfinding"
-  , "version"         : "0.4.7"
+  , "version"         : "0.4.8"
   , "description"     : "Comprehensive pathfinding library for grid based games"
   , "homepage"        : "https://github.com/qiao/PathFinding.js"
   , "keywords"        : ["algorithm", "game"]
