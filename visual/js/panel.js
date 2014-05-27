@@ -137,6 +137,16 @@ var Panel = {
               heuristic: PF.Heuristic[heuristic]
             });
             break;
+        case 'orth_jump_point_header':
+            trackRecursion = typeof $('#orth_jump_point_section ' +
+                                     '.track_recursion:checked').val() !== 'undefined';
+            heuristic = $('input[name=orth_jump_point_heuristic]:checked').val();
+
+            finder = new PF.OrthogonalJumpPointFinder({
+              trackJumpRecursion: trackRecursion,
+              heuristic: PF.Heuristic[heuristic]
+            });
+            break;
         case 'ida_header':
             allowDiagonal = typeof $('#ida_section ' +
                                      '.allow_diagonal:checked').val() !== 'undefined';
