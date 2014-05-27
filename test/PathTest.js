@@ -94,11 +94,15 @@ pathTests({
     finder: new PF.BiBestFirstFinder(),
     optimal: false
 }, {
+    name: 'IDAStar',
+    finder: new PF.IDAStarFinder(),
+    optimal: false
+}, {
     name: 'JumpPoint',
     finder: new PF.JumpPointFinder(),
     optimal: false
-}, {
-    name: 'IDAStar',
-    finder: new PF.IDAStarFinder(),
+},  {
+    name: 'OrthogonalJumpPoint',
+    finder: new PF.OrthogonalJumpPointFinder(),
     optimal: false
 });
