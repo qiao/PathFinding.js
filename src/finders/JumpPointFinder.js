@@ -218,9 +218,7 @@ JumpPointFinder.prototype._findNeighbors = function(node) {
         else {
             if(dx === 0) {
                 if (grid.isWalkableAt(x, y + dy)) {
-                    if (grid.isWalkableAt(x, y + dy)) {
-                        neighbors.push([x, y + dy]);
-                    }
+                    neighbors.push([x, y + dy]);
                     if (!grid.isWalkableAt(x + 1, y)) {
                         neighbors.push([x + 1, y + dy]);
                     }
@@ -231,9 +229,7 @@ JumpPointFinder.prototype._findNeighbors = function(node) {
             }
             else {
                 if (grid.isWalkableAt(x + dx, y)) {
-                    if (grid.isWalkableAt(x + dx, y)) {
-                        neighbors.push([x + dx, y]);
-                    }
+                    neighbors.push([x + dx, y]);
                     if (!grid.isWalkableAt(x, y + 1)) {
                         neighbors.push([x + dx, y + 1]);
                     }
