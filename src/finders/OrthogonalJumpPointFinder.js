@@ -29,7 +29,7 @@ OrthogonalJumpPointFinder.prototype.constructor = OrthogonalJumpPointFinder;
  */
 OrthogonalJumpPointFinder.prototype._jump = function(x, y, px, py) {
     var grid = this.grid,
-        dx = x - px, dy = y - py, jxRight, jxLeft;
+        dx = x - px, dy = y - py;
 
     if (!grid.isWalkableAt(x, y)) {
         return null;
@@ -54,9 +54,8 @@ OrthogonalJumpPointFinder.prototype._jump = function(x, y, px, py) {
             (grid.isWalkableAt(x + 1, y) && !grid.isWalkableAt(x + 1, y - dy))) {
             return [x, y];
         }
-        jxRight = this._jump(x + 1, y, x, y);
-        jxLeft = this._jump(x - 1, y, x, y);
-        if (jxRight || jxLeft) {
+        //When moving vertically, must check for horizontal jump points
+        if (this._jump(x + 1, y, x, y) || this._jump(x - 1, y, x, y)) {
             return [x, y];
         }
     }

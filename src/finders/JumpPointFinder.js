@@ -119,16 +119,16 @@ JumpPointFinder.prototype._identifySuccessors = function(node) {
  */
 JumpPointFinder.prototype._jump = function(x, y, px, py) {
     var grid = this.grid,
-        dx = x - px, dy = y - py, jx, jy;
+        dx = x - px, dy = y - py;
 
     if (!grid.isWalkableAt(x, y)) {
         return null;
     }
-    
+
     if(this.trackJumpRecursion === true) {
         grid.getNodeAt(x, y).tested = true;
     }
-    
+
     if (grid.getNodeAt(x, y) === this.endNode) {
         return [x, y];
     }
@@ -159,9 +159,7 @@ JumpPointFinder.prototype._jump = function(x, y, px, py) {
 
     // when moving diagonally, must check for vertical/horizontal jump points
     if (dx !== 0 && dy !== 0) {
-        jx = this._jump(x + dx, y, x, y);
-        jy = this._jump(x, y + dy, x, y);
-        if (jx || jy) {
+        if (this._jump(x + dx, y, x, y) || this._jump(x, y + dy, x, y)) {
             return [x, y];
         }
     }
@@ -248,7 +246,7 @@ JumpPointFinder.prototype._findNeighbors = function(node) {
             neighbors.push([neighborNode.x, neighborNode.y]);
         }
     }
-    
+
     return neighbors;
 };
 
