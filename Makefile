@@ -3,6 +3,7 @@ TEST_TIMEOUT = 2000
 TEST_REPORTER = spec
 
 lib/pathfinding-browser.js: $(SRC)
+	@mkdir -p lib
 	@node utils/build.js
 
 test:
