@@ -34,7 +34,7 @@ Now skip to the `Basic Usage` section of this readme.
 Browser
 -------
 
-Download the [minified js file](https://github.com/qiao/PathFinding.js/raw/master/lib/pathfinding-browser.min.js) and include it in your web page.
+Please refer to the [Releases Page](https://github.com/qiao/PathFinding.js/releases) to download the latest release and include it in your web page.
 
 ```html
 <script type="text/javascript" src="./pathfinding-browser.min.js"></script>
