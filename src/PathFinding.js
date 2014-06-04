@@ -13,5 +13,7 @@ module.exports = {
     'BiBreadthFirstFinder' : require('./finders/BiBreadthFirstFinder'),
     'BiDijkstraFinder'     : require('./finders/BiDijkstraFinder'),
     'JumpPointFinder'      : require('./finders/JumpPointFinder'),
-    'IDAStarFinder'        : require('./finders/IDAStarFinder')
+    'IDAStarFinder'        : require('./finders/IDAStarFinder'),
+    'OrthogonalJumpPointFinder' : require('./finders/OrthogonalJumpPointFinder'),
+    'TraceFinder' : require('./finders/TraceFinder')
 };
