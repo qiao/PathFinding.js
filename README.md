@@ -2,6 +2,8 @@ PathFinding.js
 ==============
 #### A comprehensive path-finding library in javascript. ####
 
+[![Build Status](https://travis-ci.org/qiao/PathFinding.js.svg?branch=master)](https://travis-ci.org/qiao/PathFinding.js)
+
 Introduction
 ------------
 
@@ -32,7 +34,7 @@ Now skip to the `Basic Usage` section of this readme.
 Browser
 -------
 
-Download the [minified js file](https://github.com/qiao/PathFinding.js/raw/master/lib/pathfinding-browser.min.js) and include it in your web page.
+Please refer to the [Releases Page](https://github.com/qiao/PathFinding.js/releases) to download the latest release and include it in your web page.
 
 ```html
 <script type="text/javascript" src="./pathfinding-browser.min.js"></script>
@@ -70,7 +72,7 @@ var matrix = [
 var grid = new PF.Grid(5, 3, matrix);
 ```
 
-Currently there are 9 path-finders bundled in this library, namely:
+Currently there are 11 path-finders bundled in this library, namely:
 
 *  `AStarFinder` *
 *  `BreadthFirstFinder` *
@@ -81,6 +83,8 @@ Currently there are 9 path-finders bundled in this library, namely:
 *  `BiDijkstraFinder` *
 *  `BiBreadthFirstFinder` *
 *  `JumpPointFinder` *
+*  `OrthogonalJumpPointFinder` *
+*  `Trace` *
 
 The suffix `Bi` for the last four finders in the above list stands for the bi-directional searching strategy. 
 
