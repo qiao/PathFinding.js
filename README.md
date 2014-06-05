@@ -72,7 +72,7 @@ var matrix = [
 var grid = new PF.Grid(5, 3, matrix);
 ```
 
-Currently there are 10 path-finders bundled in this library, namely:
+Currently there are 11 path-finders bundled in this library, namely:
 
 *  `AStarFinder` *
 *  `BreadthFirstFinder` *
@@ -84,6 +84,7 @@ Currently there are 10 path-finders bundled in this library, namely:
 *  `BiBreadthFirstFinder` *
 *  `JumpPointFinder` *
 *  `OrthogonalJumpPointFinder` *
+*  `Trace` *
 
 The suffix `Bi` for the last four finders in the above list stands for the bi-directional searching strategy. 
 
