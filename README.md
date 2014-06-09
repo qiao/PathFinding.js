@@ -84,7 +84,7 @@ Currently there are 11 path-finders bundled in this library, namely:
 *  `BiBreadthFirstFinder` *
 *  `JumpPointFinder` *
 *  `OrthogonalJumpPointFinder` *
-*  `Trace` *
+*  `Trace`
 
 The suffix `Bi` for the last four finders in the above list stands for the bi-directional searching strategy. 
 
