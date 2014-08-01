@@ -15,6 +15,6 @@ test:
 			--bail
 
 clean:
-	rm -f lib/pathfinding-browser.js
+	rm -rf lib/
 
 .PHONY: test clean
