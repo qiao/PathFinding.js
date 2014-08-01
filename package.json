@@ -17,7 +17,8 @@
     , "should"          : "0.6.x"
   }
   , "scripts"         : {
-      "test"            : "make test"
+      "test"            : "make test",
+      "postinstall"     : "make"
   }
   , "repository"      : {
       "type"          : "git"
