@@ -25,6 +25,17 @@ module.exports = {
   },
 
   /**
+   * Octile distance.
+   * @param {number} dx - Difference in x.
+   * @param {number} dy - Difference in y.
+   * @return {number} sqrt(dx * dx + dy * dy) for grids
+   */
+  octile: function(dx, dy) {
+      var F = Math.SQRT2 - 1;
+      return (dx < dy) ? F * dx + dy : F * dy + dx;
+  },
+
+  /**
    * Chebyshev distance.
    * @param {number} dx - Difference in x.
    * @param {number} dy - Difference in y.
