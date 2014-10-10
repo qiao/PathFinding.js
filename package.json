@@ -12,7 +12,7 @@
   , "devDependencies" : {
       "uglify-js"       : "2.3.6"
     , "colors"          : "0.6.x"
-    , "browserify"      : "2.25.0"
+    , "browserify"      : "6.0.3"
     , "mocha"           : "1.0.x"
     , "should"          : "0.6.x"
   }
