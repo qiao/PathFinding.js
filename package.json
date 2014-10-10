@@ -8,16 +8,17 @@
   , "main"            : "./index.js"
   , "dependencies"    : {
       "heap"          : "0.2.2"
+    , "uglify-js"       : "2.3.6"
+    , "browserify"      : "2.25.0"
   }
   , "devDependencies" : {
-      "uglify-js"       : "2.3.6"
-    , "colors"          : "0.6.x"
-    , "browserify"      : "2.25.0"
+      "colors"          : "0.6.x"
     , "mocha"           : "1.0.x"
     , "should"          : "0.6.x"
   }
   , "scripts"         : {
-      "test"            : "make test"
+      "test"            : "make test",
+      "postinstall"     : "make"
   }
   , "repository"      : {
       "type"          : "git"
