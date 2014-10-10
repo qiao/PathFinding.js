@@ -90,7 +90,7 @@ JumpPointFinder.prototype._identifySuccessors = function(node) {
             }
 
             // include distance, as parent may not be immediately adjacent:
-            d = Heuristic.euclidean(abs(jx - x), abs(jy - y));
+            d = Heuristic.octile(abs(jx - x), abs(jy - y));
             ng = node.g + d; // next `g` value
 
             if (!jumpNode.opened || ng < jumpNode.g) {
