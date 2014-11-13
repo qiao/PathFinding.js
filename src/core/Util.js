@@ -151,7 +151,7 @@ function smoothenPath(grid, path) {
     ly = path[1][1];
     newPath = [[sx, sy]];
 
-    for (i = 2; i < len; ++i) {
+    for (i = 2; i < len - 1; ++i) {
         coord = path[i];
         ex = coord[0];
         ey = coord[1];
@@ -163,13 +163,16 @@ function smoothenPath(grid, path) {
 
             if (!grid.isWalkableAt(testCoord[0], testCoord[1])) {
                 blocked = true;
-                newPath.push([lx, ly]);
-                sx = lx;
-                sy = ly;
                 break;
             }
         }
-        if (!blocked) {
+		if (blocked) {
+			newPath.push([lx, ly]);
+			sx = lx;
+			sy = ly;
+			lx = path[i + 1][0];
+			ly = path[i + 1][1];
+		} else {
             lx = ex;
             ly = ey;
         }
