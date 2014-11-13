@@ -141,17 +141,14 @@ function smoothenPath(grid, path) {
         y1 = path[len - 1][1],  // path end y
         sx, sy,                 // current start coordinate
         ex, ey,                 // current end coordinate
-        lx, ly,                 // last valid end coordinate
         newPath,
         i, j, coord, line, testCoord, blocked;
 
     sx = x0;
     sy = y0;
-    lx = path[1][0];
-    ly = path[1][1];
     newPath = [[sx, sy]];
 
-    for (i = 2; i < len - 1; ++i) {
+    for (i = 2; i < len; ++i) {
         coord = path[i];
         ex = coord[0];
         ey = coord[1];
@@ -166,15 +163,11 @@ function smoothenPath(grid, path) {
                 break;
             }
         }
-		if (blocked) {
-			newPath.push([lx, ly]);
-			sx = lx;
-			sy = ly;
-			lx = path[i + 1][0];
-			ly = path[i + 1][1];
-		} else {
-            lx = ex;
-            ly = ey;
+        if (blocked) {
+            lastValidCoord = path[i - 1];
+            newPath.push(lastValidCoord);
+            sx = lastValidCoord[0];
+            sy = lastValidCoord[1];
         }
     }
     newPath.push([x1, y1]);
