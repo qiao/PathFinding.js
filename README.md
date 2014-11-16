@@ -147,7 +147,7 @@ Note that `dontCrossCorners` only makes sense when `allowDiagonal` is also used.
 
 For `AStarFinder`, `BestFirstFinder` and all their `Bi` relatives, you may indicate which heuristic function to use.
 
-The predefined heuristics are `PF.Heuristic.manhattan`(defalut), `PF.Heuristic.chebyshev` and `PF.Heuristic.euclidean`.
+The predefined heuristics are `PF.Heuristic.manhattan`(defalut), `PF.Heuristic.chebyshev`, `PF.Heuristic.euclidean` and `PF.Heuristic.octile`.
 
 To use the chebyshev heuristic:
 
