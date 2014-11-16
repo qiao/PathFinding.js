@@ -15,5 +15,4 @@ module.exports = {
     'IDAStarFinder'             : require('./finders/IDAStarFinder'),
     'JumpPointFinder'           : require('./finders/JumpPointFinder'),
     'OrthogonalJumpPointFinder' : require('./finders/OrthogonalJumpPointFinder'),
-    'TraceFinder'               : require('./finders/TraceFinder')
 };
