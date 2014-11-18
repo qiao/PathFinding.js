@@ -2,7 +2,8 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
     browserify = require('gulp-browserify'),
-    concat = require('gulp-concat')
+    concat = require('gulp-concat'),
+    mocha = require('gulp-mocha'),
     del = require('del');
 
 gulp.task('clean', function(cb) {
@@ -33,5 +34,10 @@ gulp.task('compile', ['scripts'], function() {
     del('./lib/pathfinding-browserified.js');
 });
 
-gulp.task('default', ['compile'], function() {
+gulp.task('test', function () {
+    return gulp.src('./test/**/*.js', {read: false})
+        .pipe(mocha({reporter: 'spec', bail: true, globals: { should: require('should') }}));
+});
+
+gulp.task('default', ['test', 'compile'], function() {
 });

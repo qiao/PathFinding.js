@@ -23,7 +23,7 @@
     "should": "0.6.x"
   },
   "scripts": {
-    "test": "make test"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
