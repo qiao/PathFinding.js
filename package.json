@@ -20,7 +20,7 @@
     "gulp-rename": "^1.2.0",
     "gulp-uglify": "^1.0.1",
     "mocha": "1.0.x",
-    "should": "0.6.x",
+    "should": "0.6.x"
   },
   "scripts": {
     "test": "make test"
