@@ -202,23 +202,35 @@ Layout:
     |-- src          # source code (algorithms only)
     |-- test         # test scripts
     |-- utils        # build scripts
+	|-- benchmark    # benchmarks
     `-- visual       # visualization
 
-You will need to install `node.js` and use `npm` to install the dependencies: 
+Make sure you have `node.js` installed, then use `npm` to install the dependencies: 
 
     npm install -d 
 
-To build the browser distribution 
-(It will use [node-browserify](https://github.com/substack/node-browserify) to generate a browser distribution,
-and use [UglifyJS](https://github.com/mishoo/UglifyJS) to compress):
+The build system uses gulp, so make sure you have it installed:
 
-    make
+    npm install -d -g gulp
+
+To build the browser distribution:
+
+    gulp compile
 
 To run the tests
 (algorithms only, not including the visualization) with
-[mocha](http://visionmedia.github.com/mocha/) and [should.js](https://github.com/visionmedia/should.js) 
+[mocha](http://visionmedia.github.com/mocha/) and [should.js](https://github.com/visionmedia/should.js)
+First install mocha:
 
-    make test
+    npm install -d -g mocha
+
+Then run the tests:
+
+    gulp test
+
+Or if you are feeling lazy, the default gulp task does everything:
+
+    gulp
 
 License
 -------
