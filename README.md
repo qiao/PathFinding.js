@@ -3,6 +3,7 @@ PathFinding.js
 #### A comprehensive path-finding library in javascript. ####
 
 [![Build Status](https://travis-ci.org/qiao/PathFinding.js.svg?branch=master)](https://travis-ci.org/qiao/PathFinding.js)
+[![Dependency Status](https://david-dm.org/qiao/pathfinding.js.png)](https://david-dm.org/qiao/pathfinding.js)
 
 Introduction
 ------------
