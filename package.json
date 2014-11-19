@@ -10,7 +10,7 @@
   "author": "Xueqiao Xu <xueqiaoxu@gmail.com>",
   "main": "./index.js",
   "dependencies": {
-    "heap": "0.2.2"
+    "heap": "0.2.5"
   },
   "devDependencies": {
     "del": "^0.1.3",
