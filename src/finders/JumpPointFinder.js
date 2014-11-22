@@ -4,6 +4,7 @@
 var Heap       = require('heap');
 var Util       = require('../core/Util');
 var Heuristic  = require('../core/Heuristic');
+var DiagonalMovement = require('../core/DiagonalMovement');
 
 /**
  * Path finder using the Jump Point Search algorithm
@@ -240,7 +241,7 @@ JumpPointFinder.prototype._findNeighbors = function(node) {
     }
     // return all neighbors
     else {
-        neighborNodes = grid.getNeighbors(node, true);
+        neighborNodes = grid.getNeighbors(node, DiagonalMovement.IfAtMostOneObstacle);
         for (i = 0, l = neighborNodes.length; i < l; ++i) {
             neighborNode = neighborNodes[i];
             neighbors.push([neighborNode.x, neighborNode.y]);

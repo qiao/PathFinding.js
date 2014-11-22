@@ -1,4 +1,6 @@
-var Grid = require('..').Grid;
+var PF = require('..');
+var Grid = PF.Grid;
+var DiagonalMovement = PF.DiagonalMovement;
 
 describe('Grid', function() {
     describe('generate without matrix', function() {
@@ -112,11 +114,11 @@ describe('Grid', function() {
         });
 
         it('should return correct neighbors', function() {
-            grid.getNeighbors(grid.nodes[1][0]).should.eql([ grid.nodes[2][0] ]);
+            grid.getNeighbors(grid.nodes[1][0], DiagonalMovement.Never).should.eql([ grid.nodes[2][0] ]);
             var cmp = function(a, b) {
                 return a.x * 100 + a.y - b.x * 100 - b.y;
             };
-            grid.getNeighbors(grid.nodes[0][2], true).sort(cmp).should.eql([
+            grid.getNeighbors(grid.nodes[0][2], DiagonalMovement.IfAtMostOneObstacle).sort(cmp).should.eql([
                 grid.nodes[0][1], grid.nodes[1][2], grid.nodes[1][3]
             ].sort(cmp))
         });

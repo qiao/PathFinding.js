@@ -1,6 +1,7 @@
 var Heap       = require('heap');
 var Util       = require('../core/Util');
 var Heuristic  = require('../core/Heuristic');
+var DiagonalMovement = require('../core/DiagonalMovement');
 
 /**
  * A* path-finder.
@@ -20,6 +21,19 @@ function AStarFinder(opt) {
     this.dontCrossCorners = opt.dontCrossCorners;
     this.heuristic = opt.heuristic || Heuristic.manhattan;
     this.weight = opt.weight || 1;
+    this.diagonalMovement = opt.diagonalMovement;
+
+    if (!this.diagonalMovement) {
+        if (!this.allowDiagonal) {
+            this.diagonalMovement = DiagonalMovement.Never;
+        } else {
+            if (this.dontCrossCorners) {
+                this.diagonalMovement = DiagonalMovement.OnlyWhenNoObstacles;
+            } else {
+                this.diagonalMovement = DiagonalMovement.IfAtMostOneObstacle;
+            }
+        }
+    }
 }
 
 /**

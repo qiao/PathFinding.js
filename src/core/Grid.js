@@ -1,4 +1,5 @@
 var Node = require('./Node');
+var DiagonalMovement = require('./DiagonalMovement');
 
 /**
  * The Grid class, which serves as the encapsulation of the layout of the nodes.
@@ -129,10 +130,9 @@ Grid.prototype.setWalkableAt = function(x, y, walkable) {
  *  diagonalOffsets[i] and
  *  diagonalOffsets[(i + 1) % 4] is valid.
  * @param {Node} node
- * @param {boolean} allowDiagonal
- * @param {boolean} dontCrossCorners
+ * @param {DiagonalMovement} diagonalMovement
  */
-Grid.prototype.getNeighbors = function(node, allowDiagonal, dontCrossCorners) {
+Grid.prototype.getNeighbors = function(node, diagonalMovement) {
     var x = node.x,
         y = node.y,
         neighbors = [],
@@ -163,20 +163,25 @@ Grid.prototype.getNeighbors = function(node, allowDiagonal, dontCrossCorners) {
         s3 = true;
     }
 
-    if (!allowDiagonal) {
+    if (diagonalMovement === DiagonalMovement.Never) {
         return neighbors;
     }
 
-    if (dontCrossCorners) {
+    if (diagonalMovement === DiagonalMovement.OnlyWhenNoObstacles) {
         d0 = s3 && s0;
         d1 = s0 && s1;
         d2 = s1 && s2;
         d3 = s2 && s3;
-    } else {
+    } else if (diagonalMovement === DiagonalMovement.IfAtMostOneObstacle) {
         d0 = s3 || s0;
         d1 = s0 || s1;
         d2 = s1 || s2;
         d3 = s2 || s3;
+    } else if (diagonalMovement === DiagonalMovement.Always) {
+        d0 = true;
+        d1 = true;
+        d2 = true;
+        d3 = true;
     }
 
     // ↖
