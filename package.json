@@ -4,8 +4,14 @@
   "description": "Comprehensive pathfinding library for grid based games",
   "homepage": "https://github.com/qiao/PathFinding.js",
   "keywords": [
+    "pathfinding",
+    "astar",
+    "dijkstra",
+    "game",
     "algorithm",
-    "game"
+    "jumppoint",
+    "depthfirst",
+    "breadthfirst"
   ],
   "author": "Xueqiao Xu <xueqiaoxu@gmail.com>",
   "main": "./index.js",
