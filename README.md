@@ -29,17 +29,25 @@ Then, in your program:
 var PF = require('pathfinding');
 ```
 
-Now skip to the `Basic Usage` section of this readme.
+See the `Basic Usage` section below for usage details.
 
 
 Browser
 -------
 
-Please refer to the [Releases Page](https://github.com/qiao/PathFinding.js/releases) to download the latest release and include it in your web page.
+If you have bower installed then you can install it with the following command:
+
+```bash
+bower install pathfinding
+```
+
+By default bower will install pathfinding under the bower_components folder, so to include it in your page do something like:
 
 ```html
-<script type="text/javascript" src="./pathfinding-browser.min.js"></script>
+<script type="text/javascript" src="path/to/bower_components/pathfinding/pathfinding-browser.min.js"></script>
 ```
+
+You can also grab a release from the [Releases Page](https://github.com/imor/pathfinding-bower/releases) if you don't use bower.
 
 Basic Usage
 -----------
