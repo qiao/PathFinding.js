@@ -237,7 +237,11 @@ Then run the tests:
 
     gulp test
 
-Or if you are feeling lazy, the default gulp task does everything:
+To run the benchmarks:
+
+    gulp bench
+
+Or if you are feeling lazy, the default gulp task does everything(except running the benchmarks):
 
     gulp
 
