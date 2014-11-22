@@ -5,6 +5,7 @@ var PF        = require('..');
 var parseMap  = require('./parse_map').parse;
 var parseScen = require('./parse_scen').parse;
 var testCases = require('./test_cases');
+var path      = require('path');
 
 function profile(callback) {
   var startTime = Date.now();
@@ -54,17 +55,13 @@ function map2grid(map) {
   return new PF.Grid(map.width, map.height, map.grid);
 }
 
-
 testCases.forEach(function(test) {
-
-  var grid = map2grid(parseMap(test.map));
-  var scens = parseScen(test.scen).scenarios;
+  var grid = map2grid(parseMap(path.join(__dirname, test.map)));
+  var scens = parseScen(path.join(__dirname, test.scen)).scenarios;
   var select = test.select;
 
   select.forEach(function(id) {
-
     var scen = scens[id];
-
     var result = benchmark({
       header: 'AStarFinder',
       finder: new PF.AStarFinder({allowDiagonal: true}),
@@ -75,7 +72,5 @@ testCases.forEach(function(test) {
       endY: scen.endY,
       footer: '(optimal: '.grey + (''+scen.length).green + ')'.grey
     });
-
   });
-
 });

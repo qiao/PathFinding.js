@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     browserify = require('gulp-browserify'),
     concat = require('gulp-concat'),
     mocha = require('gulp-mocha'),
+    shell = require('gulp-shell'),
     del = require('del');
 
 gulp.task('clean', function(cb) {
@@ -38,6 +39,10 @@ gulp.task('test', function () {
     return gulp.src('./test/**/*.js', {read: false})
         .pipe(mocha({reporter: 'spec', bail: true, globals: { should: require('should') }}));
 });
+
+gulp.task('bench', shell.task([
+    'node benchmark/benchmark.js'
+]));
 
 gulp.task('default', ['test', 'compile'], function() {
 });
