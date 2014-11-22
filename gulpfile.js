@@ -13,7 +13,7 @@ gulp.task('clean', function(cb) {
 
 gulp.task('browserify', ['clean'], function(cb) {
     return gulp.src('./src/PathFinding.js')
-    .pipe(browserify())
+    .pipe(browserify({ standalone: 'PF' }))
     .pipe(rename('pathfinding-browserified.js'))
     .pipe(gulp.dest('./lib/'), cb);
 });
