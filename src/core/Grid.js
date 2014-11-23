@@ -182,6 +182,8 @@ Grid.prototype.getNeighbors = function(node, diagonalMovement) {
         d1 = true;
         d2 = true;
         d3 = true;
+    } else {
+        throw new Error('Incorrect value of diagonalMovement');
     }
 
     // ↖

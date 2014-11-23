@@ -3,6 +3,7 @@
  */
 var Heuristic  = require('../core/Heuristic');
 var JumpPointFinder = require('./JumpPointFinder');
+var DiagonalMovement = require('../core/DiagonalMovement');
 
 /**
  * Path finder using the Jump Point Search algorithm allowing only horizontal
@@ -112,7 +113,7 @@ OrthogonalJumpPointFinder.prototype._findNeighbors = function(node) {
     }
     // return all neighbors
     else {
-        neighborNodes = grid.getNeighbors(node, false);
+        neighborNodes = grid.getNeighbors(node, DiagonalMovement.Never);
         for (i = 0, l = neighborNodes.length; i < l; ++i) {
             neighborNode = neighborNodes[i];
             neighbors.push([neighborNode.x, neighborNode.y]);

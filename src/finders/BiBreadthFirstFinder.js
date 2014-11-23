@@ -1,16 +1,31 @@
 var Util = require('../core/Util');
+var DiagonalMovement = require('../core/DiagonalMovement');
 
 /**
  * Bi-directional Breadth-First-Search path finder.
  * @constructor
  * @param {object} opt
- * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed.
- * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching block corners.
+ * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed. Deprecated, use diagonalMovement instead.
+ * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching block corners. Deprecated, use diagonalMovement instead.
+ * @param {DiagonalMovement} opt.diagonalMovement Allowed diagonal movement.
  */
 function BiBreadthFirstFinder(opt) {
     opt = opt || {};
     this.allowDiagonal = opt.allowDiagonal;
     this.dontCrossCorners = opt.dontCrossCorners;
+    this.diagonalMovement = opt.diagonalMovement;
+
+    if (!this.diagonalMovement) {
+        if (!this.allowDiagonal) {
+            this.diagonalMovement = DiagonalMovement.Never;
+        } else {
+            if (this.dontCrossCorners) {
+                this.diagonalMovement = DiagonalMovement.OnlyWhenNoObstacles;
+            } else {
+                this.diagonalMovement = DiagonalMovement.IfAtMostOneObstacle;
+            }
+        }
+    }
 }
 
 
@@ -24,8 +39,7 @@ BiBreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, g
         endNode = grid.getNodeAt(endX, endY),
         startOpenList = [], endOpenList = [],
         neighbors, neighbor, node,
-        allowDiagonal = this.allowDiagonal,
-        dontCrossCorners = this.dontCrossCorners,
+        diagonalMovement = this.diagonalMovement,
         BY_START = 0, BY_END = 1,
         i, l;
 
@@ -46,7 +60,7 @@ BiBreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, g
         node = startOpenList.shift();
         node.closed = true;
 
-        neighbors = grid.getNeighbors(node, allowDiagonal, dontCrossCorners);
+        neighbors = grid.getNeighbors(node, diagonalMovement);
         for (i = 0, l = neighbors.length; i < l; ++i) {
             neighbor = neighbors[i];
 
@@ -72,7 +86,7 @@ BiBreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, g
         node = endOpenList.shift();
         node.closed = true;
 
-        neighbors = grid.getNeighbors(node, allowDiagonal, dontCrossCorners);
+        neighbors = grid.getNeighbors(node, diagonalMovement);
         for (i = 0, l = neighbors.length; i < l; ++i) {
             neighbor = neighbors[i];
 

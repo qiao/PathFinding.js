@@ -1,6 +1,7 @@
 var Util       = require('../core/Util');
 var Heuristic  = require('../core/Heuristic');
 var Node       = require('../core/Node');
+var DiagonalMovement = require('../core/DiagonalMovement');
 
 /**
  * Iterative Deeping A Star (IDA*) path-finder.
@@ -17,8 +18,9 @@ var Node       = require('../core/Node');
  *
  * @constructor
  * @param {object} opt
- * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed.
- * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching block corners.
+ * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed. Deprecated, use diagonalMovement instead.
+ * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching block corners. Deprecated, use diagonalMovement instead.
+ * @param {DiagonalMovement} opt.diagonalMovement Allowed diagonal movement.
  * @param {function} opt.heuristic Heuristic function to estimate the distance
  *     (defaults to manhattan).
  * @param {integer} opt.weight Weight to apply to the heuristic to allow for suboptimal paths,
@@ -31,10 +33,23 @@ function IDAStarFinder(opt) {
     opt = opt || {};
     this.allowDiagonal = opt.allowDiagonal;
     this.dontCrossCorners = opt.dontCrossCorners;
+    this.diagonalMovement = opt.diagonalMovement;
     this.heuristic = opt.heuristic || Heuristic.manhattan;
     this.weight = opt.weight || 1;
     this.trackRecursion = opt.trackRecursion || false;
     this.timeLimit = opt.timeLimit || Infinity; // Default: no time limit.
+
+    if (!this.diagonalMovement) {
+        if (!this.allowDiagonal) {
+            this.diagonalMovement = DiagonalMovement.Never;
+        } else {
+            if (this.dontCrossCorners) {
+                this.diagonalMovement = DiagonalMovement.OnlyWhenNoObstacles;
+            } else {
+                this.diagonalMovement = DiagonalMovement.IfAtMostOneObstacle;
+            }
+        }
+    }
 }
 
 /**
@@ -96,7 +111,7 @@ IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
 
         var min, t, k, neighbour;
 
-        var neighbours = grid.getNeighbors(node, this.allowDiagonal, this.dontCrossCorners);
+        var neighbours = grid.getNeighbors(node, this.diagonalMovement);
 
         // Sort the neighbours, gives nicer paths. But, this deviates
         // from the original algorithm - so I left it out.

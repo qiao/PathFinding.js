@@ -8,8 +8,9 @@ var DiagonalMovement = require('../core/DiagonalMovement');
  * based upon https://github.com/bgrins/javascript-astar
  * @constructor
  * @param {object} opt
- * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed.
- * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching block corners.
+ * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed. Deprecated, use diagonalMovement instead.
+ * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching block corners. Deprecated, use diagonalMovement instead.
+ * @param {DiagonalMovement} opt.diagonalMovement Allowed diagonal movement.
  * @param {function} opt.heuristic Heuristic function to estimate the distance
  *     (defaults to manhattan).
  * @param {integer} opt.weight Weight to apply to the heuristic to allow for suboptimal paths, 
@@ -48,8 +49,7 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         startNode = grid.getNodeAt(startX, startY),
         endNode = grid.getNodeAt(endX, endY),
         heuristic = this.heuristic,
-        allowDiagonal = this.allowDiagonal,
-        dontCrossCorners = this.dontCrossCorners,
+        diagonalMovement = this.diagonalMovement,
         weight = this.weight,
         abs = Math.abs, SQRT2 = Math.SQRT2,
         node, neighbors, neighbor, i, l, x, y, ng;
@@ -74,7 +74,7 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         }
 
         // get neigbours of the current node
-        neighbors = grid.getNeighbors(node, allowDiagonal, dontCrossCorners);
+        neighbors = grid.getNeighbors(node, diagonalMovement);
         for (i = 0, l = neighbors.length; i < l; ++i) {
             neighbor = neighbors[i];
 

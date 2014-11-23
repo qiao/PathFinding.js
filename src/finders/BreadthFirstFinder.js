@@ -1,16 +1,31 @@
 var Util = require('../core/Util');
+var DiagonalMovement = require('../core/DiagonalMovement');
 
 /**
  * Breadth-First-Search path finder.
  * @constructor
  * @param {object} opt
- * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed.
- * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching block corners.
+ * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed. Deprecated, use diagonalMovement instead.
+ * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching block corners. Deprecated, use diagonalMovement instead.
+ * @param {DiagonalMovement} opt.diagonalMovement Allowed diagonal movement.
  */
 function BreadthFirstFinder(opt) {
     opt = opt || {};
     this.allowDiagonal = opt.allowDiagonal;
     this.dontCrossCorners = opt.dontCrossCorners;
+    this.diagonalMovement = opt.diagonalMovement;
+
+    if (!this.diagonalMovement) {
+        if (!this.allowDiagonal) {
+            this.diagonalMovement = DiagonalMovement.Never;
+        } else {
+            if (this.dontCrossCorners) {
+                this.diagonalMovement = DiagonalMovement.OnlyWhenNoObstacles;
+            } else {
+                this.diagonalMovement = DiagonalMovement.IfAtMostOneObstacle;
+            }
+        }
+    }
 }
 
 /**
@@ -20,8 +35,7 @@ function BreadthFirstFinder(opt) {
  */
 BreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     var openList = [],
-        allowDiagonal = this.allowDiagonal,
-        dontCrossCorners = this.dontCrossCorners,
+        diagonalMovement = this.diagonalMovement,
         startNode = grid.getNodeAt(startX, startY),
         endNode = grid.getNodeAt(endX, endY),
         neighbors, neighbor, node, i, l;
@@ -41,7 +55,7 @@ BreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, gri
             return Util.backtrace(endNode);
         }
 
-        neighbors = grid.getNeighbors(node, allowDiagonal, dontCrossCorners);
+        neighbors = grid.getNeighbors(node, diagonalMovement);
         for (i = 0, l = neighbors.length; i < l; ++i) {
             neighbor = neighbors[i];
 
