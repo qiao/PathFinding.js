@@ -15,5 +15,4 @@ module.exports = {
     'BiDijkstraFinder'          : require('./finders/BiDijkstraFinder'),
     'IDAStarFinder'             : require('./finders/IDAStarFinder'),
     'JumpPointFinder'           : require('./finders/JumpPointFinder'),
-    'OrthogonalJumpPointFinder' : require('./finders/OrthogonalJumpPointFinder'),
 };

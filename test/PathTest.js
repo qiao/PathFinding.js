@@ -98,11 +98,15 @@ pathTests({
     finder: new PF.IDAStarFinder(),
     optimal: false
 }, {
-    name: 'JumpPoint',
-    finder: new PF.JumpPointFinder(),
+    name: 'JPFMoveDiagonallyIfAtMostOneObstacle',
+    finder: new PF.JumpPointFinder({
+      diagonalMovement: PF.DiagonalMovement.IfAtMostOneObstacle
+    }),
     optimal: false
 },  {
-    name: 'OrthogonalJumpPoint',
-    finder: new PF.OrthogonalJumpPointFinder(),
+    name: 'JPFNeverMoveDiagonally',
+    finder: new PF.JumpPointFinder({
+      diagonalMovement: PF.DiagonalMovement.Never
+    }),
     optimal: false
 });

@@ -1,25 +1,19 @@
 /**
  * @author imor / https://github.com/imor
  */
-var Heuristic  = require('../core/Heuristic');
-var JumpPointFinder = require('./JumpPointFinder');
+var JumpPointFinderBase = require('./JumpPointFinderBase');
 var DiagonalMovement = require('../core/DiagonalMovement');
 
 /**
  * Path finder using the Jump Point Search algorithm allowing only horizontal
  * or vertical movements.
- * @param {object} opt
- * @param {function} opt.heuristic Heuristic function to estimate the distance
- *     (defaults to manhattan).
  */
-function OrthogonalJumpPointFinder(opt) {
-    JumpPointFinder.call(this, opt);
-    opt = opt || {};
-    this.heuristic = opt.heuristic || Heuristic.manhattan;
+function JPFNeverMoveDiagonally(opt) {
+    JumpPointFinderBase.call(this, opt);
 }
 
-OrthogonalJumpPointFinder.prototype = new JumpPointFinder();
-OrthogonalJumpPointFinder.prototype.constructor = OrthogonalJumpPointFinder;
+JPFNeverMoveDiagonally.prototype = new JumpPointFinderBase();
+JPFNeverMoveDiagonally.prototype.constructor = JPFNeverMoveDiagonally;
 
 /**
  * Search recursively in the direction (parent -> child), stopping only when a
@@ -28,7 +22,7 @@ OrthogonalJumpPointFinder.prototype.constructor = OrthogonalJumpPointFinder;
  * @return {Array.<[number, number]>} The x, y coordinate of the jump point
  *     found, or null if not found
  */
-OrthogonalJumpPointFinder.prototype._jump = function(x, y, px, py) {
+JPFNeverMoveDiagonally.prototype._jump = function(x, y, px, py) {
     var grid = this.grid,
         dx = x - px, dy = y - py;
 
@@ -73,7 +67,7 @@ OrthogonalJumpPointFinder.prototype._jump = function(x, y, px, py) {
  * return all available neighbors.
  * @return {Array.<[number, number]>} The neighbors found.
  */
-OrthogonalJumpPointFinder.prototype._findNeighbors = function(node) {
+JPFNeverMoveDiagonally.prototype._findNeighbors = function(node) {
     var parent = node.parent,
         x = node.x, y = node.y,
         grid = this.grid,
@@ -123,4 +117,4 @@ OrthogonalJumpPointFinder.prototype._findNeighbors = function(node) {
     return neighbors;
 };
 
-module.exports = OrthogonalJumpPointFinder;
+module.exports = JPFNeverMoveDiagonally;
