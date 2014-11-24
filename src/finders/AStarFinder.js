@@ -18,6 +18,7 @@ function AStarFinder(opt) {
     opt = opt || {};
     this.allowDiagonal = opt.allowDiagonal;
     this.dontCrossCorners = opt.dontCrossCorners;
+    this.allowCrossDiagnal = opt.allowCrossDiagnal;
     this.heuristic = opt.heuristic || Heuristic.manhattan;
     this.weight = opt.weight || 1;
 }
@@ -36,6 +37,7 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         heuristic = this.heuristic,
         allowDiagonal = this.allowDiagonal,
         dontCrossCorners = this.dontCrossCorners,
+        allowCrossDiagnal = this.allowCrossDiagnal,
         weight = this.weight,
         abs = Math.abs, SQRT2 = Math.SQRT2,
         node, neighbors, neighbor, i, l, x, y, ng;
@@ -60,7 +62,7 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         }
 
         // get neigbours of the current node
-        neighbors = grid.getNeighbors(node, allowDiagonal, dontCrossCorners);
+        neighbors = grid.getNeighbors(node, allowDiagonal, dontCrossCorners, allowCrossDiagnal);
         for (i = 0, l = neighbors.length; i < l; ++i) {
             neighbor = neighbors[i];
 

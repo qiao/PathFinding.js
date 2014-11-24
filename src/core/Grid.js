@@ -132,7 +132,7 @@ Grid.prototype.setWalkableAt = function(x, y, walkable) {
  * @param {boolean} allowDiagonal
  * @param {boolean} dontCrossCorners
  */
-Grid.prototype.getNeighbors = function(node, allowDiagonal, dontCrossCorners) {
+Grid.prototype.getNeighbors = function(node, allowDiagonal, dontCrossCorners, allowCrossDiagnal) {
     var x = node.x,
         y = node.y,
         neighbors = [],
@@ -173,10 +173,10 @@ Grid.prototype.getNeighbors = function(node, allowDiagonal, dontCrossCorners) {
         d2 = s1 && s2;
         d3 = s2 && s3;
     } else {
-        d0 = s3 || s0;
-        d1 = s0 || s1;
-        d2 = s1 || s2;
-        d3 = s2 || s3;
+        d0 = s3 || s0 || allowCrossDiagnal;
+        d1 = s0 || s1 || allowCrossDiagnal;
+        d2 = s1 || s2 || allowCrossDiagnal;
+        d3 = s2 || s3 || allowCrossDiagnal;
     }
 
     // ↖
