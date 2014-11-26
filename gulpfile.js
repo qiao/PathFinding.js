@@ -26,7 +26,7 @@ gulp.task('uglify', ['browserify'], function(cb) {
 });
 
 gulp.task('scripts', ['clean', 'browserify', 'uglify'], function(cb) {
-    return gulp.src(['./utils/banner', './lib/pathfinding-browserified.js'])
+    return gulp.src(['./src/banner', './lib/pathfinding-browserified.js'])
     .pipe(concat('pathfinding-browser.js'))
     .pipe(gulp.dest('./lib/'), cb);
 });
