@@ -1,8 +1,8 @@
 var DiagonalMovement = {
-    Always: 0,
-    Never: 1,
-    IfAtMostOneObstacle: 2,
-    OnlyWhenNoObstacles: 3
+    Always: 1,
+    Never: 2,
+    IfAtMostOneObstacle: 3,
+    OnlyWhenNoObstacles: 4
 };
 
 module.exports = DiagonalMovement;
