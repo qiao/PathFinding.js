@@ -1,0 +1,17 @@
+site_name: PathFinding.js
+repo_url: https://github.com/qiao/PathFinding.js
+site_description: PathFinding.js is a javascript library to find paths on a 2D square grid
+site_favicon: favicon.ico
+site_author: Raminder Singh
+
+pages:
+- [index.md, Home]
+- ['user-guide/introduction.md', 'User Guide', 'Introduction']
+- ['user-guide/installation.md', 'User Guide', 'Installation']
+- ['user-guide/basic-usage.md', 'User Guide', 'Basic Usage']
+- ['user-guide/advanced-usage.md', 'User Guide', 'Advanced Usage']
+- ['user-guide/faq.md', 'User Guide', 'FAQ']
+- ['contributor-guide/contributing.md', 'Contributor Guide', 'Contributing']
+- ['contributor-guide/developing.md', 'Contributor Guide', 'Developing']
+- ['contributor-guide/authors.md', 'Contributor Guide', 'Authors']
+theme: readthedocs

@@ -1,0 +1,18 @@
+/*This is a hack to prevent mkdocs from creating useless subheadings in table of
+contents.
+E.g. If there is a page called introduction.md and it contains the following:
+
+# Introduction
+Blah Blah Blah
+
+Then mkdocs created a table of contents like this:
+
+Introduction
+    Introduction
+	
+This hack hides the second level heading
+
+*/
+.toctree-l2 {
+    display: none;
+}
