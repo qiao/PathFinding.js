@@ -1,17 +1,21 @@
-Anders Riutta <git@andersriutta.com>
-Chris Khoo <chris.khoo@wappworks.com>
-Gerjo <gerjoo@gmail.com>
-Juan Pablo Canepa <jpcanepa@gmail.com>
-Mat Gadd <mat@whiteoctober.co.uk>
-Murilo Pereira <murilo@murilopereira.com>
-Nathan Witmer <nwitmer@gmail.com>
-rafaelcastrocouto <rafaelcastrocouto@gmail.com>
-Raminder Singh <romi_ssk@yahoo.co.in>
-Ricardo Tomasi <ricardobeat@gmail.com>
-Rodrigo Navarro <rnavarro@rnavarro.com.br>
-Rory O'Kane <rory@roryokane.com>
-Stuart Lee <stuart.lee@drpgroup.com>
-surrim <surrim@users.noreply.github.com>
-Tapio Vierros <tapiovierros@gmail.com>
-Willem Mulder <willemmulder@gmail.com>
-Xueqiao Xu <xueqiaoxu@gmail.com>
+# Authors
+
+This is the alphabetically sorted list of contributors to PathFinding.js:
+
+Anders Riutta <https://github.com/ariutta><br>
+Chris Khoo <https://github.com/chriskck><br>
+Gerjo <https://github.com/Gerjo><br>
+Juan Pablo Canepa <https://github.com/jpcanepa><br>
+Mat Gadd <https://github.com/Drarok><br>
+Murilo Pereira <https://github.com/mpereira><br>
+Nathan Witmer <https://github.com/zerowidth><br>
+rafaelcastrocouto <https://github.com/rafaelcastrocouto><br>
+Raminder Singh <https://github.com/imor><br>
+Ricardo Tomasi <https://github.com/ricardobeat><br>
+Rodrigo Navarro <https://github.com/reu><br>
+Rory O'Kane <https://github.com/roryokane><br>
+Stuart Lee <https://github.com/beeglebug><br>
+surrim <https://github.com/surrim><br>
+Tapio Vierros <https://github.com/tapio><br>
+Willem Mulder <https://github.com/willemmulder><br>
+Xueqiao Xu <https://github.com/qiao>
