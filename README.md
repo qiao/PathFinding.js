@@ -4,7 +4,7 @@ PathFinding.js
 
 [![Build Status](https://travis-ci.org/qiao/PathFinding.js.svg?branch=master)](https://travis-ci.org/qiao/PathFinding.js)
 [![Dependency Status](https://david-dm.org/qiao/pathfinding.js.png)](https://david-dm.org/qiao/pathfinding.js)
-[![Documentation Status](https://readthedocs.org/projects/pathfindingjs/badge/?version=latest)](https://readthedocs.org/projects/pathfindingjs/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/pathfindingjs/badge/)](https://readthedocs.org/projects/pathfindingjs/?badge=latest)
 
 Introduction
 ------------
