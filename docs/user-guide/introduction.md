@@ -23,6 +23,8 @@ open an issue in the
 [Issue Tracker](https://github.com/qiao/PathFinding.js/issues).
 
 Browsing the [source](https://github.com/qiao/PathFinding.js) might also help.
+A great visualization of the different pathfinding algorithms is available
+[here](http://qiao.github.io/PathFinding.js/visual/).
 
 ## License
 
