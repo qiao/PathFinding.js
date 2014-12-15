@@ -192,7 +192,7 @@ var View = {
         var node, i, blockedNodes = this.blockedNodes;
         if (!blockedNodes) {
             blockedNodes = this.blockedNodes = new Array(this.numRows);
-            for (i = 0; i < this.numCols; ++i) {
+            for (i = 0; i < this.numRows; ++i) {
                 blockedNodes[i] = [];
             }
         }
