@@ -14,13 +14,13 @@ var grid = new PF.Grid(5, 7, matrix);
 
 The _walkabilityMatrix_ defines which cells are walkable and which have
 obstacles. Ones are obstacles and zeroes are walkable. Alternatively, you can
-also set the obstacles on the grid by calling the `setWalableAt` function:
+also set the obstacles on the grid by calling the `setWalkableAt` function:
 
 ```javascript
 var grid = new PF.Grid(5, 7);
-grid.setWalableAt(0, 1, false);
-grid.setWalableAt(1, 1, false);
-grid.setWalableAt(2, 1, false);
+grid.setWalkableAt(0, 1, false);
+grid.setWalkableAt(1, 1, false);
+grid.setWalkableAt(2, 1, false);
 ...
 ```
 
