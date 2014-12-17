@@ -1,4 +1,4 @@
-# Basic Usage
+# Getting Started
 This section explains the basic usage of PathFinding.js.
 
 ## Importing in Node.js

@@ -5,8 +5,9 @@ Table of Contents
 * User Guide
     * [Introduction](./user-guide/introduction.md)
     * [Installation](./user-guide/installation.md)
-	* [Basic Usage](./user-guide/basic-usage.md)
-	* [Advanced Usage](./user-guide/advanced-usage.md)
+	* [Getting Started](./user-guide/getting-started.md)
+	* [Obstacles](./user-guide/obstacles.md)
+	* [Diagonal Movement](./user-guide/diagonal-movement.md)
 	* [FAQ](./user-guide/faq.md)
 * Contributor Guide
     * [Contributing](./contributor-guide/contributing.md)
