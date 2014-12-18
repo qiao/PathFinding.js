@@ -37,10 +37,6 @@ var path = finder.findPath(0, 0, 4, 6, grid);
 
 PathFinding.js will find the following path:
 
-```javascript
-[[0, 0], [1, 0], [2, 0], [3, 0], [4, 1], [3, 2], [2, 2], [1, 2], [0, 3], [1, 4], [2, 4], [3, 4], [4, 5], [4, 6]]
-```
-
 ![Screenshot](user-guide/images/5x7GridWithObstaclesAndPath.png)
 
 Notice how the path moves diagonally where it can, thus making it shorter. This
