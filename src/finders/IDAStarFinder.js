@@ -50,6 +50,14 @@ function IDAStarFinder(opt) {
             }
         }
     }
+
+    //When diagonal movement is allowed the manhattan heuristic is not admissible
+    //It should be octile instead
+    if (this.diagonalMovement === DiagonalMovement.Never) {
+        this.heuristic = opt.heuristic || Heuristic.manhattan;
+    } else {
+        this.heuristic = opt.heuristic || Heuristic.octile;
+    }
 }
 
 /**
