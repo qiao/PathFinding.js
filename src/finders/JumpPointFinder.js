@@ -16,6 +16,7 @@ var JPFMoveDiagonallyIfAtMostOneObstacle = require('./JPFMoveDiagonallyIfAtMostO
  *      movement will be allowed.
  */
 function JumpPointFinder(opt) {
+    opt = opt || {};
     if (opt.diagonalMovement === DiagonalMovement.Never) {
         return new JPFNeverMoveDiagonally(opt);
     } else if (opt.diagonalMovement === DiagonalMovement.Always) {
