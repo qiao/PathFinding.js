@@ -127,8 +127,10 @@ IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         //    return h(a, end) - h(b, end);
         //});
 
+        
+        /*jshint -W084 *///Disable warning: Expected a conditional expression and instead saw an assignment
         for(k = 0, min = Infinity; neighbour = neighbours[k]; ++k) {
-
+        /*jshint +W084 *///Enable warning: Expected a conditional expression and instead saw an assignment
             if(this.trackRecursion) {
                 // Retain a copy for visualisation. Due to recursion, this
                 // node may be part of other paths too.

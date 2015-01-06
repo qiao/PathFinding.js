@@ -114,8 +114,9 @@ JPFMoveDiagonallyIfNoObstacles.prototype._findNeighbors = function(node) {
         }
         // search horizontally/vertically
         else {
+            var isNextWalkable;
             if (dx !== 0) {
-                var isNextWalkable = grid.isWalkableAt(x + dx, y);
+                isNextWalkable = grid.isWalkableAt(x + dx, y);
                 var isTopWalkable = grid.isWalkableAt(x, y + 1);
                 var isBottomWalkable = grid.isWalkableAt(x, y - 1);
 
@@ -136,7 +137,7 @@ JPFMoveDiagonallyIfNoObstacles.prototype._findNeighbors = function(node) {
                 }
             }
             else if (dy !== 0) {
-                var isNextWalkable = grid.isWalkableAt(x, y + dy);
+                isNextWalkable = grid.isWalkableAt(x, y + dy);
                 var isRightWalkable = grid.isWalkableAt(x + 1, y);
                 var isLeftWalkable = grid.isWalkableAt(x - 1, y);
 

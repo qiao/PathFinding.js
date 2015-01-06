@@ -5,7 +5,9 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     mocha = require('gulp-mocha'),
     shell = require('gulp-shell'),
-    del = require('del');
+    del = require('del'),
+    jshint = require('gulp-jshint'),
+    stylish = require('jshint-stylish');
 
 gulp.task('clean', function(cb) {
     del('lib/**/*.*', cb);
@@ -44,5 +46,12 @@ gulp.task('bench', shell.task([
     'node benchmark/benchmark.js'
 ]));
 
-gulp.task('default', ['test', 'compile'], function() {
+gulp.task('lint', function() {
+  return gulp.src('./src/**/*.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter(stylish))
+    .pipe(jshint.reporter('fail'));
+});
+
+gulp.task('default', ['lint', 'test', 'compile'], function() {
 });

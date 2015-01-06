@@ -18,7 +18,7 @@ function BestFirstFinder(opt) {
     this.heuristic = function(dx, dy) {
         return orig(dx, dy) * 1000000;
     };
-};
+}
 
 BestFirstFinder.prototype = new AStarFinder();
 BestFirstFinder.prototype.constructor = BestFirstFinder;
