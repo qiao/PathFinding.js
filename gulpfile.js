@@ -4,10 +4,14 @@ var gulp = require('gulp'),
     browserify = require('gulp-browserify'),
     concat = require('gulp-concat'),
     mocha = require('gulp-mocha'),
-    shell = require('gulp-shell'),
+    shell = require('shelljs'),
     del = require('del'),
     jshint = require('gulp-jshint'),
-    stylish = require('jshint-stylish');
+    stylish = require('jshint-stylish'),
+    semver = require('semver'),
+    jsonfile = require('jsonfile'),
+    inquirer = require("inquirer"),
+    fs = require('fs');
 
 gulp.task('clean', function(cb) {
     del('lib/**/*.*', cb);
@@ -42,15 +46,58 @@ gulp.task('test', function () {
         .pipe(mocha({reporter: 'spec', bail: true, globals: { should: require('should') }}));
 });
 
-gulp.task('bench', shell.task([
-    'node benchmark/benchmark.js'
-]));
+gulp.task('bench', function() {
+    shell.exec('node benchmark/benchmark.js');
+});
 
 gulp.task('lint', function() {
   return gulp.src('./src/**/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter(stylish))
     .pipe(jshint.reporter('fail'));
+});
+
+gulp.task('release', ['compile'], function(cb) {
+  inquirer.prompt({
+      type: 'list',
+      name: 'bumpType',
+      message: 'Which version do you want to bump?',
+      choices: ['patch', 'minor', 'major'],
+      //default is patch
+      default: 0
+    }, function (result) {
+      var f = jsonfile.readFileSync('./package.json');
+      f.version = semver.inc(f.version, result.bumpType);
+      jsonfile.writeFileSync('./package.json', f);
+
+      shell.exec('git add .');
+      shell.exec('git commit -m "Bumping version to ' + f.version + '"');
+      shell.exec('git push origin master');
+      shell.exec('git tag -a ' + f.version + ' -m "Creating tag for version ' + f.version + '"');
+      shell.exec('git push origin ' + f.version);
+      shell.exec('npm publish');
+
+      shell.exec('git clone https://github.com/imor/pathfinding-bower.git release');
+      process.chdir('release');
+      fs.writeFileSync('pathfinding-browser.js', fs.readFileSync('../lib/pathfinding-browser.js'));
+      fs.writeFileSync('pathfinding-browser.min.js', fs.readFileSync('../lib/pathfinding-browser.min.js'));
+
+      f = jsonfile.readFileSync('bower.json');
+      f.version = semver.inc(f.version, result.bumpType);
+      jsonfile.writeFileSync('bower.json', f);
+
+      shell.exec('git add .');
+      shell.exec('git commit -m "Bumping version to ' + f.version + '"');
+      shell.exec('git push origin master');
+      shell.exec('git tag -a ' + f.version + ' -m "Creating tag for version ' + f.version + '"');
+      shell.exec('git push origin ' + f.version);
+
+      process.chdir('../');
+      del('release');
+      del('lib/**/*.*', cb);
+
+      cb();
+    });
 });
 
 gulp.task('default', ['lint', 'test', 'compile'], function() {
