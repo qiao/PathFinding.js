@@ -95,8 +95,6 @@ gulp.task('release', ['compile'], function(cb) {
       process.chdir('../');
       del('release');
       del('lib/**/*.*', cb);
-
-      cb();
     });
 });
 
