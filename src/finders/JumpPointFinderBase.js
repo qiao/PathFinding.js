@@ -4,7 +4,6 @@
 var Heap       = require('heap');
 var Util       = require('../core/Util');
 var Heuristic  = require('../core/Heuristic');
-var DiagonalMovement = require('../core/DiagonalMovement');
 
 /**
  * Base class for the Jump Point Search algorithm
@@ -73,8 +72,8 @@ JumpPointFinderBase.prototype._identifySuccessors = function(node) {
         neighbors, neighbor,
         jumpPoint, i, l,
         x = node.x, y = node.y,
-        jx, jy, dx, dy, d, ng, jumpNode,
-        abs = Math.abs, max = Math.max;
+        jx, jy, d, ng, jumpNode,
+        abs = Math.abs;
 
     neighbors = this._findNeighbors(node);
     for(i = 0, l = neighbors.length; i < l; ++i) {

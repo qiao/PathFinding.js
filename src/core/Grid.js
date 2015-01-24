@@ -38,8 +38,7 @@ function Grid(width, height, matrix) {
  */
 Grid.prototype._buildNodes = function(width, height, matrix) {
     var i, j,
-        nodes = new Array(height),
-        row;
+        nodes = new Array(height);
 
     for (i = 0; i < height; ++i) {
         nodes[i] = new Array(width);
@@ -219,8 +218,7 @@ Grid.prototype.clone = function() {
         thisNodes = this.nodes,
 
         newGrid = new Grid(width, height),
-        newNodes = new Array(height),
-        row;
+        newNodes = new Array(height);
 
     for (i = 0; i < height; ++i) {
         newNodes[i] = new Array(width);
