@@ -59,6 +59,10 @@ function pathTests(tests) {
 
 // finders guaranteed to find the shortest path
 pathTests({
+    name: 'ThetaStar',
+    finder: new PF.ThetaStarFinder(),
+    optimal: true
+}, {
     name: 'AStar',
     finder: new PF.AStarFinder(),
     optimal: true
