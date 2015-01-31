@@ -57,7 +57,7 @@ ThetaStarFinder.prototype.lineOfSight = function(startX, startY, endX, endY, gri
         y1 = endY,
         dx = x1 - x0,
         dy = y1 - y0,
-        sx, sy, f = 0, s0, s1;
+        sx, sy, f, s0, s1;
     if(dx < 0){
         dx = -dx;
         sx = -1;
@@ -94,6 +94,7 @@ ThetaStarFinder.prototype.lineOfSight = function(startX, startY, endX, endY, gri
         }
         s0 = y0;
         s1 = y1;
+        f = dy;
         for(; ; ){
             f += dy;
             if(f >= dx){
@@ -143,6 +144,7 @@ ThetaStarFinder.prototype.lineOfSight = function(startX, startY, endX, endY, gri
         }
         s0 = x0;
         s1 = x1;
+        f = dx;
         for(; ; ){
             f += dx;
             if(f >= dy){
