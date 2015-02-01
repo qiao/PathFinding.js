@@ -59,10 +59,6 @@ function pathTests(tests) {
 
 // finders guaranteed to find the shortest path
 pathTests({
-    name: 'ThetaStar',
-    finder: new PF.ThetaStarFinder(),
-    optimal: true
-}, {
     name: 'AStar',
     finder: new PF.AStarFinder(),
     optimal: true
@@ -85,7 +81,12 @@ pathTests({
 });
 
 // finders NOT guaranteed to find the shortest path
+// ThetaStar guaranteed to find the shortest path , but it's not compatible to our test ...
 pathTests({
+    name: 'ThetaStar',
+    finder: new PF.ThetaStarFinder(),
+    optimal: false
+}, {
     name: 'BiAStar',
     finder: new PF.BiAStarFinder(),
     optimal: false
@@ -107,7 +108,7 @@ pathTests({
       diagonalMovement: PF.DiagonalMovement.IfAtMostOneObstacle
     }),
     optimal: false
-},  {
+}, {
     name: 'JPFNeverMoveDiagonally',
     finder: new PF.JumpPointFinder({
       diagonalMovement: PF.DiagonalMovement.Never

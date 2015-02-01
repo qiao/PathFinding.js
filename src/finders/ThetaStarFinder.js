@@ -3,44 +3,16 @@ var Util       = require('../core/Util');
 var Heuristic  = require('../core/Heuristic');
 var DiagonalMovement = require('../core/DiagonalMovement');
 /**
- * A* path-finder.
+ * Theta* path-finder.
  * @constructor
  * @param {object} opt
- * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed. Deprecated, use diagonalMovement instead.
- * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching block corners. Deprecated, use diagonalMovement instead.
- * @param {DiagonalMovement} opt.diagonalMovement Allowed diagonal movement.
- * @param {function} opt.heuristic Heuristic function to estimate the distance
- *     (defaults to manhattan).
- * @param {integer} opt.weight Weight to apply to the heuristic to allow for suboptimal paths, 
- *     in order to speed up the search.
  */
 function ThetaStarFinder(opt) {
-    opt = opt || {};
     this.allowDiagonal = true;
     this.dontCrossCorners = true;
-    this.heuristic = Heuristic.manhattan;
+    this.heuristic = Heuristic.euclidean;
     this.weight = 1;
-    this.diagonalMovement = opt.diagonalMovement;
-
-    if (!this.diagonalMovement) {
-        if (!this.allowDiagonal) {
-            this.diagonalMovement = DiagonalMovement.Never;
-        } else {
-            if (this.dontCrossCorners) {
-                this.diagonalMovement = DiagonalMovement.OnlyWhenNoObstacles;
-            } else {
-                this.diagonalMovement = DiagonalMovement.IfAtMostOneObstacle;
-            }
-        }
-    }
-
-    //When diagonal movement is allowed the manhattan heuristic is not admissible
-    //It should be octile instead
-    if (this.diagonalMovement === DiagonalMovement.Never) {
-        this.heuristic = opt.heuristic || Heuristic.manhattan;
-    } else {
-        this.heuristic = opt.heuristic || Heuristic.octile;
-    }
+    this.diagonalMovement = DiagonalMovement.OnlyWhenNoObstacles;
 }
 
 ThetaStarFinder.prototype.distance = function(startX, startY, endX, endY) {
@@ -50,140 +22,127 @@ ThetaStarFinder.prototype.distance = function(startX, startY, endX, endY) {
 }
 
 ThetaStarFinder.prototype.lineOfSight = function(startX, startY, endX, endY, grid) {
-    var
+    var sx, sy, f, s0, s1,
         x0 = startX,
         y0 = startY,
         x1 = endX,
         y1 = endY,
         dx = x1 - x0,
-        dy = y1 - y0,
-        sx, sy, f, s0, s1;
-    if(dx < 0){
+        dy = y1 - y0;
+    if (dx < 0) {
         dx = -dx;
         sx = -1;
-    }
-    else{
+    } else {
         sx = 1;
     }
-    if(dy < 0){
+    if (dy < 0) {
         dy = -dy;
         sy = -1;
-    }
-    else{
+    } else {
         sy = 1;
     }
-    if(dx == 0){
-        for(y0 += sy; y0 != y1; y0 += sy){
-            if(!grid.isWalkableAt(x0, y0)){
+    if (dx == 0) {
+        for (y0 += sy; y0 != y1; y0 += sy) {
+            if (!grid.isWalkableAt(x0, y0)) {
                 return false;
             }
         }
         return true;
     }
-    if(dy == 0){
-        for(x0 += sx; x0 != x1; x0 += sx){
-            if(!grid.isWalkableAt(x0, y0)){
+    if (dy == 0) {
+        for (x0 += sx; x0 != x1; x0 += sx) {
+            if (!grid.isWalkableAt(x0, y0)) {
                 return false;
             }
         }
         return true;
     }
-    if(dx >= dy){
-        if(!grid.isWalkableAt(x0, y0 + sy) || !grid.isWalkableAt(x1, y1 - sy)){
+    if (dx >= dy) {
+        if (!grid.isWalkableAt(x0, y0 + sy) || !grid.isWalkableAt(x1, y1 - sy)) {
             return false;
         }
-        s0 = y0;
-        s1 = y1;
-        f = dy;
-        for(; ; ){
+        for (s0 = y0, s1 = y1, f = dy; ;) {
             f += dy;
-            if(f >= dx){
+            if (f >= dx) {
                 x0 += sx;
                 y0 += sy;
                 x1 -= sx;
                 y1 -= sy;
                 f -= dx;
-            }
-            else{
+            } else {
                 x0 += sx;
                 x1 -= sx;
             }
-            if(x0 == x1 + sx){
+            if (x0 == x1 + sx) {
                 break;
             }
-            if(x0 == x1){
-                if(y0 == y1){
-                    if(!grid.isWalkableAt(x0, y0 - sy) || !grid.isWalkableAt(x0, y0) || !grid.isWalkableAt(x0, y0 + sy)){
+            if (x0 == x1) {
+                if (y0 == y1) {
+                    if (!grid.isWalkableAt(x0, y0 - sy) || !grid.isWalkableAt(x0, y0) || !grid.isWalkableAt(x0, y0 + sy)) {
+                        return false;
+                    }
+                } else {
+                    if (!grid.isWalkableAt(x0, y0) || !grid.isWalkableAt(x1, y1)) {
                         return false;
                     }
                 }
-                else{
-                    if(!grid.isWalkableAt(x0, y0) || !grid.isWalkableAt(x1, y1)){
-                        return false;
-                    }
-                }
                 break;
             }
-            if(y0 != s0 && !grid.isWalkableAt(x0, y0 - sy)){
+            if (y0 != s0 && !grid.isWalkableAt(x0, y0 - sy)) {
                 return false;
             }
-            if(!grid.isWalkableAt(x0, y0) || !grid.isWalkableAt(x0, y0 + sy)){
+            if (!grid.isWalkableAt(x0, y0) || !grid.isWalkableAt(x0, y0 + sy)) {
                 return false;
             }
-            if(y1 != s1 && !grid.isWalkableAt(x1, y1 + sy)){
+            if (y1 != s1 && !grid.isWalkableAt(x1, y1 + sy)) {
                 return false;
             }
-            if(!grid.isWalkableAt(x1, y1) || !grid.isWalkableAt(x1, y1 - sy)){
+            if (!grid.isWalkableAt(x1, y1) || !grid.isWalkableAt(x1, y1 - sy)) {
                 return false;
             }
         }
     }
-    else{
-        if(!grid.isWalkableAt(x0 + sx, y0) || !grid.isWalkableAt(x1 - sx, y1)){
+    else {
+        if (!grid.isWalkableAt(x0 + sx, y0) || !grid.isWalkableAt(x1 - sx, y1)) {
             return false;
         }
-        s0 = x0;
-        s1 = x1;
-        f = dx;
-        for(; ; ){
+        for (s0 = x0, s1 = x1, f = dx; ;) {
             f += dx;
-            if(f >= dy){
+            if (f >= dy) {
                 x0 += sx;
                 y0 += sy;
                 x1 -= sx;
                 y1 -= sy;
                 f -= dy;
-            }
-            else{
+            } else {
                 y0 += sy;
                 y1 -= sy;
             }
-            if(y0 == y1 + sy){
+            if (y0 == y1 + sy) {
                 break;
             }
-            if(y0 == y1){
-                if(x0 == x1){
-                    if(!grid.isWalkableAt(x0 - sx, y0) || !grid.isWalkableAt(x0, y0) || !grid.isWalkableAt(x0 + sx, y0)){
+            if (y0 == y1) {
+                if (x0 == x1) {
+                    if (!grid.isWalkableAt(x0 - sx, y0) || !grid.isWalkableAt(x0, y0) || !grid.isWalkableAt(x0 + sx, y0)) {
+                        return false;
+                    }
+                } else {
+                    if (!grid.isWalkableAt(x0, y0) || !grid.isWalkableAt(x1, y1)) {
                         return false;
                     }
                 }
-                else{
-                    if(!grid.isWalkableAt(x0, y0) || !grid.isWalkableAt(x1, y1)){
-                        return false;
-                    }
-                }
                 break;
             }
-            if(x0 != s0 && !grid.isWalkableAt(x0 - sx, y0)){
+            if (x0 != s0 && !grid.isWalkableAt(x0 - sx, y0)) {
                 return false;
             }
-            if(!grid.isWalkableAt(x0, y0) || !grid.isWalkableAt(x0 + sx, y0)){
+            if (!grid.isWalkableAt(x0, y0) || !grid.isWalkableAt(x0 + sx, y0)) {
                 return false;
             }
-            if(x1 != s1 && !grid.isWalkableAt(x1 + sx, y1)){
+            if (x1 != s1 && !grid.isWalkableAt(x1 + sx, y1)) {
                 return false;
             }
-            if(!grid.isWalkableAt(x1, y1) || !grid.isWalkableAt(x1 - sx, y1)){
+            if (!grid.isWalkableAt(x1, y1) || !grid.isWalkableAt(x1 - sx, y1)) {
                 return false;
             }
         }
@@ -202,9 +161,9 @@ ThetaStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) 
         }),
         startNode = grid.getNodeAt(startX, startY),
         endNode = grid.getNodeAt(endX, endY),
-        heuristic = this.heuristic,
+        distance = this.distance,
+        lineOfSight = this.lineOfSight,
         diagonalMovement = this.diagonalMovement,
-        abs = Math.abs, SQRT2 = Math.SQRT2,
         node, neighbors, neighbor, i, l, x, y, ng;
 
     // set the `g` and `f` value of the start node to be 0
@@ -239,27 +198,25 @@ ThetaStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) 
 
             // check if the neighbor has not been inspected yet, or
             // can be reached with smaller cost from the current node
-            if(node.parent && this.lineOfSight(x, y, node.parent.x, node.parent.y, grid)){
-                ng = node.parent.g + this.distance(x, y, node.parent.x, node.parent.y);
-                if(!neighbor.opened || ng < neighbor.g){
+            if (node.parent && lineOfSight(x, y, node.parent.x, node.parent.y, grid)) {
+                ng = node.parent.g + distance(x, y, node.parent.x, node.parent.y);
+                if (!neighbor.opened || ng < neighbor.g) {
                     neighbor.g = ng;
                     neighbor.parent = node.parent;
-                }
-                else{
+                } else {
                     continue;
                 }
             }
-            else{
-                ng = node.g + this.distance(x, y, node.x, node.y);
-                if(!neighbor.opened || ng < neighbor.g){
+            else {
+                ng = node.g + distance(x, y, node.x, node.y);
+                if (!neighbor.opened || ng < neighbor.g) {
                     neighbor.g = ng;
                     neighbor.parent = node;
-                }
-                else{
+                } else {
                     continue;
                 }
             }
-            neighbor.h = neighbor.h || this.distance(x, y, endX, endY);
+            neighbor.h = neighbor.h || distance(x, y, endX, endY);
             neighbor.f = neighbor.g + neighbor.h;
 
             if (!neighbor.opened) {
