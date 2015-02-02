@@ -11,7 +11,7 @@ function ThetaStarFinder(opt) {
     this.allowDiagonal = true;
     this.dontCrossCorners = true;
     this.heuristic = Heuristic.euclidean;
-    this.weight = 1;
+    this.weight = opt.weight || 1.1;
     this.diagonalMovement = DiagonalMovement.OnlyWhenNoObstacles;
 }
 
@@ -164,6 +164,7 @@ ThetaStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) 
         distance = this.distance,
         lineOfSight = this.lineOfSight,
         diagonalMovement = this.diagonalMovement,
+        weight = this.weight,
         node, neighbors, neighbor, i, l, x, y, ng;
 
     // set the `g` and `f` value of the start node to be 0
@@ -216,7 +217,7 @@ ThetaStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) 
                     continue;
                 }
             }
-            neighbor.h = neighbor.h || distance(x, y, endX, endY);
+            neighbor.h = neighbor.h || weight * distance(x, y, endX, endY);
             neighbor.f = neighbor.g + neighbor.h;
 
             if (!neighbor.opened) {

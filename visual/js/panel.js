@@ -161,7 +161,7 @@ var Panel = {
 
             heuristic = $('input[name=jump_point_heuristic]:checked').val();
 
-            weight = parseInt($('#ida_section input[name=astar_weight]').val()) || 1;
+            weight = parseInt($('#ida_section input[name=ida_weight]').val()) || 1;
             weight = weight >= 1 ? weight : 1; /* if negative or 0, use 1 */
 
             timeLimit = parseInt($('#ida_section input[name=time_limit]').val());
@@ -181,7 +181,12 @@ var Panel = {
             break;
 
         case 'thetastar_header':
-            finder = new PF.ThetaStarFinder({});
+            weight = parseFloat($('#thetastar_section input[name=thetastar_weight]').val()) || 1.1;
+            weight = weight >= 1 ? weight : 1; /* if negative or 0, use 1 */
+            
+            finder = new PF.ThetaStarFinder({
+                weight: weight
+            });
             break;
         }
 

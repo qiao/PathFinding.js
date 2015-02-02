@@ -100,7 +100,7 @@
             <label class="option_label">Allow Diagonal</label> <br>
             <input type="checkbox" class="dont_cross_corners" checked>
             <label class="option_label">Don't Cross Corners</label> <br>
-            <input class="spinner" name="astar_weight" value="1">
+            <input class="spinner" name="ida_weight" value="1">
             <label class="option_label">Weight</label> <br>
             <input class="spinner" name="time_limit" value="10">
             <label class="option_label">Seconds limit</label> <br>
@@ -217,7 +217,15 @@
         </div>
         
         <h3 id="thetastar_header"><a href="#">Theta*</a></h3>
-        <div id="thetastar_header" class="finder_section">
+        <div id="thetastar_section" class="finder_section">
+
+          <header class="option_header">
+            <h3>Options</h3>
+          </header>
+          <div class="optional sub_options">
+            <input class="spinner" name="thetastar_weight" value="1.1">
+            <label class="option_label">Weight</label> <br>
+          </div>
         </div>
 
       </div><!-- .accordion -->
