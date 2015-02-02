@@ -8,6 +8,7 @@ var DiagonalMovement = require('../core/DiagonalMovement');
  * @param {object} opt
  */
 function ThetaStarFinder(opt) {
+    opt = opt || {};
     this.allowDiagonal = true;
     this.dontCrossCorners = true;
     this.heuristic = Heuristic.euclidean;
