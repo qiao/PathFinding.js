@@ -233,7 +233,7 @@ To build the browser distribution:
 
 To run the tests
 (algorithms only, not including the visualization) with
-[mocha](http://visionmedia.github.com/mocha/) and [should.js](https://github.com/visionmedia/should.js)
+[mocha](http://mochajs.org/) and [should.js](https://github.com/visionmedia/should.js)
 First install mocha:
 
     npm install -d -g mocha
