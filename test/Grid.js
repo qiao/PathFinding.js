@@ -107,7 +107,7 @@ describe('Grid', function() {
                 [width, 0, false],
                 [width, height, false],
             ];
-            
+
             asserts.forEach(function(v, i, a) {
                 grid.isInside(v[0], v[1]).should.equal(v[2]);
             });
@@ -121,6 +121,35 @@ describe('Grid', function() {
             grid.getNeighbors(grid.nodes[0][2], DiagonalMovement.IfAtMostOneObstacle).sort(cmp).should.eql([
                 grid.nodes[0][1], grid.nodes[1][2], grid.nodes[1][3]
             ].sort(cmp))
+        });
+    });
+
+    describe('generate with matrix and no width or height', function() {
+        var matrix, grid;
+
+        beforeEach(function() {
+            matrix = [
+                [1, 0, 0, 1],
+                [0, 1, 0, 0],
+                [0, 1, 0, 0],
+                [0, 0, 0, 0],
+                [1, 0, 0, 1],
+            ];
+
+            grid = new Grid(matrix);
+        });
+
+        it('should have correct size', function() {
+            var height = matrix.length;
+            var width = matrix[0].length;
+
+            grid.width.should.equal(width);
+            grid.height.should.equal(height);
+
+            grid.nodes.length.should.equal(height);
+            for (var i = 0; i < height; ++i) {
+                grid.nodes[i].length.should.equal(width);
+            }
         });
     });
 });
