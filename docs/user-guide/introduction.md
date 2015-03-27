@@ -10,7 +10,7 @@ var matrix = [
     [1, 0, 0, 0, 1],
     [0, 0, 1, 0, 0],
 ];
-var grid = new PF.Grid(5, 3, matrix);
+var grid = new PF.Grid(matrix);
 var finder = new PF.AStarFinder();
 //Find path from (1, 2) to (4, 2)
 var path = finder.findPath(1, 2, 4, 2, grid);

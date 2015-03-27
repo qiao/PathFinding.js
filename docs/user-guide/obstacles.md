@@ -9,7 +9,7 @@ var walkabilityMatrix = [[0, 0, 0, 0, 0],
                          [0, 0, 0, 0, 0],
                          [1, 1, 1, 1, 0],
                          [0, 0, 0, 0, 0]];
-var grid = new PF.Grid(5, 7, matrix);
+var grid = new PF.Grid(matrix);
 ```
 
 The _walkabilityMatrix_ defines which cells are walkable and which have
