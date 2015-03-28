@@ -4,12 +4,22 @@ var DiagonalMovement = require('./DiagonalMovement');
 /**
  * The Grid class, which serves as the encapsulation of the layout of the nodes.
  * @constructor
- * @param {number} width Number of columns of the grid.
+ * @param {number|Array.<Array.<(number|boolean)>>} width_or_matrix Number of columns of the grid, or matrix
  * @param {number} height Number of rows of the grid.
  * @param {Array.<Array.<(number|boolean)>>} [matrix] - A 0-1 matrix
  *     representing the walkable status of the nodes(0 or false for walkable).
  *     If the matrix is not supplied, all the nodes will be walkable.  */
-function Grid(width, height, matrix) {
+function Grid(width_or_matrix, height, matrix) {
+    var width;
+
+    if (typeof width_or_matrix !== 'object') {
+        width = width_or_matrix;
+    } else {
+        height = width_or_matrix.length;
+        width = width_or_matrix[0].length;
+        matrix = width_or_matrix;
+    }
+
     /**
      * The number of columns of the grid.
      * @type number
