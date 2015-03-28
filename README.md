@@ -83,7 +83,7 @@ var matrix = [
     [1, 0, 0, 0, 1],
     [0, 0, 1, 0, 0],
 ];
-var grid = new PF.Grid(5, 3, matrix);
+var grid = new PF.Grid(matrix);
 ```
 
 Currently there are 10 path-finders bundled in this library, namely:
