@@ -52,7 +52,9 @@ function BiAStarFinder(opt) {
  */
 BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     var cmp = function(nodeA, nodeB) {
-            return nodeA.f - nodeB.f;
+            var MAX_DIFF = 0.000001;
+            var diff = nodeA.f - nodeB.f;
+            return abs(diff) < MAX_DIFF ? nodeA.h - nodeB.h : diff;
         },
         startOpenList = new Heap(cmp),
         endOpenList = new Heap(cmp),
