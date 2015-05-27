@@ -48,6 +48,11 @@ var Controller = StateMachine.create({
             to:   'ready'
         },
         {
+            name: 'randomMap',
+            from: '*',
+            to:   'ready',
+        },
+        {
             name: 'clear',
             from: ['finished', 'modified'],
             to:   'ready'
@@ -195,6 +200,16 @@ $.extend(Controller, {
         }, View.nodeColorizeEffect.duration * 1.2);
         // => ready
     },
+    onrandomMap: function(event, from, to) {
+        setTimeout(function() {
+            Controller.clearOperations();
+            Controller.clearAll();
+            Controller.buildNewGrid();
+            Controller.setDefaultStartEndPos();
+            Controller.buildRandomWall();
+        }, View.nodeColorizeEffect.duration * 1.2);
+        // => ready
+    },
 
     /**
      * The following functions are called on entering states.
@@ -216,6 +231,11 @@ $.extend(Controller, {
             text: 'Clear Walls',
             enabled: true,
             callback: $.proxy(this.reset, this),
+        }, {
+            id: 4,
+            text: 'Random Map',
+            enabled: true,
+            callback: $.proxy(this.randomMap, this),
         });
         // => [starting, draggingStart, draggingEnd, drawingStart, drawingEnd]
     },
@@ -381,6 +401,27 @@ $.extend(Controller, {
     buildNewGrid: function() {
         this.grid = new PF.Grid(this.gridSize[0], this.gridSize[1]);
     },
+    buildRandomWall: function() {
+        var viewX = this.viewX, viewY = this.viewY,
+            startX = this.startX, startY = this.startY,
+            endX = this.endX, endY = this.endY;
+
+        noise.seed(Math.random());
+        for (var x = 1; x < viewX - 1; ++ x) {
+            for (var y = 1; y < viewY - 1; ++ y) {
+                if ((x - startX) * (x - startX) + (y - startY) * (y - startY) < 25) {
+                    continue;
+                }
+                if ((x - endX) * (x - endX) + (y - endY) * (y - endY) < 25) {
+                    continue;
+                }
+                var value = noise.simplex2(x / viewX, y / viewY);
+                if (value > 0.45) {
+                    this.setWalkableAt(x, y, false);
+                }
+            }
+        }
+    },
     mousedown: function (event) {
         var coord = View.toGridCoordinate(event.pageX, event.pageY),
             gridX = coord[0],
@@ -463,23 +504,29 @@ $.extend(Controller, {
      * It will detect user's display size, and compute the best positions.
      */
     setDefaultStartEndPos: function() {
-        var width, height,
-            marginRight, availWidth,
+        var marginRight,
+            numCols = this.gridSize[0],
+            numRows = this.gridSize[1],
             centerX, centerY,
             endX, endY,
+            startX, startY,
             nodeSize = View.nodeSize;
 
-        width  = $(window).width();
-        height = $(window).height();
+        marginRight = $('#algorithm_panel').width() + 60;
+        this.viewX = Math.min(($(window).width() - marginRight) / nodeSize, numCols) - 1;
+        this.viewY = Math.min($(window).height() / nodeSize, numRows) - 1;
+        centerX = Math.ceil(this.viewX / 2);
+        centerY = Math.floor(this.viewY / 2);
 
-        marginRight = $('#algorithm_panel').width();
-        availWidth = width - marginRight;
+        startX = Math.ceil(Math.random() * centerX);
+        startY = Math.ceil(Math.random() * centerY);
+        this.setStartPos(startX, startY);
 
-        centerX = Math.ceil(availWidth / 2 / nodeSize);
-        centerY = Math.floor(height / 2 / nodeSize);
+        endX = Math.ceil(Math.random() * centerX) + centerX;
+        endY = Math.ceil(Math.random() * centerY) + centerY;
+        this.setEndPos(endX, endY);
 
-        this.setStartPos(centerX - 5, centerY);
-        this.setEndPos(centerX + 5, centerY);
+        console.log('%d,%d| %d,%d -> %d,%d', this.viewX, this.viewY, startX, startY, endX, endY);
     },
     setStartPos: function(gridX, gridY) {
         this.startX = gridX;
