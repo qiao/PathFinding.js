@@ -46,7 +46,7 @@ most one obstacle for the diagonal path.
 ![Screenshot](user-guide/images/DiagonalPathsForAtMostOneObstacle.png)
 
 ## OnlyWhenNoObstacles
-With this option PathFinding.js will find diagonal paths only if there is are
+With this option PathFinding.js will find diagonal paths only if there are no
 obstacles for the diagonal path.
 
 ![Screenshot](user-guide/images/DiagonalPathsForOnlyWhenNoObstacles.png)
