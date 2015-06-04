@@ -142,7 +142,7 @@ function smoothenPath(grid, path) {
         sx, sy,                 // current start coordinate
         ex, ey,                 // current end coordinate
         newPath,
-        i, j, coord, line, testCoord, blocked;
+        i, j, coord, line, testCoord, blocked, lastValidCoord;
 
     sx = x0;
     sy = y0;

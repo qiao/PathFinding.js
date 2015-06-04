@@ -30,11 +30,10 @@
  */
 
 var fs = require('fs');
-var endOfLine = require('os').EOL;
 
 function parse(filename) {
-  var content = fs.readFileSync(filename).toString();
-  var lines = content.split(endOfLine);
+  var content = fs.readFileSync(filename, { encoding: 'utf8' });
+  var lines = content.split(/\r?\n/);
   return {
     height : parseInt(lines[1].split(' ')[1]),
     width  : parseInt(lines[2].split(' ')[1]),

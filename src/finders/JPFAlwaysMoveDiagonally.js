@@ -79,7 +79,7 @@ JPFAlwaysMoveDiagonally.prototype._findNeighbors = function(node) {
     var parent = node.parent,
         x = node.x, y = node.y,
         grid = this.grid,
-        px, py, nx, ny, dx, dy,
+        px, py, dx, dy,
         neighbors = [], neighborNodes, neighborNode, i, l;
 
     // directed pruning: can ignore most neighbors, unless forced.

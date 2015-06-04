@@ -1,4 +1,3 @@
-var Util       = require('../core/Util');
 var Heuristic  = require('../core/Heuristic');
 var Node       = require('../core/Node');
 var DiagonalMovement = require('../core/DiagonalMovement');
@@ -112,7 +111,7 @@ IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
             return f;
         }
 
-        if(node == end) {
+        if(node === end) {
             route[depth] = [node.x, node.y];
             return node;
         }

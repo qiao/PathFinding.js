@@ -55,7 +55,7 @@ JPFNeverMoveDiagonally.prototype._jump = function(x, y, px, py) {
         }
     }
     else {
-        throw new Error("Only horizontal and vertical movements are allowed");
+        throw new Error('Only horizontal and vertical movements are allowed');
     }
 
     return this._jump(x + dx, y + dy, x, y);
@@ -71,7 +71,7 @@ JPFNeverMoveDiagonally.prototype._findNeighbors = function(node) {
     var parent = node.parent,
         x = node.x, y = node.y,
         grid = this.grid,
-        px, py, nx, ny, dx, dy,
+        px, py, dx, dy,
         neighbors = [], neighborNodes, neighborNode, i, l;
 
     // directed pruning: can ignore most neighbors, unless forced.
