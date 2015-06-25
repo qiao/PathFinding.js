@@ -1,6 +1,6 @@
 var PF = require('..');
 
-describe.only('Utility functions', function () {
+describe('Utility functions', function () {
     describe('bresenham', function () {
         it('should return the path by Bresenham interpolation', function () {
             PF.Util.interpolate(0, 0, 2, 5).should.eql([
