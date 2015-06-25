@@ -1,10 +1,22 @@
 var PF = require('..');
 
-describe('Utility functions', function () {
-    describe('interpolate', function () {
-        it('should return the interpolated path', function () {
-            PF.Util.interpolate(0, 1, 0, 4).should.eql([
-                [0, 1], [0, 2], [0, 3], [0, 4]
+describe.only('Utility functions', function () {
+    describe('bresenham', function () {
+        it('should return the path by Bresenham interpolation', function () {
+            PF.Util.interpolate(0, 0, 2, 5).should.eql([
+                [0, 0], [0, 1],
+                [1, 2], [1, 3],
+                [2, 4], [2, 5]
+            ]);
+        });
+    });
+
+    describe('raytrace', function () {
+        it('should return the interpolated path by raytracing', function () {
+            PF.Util.raytrace(0, 0, 2, 5).should.eql([
+                [0, 0], [0, 1],
+                [1, 1], [1, 2], [1, 3], [1, 4],
+                [2, 4], [2, 5]
             ]);
         });
     });
@@ -45,6 +57,14 @@ describe('Utility functions', function () {
                 [0, 1], [0, 2], [0, 3], [0, 4], [1, 5], [2, 6]
             ]).should.eql([
                 [0, 1], [0, 4], [2, 6]
+            ]);
+        });
+    });
+
+    describe('smoothenPath', function () {
+        it('should return the interpolated path', function () {
+            PF.Util.interpolate(0, 1, 0, 4).should.eql([
+                [0, 1], [0, 2], [0, 3], [0, 4]
             ]);
         });
     });

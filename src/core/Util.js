@@ -56,7 +56,7 @@ exports.pathLength = pathLength;
  * @param {number} y1 End y coordinate
  * @return {Array.<Array.<number>>} The coordinates on the line
  */
-function interpolate(x0, y0, x1, y1) {
+function bresenham(x0, y0, x1, y1) {
     var abs = Math.abs,
         line = [],
         sx, sy, dx, dy, err, e2;
@@ -75,7 +75,7 @@ function interpolate(x0, y0, x1, y1) {
         if (x0 === x1 && y0 === y1) {
             break;
         }
-        
+
         e2 = 2 * err;
         if (e2 > -dy) {
             err = err - dy;
@@ -89,7 +89,68 @@ function interpolate(x0, y0, x1, y1) {
 
     return line;
 }
+var interpolate = bresenham;
 exports.interpolate = interpolate;
+
+/**
+ * Given the start and end coordinates, return all the coordinates lying
+ * on the line formed by these coordinates, based on Fast Voxel Traversal Algorithm.
+ * http://www.cs.yorku.ca/~amana/research/grid.pdf
+ * @param {number} x0 Start x coordinate
+ * @param {number} y0 Start y coordinate
+ * @param {number} x1 End x coordinate
+ * @param {number} y1 End y coordinate
+ * @return {Array.<Array.<number>>} The coordinates on the line
+ */
+function raytrace(x0, y0, x1, y1) {
+
+    var deltaX = x1 - x0;
+    var deltaY = y1 - y0;
+
+    var tValue = 0;
+    var gridPosX = x0;
+    var gridPosY = y0;
+    var tForOneX = Math.abs(1.0 / deltaX);
+    var tForOneY = Math.abs(1.0 / deltaY);
+
+    var fracStartPosX = (x0 + 0.5) - x0;
+    var tForNextBorderX = (deltaX > 0 ? 1 - fracStartPosX : fracStartPosX) * tForOneX;
+
+    var fracStartPosY = (y0 + 0.5) - y0;
+    var tForNextBorderY = (deltaY > 0 ? 1 - fracStartPosY : fracStartPosY) * tForOneY;
+
+    var stepX = stepY = 0
+
+    if (deltaX >= 0)
+        stepX = 1;
+    else
+        stepX = -1;
+
+    if (deltaY >= 0)
+        stepY = 1;
+    else
+        stepY = -1;
+
+    var result = [];
+
+    while( tValue <= 1.0 ) {
+        result.push([gridPosX, gridPosY]);
+
+        if (tForNextBorderX <= tForNextBorderY) {
+            tValue = tForNextBorderX;
+            tForNextBorderX += tForOneX;
+            gridPosX += stepX;
+        }
+        else {
+            tValue = tForNextBorderY;
+            tForNextBorderY += tForOneY;
+            gridPosY += stepY;
+        }
+    }
+
+    return result;
+}
+exports.raytrace = raytrace;
 
 
 /**
@@ -132,8 +193,9 @@ exports.expandPath = expandPath;
  * The original path will not be modified; a new path will be returned.
  * @param {PF.Grid} grid
  * @param {Array.<Array.<number>>} path The path
+ * @param {boolean} useRaytrace
  */
-function smoothenPath(grid, path) {
+function smoothenPath(grid, path, useRaytrace) {
     var len = path.length,
         x0 = path[0][0],        // path start x
         y0 = path[0][1],        // path start y
@@ -147,6 +209,10 @@ function smoothenPath(grid, path) {
     sx = x0;
     sy = y0;
     newPath = [[sx, sy]];
+
+    var interpolate = bresenham;
+    if (useRaytrace)
+        interpolate = raytrace;
 
     for (i = 2; i < len; ++i) {
         coord = path[i];
