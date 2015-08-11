@@ -19,7 +19,7 @@ JPFNeverMoveDiagonally.prototype.constructor = JPFNeverMoveDiagonally;
  * Search recursively in the direction (parent -> child), stopping only when a
  * jump point is found.
  * @protected
- * @return {Array.<[number, number]>} The x, y coordinate of the jump point
+ * @return {Array<Array<number>>} The x, y coordinate of the jump point
  *     found, or null if not found
  */
 JPFNeverMoveDiagonally.prototype._jump = function(x, y, px, py) {
@@ -65,7 +65,7 @@ JPFNeverMoveDiagonally.prototype._jump = function(x, y, px, py) {
  * Find the neighbors for the given node. If the node has a parent,
  * prune the neighbors based on the jump point search algorithm, otherwise
  * return all available neighbors.
- * @return {Array.<[number, number]>} The neighbors found.
+ * @return {Array<Array<number>>} The neighbors found.
  */
 JPFNeverMoveDiagonally.prototype._findNeighbors = function(node) {
     var parent = node.parent,

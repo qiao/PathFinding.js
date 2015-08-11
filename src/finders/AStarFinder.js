@@ -4,17 +4,18 @@ var Heuristic  = require('../core/Heuristic');
 var DiagonalMovement = require('../core/DiagonalMovement');
 
 /**
- * A* path-finder.
- * based upon https://github.com/bgrins/javascript-astar
+ * A* path-finder. Based upon https://github.com/bgrins/javascript-astar
  * @constructor
- * @param {object} opt
- * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed. Deprecated, use diagonalMovement instead.
- * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching block corners. Deprecated, use diagonalMovement instead.
+ * @param {Object} opt
+ * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed.
+ *     Deprecated, use diagonalMovement instead.
+ * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching 
+ *     block corners. Deprecated, use diagonalMovement instead.
  * @param {DiagonalMovement} opt.diagonalMovement Allowed diagonal movement.
  * @param {function} opt.heuristic Heuristic function to estimate the distance
  *     (defaults to manhattan).
- * @param {integer} opt.weight Weight to apply to the heuristic to allow for suboptimal paths, 
- *     in order to speed up the search.
+ * @param {number} opt.weight Weight to apply to the heuristic to allow for
+ *     suboptimal paths, in order to speed up the search.
  */
 function AStarFinder(opt) {
     opt = opt || {};
@@ -36,8 +37,8 @@ function AStarFinder(opt) {
         }
     }
 
-    //When diagonal movement is allowed the manhattan heuristic is not admissible
-    //It should be octile instead
+    // When diagonal movement is allowed the manhattan heuristic is not
+    //admissible. It should be octile instead
     if (this.diagonalMovement === DiagonalMovement.Never) {
         this.heuristic = opt.heuristic || Heuristic.manhattan;
     } else {
@@ -47,7 +48,7 @@ function AStarFinder(opt) {
 
 /**
  * Find and return the the path.
- * @return {Array.<[number, number]>} The path, including both start and
+ * @return {Array<Array<number>>} The path, including both start and
  *     end positions.
  */
 AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {

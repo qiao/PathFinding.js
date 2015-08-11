@@ -17,18 +17,20 @@ var DiagonalMovement = require('../core/DiagonalMovement');
  * @author Gerard Meier (www.gerardmeier.com)
  *
  * @constructor
- * @param {object} opt
- * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed. Deprecated, use diagonalMovement instead.
- * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching block corners. Deprecated, use diagonalMovement instead.
+ * @param {Object} opt
+ * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed.
+ *     Deprecated, use diagonalMovement instead.
+ * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching
+ *     block corners. Deprecated, use diagonalMovement instead.
  * @param {DiagonalMovement} opt.diagonalMovement Allowed diagonal movement.
  * @param {function} opt.heuristic Heuristic function to estimate the distance
  *     (defaults to manhattan).
- * @param {integer} opt.weight Weight to apply to the heuristic to allow for suboptimal paths,
- *     in order to speed up the search.
- * @param {object} opt.trackRecursion Whether to track recursion for statistical purposes.
- * @param {object} opt.timeLimit Maximum execution time. Use <= 0 for infinite.
+ * @param {number} opt.weight Weight to apply to the heuristic to allow for
+ *     suboptimal paths, in order to speed up the search.
+ * @param {boolean} opt.trackRecursion Whether to track recursion for
+ *     statistical purposes.
+ * @param {number} opt.timeLimit Maximum execution time. Use <= 0 for infinite.
  */
-
 function IDAStarFinder(opt) {
     opt = opt || {};
     this.allowDiagonal = opt.allowDiagonal;
@@ -51,8 +53,8 @@ function IDAStarFinder(opt) {
         }
     }
 
-    //When diagonal movement is allowed the manhattan heuristic is not admissible
-    //It should be octile instead
+    // When diagonal movement is allowed the manhattan heuristic is not
+    // admissible, it should be octile instead
     if (this.diagonalMovement === DiagonalMovement.Never) {
         this.heuristic = opt.heuristic || Heuristic.manhattan;
     } else {
@@ -64,7 +66,7 @@ function IDAStarFinder(opt) {
  * Find and return the the path. When an empty array is returned, either
  * no path is possible, or the maximum execution time is reached.
  *
- * @return {Array.<[number, number]>} The path, including both start and
+ * @return {Array<Array<number>>} The path, including both start and
  *     end positions.
  */
 IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
@@ -90,7 +92,7 @@ IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
      * @param {Node} The node currently expanding from.
      * @param {number} Cost to reach the given node.
      * @param {number} Maximum search depth (cut-off value).
-     * @param {{Array.<[number, number]>}} The found route.
+     * @param {Array<Array<number>>} The found route.
      * @param {number} Recursion depth.
      *
      * @return {Object} either a number with the new optimal cut-off depth,
@@ -100,7 +102,8 @@ IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         nodesVisited++;
 
         // Enforce timelimit:
-        if(this.timeLimit > 0 && new Date().getTime() - startTime > this.timeLimit * 1000) {
+        if (this.timeLimit > 0 &&
+            new Date().getTime() - startTime > this.timeLimit * 1000) {
             // Enforced as "path-not-found".
             return Infinity;
         }
@@ -108,11 +111,11 @@ IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         var f = g + h(node, end) * this.weight;
 
         // We've searched too deep for this iteration.
-        if(f > cutoff) {
+        if (f > cutoff) {
             return f;
         }
 
-        if(node == end) {
+        if (node == end) {
             route[depth] = [node.x, node.y];
             return node;
         }
@@ -129,9 +132,9 @@ IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
 
         
         /*jshint -W084 *///Disable warning: Expected a conditional expression and instead saw an assignment
-        for(k = 0, min = Infinity; neighbour = neighbours[k]; ++k) {
+        for (k = 0, min = Infinity; neighbour = neighbours[k]; ++k) {
         /*jshint +W084 *///Enable warning: Expected a conditional expression and instead saw an assignment
-            if(this.trackRecursion) {
+            if (this.trackRecursion) {
                 // Retain a copy for visualisation. Due to recursion, this
                 // node may be part of other paths too.
                 neighbour.retainCount = neighbour.retainCount + 1 || 1;
@@ -143,7 +146,7 @@ IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
 
             t = search(neighbour, g + cost(node, neighbour), cutoff, route, depth + 1);
 
-            if(t instanceof Node) {
+            if (t instanceof Node) {
                 route[depth] = [node.x, node.y];
 
                 // For a typical A* linked list, this would work:
@@ -152,11 +155,11 @@ IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
             }
 
             // Decrement count, then determine whether it's actually closed.
-            if(this.trackRecursion && (--neighbour.retainCount) === 0) {
+            if (this.trackRecursion && (--neighbour.retainCount) === 0) {
                 neighbour.tested = false;
             }
 
-            if(t < min) {
+            if (t < min) {
                 min = t;
             }
         }
@@ -176,8 +179,7 @@ IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     var j, route, t;
 
     // With an overflow protection.
-    for(j = 0; true; ++j) {
-        //console.log("Iteration: " + j + ", search cut-off value: " + cutOff + ", nodes visited thus far: " + nodesVisited + ".");
+    for (j = 0; true; ++j) {
 
         route = [];
 
@@ -185,14 +187,13 @@ IDAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         t = search(start, 0, cutOff, route, 0);
 
         // Route not possible, or not found in time limit.
-        if(t === Infinity) {
+        if (t === Infinity) {
             return [];
         }
 
         // If t is a node, it's also the end node. Route is now
         // populated with a valid path to the end node.
-        if(t instanceof Node) {
-            //console.log("Finished at iteration: " + j + ", search cut-off value: " + cutOff + ", nodes visited: " + nodesVisited + ".");
+        if (t instanceof Node) {
             return route;
         }
 

@@ -2,7 +2,7 @@
  * Backtrace according to the parent records and return the path.
  * (including both start and end nodes)
  * @param {Node} node End node
- * @return {Array.<Array.<number>>} the path
+ * @return {Array<Array<number>>} the path
  */
 function backtrace(node) {
     var path = [[node.x, node.y]];
@@ -29,7 +29,7 @@ exports.biBacktrace = biBacktrace;
 
 /**
  * Compute the length of the path.
- * @param {Array.<Array.<number>>} path The path
+ * @param {Array<Array<number>>} path The path
  * @return {number} The length of the path
  */
 function pathLength(path) {
@@ -54,7 +54,7 @@ exports.pathLength = pathLength;
  * @param {number} y0 Start y coordinate
  * @param {number} x1 End x coordinate
  * @param {number} y1 End y coordinate
- * @return {Array.<Array.<number>>} The coordinates on the line
+ * @return {Array<Array<number>>} The coordinates on the line
  */
 function interpolate(x0, y0, x1, y1) {
     var abs = Math.abs,
@@ -95,8 +95,8 @@ exports.interpolate = interpolate;
 /**
  * Given a compressed path, return a new path that has all the segments
  * in it interpolated.
- * @param {Array.<Array.<number>>} path The path
- * @return {Array.<Array.<number>>} expanded path
+ * @param {Array<Array<number>>} path The path
+ * @return {Array<Array<number>>} expanded path
  */
 function expandPath(path) {
     var expanded = [],
@@ -131,7 +131,7 @@ exports.expandPath = expandPath;
  * Smoothen the give path.
  * The original path will not be modified; a new path will be returned.
  * @param {PF.Grid} grid
- * @param {Array.<Array.<number>>} path The path
+ * @param {Array<Array<number>>} path The path
  */
 function smoothenPath(grid, path) {
     var len = path.length,
@@ -180,8 +180,8 @@ exports.smoothenPath = smoothenPath;
 /**
  * Compress a path, remove redundant nodes without altering the shape
  * The original path is not modified
- * @param {Array.<Array.<number>>} path The path
- * @return {Array.<Array.<number>>} The compressed path
+ * @param {Array<Array<number>>} path The path
+ * @return {Array<Array<number>>} The compressed path
  */
 function compressPath(path) {
 

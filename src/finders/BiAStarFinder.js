@@ -7,14 +7,16 @@ var DiagonalMovement = require('../core/DiagonalMovement');
  * A* path-finder.
  * based upon https://github.com/bgrins/javascript-astar
  * @constructor
- * @param {object} opt
- * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed. Deprecated, use diagonalMovement instead.
- * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching block corners. Deprecated, use diagonalMovement instead.
+ * @param {Object} opt
+ * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed.
+ *     Deprecated, use diagonalMovement instead.
+ * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching
+ *     block corners. Deprecated, use diagonalMovement instead.
  * @param {DiagonalMovement} opt.diagonalMovement Allowed diagonal movement.
  * @param {function} opt.heuristic Heuristic function to estimate the distance
  *     (defaults to manhattan).
- * @param {integer} opt.weight Weight to apply to the heuristic to allow for suboptimal paths, 
- *     in order to speed up the search.
+ * @param {number} opt.weight Weight to apply to the heuristic to allow for
+ *     suboptimal paths, in order to speed up the search.
  */
 function BiAStarFinder(opt) {
     opt = opt || {};
@@ -47,7 +49,7 @@ function BiAStarFinder(opt) {
 
 /**
  * Find and return the the path.
- * @return {Array.<[number, number]>} The path, including both start and
+ * @return {Array<Array<number>>} The path, including both start and
  *     end positions.
  */
 BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
@@ -109,7 +111,8 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
             // can be reached with smaller cost from the current node
             if (!neighbor.opened || ng < neighbor.g) {
                 neighbor.g = ng;
-                neighbor.h = neighbor.h || weight * heuristic(abs(x - endX), abs(y - endY));
+                neighbor.h = neighbor.h ||
+                    weight * heuristic(abs(x - endX), abs(y - endY));
                 neighbor.f = neighbor.g + neighbor.h;
                 neighbor.parent = node;
 
@@ -153,7 +156,8 @@ BiAStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
             // can be reached with smaller cost from the current node
             if (!neighbor.opened || ng < neighbor.g) {
                 neighbor.g = ng;
-                neighbor.h = neighbor.h || weight * heuristic(abs(x - startX), abs(y - startY));
+                neighbor.h = neighbor.h ||
+                    weight * heuristic(abs(x - startX), abs(y - startY));
                 neighbor.f = neighbor.g + neighbor.h;
                 neighbor.parent = node;
 

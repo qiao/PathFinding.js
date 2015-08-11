@@ -9,7 +9,7 @@ var JPFMoveDiagonallyIfAtMostOneObstacle = require('./JPFMoveDiagonallyIfAtMostO
 
 /**
  * Path finder using the Jump Point Search algorithm
- * @param {object} opt
+ * @param {Object} opt
  * @param {function} opt.heuristic Heuristic function to estimate the distance
  *     (defaults to manhattan).
  * @param {DiagonalMovement} opt.diagonalMovement Condition under which diagonal

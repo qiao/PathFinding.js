@@ -4,9 +4,11 @@ var DiagonalMovement = require('../core/DiagonalMovement');
 /**
  * Breadth-First-Search path finder.
  * @constructor
- * @param {object} opt
- * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed. Deprecated, use diagonalMovement instead.
- * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching block corners. Deprecated, use diagonalMovement instead.
+ * @param {Object} opt
+ * @param {boolean} opt.allowDiagonal Whether diagonal movement is allowed.
+ *     Deprecated, use diagonalMovement instead.
+ * @param {boolean} opt.dontCrossCorners Disallow diagonal movement touching
+ *     block corners. Deprecated, use diagonalMovement instead.
  * @param {DiagonalMovement} opt.diagonalMovement Allowed diagonal movement.
  */
 function BreadthFirstFinder(opt) {
@@ -30,7 +32,7 @@ function BreadthFirstFinder(opt) {
 
 /**
  * Find and return the the path.
- * @return {Array.<[number, number]>} The path, including both start and
+ * @return {Array<Array<number>>} The path, including both start and
  *     end positions.
  */
 BreadthFirstFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {

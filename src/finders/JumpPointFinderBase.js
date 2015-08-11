@@ -20,7 +20,7 @@ function JumpPointFinderBase(opt) {
 
 /**
  * Find and return the path.
- * @return {Array.<[number, number]>} The path, including both start and
+ * @return {Array<Array<number>>} The path, including both start and
  *     end positions.
  */
 JumpPointFinderBase.prototype.findPath = function(startX, startY, endX, endY, grid) {
