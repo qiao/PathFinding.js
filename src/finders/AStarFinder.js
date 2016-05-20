@@ -24,6 +24,7 @@ function AStarFinder(opt) {
     this.heuristic = opt.heuristic || Heuristic.manhattan;
     this.weight = opt.weight || 1;
     this.diagonalMovement = opt.diagonalMovement;
+    this.closest = opt.closest || false;
 
     if (!this.diagonalMovement) {
         if (!this.allowDiagonal) {
@@ -62,10 +63,15 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         weight = this.weight,
         abs = Math.abs, SQRT2 = Math.SQRT2,
         node, neighbors, neighbor, i, l, x, y, ng;
+        closest = this.closest;
 
     // set the `g` and `f` value of the start node to be 0
     startNode.g = 0;
     startNode.f = 0;
+    if(closest){
+        closestNode = startNode;
+        closestNode.h = heuristic(abs(startX - endX), abs(startY - endY));
+    }
 
     // push the start node into the open list
     openList.push(startNode);
@@ -105,7 +111,13 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
                 neighbor.h = neighbor.h || weight * heuristic(abs(x - endX), abs(y - endY));
                 neighbor.f = neighbor.g + neighbor.h;
                 neighbor.parent = node;
-
+                
+                // if the neighbour is closer than the current closestNode or if it's equally close but has
+                // a cheaper path than the current closest node then it becomes the closest node
+                if (closest && (neighbor.h < closestNode.h || (neighbor.h === closestNode.h && neighbor.g < closestNode.g))) {
+                  closestNode = neighbor;
+                }
+                
                 if (!neighbor.opened) {
                     openList.push(neighbor);
                     neighbor.opened = true;
@@ -118,9 +130,13 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
             }
         } // end for each neighbor
     } // end while not open list empty
-
-    // fail to find the path
-    return [];
+    
+  // if end position not reached, return closest open node
+  if(closest)
+    return backtrace(closestNode);
+    
+  // fail to find the path
+  return [];
 };
 
 module.exports = AStarFinder;
