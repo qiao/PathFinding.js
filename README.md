@@ -1,5 +1,4 @@
 PathFinding.js
-==============
 #### A comprehensive path-finding library in javascript. ####
 
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/qiao/PathFinding.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
