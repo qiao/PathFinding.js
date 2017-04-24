@@ -191,6 +191,11 @@ Grid.prototype.getNeighbors = function(node, diagonalMovement) {
         d1 = true;
         d2 = true;
         d3 = true;
+    } else if (diagonalMovement === DiagonalMovement.OnlyWhenObstacles) {
+        d0 = !(s3 || s0);
+        d1 = !(s0 || s1);
+        d2 = !(s1 || s2);
+        d3 = !(s2 || s3);
     } else {
         throw new Error('Incorrect value of diagonalMovement');
     }
