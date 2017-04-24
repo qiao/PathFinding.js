@@ -9,6 +9,7 @@ Juan Pablo Canepa <https://github.com/jpcanepa><br>
 Mat Gadd <https://github.com/Drarok><br>
 Murilo Pereira <https://github.com/mpereira><br>
 Nathan Witmer <https://github.com/zerowidth><br>
+Paul Robello <https://github.com/paulrobello><br>
 rafaelcastrocouto <https://github.com/rafaelcastrocouto><br>
 Raminder Singh <https://github.com/imor><br>
 Ricardo Tomasi <https://github.com/ricardobeat><br>
