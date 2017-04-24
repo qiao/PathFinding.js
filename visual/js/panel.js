@@ -138,6 +138,7 @@ var Panel = {
               diagonalMovement: PF.DiagonalMovement.IfAtMostOneObstacle
             });
             break;
+
         case 'orth_jump_point_header':
             trackRecursion = typeof $('#orth_jump_point_section ' +
                                      '.track_recursion:checked').val() !== 'undefined';
@@ -149,6 +150,7 @@ var Panel = {
               diagonalMovement: PF.DiagonalMovement.Never
             });
             break;
+
         case 'ida_header':
             allowDiagonal = typeof $('#ida_section ' +
                                      '.allow_diagonal:checked').val() !== 'undefined';
@@ -159,7 +161,7 @@ var Panel = {
 
             heuristic = $('input[name=jump_point_heuristic]:checked').val();
 
-            weight = parseInt($('#ida_section input[name=astar_weight]').val()) || 1;
+            weight = parseInt($('#ida_section input[name=ida_weight]').val()) || 1;
             weight = weight >= 1 ? weight : 1; /* if negative or 0, use 1 */
 
             timeLimit = parseInt($('#ida_section input[name=time_limit]').val());
@@ -176,6 +178,15 @@ var Panel = {
               weight: weight
             });
 
+            break;
+
+        case 'thetastar_header':
+            weight = parseFloat($('#thetastar_section input[name=thetastar_weight]').val()) || 1.1;
+            weight = weight >= 1 ? weight : 1; /* if negative or 0, use 1 */
+            
+            finder = new PF.ThetaStarFinder({
+                weight: weight
+            });
             break;
         }
 

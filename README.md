@@ -95,6 +95,7 @@ Currently there are 10 path-finders bundled in this library, namely:
 *  `IDAStarFinder.js` *
 *  `JumpPointFinder` *
 *  `OrthogonalJumpPointFinder` *
+*  `ThetaStarFinder` *
 *  `BiAStarFinder`
 *  `BiBestFirstFinder`
 *  `BiBreadthFirstFinder` *
