@@ -25,10 +25,13 @@ function JumpPointFinderBase(opt) {
  */
 JumpPointFinderBase.prototype.findPath = function(startX, startY, endX, endY, grid) {
     var openList = this.openList = new Heap(function(nodeA, nodeB) {
-            return nodeA.f - nodeB.f;
+            var MAX_DIFF = 0.000001;
+            var diff = nodeA.f - nodeB.f;
+            return abs(diff) < MAX_DIFF ? nodeA.h - nodeB.h : diff;
         }),
         startNode = this.startNode = grid.getNodeAt(startX, startY),
-        endNode = this.endNode = grid.getNodeAt(endX, endY), node;
+        endNode = this.endNode = grid.getNodeAt(endX, endY), node,
+        abs = Math.abs;
 
     this.grid = grid;
 
