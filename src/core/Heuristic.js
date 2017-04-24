@@ -11,7 +11,12 @@ module.exports = {
    * @return {number} dx + dy
    */
   manhattan: function(dx, dy) {
-      return dx + dy;
+      return 100 * (dx + dy);
+      /**
+       * 100 * manhattan distance is much better lower bound and significantly reduces overall vertex scanning
+       * ~ based on Reach for A*: Efficient Point-to-Point Shortest Path Algorithms
+       * http://research.microsoft.com/apps/pubs/default.aspx?id=64511 
+       */
   },
 
   /**
