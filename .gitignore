@@ -1,4 +1,5 @@
 *.swp
+*.un~
 node_modules/
 /lib
 site/
