@@ -233,7 +233,7 @@ Grid.prototype.clone = function() {
     for (i = 0; i < height; ++i) {
         newNodes[i] = new Array(width);
         for (j = 0; j < width; ++j) {
-            newNodes[i][j] = new Node(j, i, thisNodes[i][j].walkable);
+            newNodes[i][j] = new Node(j, i, thisNodes[i][j].walkable, thisNodes[i][j].clearance);
         }
     }
 

@@ -60,13 +60,13 @@ Basic Usage
 To build a grid-map of width 5 and height 3:
 
 ```javascript
-var grid = new PF.Grid(5, 3); 
+var grid = new PF.Grid(5, 3);
 ```
 
 By default, all the nodes in the grid will be able to be walked through.
 To set whether a node at a given coordinate is walkable or not, use the `setWalkableAt` method.
 
-For example, to set the node at (0, 1) to be un-walkable, where 0 is the x coordinate (from left to right), and 
+For example, to set the node at (0, 1) to be un-walkable, where 0 is the x coordinate (from left to right), and
 1 is the y coordinate (from up to down):
 
 ```javascript
@@ -182,6 +182,22 @@ var finder = new PF.BestFirstFinder({
 });
 ```
 
+For `AStarFinder`, you can specify an `unitSize` if your unit/character/object that you're trying to move is larger than a cell :
+
+```javascript
+var finder = new PF.BestFirstFinder({
+    unitSize : 2,
+});
+```
+
+When using `unitSize`, you can have access to the clearance grid :
+
+```javascript
+finder.findPath(grid);
+// A grid of nodes with clearance values
+finder.getClearanceGrid(grid);
+```
+
 To smoothen the path, you may use `PF.Util.smoothenPath`. This routine will return
 a new path with the original one unmodified.
 
@@ -219,9 +235,9 @@ Layout:
 	|-- benchmark    # benchmarks
     `-- visual       # visualization
 
-Make sure you have `node.js` installed, then use `npm` to install the dependencies: 
+Make sure you have `node.js` installed, then use `npm` to install the dependencies:
 
-    npm install -d 
+    npm install -d
 
 The build system uses gulp, so make sure you have it installed:
 
