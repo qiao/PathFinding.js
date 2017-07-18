@@ -7,6 +7,7 @@ Chris Khoo <https://github.com/chriskck><br>
 Gerjo <https://github.com/Gerjo><br>
 Juan Pablo Canepa <https://github.com/jpcanepa><br>
 Mat Gadd <https://github.com/Drarok><br>
+Matthieu Lemoine <https://github.com/MatthieuLemoine><br>
 Murilo Pereira <https://github.com/mpereira><br>
 Nathan Witmer <https://github.com/zerowidth><br>
 rafaelcastrocouto <https://github.com/rafaelcastrocouto><br>
