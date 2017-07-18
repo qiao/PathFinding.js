@@ -31,13 +31,4 @@ function Node(x, y, walkable, clearance) {
     this.clearance = (clearance === undefined ? 0 : clearance);
 }
 
-/**
- * Get clearance node value.
- */
-Node.prototype.getClearance = function() {
-    if (!this.walkable) {
-        return 0;
-    }
-}
-
 module.exports = Node;
