@@ -172,7 +172,7 @@ AStarFinder.prototype.annotateNode = function(n, grid) {
  * Get a grid with clearance values
  */
 AStarFinder.prototype.getClearanceGrid = function(grid) {
-  var clearance = new Array(grid.height).map(item => new Array(grid.width));
+  var clearance = new Array(grid.height).fill(0).map(function(item) { return new Array(grid.width) });
   var junk = [];
   for (var y = 0; y < grid.height; y++) {
     for (var x = 0; x < grid.width; x++) {
