@@ -45,7 +45,11 @@ var Panel = {
                                      '.avoid_staircase:checked').val() !=='undefined';
 
             /* parseInt returns NaN (which is falsy) if the string can't be parsed */
-            weight = parseInt($('#astar_section .spinner').val()) || 1;
+            turnPenalty = parseInt($('#astar_section .turn_penalty').val()) || 1;
+            turnPenalty = turnPenalty >= 1 ? turnPenalty : 1; /* if negative or 0, use 1 */
+
+            /* parseInt returns NaN (which is falsy) if the string can't be parsed */
+            weight = parseInt($('#astar_section .astar_weight').val()) || 1;
             weight = weight >= 1 ? weight : 1; /* if negative or 0, use 1 */
 
             heuristic = $('input[name=astar_heuristic]:checked').val();
@@ -62,7 +66,8 @@ var Panel = {
                     dontCrossCorners: dontCrossCorners,
                     heuristic: PF.Heuristic[heuristic],
                     weight: weight,
-                    avoidStaircase: avoidStaircase
+                    avoidStaircase: avoidStaircase,
+                    turnPenalty: turnPenalty
                 });
             }
             break;
