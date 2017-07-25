@@ -16,6 +16,10 @@ var DiagonalMovement = require('../core/DiagonalMovement');
  *     (defaults to manhattan).
  * @param {number} opt.weight Weight to apply to the heuristic to allow for
  *     suboptimal paths, in order to speed up the search.
+ * @param {number} opt.avoidStarcasing Add penalties to discourage turning and
+ * causing a 'staircase' effect (defaults to false).
+ * @param {number} opt.turnPenalty Penalty to add to turning. Higher numbers
+ * discourage turning more (defaults to 1).
  */
 function AStarFinder(opt) {
     opt = opt || {};
@@ -24,6 +28,8 @@ function AStarFinder(opt) {
     this.heuristic = opt.heuristic || Heuristic.manhattan;
     this.weight = opt.weight || 1;
     this.diagonalMovement = opt.diagonalMovement;
+    this.avoidStaircase = opt.avoidStaircase;
+    this.turnPenalty = opt.turnPenalty || 1;
 
     if (!this.diagonalMovement) {
         if (!this.allowDiagonal) {
@@ -59,7 +65,10 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         endNode = grid.getNodeAt(endX, endY),
         heuristic = this.heuristic,
         diagonalMovement = this.diagonalMovement,
+        avoidStaircase = this.avoidStaircase,
+        turnPenalty = this.turnPenalty,
         weight = this.weight,
+        lastDirection = undefined,
         abs = Math.abs, SQRT2 = Math.SQRT2,
         node, neighbors, neighbor, i, l, x, y, ng;
 
@@ -97,6 +106,14 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
             // get the distance between current node and the neighbor
             // and calculate the next g score
             ng = node.g + ((x - node.x === 0 || y - node.y === 0) ? 1 : SQRT2);
+
+            // if we're avoiding staircasing, add penalties if the direction 
+            // will change
+            if (avoidStaircase) {
+                lastDirection = node.parent == undefined? undefined : { x : node.x - node.parent.x, y : node.y - node.parent.y };
+                var turned = lastDirection == undefined? 0 : lastDirection.x != x - node.x || lastDirection.y != y - node.y;
+                ng += turnPenalty * turned;
+            }
 
             // check if the neighbor has not been inspected yet, or
             // can be reached with smaller cost from the current node
