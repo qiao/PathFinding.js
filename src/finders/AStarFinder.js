@@ -68,9 +68,8 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
         avoidStaircase = this.avoidStaircase,
         turnPenalty = this.turnPenalty,
         weight = this.weight,
-        lastDirection = undefined,
         abs = Math.abs, SQRT2 = Math.SQRT2,
-        node, neighbors, neighbor, i, l, x, y, ng;
+        lastDirection, node, neighbors, neighbor, i, l, x, y, ng;
 
     // set the `g` and `f` value of the start node to be 0
     startNode.g = 0;
@@ -110,8 +109,8 @@ AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
             // if we're avoiding staircasing, add penalties if the direction 
             // will change
             if (avoidStaircase) {
-                lastDirection = node.parent == undefined? undefined : { x : node.x - node.parent.x, y : node.y - node.parent.y };
-                var turned = lastDirection == undefined? 0 : lastDirection.x != x - node.x || lastDirection.y != y - node.y;
+                lastDirection = node.parent === undefined? undefined : { x : node.x - node.parent.x, y : node.y - node.parent.y };
+                var turned = lastDirection === undefined? 0 : lastDirection.x !== x - node.x || lastDirection.y !== y - node.y;
                 ng += turnPenalty * turned;
             }
 
