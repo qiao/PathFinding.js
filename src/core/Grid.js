@@ -124,6 +124,30 @@ Grid.prototype.setWalkableAt = function(x, y, walkable) {
 
 
 /**
+ * Set the weight multiplier of a given node
+ * NOTE: if it is unset, we will return 1 since this will do nothing
+ * @param {number} x - The x coordinate of the node.
+ * @param {number} y - The y coordinate of the node.
+ * @param {number} weight - Weight multiplier of the node
+ */
+Grid.prototype.setWeightAt = function(x, y, weight) {
+    if (this.isInside(x, y))
+        this.nodes[y][x].weight = weight;
+};
+
+/**
+ * Determine the weight mulitpler of a given node.
+ * (Also returns 1 if the position is outside the grid.)
+ * @param {number} x - The x coordinate of the node.
+ * @param {number} y - The y coordinate of the node.
+ * @return {number} - The weight multiplier of the node.
+ */
+Grid.prototype.getWeightAt = function(x, y) {
+    return this.isInside(x, y) ? this.nodes[y][x].weight : 1;
+};
+
+
+/**
  * Get the neighbors of the given node.
  *
  *     offsets      diagonalOffsets:
@@ -233,7 +257,7 @@ Grid.prototype.clone = function() {
     for (i = 0; i < height; ++i) {
         newNodes[i] = new Array(width);
         for (j = 0; j < width; ++j) {
-            newNodes[i][j] = new Node(j, i, thisNodes[i][j].walkable);
+            newNodes[i][j] = new Node(j, i, thisNodes[i][j].walkable, thisNodes[i][j].weight);
         }
     }
 
