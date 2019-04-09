@@ -202,6 +202,29 @@ $.extend(Controller, {
 
     onready: function() {
         console.log('=> ready');
+        
+        this.setStartPos(3, 5);
+        for(let i=0; i < 14; i++){
+            this.setWalkableAt(10, 2+i, false);
+        }
+
+        for(let i=0; i < 10; i++){
+            this.setWalkableAt(15, 2*i, false);
+        }
+
+        for(let i=0; i < 8; i++){
+            this.setWalkableAt(12+i, 3*i, false);            
+        }
+
+        for(let i=0; i < 8; i++){
+            this.setWalkableAt(20-i, 3*i, false);            
+        }
+
+        for(let i=0; i < 8; i++){
+            let a = Math.floor(Math.random() * 20)
+            this.setWalkableAt(a, 3*i, false);            
+        }
+        
         this.setButtonStates({
             id: 1,
             text: 'Start Search',
@@ -337,10 +360,10 @@ $.extend(Controller, {
         this.operations = [];
     },
     bindEvents: function() {
-        $('#draw_area').mousedown($.proxy(this.mousedown, this));
-        $(window)
-            .mousemove($.proxy(this.mousemove, this))
-            .mouseup($.proxy(this.mouseup, this));
+        // $('#draw_area').mousedown($.proxy(this.mousedown, this));
+        // $(window)
+        //     .mousemove($.proxy(this.mousemove, this))
+        //     .mouseup($.proxy(this.mouseup, this));
     },
     loop: function() {
         var interval = 1000 / this.operationsPerSecond;
