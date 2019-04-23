@@ -92,6 +92,7 @@ var Panel = {
             dontCrossCorners = typeof $('#bestfirst_section ' +
                                      '.dont_cross_corners:checked').val() !=='undefined';
             heuristic = $('input[name=bestfirst_heuristic]:checked').val();
+            
             if (biDirectional) {
                 finder = new PF.BiBestFirstFinder({
                     allowDiagonal: allowDiagonal,
@@ -106,7 +107,7 @@ var Panel = {
                 });
             }
             break;
-
+            
         case 'dijkstra_header':
             allowDiagonal = typeof $('#dijkstra_section ' +
                                      '.allow_diagonal:checked').val() !== 'undefined';

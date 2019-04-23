@@ -129,6 +129,7 @@ $.extend(Controller, {
         // => erasingWall
     },
     onsearch: function(event, from, to) {
+
         var grid,
             timeStart, timeEnd,
             finder = Panel.getFinder();
@@ -139,9 +140,11 @@ $.extend(Controller, {
             this.startX, this.startY, this.endX, this.endY, grid
         );
         this.operationCount = this.operations.length;
+        
+        console.log(this.operationCount, this.path)
+
         timeEnd = window.performance ? performance.now() : Date.now();
         this.timeSpent = (timeEnd - timeStart).toFixed(4);
-
         this.loop();
         // => searching
     },
@@ -177,6 +180,8 @@ $.extend(Controller, {
             operationCount: this.operationCount,
         });
         View.drawPath(this.path);
+
+        alert('Nós expandidos: ' + this.operationCount + ' | Tamanho do caminho: ' + this.path.length + ' | Tempo gasto: ' + this.timeSpent )
         // => finished
     },
     onclear: function(event, from, to) {
