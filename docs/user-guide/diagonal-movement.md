@@ -12,7 +12,7 @@ var finder = new PF.AStarFinder({
 
 See that the path is straight now:
 
-![Screenshot](user-guide/images/DiagonalMovementDisabled.png)
+![Screenshot](images/DiagonalMovementDisabled.png)
 
 The `diagonalMovement` option can take any of the following values:
 
@@ -25,28 +25,28 @@ To understand them consider the following four simple maps labelled A, B, C and
 D. A has no obstacles for diagonal movement from green to orange cell, B and C
 have one obstacle and D has two obstacles.
 
-![Screenshot](user-guide/images/DiagonalMaps.png)
+![Screenshot](images/DiagonalMaps.png)
 
 ## Always
 With this option PathFinding.js will always find a diagonal path, irrespective
 of the obstacles when moving diagonally.
 
-![Screenshot](user-guide/images/AllMapsWithAPath.png)
+![Screenshot](images/AllMapsWithAPath.png)
 
 ## Never
 With this option PathFinding.js will only find straight paths and will never
 find any diagonal paths.
 
-![Screenshot](user-guide/images/AllMapsWithStraightPaths.png)
+![Screenshot](images/AllMapsWithStraightPaths.png)
 
 ## IfAtMostOneObstacle
 With this option PathFinding.js will find diagonal paths only if there is at
 most one obstacle for the diagonal path.
 
-![Screenshot](user-guide/images/DiagonalPathsForAtMostOneObstacle.png)
+![Screenshot](images/DiagonalPathsForAtMostOneObstacle.png)
 
 ## OnlyWhenNoObstacles
 With this option PathFinding.js will find diagonal paths only if there are no
 obstacles for the diagonal path.
 
-![Screenshot](user-guide/images/DiagonalPathsForOnlyWhenNoObstacles.png)
+![Screenshot](images/DiagonalPathsForOnlyWhenNoObstacles.png)
