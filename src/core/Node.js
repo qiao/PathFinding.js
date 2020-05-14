@@ -7,7 +7,7 @@
  * @param {number} y - The y coordinate of the node on the grid.
  * @param {boolean} [walkable] - Whether this node is walkable.
  */
-function Node(x, y, walkable) {
+function Node(x, y, walkable, weight) {
     /**
      * The x coordinate of the node on the grid.
      * @type number
@@ -23,6 +23,11 @@ function Node(x, y, walkable) {
      * @type boolean
      */
     this.walkable = (walkable === undefined ? true : walkable);
+    /**
+     * weight multiplier of this node.
+     * @type number (defaults to 1)
+     */
+    this.weight = (weight === undefined ? 1 : weight);
 }
 
 module.exports = Node;
