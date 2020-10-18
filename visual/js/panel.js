@@ -15,10 +15,28 @@ var Panel = {
         $('#hide_instructions').click(function() {
             $('#instructions_panel').slideUp();
         });
+        $('#hide_algorithms').click(function() {
+            $('#algorithm_panel').slideUp();
+        });
         $('#play_panel').css({
             top: $algo.offset().top + $algo.outerHeight() + 20
         });
         $('#button2').attr('disabled', 'disabled');
+
+        $('#hide_instructions').click(function(hide_instructions_clicked) {
+          $('#show_instructions').show();
+        });
+        $('#hide_algorithms').click(function(hide_algorithms_clicked) {
+          $('#show_algorithms').show();
+        });
+        $('#show_algorithms').click(function() {
+          $('#algorithm_panel').slideDown();
+          $('#show_algorithms').hide();
+        });
+        $('#show_instructions').click(function() {
+          $('#instructions_panel').slideDown();
+          $('#show_instructions').hide();
+});
     },
     /**
      * Get the user selected path-finder.
@@ -26,12 +44,12 @@ var Panel = {
      */
     getFinder: function() {
         var finder, selected_header, heuristic, allowDiagonal, biDirectional, dontCrossCorners, weight, trackRecursion, timeLimit;
-        
+
         selected_header = $(
             '#algorithm_panel ' +
             '.ui-accordion-header[aria-selected=true]'
         ).attr('id');
-        
+
         switch (selected_header) {
 
         case 'astar_header':
@@ -131,7 +149,7 @@ var Panel = {
             trackRecursion = typeof $('#jump_point_section ' +
                                      '.track_recursion:checked').val() !== 'undefined';
             heuristic = $('input[name=jump_point_heuristic]:checked').val();
-            
+
             finder = new PF.JumpPointFinder({
               trackJumpRecursion: trackRecursion,
               heuristic: PF.Heuristic[heuristic],
