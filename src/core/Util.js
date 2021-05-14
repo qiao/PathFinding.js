@@ -75,7 +75,7 @@ function interpolate(x0, y0, x1, y1) {
         if (x0 === x1 && y0 === y1) {
             break;
         }
-        
+
         e2 = 2 * err;
         if (e2 > -dy) {
             err = err - dy;
@@ -142,7 +142,7 @@ function smoothenPath(grid, path) {
         sx, sy,                 // current start coordinate
         ex, ey,                 // current end coordinate
         newPath,
-        i, j, coord, line, testCoord, blocked;
+        i, j, coord, line, testCoord, blocked, lastValidCoord;
 
     sx = x0;
     sy = y0;
