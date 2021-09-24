@@ -143,6 +143,13 @@ $.extend(Controller, {
         this.timeSpent = (timeEnd - timeStart).toFixed(4);
 
         this.loop();
+        
+        // Shows the algorithm stats when start is clicked 
+        View.showStats({
+            pathLength: PF.Util.pathLength(this.path),
+            timeSpent:  this.timeSpent,
+            operationCount: this.operationCount,
+        });
         // => searching
     },
     onrestart: function() {
