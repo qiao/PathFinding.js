@@ -178,11 +178,6 @@ $.extend(Controller, {
         // => ready
     },
     onfinish: function(event, from, to) {
-        View.showStats({
-            pathLength: PF.Util.pathLength(this.path),
-            timeSpent:  this.timeSpent,
-            operationCount: this.operationCount,
-        });
         View.drawPath(this.path);
         // => finished
     },
