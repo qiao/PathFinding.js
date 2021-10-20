@@ -27,7 +27,7 @@ JumpPointFinderBase.prototype.findPath = function(startX, startY, endX, endY, gr
     var openList = this.openList = new Heap(function(nodeA, nodeB) {
             return nodeA.f - nodeB.f;
         }),
-        startNode = this.startNode = grid.getNodeAt(startX, startY),
+        startNode = this.startNode = grid.getNodeAt(startX, startY) || {},
         endNode = this.endNode = grid.getNodeAt(endX, endY), node;
 
     this.grid = grid;
@@ -68,8 +68,8 @@ JumpPointFinderBase.prototype._identifySuccessors = function(node) {
     var grid = this.grid,
         heuristic = this.heuristic,
         openList = this.openList,
-        endX = this.endNode.x,
-        endY = this.endNode.y,
+        endX = this.endNode?.x,
+        endY = this.endNode?.y,
         neighbors, neighbor,
         jumpPoint, i, l,
         x = node.x, y = node.y,
