@@ -143,6 +143,13 @@ $.extend(Controller, {
         this.timeSpent = (timeEnd - timeStart).toFixed(4);
 
         this.loop();
+        
+        // Shows the algorithm stats when start is clicked 
+        View.showStats({
+            pathLength: PF.Util.pathLength(this.path),
+            timeSpent:  this.timeSpent,
+            operationCount: this.operationCount,
+        });
         // => searching
     },
     onrestart: function() {
@@ -171,11 +178,6 @@ $.extend(Controller, {
         // => ready
     },
     onfinish: function(event, from, to) {
-        View.showStats({
-            pathLength: PF.Util.pathLength(this.path),
-            timeSpent:  this.timeSpent,
-            operationCount: this.operationCount,
-        });
         View.drawPath(this.path);
         // => finished
     },
@@ -480,6 +482,33 @@ $.extend(Controller, {
 
         this.setStartPos(centerX - 5, centerY);
         this.setEndPos(centerX + 5, centerY);
+        
+        this.generateRandomWalls()
+    },
+
+    generateRandomWalls: function() {
+        // for each node
+        // generate random number between 0 and 1 
+        // if the number is less than 3, place a wall node
+        
+        var numCols = this.gridSize[0];
+        var numRows = this.gridSize[1];
+        var percentWalls = .2
+
+
+        for (let i = 0; i < numRows; i++) {
+            for (let j = 0; j < numCols; j++) {
+              
+                const node = this.grid.nodes[i][j];
+                num = Math.random();
+                if (num < percentWalls && (!this.isStartOrEndPos(node.x,node.y))) {
+                    View.setWalkableAt(node.x, node.y, false)
+                    this.setWalkableAt(node.x, node.y, false)
+                }
+                
+            }
+            
+        }
     },
     setStartPos: function(gridX, gridY) {
         this.startX = gridX;
