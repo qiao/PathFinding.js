@@ -23,7 +23,7 @@ var grid = new PF.Grid(5, 7);
 ```
 This will create a grid which is walkable all over.
 
-![Screenshot](user-guide/images/5x7EmptyGrid.png)
+![Screenshot](images/5x7EmptyGrid.png)
 
 In this grid, the green cell at the top left is [0, 0] and the orange cell at
 the bottom right is [4, 6].
@@ -49,4 +49,4 @@ This will return the following path:
 
 Which when plotted on the grid looks like:
 
-![Screenshot](user-guide/images/5x7GridWithPath.png)
+![Screenshot](images/5x7GridWithPath.png)

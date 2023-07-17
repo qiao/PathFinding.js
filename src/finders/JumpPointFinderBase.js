@@ -94,6 +94,8 @@ JumpPointFinderBase.prototype._identifySuccessors = function(node) {
             d = Heuristic.octile(abs(jx - x), abs(jy - y));
             ng = node.g + d; // next `g` value
 
+            ng *= neighbor.weight;
+
             if (!jumpNode.opened || ng < jumpNode.g) {
                 jumpNode.g = ng;
                 jumpNode.h = jumpNode.h || heuristic(abs(jx - endX), abs(jy - endY));

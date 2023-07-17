@@ -5,6 +5,7 @@ This is the alphabetically sorted list of contributors to PathFinding.js:
 Anders Riutta <https://github.com/ariutta><br>
 Chris Khoo <https://github.com/chriskck><br>
 Gerjo <https://github.com/Gerjo><br>
+James Brown <https://github.com/jbrown123><br>
 Juan Pablo Canepa <https://github.com/jpcanepa><br>
 Mat Gadd <https://github.com/Drarok><br>
 Murilo Pereira <https://github.com/mpereira><br>

@@ -26,7 +26,7 @@ grid.setWalkableAt(2, 1, false);
 
 After setting the obstacles the grid should look like this.
 
-![Screenshot](user-guide/images/5x7GridWithObstacles.png)
+![Screenshot](images/5x7GridWithObstacles.png)
 
 Let us find a path now.
 
@@ -37,7 +37,7 @@ var path = finder.findPath(0, 0, 4, 6, grid);
 
 PathFinding.js will find the following path:
 
-![Screenshot](user-guide/images/5x7GridWithObstaclesAndPath.png)
+![Screenshot](images/5x7GridWithObstaclesAndPath.png)
 
 Notice how the path moves diagonally where it can, thus making it shorter. This
 may not be always desirable and you may want to create a path without any
