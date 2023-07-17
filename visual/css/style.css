@@ -61,6 +61,61 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: underline;
 }
 
+#show_instructions_panel {
+    top: 20px;
+    left: 20px;
+    width: 550px;
+    background-color:rgba(125, 125, 125, 0.6);
+    box-shadow: 0px 0px 0px rgba(255, 255, 255, 0);
+}
+
+#show_instructions {
+    position: absolute;
+    right: 25px;
+    top: 10px;
+    font-size: 90%;
+    cursor: pointer;
+}
+
+#show_instructions:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+#hide_algorithms {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    font-size: 90%;
+    cursor: pointer;
+}
+
+#hide_algorithms:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+#show_algorithms_panel {
+  right: 20px;
+  top: 20px;
+  width: 250px;
+  background-color:rgba(125, 125, 125, 0.6);
+  box-shadow: 0px 0px 0px rgba(255, 255, 255, 0);
+}
+
+#show_algorithms {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    font-size: 90%;
+    cursor: pointer;
+}
+
+#show_algorithms:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
 .option_header {
     font-size: 80%;
     margin-left: 20px;
