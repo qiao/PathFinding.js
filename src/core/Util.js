@@ -164,7 +164,7 @@ function smoothenPath(grid, path) {
             }
         }
         if (blocked) {
-            lastValidCoord = path[i - 1];
+            var lastValidCoord = path[i - 1];
             newPath.push(lastValidCoord);
             sx = lastValidCoord[0];
             sy = lastValidCoord[1];
