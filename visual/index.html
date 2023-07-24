@@ -70,7 +70,7 @@
             <label class="option_label">Allow Diagonal</label> <br>
             <input type="checkbox" class="bi-directional">
             <label class="option_label">Bi-directional</label> <br>
-            <input type="checkbox" class="dont_cross_corners">
+            <input type="checkbox" class="dont_cross_corners" checked>
             <label class="option_label">Don't Cross Corners</label> <br>
             <input class="spinner" name="astar_weight" value="1">
             <label class="option_label">Weight</label> <br>
@@ -98,9 +98,9 @@
           <div class="optional sub_options">
             <input type="checkbox" class="allow_diagonal" checked>
             <label class="option_label">Allow Diagonal</label> <br>
-            <input type="checkbox" class="dont_cross_corners">
+            <input type="checkbox" class="dont_cross_corners" checked>
             <label class="option_label">Don't Cross Corners</label> <br>
-            <input class="spinner" name="astar_weight" value="1">
+            <input class="spinner" name="ida_weight" value="1">
             <label class="option_label">Weight</label> <br>
             <input class="spinner" name="time_limit" value="10">
             <label class="option_label">Seconds limit</label> <br>
@@ -119,7 +119,7 @@
             <label class="option_label">Allow Diagonal</label> <br>
             <input type="checkbox" class="bi-directional">
             <label class="option_label">Bi-directional</label> <br>
-            <input type="checkbox" class="dont_cross_corners">
+            <input type="checkbox" class="dont_cross_corners" checked>
             <label class="option_label">Don't Cross Corners</label> <br>
           </div>
         </div>
@@ -148,7 +148,7 @@
             <label class="option_label">Allow Diagonal</label> <br>
             <input type="checkbox" class="bi-directional">
             <label class="option_label">Bi-directional</label> <br>
-            <input type="checkbox" class="dont_cross_corners">
+            <input type="checkbox" class="dont_cross_corners" checked>
             <label class="option_label">Don't Cross Corners</label> <br>
           </div>
         </div>
@@ -163,7 +163,7 @@
             <label class="option_label">Allow Diagonal</label> <br>
             <input type="checkbox" class="bi-directional">
             <label class="option_label">Bi-directional</label> <br>
-            <input type="checkbox" class="dont_cross_corners">
+            <input type="checkbox" class="dont_cross_corners" checked>
             <label class="option_label">Don't Cross Corners</label> <br>
           </div>
         </div>
@@ -192,7 +192,7 @@
           </div>
         </div>
 
-	<h3 id="orth_jump_point_header"><a href="#">Orthogonal Jump Point Search</a></h3>
+        <h3 id="orth_jump_point_header"><a href="#">Orthogonal Jump Point Search</a></h3>
         <div id="orth_jump_point_section" class="finder_section">
           <header class="option_header">
             <h3>Heuristic</h3>
@@ -213,6 +213,18 @@
           <div class="optional sub_options">
             <input type="checkbox" class="track_recursion" checked>
             <label class="option_label">Visualize recursion</label> <br>
+          </div>
+        </div>
+        
+        <h3 id="thetastar_header"><a href="#">Theta*</a></h3>
+        <div id="thetastar_section" class="finder_section">
+
+          <header class="option_header">
+            <h3>Options</h3>
+          </header>
+          <div class="optional sub_options">
+            <input class="spinner" name="thetastar_weight" value="1.1">
+            <label class="option_label">Weight</label> <br>
           </div>
         </div>
 
