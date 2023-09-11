@@ -53,7 +53,9 @@ function AStarFinder(opt) {
  */
 AStarFinder.prototype.findPath = function(startX, startY, endX, endY, grid) {
     var openList = new Heap(function(nodeA, nodeB) {
-            return nodeA.f - nodeB.f;
+            var MAX_DIFF = 0.000001;
+            var diff = nodeA.f - nodeB.f;
+            return abs(diff) < MAX_DIFF ? nodeA.h - nodeB.h : diff;
         }),
         startNode = grid.getNodeAt(startX, startY),
         endNode = grid.getNodeAt(endX, endY),
